@@ -129,6 +129,45 @@ export default function WpChrome({
     faqItems.forEach((item) => item.addEventListener("click", onFaq));
 
     const sliders: Array<() => void> = [];
+    document.querySelectorAll(".mm-google-slider").forEach((slider) => {
+      const track = slider.querySelector(".mm-google-track") as HTMLElement | null;
+      const cards = [...slider.querySelectorAll(".mm-google-card")] as HTMLElement[];
+      const prevBtn = slider.querySelector(".mm-google-prev") as HTMLButtonElement | null;
+      const nextBtn = slider.querySelector(".mm-google-next") as HTMLButtonElement | null;
+      const viewport = slider.querySelector(".mm-google-viewport") as HTMLElement | null;
+      if (!track || !cards.length || !prevBtn || !nextBtn || !viewport) return;
+      let index = 0;
+      const perView = () => {
+        if (window.innerWidth <= 640) return 1;
+        if (window.innerWidth <= 1100) return 2;
+        return 4;
+      };
+      const update = () => {
+        const view = perView();
+        const maxIndex = Math.max(0, cards.length - view);
+        if (index > maxIndex) index = maxIndex;
+        const gap = 16;
+        const width = (viewport.clientWidth - gap * (view - 1)) / view;
+        cards.forEach((card) => {
+          card.style.flex = `0 0 ${width}px`;
+          card.style.width = `${width}px`;
+        });
+        track.style.transform = `translateX(-${index * (width + gap)}px)`;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index >= maxIndex;
+      };
+      prevBtn.addEventListener("click", () => {
+        index -= 1;
+        update();
+      });
+      nextBtn.addEventListener("click", () => {
+        index += 1;
+        update();
+      });
+      window.addEventListener("resize", update);
+      update();
+      sliders.push(() => window.removeEventListener("resize", update));
+    });
     document.querySelectorAll(".ti-reviews-container").forEach((slider) => {
       const track = slider.querySelector(".ti-reviews-container-wrapper") as HTMLElement | null;
       const cards = [...slider.querySelectorAll(".ti-review-item")] as HTMLElement[];

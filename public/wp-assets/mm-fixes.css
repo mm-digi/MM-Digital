@@ -643,6 +643,115 @@ iframe.mm-live-report-frame,
 }
 .mm-ti-prev { left: 0; }
 .mm-ti-next { right: 0; }
+
+.mm-google-reviews {
+  max-width: 1240px;
+  margin: 40px auto 10px;
+  padding: 0 16px;
+  color: #111;
+}
+.mm-google-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+.mm-google-excellent {
+  display: block;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  color: #fff;
+}
+.mm-google-count {
+  color: #cfcfcf;
+  font-size: 0.95rem;
+}
+.mm-google-stars {
+  color: #f6bb06;
+  letter-spacing: 2px;
+  font-size: 1.15rem;
+  line-height: 1;
+  margin: 4px 0;
+}
+.mm-google-logo {
+  height: 28px;
+  width: auto;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+.mm-google-slider {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+.mm-google-viewport {
+  overflow: hidden;
+  flex: 1;
+}
+.mm-google-track {
+  display: flex;
+  gap: 16px;
+  transition: transform 0.4s ease;
+}
+.mm-google-card {
+  flex: 0 0 calc((100% - 48px) / 4);
+  background: #f4f4f4;
+  color: #111;
+  border-radius: 12px;
+  padding: 20px;
+  min-height: 280px;
+  box-sizing: border-box;
+}
+.mm-google-card header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  padding-right: 28px;
+}
+.mm-google-card header img:first-child {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.mm-google-name {
+  font-weight: 700;
+  font-size: 15px;
+}
+.mm-google-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 18px;
+  height: 18px;
+}
+.mm-google-card p {
+  margin: 12px 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #222;
+}
+.mm-google-slider .mm-ti-arrow {
+  position: static;
+  transform: none;
+  align-self: center;
+  flex: 0 0 44px;
+}
+@media (max-width: 1100px) {
+  .mm-google-card {
+    flex-basis: calc((100% - 16px) / 2);
+  }
+}
+@media (max-width: 640px) {
+  .mm-google-card {
+    flex-basis: 100%;
+  }
+}
 @media (max-width: 1100px) {
   .ti-widget .ti-review-item {
     flex-basis: 50% !important;
