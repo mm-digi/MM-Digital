@@ -36,12 +36,15 @@ export default function DashboardView({ dashboard }: { dashboard: ClientDashboar
               View live website traffic, engagement and performance data from Google, Facebook, Instagram and LinkedIn.
             </p>
           </div>
-          <div className="card overflow-hidden">
+          <div className="mm-live-report-card overflow-hidden">
             <iframe
               className="mm-live-report-frame"
               src={dashboard.embedUrl}
-              allowFullScreen
               title={`${dashboard.name} analytics`}
+              width="100%"
+              height="1200"
+              allowFullScreen
+              sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
             />
           </div>
         </div>

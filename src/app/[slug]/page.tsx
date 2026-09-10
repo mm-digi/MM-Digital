@@ -16,9 +16,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function SlugPage({ params }: Props) {
   const { slug } = await params;
   const dashboard = getDashboard(slug);
-  if (dashboard) return <DashboardView dashboard={dashboard} />;
-
   const html = readWpPage(slug);
+  if (dashboard && html) return <WpHtml html={html} />;
+  if (dashboard) return <DashboardView dashboard={dashboard} />;
   if (html) return <WpHtml html={html} />;
 
   notFound();
