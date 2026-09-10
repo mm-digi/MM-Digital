@@ -550,5 +550,14 @@ iframe.mm-live-report-frame,
 }
 
 .wp-block-column {
-  overflow: visible !important;
+  overflow: visible;
+}
+.logo-marquee-section,
+.logo-marquee-track-wrap,
+.mm-services-viewport,
+.mm-reviews-viewport,
+.mm-services-slider,
+.mm-reviews-slider {
+  overflow: hidden !important;
+  max-width: 100%;
 }
