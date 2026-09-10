@@ -132,9 +132,22 @@ export default function WpChrome({
     document.querySelectorAll(".ti-reviews-container").forEach((slider) => {
       const track = slider.querySelector(".ti-reviews-container-wrapper") as HTMLElement | null;
       const cards = [...slider.querySelectorAll(".ti-review-item")] as HTMLElement[];
-      const prevBtn = slider.querySelector(".ti-prev") as HTMLElement | null;
-      const nextBtn = slider.querySelector(".ti-next") as HTMLElement | null;
-      if (!track || cards.length < 2 || !prevBtn || !nextBtn) return;
+      if (!track || cards.length < 2) return;
+
+      slider.querySelector(".ti-controls")?.setAttribute("hidden", "true");
+
+      const prevBtn = document.createElement("button");
+      prevBtn.type = "button";
+      prevBtn.className = "mm-ti-arrow mm-ti-prev";
+      prevBtn.setAttribute("aria-label", "Previous reviews");
+      prevBtn.textContent = "←";
+      const nextBtn = document.createElement("button");
+      nextBtn.type = "button";
+      nextBtn.className = "mm-ti-arrow mm-ti-next";
+      nextBtn.setAttribute("aria-label", "Next reviews");
+      nextBtn.textContent = "→";
+      slider.append(prevBtn, nextBtn);
+
       let index = 0;
       const perView = () => {
         if (window.innerWidth <= 640) return 1;
@@ -145,15 +158,21 @@ export default function WpChrome({
         const view = perView();
         const maxIndex = Math.max(0, cards.length - view);
         if (index > maxIndex) index = maxIndex;
-        const width = cards[0].getBoundingClientRect().width;
-        track.style.transform = `translateX(-${index * width}px)`;
+        if (index < 0) index = 0;
+        track.style.transform = `translateX(-${index * (100 / view)}%)`;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index >= maxIndex;
       };
-      const onPrev = () => {
-        index = Math.max(0, index - 1);
+      const onPrev = (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+        index -= 1;
         update();
       };
-      const onNext = () => {
-        index = Math.min(Math.max(0, cards.length - perView()), index + 1);
+      const onNext = (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+        index += 1;
         update();
       };
       prevBtn.addEventListener("click", onPrev);
@@ -164,6 +183,8 @@ export default function WpChrome({
         prevBtn.removeEventListener("click", onPrev);
         nextBtn.removeEventListener("click", onNext);
         window.removeEventListener("resize", update);
+        prevBtn.remove();
+        nextBtn.remove();
       });
     });
     document.querySelectorAll(".mm-services-slider, .mm-reviews-slider").forEach((slider) => {
