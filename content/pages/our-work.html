@@ -328,19 +328,23 @@
   max-width: 700px;
   color: #fff;
   font-family: Arial, sans-serif;
+  position: relative;
+  z-index: 2;
+  padding-bottom: 8px;
 }
 .mm-work-cards .bottom-area { align-self: end; }
 .mm-work-cards .image-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  width: 90%;
+  width: min(70%, 380px);
+  max-height: 240px;
   aspect-ratio: 350 / 248;
-  margin: -60px auto 28px auto !important;
+  margin: 12px auto 24px auto !important;
   overflow: hidden;
   transition: width .4s ease;
 }
-.mm-work-cards .card:hover .image-grid { width: 58%; }
+.mm-work-cards .card:hover .image-grid { width: min(48%, 280px); }
 .mm-work-cards .image-wrap {
   overflow: hidden;
   border-radius: 12px 12px 0 0;
@@ -426,8 +430,8 @@
   .mm-work-cards .card-content { min-height: auto; display: block; }
   .mm-work-cards .title { font-size: 1.65rem !important; max-width: 100%; }
   .mm-work-cards .bottom-area { margin-top: 24px; }
-  .mm-work-cards .image-grid { width: 100%; margin: 0 0 22px 0 !important; }
-  .mm-work-cards .card:hover .image-grid { width: 100%; }
+  .mm-work-cards .image-grid { width: min(100%, 380px); max-height: 220px; margin: 16px auto 22px auto !important; }
+  .mm-work-cards .card:hover .image-grid { width: min(100%, 380px); }
   .mm-work-cards .stats { flex-direction: column; flex-wrap: nowrap; gap: 18px; align-items: flex-start; }
   .mm-work-cards .stat-column { width: 100%; min-width: 0; padding-bottom: 0; transform: none !important; }
   .mm-work-cards .stat-label { max-width: 100%; }
