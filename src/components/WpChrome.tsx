@@ -159,7 +159,14 @@ export default function WpChrome({
         const maxIndex = Math.max(0, cards.length - view);
         if (index > maxIndex) index = maxIndex;
         if (index < 0) index = 0;
-        track.style.transform = `translateX(-${index * (100 / view)}%)`;
+        const slideWidth = slider.clientWidth - 104;
+        cards.forEach((card) => {
+          card.style.flex = `0 0 ${slideWidth / view}px`;
+          card.style.width = `${slideWidth / view}px`;
+          card.style.maxWidth = `${slideWidth / view}px`;
+        });
+        track.style.width = `${(slideWidth / view) * cards.length}px`;
+        track.style.transform = `translateX(-${index * (slideWidth / view)}px)`;
         prevBtn.disabled = index === 0;
         nextBtn.disabled = index >= maxIndex;
       };

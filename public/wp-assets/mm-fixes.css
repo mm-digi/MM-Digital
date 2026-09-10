@@ -600,14 +600,24 @@ iframe.mm-live-report-frame,
 }
 .ti-reviews-container-wrapper {
   display: flex !important;
-  width: 100% !important;
+  flex-wrap: nowrap !important;
+  overflow: visible !important;
   transition: transform 0.4s ease;
 }
 .ti-widget .ti-review-item {
-  flex: 0 0 25% !important;
-  width: 25% !important;
-  max-width: 25% !important;
   box-sizing: border-box !important;
+}
+.ti-widget.ti-goog .ti-review-content,
+.ti-widget.ti-goog .ti-review-text-container {
+  height: auto !important;
+  max-height: none !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+  overflow: visible !important;
+  display: block !important;
+}
+.ti-widget.ti-goog .ti-review-item:hover {
+  transform: none !important;
 }
 .ti-controls {
   display: none !important;
