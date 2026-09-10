@@ -9,6 +9,7 @@
 }
 .ext-animate--on { opacity: 1 !important; transform: none !important; }
 img { max-width: 100%; height: auto; }
+.mm-work-cards img { max-width: none; height: 100%; }
 .wp-site-blocks { padding: 0; }
 header.wp-block-template-part { position: relative; z-index: 50; }
 @media (min-width: 782px) {
