@@ -36,6 +36,7 @@ yarn-error.log*
 _hash.mjs
 _hashes.json
 _*.mjs
+_*.html
 extracted-live/
 extracted-pages/
 

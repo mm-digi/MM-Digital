@@ -579,49 +579,6 @@ iframe.mm-live-report-frame,
   overflow: visible;
 }
 
-.wp-container-core-group-is-layout-ea733622,
-.wp-container-core-group-is-layout-ea733622.is-layout-constrained > * {
-  max-width: 100% !important;
-  width: 100% !important;
-}
-.ti-widget,
-.ti-widget[style] {
-  opacity: 1 !important;
-  height: auto !important;
-  overflow: visible !important;
-}
-.ti-widget-container {
-  max-width: 100% !important;
-}
-.ti-reviews-container {
-  overflow: hidden !important;
-  position: relative;
-  padding: 0 52px;
-}
-.ti-reviews-container-wrapper {
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  overflow: visible !important;
-  transition: transform 0.4s ease;
-}
-.ti-widget .ti-review-item {
-  box-sizing: border-box !important;
-}
-.ti-widget.ti-goog .ti-review-content,
-.ti-widget.ti-goog .ti-review-text-container {
-  height: auto !important;
-  max-height: none !important;
-  -webkit-line-clamp: unset !important;
-  line-clamp: unset !important;
-  overflow: visible !important;
-  display: block !important;
-}
-.ti-widget.ti-goog .ti-review-item:hover {
-  transform: none !important;
-}
-.ti-controls {
-  display: none !important;
-}
 .mm-ti-arrow {
   position: absolute;
   top: 50%;
@@ -754,20 +711,6 @@ iframe.mm-live-report-frame,
 @media (max-width: 640px) {
   .mm-google-card {
     flex-basis: 100%;
-  }
-}
-@media (max-width: 1100px) {
-  .ti-widget .ti-review-item {
-    flex-basis: 50% !important;
-    width: 50% !important;
-    max-width: 50% !important;
-  }
-}
-@media (max-width: 640px) {
-  .ti-widget .ti-review-item {
-    flex-basis: 100% !important;
-    width: 100% !important;
-    max-width: 100% !important;
   }
 }
 .logo-marquee-section,
