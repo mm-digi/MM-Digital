@@ -29,6 +29,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <link rel="stylesheet" href="/wp-assets/kadence-column.css" />
         <link rel="stylesheet" href="/wp-assets/kadence-row.css" />
         <link rel="stylesheet" href="/wp-assets/navigation.css" />
+        <link rel="stylesheet" href="/wp-assets/mm-fixes.css" />
+        <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js" async></script>
       </head>
       <body>
         <WpChrome headerHtml={headerHtml} footerHtml={footerHtml}>

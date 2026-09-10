@@ -30,7 +30,11 @@ export default function WpChrome({
     opens.forEach((el) => el.addEventListener("click", openMenu));
     closes.forEach((el) => el.addEventListener("click", closeMenu));
 
-    const forms = [...document.querySelectorAll("form.kb-advanced-form, form.wpcf7-form, form.uagb-forms-main-form")];
+    const forms = [
+      ...document.querySelectorAll(
+        "form.kb-advanced-form, form.wpcf7-form, form.uagb-forms-main-form, form.mm-newsletter-form"
+      ),
+    ];
     const onSubmit = async (e: Event) => {
       e.preventDefault();
       const form = e.currentTarget as HTMLFormElement;
@@ -40,15 +44,98 @@ export default function WpChrome({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      alert(res.ok ? "The form has been submitted successfully!" : "There has been some error while submitting the form.");
+      alert(
+        res.ok
+          ? "The form has been submitted successfully!"
+          : "There has been some error while submitting the form."
+      );
       if (res.ok) form.reset();
     };
     forms.forEach((form) => form.addEventListener("submit", onSubmit));
+
+    const particleOpts = {
+      fullScreen: false,
+      background: { color: "transparent" },
+      fpsLimit: 60,
+      particles: {
+        number: { value: 70, density: { enable: true, area: 800 } },
+        color: { value: "#ffffff" },
+        links: { enable: true, distance: 140, color: "#ffffff", opacity: 0.18, width: 1 },
+        move: { enable: true, speed: 1.2, outModes: { default: "out" } },
+        opacity: { value: 0.7 },
+        size: { value: { min: 1, max: 3 } },
+      },
+      interactivity: {
+        events: { onHover: { enable: true, mode: "grab" }, resize: true },
+        modes: { grab: { distance: 180, links: { opacity: 0.5 } } },
+      },
+      detectRetina: true,
+    };
+    const startParticles = () => {
+      const ts = (window as Window & { tsParticles?: { load: (id: string, opts: object) => void } }).tsParticles;
+      const el = document.getElementById("particles-bg");
+      if (!ts || !el) return false;
+      ts.load("particles-bg", particleOpts);
+      return true;
+    };
+    let particleTimer: number | undefined;
+    if (!startParticles()) {
+      particleTimer = window.setInterval(() => {
+        if (startParticles() && particleTimer) window.clearInterval(particleTimer);
+      }, 200);
+      window.setTimeout(() => particleTimer && window.clearInterval(particleTimer), 6000);
+    }
+
+    const values = [...document.querySelectorAll(".mm-values-item")];
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add("mm-visible");
+        });
+      },
+      { threshold: 0.2 }
+    );
+    values.forEach((el) => io.observe(el));
+
+    const typed = document.querySelector(".mm-typed") as HTMLElement | null;
+    let typedTimer: number | undefined;
+    if (typed) {
+      const text = typed.dataset.text || typed.textContent || "";
+      typed.textContent = "";
+      let i = 0;
+      const tick = () => {
+        typed.textContent = text.slice(0, i);
+        i += 1;
+        if (i <= text.length) typedTimer = window.setTimeout(tick, 42);
+        else typedTimer = window.setTimeout(() => {
+          i = 0;
+          typed.textContent = "";
+          tick();
+        }, 1800);
+      };
+      tick();
+    }
+
+    const faqItems = [...document.querySelectorAll(".uagb-faq-item")];
+    const onFaq = (e: Event) => {
+      const item = (e.currentTarget as HTMLElement).closest(".uagb-faq-item");
+      if (!item) return;
+      const group = item.closest(".uagb-faq") || item.parentElement;
+      group?.querySelectorAll(".uagb-faq-item").forEach((other) => {
+        if (other !== item) other.classList.remove("uagb-faq-item-active");
+      });
+      item.classList.toggle("uagb-faq-item-active");
+    };
+    faqItems.forEach((item) => item.addEventListener("click", onFaq));
 
     return () => {
       opens.forEach((el) => el.removeEventListener("click", openMenu));
       closes.forEach((el) => el.removeEventListener("click", closeMenu));
       forms.forEach((form) => form.removeEventListener("submit", onSubmit));
+      faqItems.forEach((item) => item.removeEventListener("click", onFaq));
+      values.forEach((el) => io.unobserve(el));
+      if (typedTimer) window.clearTimeout(typedTimer);
+      if (particleTimer) window.clearInterval(particleTimer);
     };
   }, []);
 
