@@ -365,8 +365,8 @@
 .mm-work-cards .image-wrap.second img { object-position: center 35%; }
 .mm-work-cards .stats {
   display: flex;
-  gap: 32px;
-  flex-wrap: wrap;
+  gap: 24px;
+  flex-wrap: nowrap;
   align-items: flex-end;
   font-size: 2rem;
 }
@@ -375,7 +375,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  min-width: 160px;
+  flex: 1 1 0;
+  min-width: 0;
   transition: transform .35s ease;
   padding-bottom: 60px;
 }
@@ -390,7 +391,7 @@
   font-size: 1rem;
   line-height: 1.4;
   font-weight: 300;
-  max-width: 220px;
+  max-width: none;
   color: #fff;
 }
 .mm-work-cards .card .button {
@@ -479,7 +480,7 @@
   </div>
 </div>
 
-<div class="card">
+<div class="card yvonne-card">
   <div class="card-bg" style="background-image:url('https://mm-digi.co.uk/wp-content/uploads/2026/03/flowerpower2-sml-e1759848737677.jpg');"></div>
   <div class="card-content">
     <h3 class="title">Expanding Yvonne Coombers Digital Presence</h3>
