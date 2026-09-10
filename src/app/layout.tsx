@@ -1,15 +1,7 @@
 import type { Metadata } from "next";
-import { Libre_Baskerville } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { getSession } from "@/lib/auth";
-
-const libre = Libre_Baskerville({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  variable: "--font-libre",
-});
+import WpChrome from "@/components/WpChrome";
+import { readWpFile } from "@/lib/wp";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mm-digi.co.uk"),
@@ -19,23 +11,29 @@ export const metadata: Metadata = {
   },
   description:
     "We help businesses grow with SEO, web design and digital marketing. Based in Exeter, UK. Get a free consultation today.",
-  openGraph: {
-    images: ["/banner.png"],
-  },
 };
 
-export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const session = await getSession();
+export default function RootLayout({ children }: LayoutProps<"/">) {
+  const headerHtml = readWpFile("header.html");
+  const footerHtml = readWpFile("footer.html");
+
   return (
-    <html lang="en" className={`${libre.variable} h-full antialiased`}>
+    <html lang="en">
       <head>
-        <link rel="preconnect" href="https://fonts.cdnfonts.com" />
-        <link href="https://fonts.cdnfonts.com/css/glacial-indifference" rel="stylesheet" />
+        <link rel="stylesheet" href="/wp-assets/wordpress.css" />
+        <link rel="stylesheet" href="/wp-assets/extendable.css" />
+        <link rel="stylesheet" href="/wp-assets/uag.css" />
+        <link rel="stylesheet" href="/wp-assets/stackable.css" />
+        <link rel="stylesheet" href="/wp-assets/stackable-responsive.css" />
+        <link rel="stylesheet" href="/wp-assets/kadence-form.css" />
+        <link rel="stylesheet" href="/wp-assets/kadence-column.css" />
+        <link rel="stylesheet" href="/wp-assets/kadence-row.css" />
+        <link rel="stylesheet" href="/wp-assets/navigation.css" />
       </head>
-      <body className="flex min-h-full flex-col">
-        <Header loggedIn={Boolean(session)} />
-        <main className="flex-1">{children}</main>
-        <Footer />
+      <body>
+        <WpChrome headerHtml={headerHtml} footerHtml={footerHtml}>
+          {children}
+        </WpChrome>
       </body>
     </html>
   );

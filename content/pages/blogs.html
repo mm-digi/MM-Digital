@@ -1,0 +1,618 @@
+
+<div class="wp-block-group alignfull ext-animate--on">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MM Digital Blog Section</title>
+
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  :root{
+    --bg:#050505;
+    --panel:#0d0d0d;
+    --text:#ffffff;
+    --muted:#cfcfcf;
+    --soft:#9f9f9f;
+    --accent:#ff8fa3;
+    --accent-hover:#ff7990;
+    --border:rgba(255,255,255,0.12);
+    --shadow:0 20px 50px rgba(0,0,0,.35);
+    --radius-xl:28px;
+    --max-width:1280px;
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Glacial Indifference', Arial, Helvetica, sans-serif;
+    line-height:1.6;
+  }
+
+  a{
+    color:inherit;
+    text-decoration:none !important;
+    border-bottom:none !important;
+  }
+
+  .blog-section{
+    padding:90px 24px;
+  }
+
+  .blog-wrap{
+    max-width:1600px;
+    margin:auto;
+  }
+
+  .blog-hero{
+    max-width:1600px;
+    margin-left:auto;
+    margin-right:auto;
+    display:grid;
+    grid-template-columns:1fr 1.2fr;
+    gap:48px;
+    align-items:center;
+    margin-bottom:56px;
+  }
+
+  .blog-intro{
+    padding-left:28px;
+    border-left:2px solid var(--accent);
+  }
+
+  .eyebrow{
+    font-size:.85rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:18px;
+    font-weight:700;
+    display:block;
+  }
+
+  .blog-intro h1{
+    font-family:'Libre Baskerville', Georgia, "Times New Roman", serif;
+    font-size:clamp(2.4rem,5vw,4.2rem);
+    line-height:1;
+    margin-bottom:18px;
+  }
+
+  .blog-intro p{
+    color:var(--muted);
+    font-size:1.1rem;
+    max-width:420px;
+    margin-bottom:28px;
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:52px;
+    padding:0 26px;
+    border-radius:999px;
+    font-weight:700;
+    background:var(--accent);
+    color:#fff;
+    transition:.25s;
+    box-shadow:var(--shadow);
+    text-decoration:none !important;
+    border-bottom:none !important;
+  }
+
+  .btn:hover{
+    background:var(--accent-hover);
+    transform:translateY(-2px);
+    text-decoration:none !important;
+    border-bottom:none !important;
+  }
+
+  .blog-copy{
+    background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));
+    border:1px solid var(--border);
+    border-radius:var(--radius-xl);
+    padding:34px;
+    box-shadow:var(--shadow);
+  }
+
+  .blog-copy p{
+    color:var(--muted);
+    font-size:1.04rem;
+    margin-bottom:18px;
+  }
+
+  .blog-copy p:last-child{
+    margin-bottom:0;
+  }
+
+  .blog-slider-wrap{
+    max-width:1280px;
+    margin-left:auto;
+    margin-right:auto;
+    overflow:hidden;
+    position:relative;
+  }
+
+  .blog-slider{
+    display:flex;
+    gap:28px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
+    padding-bottom:10px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+
+  .blog-slider::-webkit-scrollbar{
+    display:none;
+  }
+
+  .blog-card{
+    flex:0 0 calc(33.333% - 19px);
+    min-width:300px;
+    scroll-snap-align:start;
+    display:flex;
+    flex-direction:column;
+    background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
+    border:1px solid var(--border);
+    border-radius:var(--radius-xl);
+    overflow:hidden;
+    transition:.3s;
+    box-shadow:var(--shadow);
+    text-decoration:none !important;
+    border-bottom:none !important;
+    outline:none;
+  }
+
+  .blog-card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(255,143,163,.45);
+    box-shadow:0 26px 60px rgba(0,0,0,.42);
+    text-decoration:none !important;
+    border-bottom:none !important;
+  }
+
+  .blog-card:focus,
+  .blog-card:active,
+  .blog-card:visited{
+    text-decoration:none !important;
+    border-bottom:none !important;
+    outline:none;
+  }
+
+  .blog-card *,
+  .blog-card *:before,
+  .blog-card *:after{
+    text-decoration:none !important;
+    border-bottom:none !important;
+    box-shadow:none;
+  }
+
+  /* Hidden blog cards stay in the code but do not show on the page. Remove `is-hidden` from the card class to show again. */
+  .blog-card.is-hidden{
+    display:none !important;
+  }
+
+  .blog-card img{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+    display:block;
+  }
+
+  .blog-card-body{
+    padding:24px;
+    display:flex;
+    flex-direction:column;
+    flex:1;
+  }
+
+  .meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 12px;
+    align-items:center;
+    margin-bottom:16px;
+    font-size:.88rem;
+    color:var(--soft);
+    line-height:1.4;
+  }
+
+  .meta .author-img{
+    width:60px !important;
+    height:60px !important;
+    min-width:60px;
+    min-height:60px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-right:10px;
+    border:2px solid rgba(255,255,255,0.15);
+    display:inline-block;
+    vertical-align:middle;
+    image-rendering:auto;
+  }
+
+  .meta .author{
+    color:var(--text);
+    font-weight:700;
+  }
+
+  .meta .dot{
+    width:4px;
+    height:4px;
+    min-width:4px;
+    border-radius:50%;
+    background:var(--accent);
+  }
+
+  .blog-card h2{
+    font-family:'Libre Baskerville', Georgia, "Times New Roman", serif;
+    font-size:1.7rem;
+    line-height:1.15;
+    margin-bottom:14px;
+    color:#fff;
+  }
+
+  .blog-card p{
+    color:var(--muted);
+    margin-bottom:26px;
+    font-size:.98rem;
+  }
+
+  .read-link{
+    color:var(--accent) !important;
+    font-weight:700;
+    text-decoration:none !important;
+    border-bottom:none !important;
+    display:inline-block;
+    margin-top:auto;
+  }
+
+  .read-link:hover,
+  .read-link:focus,
+  .read-link:active,
+  .read-link:visited{
+    color:#fff !important;
+    text-decoration:none !important;
+    border-bottom:none !important;
+  }
+
+  .blog-nav{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    margin-top:28px;
+  }
+
+  .blog-nav button{
+    background:transparent;
+    border:1px solid rgba(255,255,255,.18);
+    color:#fff;
+    padding:12px 18px;
+    border-radius:999px;
+    cursor:pointer;
+    font-family:'Glacial Indifference', Arial, Helvetica, sans-serif;
+    font-size:.95rem;
+    transition:.25s;
+  }
+
+  .blog-nav button:hover{
+    border-color:rgba(255,143,163,.45);
+    color:var(--accent);
+  }
+
+  @media(max-width:1100px){
+    .blog-card{
+      flex:0 0 calc(50% - 14px);
+    }
+
+    .blog-card img{
+      height:320px;
+    }
+  }
+
+  @media(max-width:900px){
+    .blog-hero{
+      grid-template-columns:1fr;
+    }
+  }
+
+  @media(max-width:700px){
+    .blog-card{
+      flex:0 0 100%;
+    }
+  }
+
+  @media(max-width:640px){
+    .blog-section{
+      padding:70px 18px;
+    }
+
+    .blog-card img{
+      height:220px;
+    }
+
+    .blog-copy{
+      padding:26px;
+    }
+  }
+</style>
+
+<section class="blog-section">
+
+  <div class="blog-wrap">
+
+    <div class="blog-hero">
+
+      <div class="blog-intro">
+
+        <span class="eyebrow">Insights &amp; Strategy</span>
+
+        <h1>Our Blogs</h1>
+
+        <p>Practical marketing ideas, digital insights, and clear advice for businesses that want to grow smarter online.</p>
+
+        <a href="/get-in-touch/" class="btn">Get in Touch</a>
+
+      </div>
+
+      <div class="blog-copy">
+
+        <p>At MM Digital, we believe great marketing starts with understanding what works, what doesn’t, and where the digital landscape is heading. Our blog is where we share insights, ideas, and practical advice to help businesses grow their online presence and make smarter marketing decisions.</p>
+
+        <p>From social media strategies and website performance to branding, advertising, and emerging digital trends, our articles are designed to give you clear, useful information you can actually apply to your business.</p>
+
+        <p>Whether you're looking for inspiration, guidance, or a deeper understanding of how digital marketing can support your growth, our blog is a great place to start.</p>
+
+      </div>
+
+    </div>
+
+    <div class="blog-slider-wrap">
+
+      <div class="blog-slider">
+<a class="blog-card" href="/why-your-business-needs-to-be-found-on-ai-search-not-just-google/">
+  <img src="https://mm-digi.co.uk/wp-content/uploads/2026/09/AI.png" alt="Why Your Business Needs to Be Found on AI Search (Not Just Google)">
+  <div class="blog-card-body">
+    <div class="meta">
+      <img class="author-img" src="https://mm-digi.co.uk/wp-content/uploads/2026/03/max.png" alt="MM Digital">
+      <span class="author">MM Digital</span>
+      <span class="dot"></span>
+      <span>September 1, 2026</span>
+    </div>
+    <h2>Why Your Business Needs to Be Found on AI Search (Not Just Google)</h2>
+    <p>Google is no longer the only place your customers are searching. Discover what GEO means and how to make your business visible in AI-generated answers…</p>
+    <span class="read-link">Read Article →</span>
+  </div>
+</a>
+
+<a class="blog-card" href="/what-makes-a-high-converting-website-in-2026/">
+  <img src="https://mm-digi.co.uk/wp-content/uploads/2026/08/Modern-website-design.png" alt="What Makes a High Converting Website in 2026">
+  <div class="blog-card-body">
+    <div class="meta">
+      <img class="author-img" src="https://mm-digi.co.uk/wp-content/uploads/2026/03/max.png" alt="MM Digital">
+      <span class="author">MM Digital</span>
+      <span class="dot"></span>
+      <span>August 2, 2026</span>
+    </div>
+    <h2>What Makes a High Converting Website in 2026</h2>
+    <p>Having a website is no longer enough. Here’s what separates the sites that turn visitors into customers from the ones that just look the part…</p>
+    <span class="read-link">Read Article →</span>
+  </div>
+</a>
+        <a class="blog-card" href="/why-summer-2026-is-the-most-important-season-for-your-digital-marketing/">
+
+          <img src="https://mm-digi.co.uk/wp-content/uploads/2026/07/Summer-Marketing.png" alt="Why Summer 2026 Is the Most Important Season for Your Digital Marketing">
+
+          <div class="blog-card-body">
+
+            <div class="meta">
+
+              <img class="author-img" src="https://mm-digi.co.uk/wp-content/uploads/2026/03/max.png" alt="MM Digital">
+
+              <span class="author">Maximilian Madl</span>
+
+              <span class="dot"></span>
+
+              <span>July 2, 2026</span>
+
+            </div>
+
+            <h2>Why Summer 2026 Is the Most Important Season for Your Digital Marketing</h2>
+
+            <p>Summer is one of the biggest opportunities in the marketing calendar. If your brand is not showing up consistently, you could be missing valuable attention…</p>
+
+            <span class="read-link">Read Article →</span>
+
+          </div>
+
+        </a>
+
+        <!-- June 2 blog is now visible. -->
+        <a class="blog-card" data-hidden-blog="june-2-2026" href="/why-every-business-needs-a-digital-strategy/">
+
+          <img src="https://mm-digi.co.uk/wp-content/uploads/2026/06/MM-Digital-Strategy.png" alt="Why every business needs a digital strategy">
+
+          <div class="blog-card-body">
+
+            <div class="meta">
+
+              <img class="author-img" src="https://mm-digi.co.uk/wp-content/uploads/2026/03/max.png" alt="Maximilian Madl">
+
+              <span class="author">Maximilian Madl</span>
+
+              <span class="dot"></span>
+
+              <span>June 2, 2026</span>
+
+            </div>
+
+            <h2>Why Every Business Needs a Digital Strategy</h2>
+
+            <p>Posting on social media is not a strategy. Running ads is not a strategy. A digital strategy is what makes everything else actually work…</p>
+
+            <span class="read-link">Read Article →</span>
+
+          </div>
+
+        </a>
+
+        <a class="blog-card" href="/how-to-generate-leads-without-a-big-budget/">
+
+          <img src="https://mm-digi.co.uk/wp-content/uploads/2026/04/mm-digital-may-blog.png" alt="How to generate leads without a big budget">
+
+          <div class="blog-card-body">
+
+            <div class="meta">
+
+              <img class="author-img" src="https://mm-digi.co.uk/wp-content/uploads/2026/03/max.png" alt="Maximilian Madl">
+
+              <span class="author">Maximilian Madl</span>
+
+              <span class="dot"></span>
+
+              <span>May 2, 2026</span>
+
+            </div>
+
+            <h2>How to Generate Leads Without a Big Budget</h2>
+
+            <p>You do not need to spend a fortune to grow your pipeline. You need a smarter strategy…</p>
+
+            <span class="read-link">Read Article →</span>
+
+          </div>
+
+        </a>
+
+        <a class="blog-card" href="/6135-2/">
+
+          <img src="https://mm-digi.co.uk/wp-content/uploads/2026/04/MM-Digital-Blog.png" alt="Why most businesses are wasting their ad spend">
+
+          <div class="blog-card-body">
+
+            <div class="meta">
+
+              <img class="author-img" src="https://mm-digi.co.uk/wp-content/uploads/2026/03/max.png" alt="Maximilian Madl">
+
+              <span class="author">Maximilian Madl</span>
+
+              <span class="dot"></span>
+
+              <span>April 2, 2026</span>
+
+            </div>
+
+            <h2>Why Most Businesses Are Wasting Their Ad Spend</h2>
+
+            <p>Businesses across the UK are spending thousands on paid advertising every month and seeing very little in return…</p>
+
+            <span class="read-link">Read Article →</span>
+
+          </div>
+
+        </a>
+
+        <a class="blog-card" href="/marketing-in-2026/">
+
+          <img src="https://mm-digi.co.uk/wp-content/uploads/2026/03/mm_digital_marketing.png" alt="Marketing in 2026">
+
+          <div class="blog-card-body">
+
+            <div class="meta">
+
+              <img class="author-img" src="https://mm-digi.co.uk/wp-content/uploads/2026/03/max.png" alt="Maximilian Madl">
+
+              <span class="author">Maximilian Madl</span>
+
+              <span class="dot"></span>
+
+              <span>March 2, 2026</span>
+
+            </div>
+
+            <h2>Marketing in 2026: What Growing Businesses Must Get Right</h2>
+
+            <p>March marks the point in the year where initial plans either start gaining traction, or quietly lose momentum…</p>
+
+            <span class="read-link">Read Article →</span>
+
+          </div>
+
+        </a>
+
+        <a class="blog-card" href="/ai-in-business-2026/">
+
+          <img src="https://mm-digi.co.uk/wp-content/uploads/2026/03/mm_digital_ai_image.png" alt="AI in business 2026">
+
+          <div class="blog-card-body">
+
+            <div class="meta">
+
+              <img class="author-img" src="https://mm-digi.co.uk/wp-content/uploads/2026/03/max.png" alt="Maximilian Madl">
+
+              <span class="author">Maximilian Madl</span>
+
+              <span class="dot"></span>
+
+              <span>February 2, 2026</span>
+
+            </div>
+
+            <h2>AI in 2026: The Businesses That Win Will Be the Ones That Use It Properly</h2>
+
+            <p>Artificial Intelligence is no longer a trend. It is no longer experimental…</p>
+
+            <span class="read-link">Read Article →</span>
+
+          </div>
+
+        </a>
+
+        <a class="blog-card" href="/smarter-marketing-2026/">
+
+          <img src="https://mm-digi.co.uk/wp-content/uploads/2026/03/mm_digital_2026_marketing.png" alt="Smarter marketing 2026">
+
+          <div class="blog-card-body">
+
+            <div class="meta">
+
+              <img class="author-img" src="https://mm-digi.co.uk/wp-content/uploads/2026/03/max.png" alt="Maximilian Madl">
+
+              <span class="author">Maximilian Madl</span>
+
+              <span class="dot"></span>
+
+              <span>January 2, 2026</span>
+
+            </div>
+
+            <h2>January 2026: A Smarter Year for Marketing</h2>
+
+            <p>A new year doesn't demand louder marketing. It demands smarter marketing…</p>
+
+            <span class="read-link">Read Article →</span>
+
+          </div>
+
+        </a>
+
+      </div>
+
+      <div class="blog-nav">
+
+        <button type="button" onclick="this.closest('.blog-slider-wrap').querySelector('.blog-slider').scrollBy({ left: -420, behavior: 'smooth' });">← Previous</button>
+
+        <button type="button" onclick="this.closest('.blog-slider-wrap').querySelector('.blog-slider').scrollBy({ left: 420, behavior: 'smooth' });">Next →</button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+</div>
+
+<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>

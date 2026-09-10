@@ -1,40 +1,20 @@
-@import "tailwindcss";
-
-:root {
-  --pink: #ff808b;
-  --pink-hot: #ff6d79;
-  --bg: #0b0a10;
-  --card: rgba(255, 255, 255, 0.03);
-  --border: rgba(255, 255, 255, 0.12);
-  --muted: #cfcfcf;
-  --font-body: "Glacial Indifference", Arial, sans-serif;
-  --font-serif: var(--font-libre), "Libre Baskerville", Georgia, serif;
-}
+@layer theme, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
 
 html,
 body {
-  background: var(--bg);
+  margin: 0;
+  background: #000;
   color: #fff;
-  min-height: 100%;
 }
 
-body {
-  font-family: var(--font-body);
-  background-image:
-    radial-gradient(1200px 600px at 80% -10%, rgba(255, 128, 139, 0.12), transparent 55%),
-    radial-gradient(900px 500px at -10% 20%, rgba(255, 128, 139, 0.06), transparent 50%),
-    url("/background.png");
-  background-size: auto, auto, cover;
-  background-attachment: fixed;
-  background-position: center;
-}
-
-a {
-  color: inherit;
-}
-
-.font-serif {
-  font-family: var(--font-serif);
+.wp-site-blocks img,
+.entry-content img,
+header img,
+footer img {
+  max-width: 100%;
+  height: auto;
 }
 
 .btn-pink {
@@ -45,106 +25,42 @@ a {
   padding: 0 26px;
   border-radius: 999px;
   font-weight: 700;
-  background: var(--pink);
+  background: #ff808b;
   color: #fff;
   text-decoration: none;
-  transition: 0.25s;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  font-family: "Glacial Indifference", Arial, sans-serif;
 }
 
-.btn-pink:hover {
-  background: var(--pink-hot);
-  transform: translateY(-2px);
-}
-
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 52px;
-  padding: 0 26px;
-  border-radius: 999px;
-  font-weight: 700;
-  border: 1px solid var(--border);
-  background: transparent;
+.site-input,
+.site-textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
   color: #fff;
-  transition: 0.25s;
+  padding: 14px 16px;
+  font-family: "Glacial Indifference", Arial, sans-serif;
+  outline: none;
 }
 
-.btn-ghost:hover {
-  border-color: var(--pink);
-  color: var(--pink);
+.card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
 }
 
 .eyebrow {
   font-size: 0.85rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--pink);
+  color: #ff808b;
   font-weight: 700;
+  font-family: "Glacial Indifference", Arial, sans-serif;
 }
 
-.card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
-  border: 1px solid var(--border);
-  border-radius: 28px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+.font-serif,
+.mm-hero-title {
+  font-family: "Libre Baskerville", Georgia, serif;
 }
 
-.marquee {
-  overflow: hidden;
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-}
-
-.marquee-track {
-  display: flex;
-  width: max-content;
-  gap: 48px;
-  animation: marquee 40s linear infinite;
-}
-
-.marquee-track:hover {
-  animation-play-state: paused;
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-.site-input,
-.site-select,
-.site-textarea {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  color: #fff;
-  padding: 14px 16px;
-  font-family: var(--font-body);
-  outline: none;
-}
-
-.site-input:focus,
-.site-select:focus,
-.site-textarea:focus {
-  border-color: var(--pink);
-}
-
-.site-select option {
-  color: #111;
-}
-
-.mm-live-report-frame {
-  display: block;
-  width: 100%;
-  height: 1100px;
-  border: 0;
-  background: #fff;
-}
-
-@media (max-width: 640px) {
-  .mm-live-report-frame {
-    height: 720px;
-  }
-}

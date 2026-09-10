@@ -35,6 +35,9 @@ yarn-error.log*
 !.env.example
 _hash.mjs
 _hashes.json
+_*.mjs
+extracted-live/
+extracted-pages/
 
 # vercel
 .vercel
@@ -42,3 +45,5 @@ _hashes.json
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
