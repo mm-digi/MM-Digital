@@ -676,11 +676,15 @@ iframe.mm-live-report-frame,
   margin: 4px 0;
 }
 .mm-google-logo {
-  height: 28px;
-  width: auto;
+  width: 110px !important;
+  height: 24px !important;
+  max-width: 110px !important;
+  object-fit: contain;
+  flex-shrink: 0;
   background: #fff;
   padding: 6px 10px;
   border-radius: 6px;
+  box-sizing: content-box;
 }
 .mm-google-slider {
   position: relative;
