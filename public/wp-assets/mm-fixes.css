@@ -224,3 +224,182 @@ body {
 .wp-block-column .case-card {
   margin-bottom: 24px;
 }
+
+.mm-service-card {
+  flex: 0 0 calc((100% - 40px) / 3) !important;
+}
+@media (max-width: 1024px) {
+  .mm-service-card {
+    flex: 0 0 calc((100% - 20px) / 2) !important;
+  }
+}
+@media (max-width: 768px) {
+  .mm-service-card {
+    flex: 0 0 100% !important;
+  }
+}
+
+.mm-reviews-slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 16px 30px;
+}
+.mm-reviews-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+.mm-reviews-track {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.45s ease;
+}
+.mm-review-card {
+  flex: 0 0 calc((100% - 20px) / 2);
+  margin: 0;
+  padding: 32px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.12);
+  min-height: 280px;
+  box-sizing: border-box;
+}
+.mm-review-card p {
+  color: #cfcfcf;
+  font-family: "Glacial Indifference", Arial, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 0 0 22px;
+}
+.mm-review-card footer {
+  color: #ff808b;
+  font-weight: 700;
+  font-family: "Glacial Indifference", Arial, sans-serif;
+}
+.mm-reviews-arrow,
+.mm-services-arrow {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.04);
+  color: #ff808b;
+  font-size: 22px;
+  cursor: pointer;
+}
+.mm-reviews-arrow:disabled,
+.mm-services-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+@media (max-width: 1100px) {
+  .mm-review-card {
+    flex: 0 0 100%;
+  }
+}
+
+.wp-block-columns.has-primary-background-color {
+  max-width: 1080px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.wp-block-columns:has(#contact-us) {
+  max-width: 760px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 16px !important;
+  padding-right: 16px !important;
+  display: block !important;
+}
+.wp-block-columns:has(#contact-us) > .wp-block-column {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100% !important;
+}
+.screen-reader-response,
+.wpcf7-form .hidden-fields-container,
+.wpcf7-response-output:empty {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+}
+
+.uagb-faq-item {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  margin: 0 16px 12px;
+  overflow: hidden;
+}
+.uagb-faq-questions {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  color: #fff;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: 1.05rem;
+  border: 0;
+}
+.uagb-faq-questions::before {
+  content: "+";
+  color: #ff808b;
+  font-size: 1.6rem;
+  line-height: 1;
+  width: 24px;
+  flex: 0 0 24px;
+}
+.uagb-faq-item-active .uagb-faq-questions::before {
+  content: "–";
+}
+.uagb-faq-icon-wrap {
+  display: none !important;
+}
+.uagb-faq-item .uagb-faq-content {
+  display: none;
+  padding: 0 20px 18px 56px;
+  color: #cfcfcf;
+  font-family: "Glacial Indifference", Arial, sans-serif;
+  line-height: 1.7;
+}
+.uagb-faq-item.uagb-faq-item-active .uagb-faq-content {
+  display: block;
+}
+
+.wp-block-column {
+  overflow: visible !important;
+}
+.case-card .button.desktop-only {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 0.35s ease;
+}
+.case-card:hover .image-grid {
+  width: 58% !important;
+}
+.case-card:hover .stat-column {
+  transform: translateY(-30px);
+}
+.case-card:hover .button.desktop-only {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+@media (max-width: 980px) {
+  .case-card .button.desktop-only {
+    display: none !important;
+  }
+  .case-card .button.mobile-only,
+  .case-card:hover .stat-column {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

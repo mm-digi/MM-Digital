@@ -1,12 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 import { DASHBOARD_SLUGS } from "./lib/clients";
-import { SESSION_COOKIE } from "./lib/auth";
+import { AUTH_SECRET_VALUE, SESSION_COOKIE } from "./lib/auth";
 
 function secretKey() {
-  const secret = process.env.AUTH_SECRET;
-  if (!secret) return null;
-  return new TextEncoder().encode(secret);
+  return new TextEncoder().encode(AUTH_SECRET_VALUE);
 }
 
 export async function middleware(request: NextRequest) {
@@ -15,7 +13,7 @@ export async function middleware(request: NextRequest) {
 
   const token = request.cookies.get(SESSION_COOKIE)?.value;
   const key = secretKey();
-  if (!token || !key) {
+  if (!token) {
     const login = new URL("/login/", request.url);
     login.searchParams.set("redirect", `/${slug}/`);
     return NextResponse.redirect(login);

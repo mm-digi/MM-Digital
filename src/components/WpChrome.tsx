@@ -128,6 +128,54 @@ export default function WpChrome({
     };
     faqItems.forEach((item) => item.addEventListener("click", onFaq));
 
+    const sliders: Array<() => void> = [];
+    document.querySelectorAll(".mm-services-slider, .mm-reviews-slider").forEach((slider) => {
+      const track = slider.querySelector(".mm-services-track, .mm-reviews-track") as HTMLElement | null;
+      const cards = [...slider.querySelectorAll(".mm-service-card, .mm-review-card")] as HTMLElement[];
+      const prevBtn = slider.querySelector(".mm-services-prev, .mm-reviews-prev") as HTMLButtonElement | null;
+      const nextBtn = slider.querySelector(".mm-services-next, .mm-reviews-next") as HTMLButtonElement | null;
+      if (!track || !cards.length || !prevBtn || !nextBtn) return;
+      let index = 0;
+      const perView = () => {
+        if (window.innerWidth <= 768) return 1;
+        if (slider.classList.contains("mm-reviews-slider")) {
+          return window.innerWidth <= 1100 ? 1 : 2;
+        }
+        if (window.innerWidth <= 1024) return 2;
+        return 3;
+      };
+      const gap = () => {
+        const styles = window.getComputedStyle(track);
+        return parseFloat(styles.columnGap || styles.gap || "20");
+      };
+      const update = () => {
+        const view = perView();
+        const maxIndex = Math.max(0, cards.length - view);
+        if (index > maxIndex) index = maxIndex;
+        const width = cards[0].getBoundingClientRect().width;
+        track.style.transform = `translateX(-${index * (width + gap())}px)`;
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index >= maxIndex;
+      };
+      const onPrev = () => {
+        index = Math.max(0, index - 1);
+        update();
+      };
+      const onNext = () => {
+        index = Math.min(Math.max(0, cards.length - perView()), index + 1);
+        update();
+      };
+      prevBtn.addEventListener("click", onPrev);
+      nextBtn.addEventListener("click", onNext);
+      window.addEventListener("resize", update);
+      update();
+      sliders.push(() => {
+        prevBtn.removeEventListener("click", onPrev);
+        nextBtn.removeEventListener("click", onNext);
+        window.removeEventListener("resize", update);
+      });
+    });
+
     return () => {
       opens.forEach((el) => el.removeEventListener("click", openMenu));
       closes.forEach((el) => el.removeEventListener("click", closeMenu));
@@ -136,6 +184,7 @@ export default function WpChrome({
       values.forEach((el) => io.unobserve(el));
       if (typedTimer) window.clearTimeout(typedTimer);
       if (particleTimer) window.clearInterval(particleTimer);
+      sliders.forEach((off) => off());
     };
   }, []);
 

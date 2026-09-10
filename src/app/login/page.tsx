@@ -1,11 +1,10 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
 function LoginForm() {
-  const router = useRouter();
   const params = useSearchParams();
   const [error, setError] = useState(params.get("error") === "forbidden" ? "This dashboard belongs to another account." : "");
   const [loading, setLoading] = useState(false);
@@ -15,23 +14,27 @@ function LoginForm() {
     setLoading(true);
     setError("");
     const form = new FormData(e.currentTarget);
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: form.get("username"),
-        password: form.get("password"),
-        remember: form.get("remember") === "on",
-      }),
-    });
-    const data = await res.json();
-    setLoading(false);
-    if (!res.ok) {
-      setError(data.error || "Invalid username or password.");
-      return;
+    try {
+      const res = await fetch("/api/login/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: form.get("username"),
+          password: form.get("password"),
+          remember: form.get("remember") === "on",
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(data.error || "Invalid username or password.");
+        return;
+      }
+      window.location.assign(params.get("redirect") || data.redirect || "/");
+    } catch {
+      setError("Could not sign in. Please try again.");
+    } finally {
+      setLoading(false);
     }
-    router.push(params.get("redirect") || data.redirect || "/");
-    router.refresh();
   }
 
   return (
