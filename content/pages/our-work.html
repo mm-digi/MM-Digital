@@ -68,7 +68,7 @@
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: 48px;
-  align-items: center;
+  align-items: start;
 }
 
 .mm-work-intro {
@@ -279,17 +279,17 @@
 .mm-work-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  max-width: 1080px;
+  gap: 0;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 40px 24px 20px;
+  padding: 0 20px 20px;
   box-sizing: border-box;
 }
 .mm-work-cards .card {
   position: relative;
-  max-width: 520px;
-  width: 100%;
-  margin: 0 auto;
+  max-width: 900px;
+  width: calc(100% - 80px);
+  margin: 40px auto;
   padding: 24px;
   border-radius: 20px;
   overflow: hidden;
@@ -337,16 +337,14 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  width: 350px;
-  max-width: 90%;
-  height: 248px;
-  margin: 8px auto 28px auto !important;
+  width: 90%;
+  aspect-ratio: 350 / 248;
+  margin: -60px auto 28px auto !important;
   overflow: hidden;
-  transition: width .4s ease, height .4s ease;
+  transition: width .4s ease;
 }
 .mm-work-cards .card:hover .image-grid {
-  width: 220px;
-  height: 156px;
+  width: 58%;
 }
 .mm-work-cards .image-wrap {
   overflow: hidden;
@@ -428,13 +426,13 @@
 .mm-work-cards .desktop-only { display: inline-flex !important; }
 .mm-work-cards .mobile-only { display: none !important; }
 @media (max-width: 980px) {
-  .mm-work-cards { grid-template-columns: 1fr; padding: 20px 16px; }
-  .mm-work-cards .card { min-height: auto; }
+  .mm-work-cards { grid-template-columns: 1fr; padding: 0 10px 20px; }
+  .mm-work-cards .card { min-height: auto; width: calc(100% - 40px); margin: 20px auto; }
   .mm-work-cards .card-content { min-height: auto; display: block; }
   .mm-work-cards .title { font-size: 1.65rem !important; max-width: 100%; }
   .mm-work-cards .bottom-area { margin-top: 24px; }
-  .mm-work-cards .image-grid { width: min(100%, 350px); height: 220px; margin: 16px auto 22px auto !important; }
-  .mm-work-cards .card:hover .image-grid { width: min(100%, 350px); height: 220px; }
+  .mm-work-cards .image-grid { width: 100%; margin: 0 0 22px 0 !important; }
+  .mm-work-cards .card:hover .image-grid { width: 100%; }
   .mm-work-cards .stats { flex-direction: column; flex-wrap: nowrap; gap: 18px; align-items: flex-start; }
   .mm-work-cards .stat-column { width: 100%; min-width: 0; padding-bottom: 0; transform: none !important; }
   .mm-work-cards .stat-label { max-width: 100%; }
