@@ -176,10 +176,8 @@ export default function WpChrome({
       if (!track || !cards.length || !prevBtn || !nextBtn) return;
       let index = 0;
       const perView = () => {
+        if (slider.classList.contains("mm-reviews-slider")) return 1;
         if (window.innerWidth <= 768) return 1;
-        if (slider.classList.contains("mm-reviews-slider")) {
-          return window.innerWidth <= 1100 ? 1 : 2;
-        }
         if (window.innerWidth <= 1024) return 2;
         return 3;
       };
