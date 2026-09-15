@@ -10,7 +10,11 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const dashboard = getDashboard(slug);
-  return { title: dashboard?.name || slug.replace(/-/g, " ") };
+  return {
+    title: dashboard?.name || slug.replace(/-/g, " "),
+    alternates: { canonical: `/${slug}/` },
+    ...(dashboard ? { robots: { index: false, follow: false } } : {}),
+  };
 }
 
 export default async function SlugPage({ params }: Props) {

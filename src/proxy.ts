@@ -7,7 +7,7 @@ function secretKey() {
   return new TextEncoder().encode(AUTH_SECRET_VALUE);
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const slug = request.nextUrl.pathname.replace(/^\/+|\/+$/g, "");
   if (!DASHBOARD_SLUGS.has(slug)) return NextResponse.next();
 
@@ -36,6 +36,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|logos|brands|icons|team|.*\\..*).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|logos|brands|icons|team|media|.*\\..*).*)",
   ],
 };

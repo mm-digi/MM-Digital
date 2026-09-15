@@ -11,6 +11,16 @@ export const metadata: Metadata = {
   },
   description:
     "We help businesses grow with SEO, web design and digital marketing. Based in Exeter, UK. Get a free consultation today.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "en_GB",
+    url: "https://mm-digi.co.uk",
+    siteName: "MM Digital",
+    title: "MM Digital | Digital Marketing Agency Exeter",
+    description:
+      "We help businesses grow with SEO, web design and digital marketing. Based in Exeter, UK.",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

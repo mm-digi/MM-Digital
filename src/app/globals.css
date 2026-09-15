@@ -8,7 +8,9 @@ body {
   background: #000;
   color: #fff;
   max-width: 100%;
-  overflow-x: hidden;
+  /* `hidden` turns the document into a scroll container and breaks
+     viewport-relative `position: sticky` sections such as the work stack. */
+  overflow-x: clip;
 }
 
 .wp-site-blocks img,
