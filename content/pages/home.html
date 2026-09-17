@@ -1794,16 +1794,17 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 
 <style>
-  .mm-home-contact-panel {
+  .entry-content .mm-home-contact-panel {
     box-sizing: border-box !important;
     position: relative;
-    left: 50%;
-    width: calc(100vw - 48px);
-    width: min(calc(100dvw - 48px), 1480px);
+    left: auto !important;
+    width: calc(100vw - 48px) !important;
+    width: calc(100dvw - 48px) !important;
     max-width: none !important;
-    margin-left: 0 !important;
+    margin-left: calc(50% - 50vw + 24px) !important;
+    margin-left: calc(50% - 50dvw + 24px) !important;
     margin-right: 0 !important;
-    transform: translateX(-50%);
+    transform: none !important;
   }
 
   .mm-home-contact-panel p.has-large-font-size {
@@ -1811,9 +1812,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   @media (max-width: 760px) {
-    .mm-home-contact-panel {
-      width: calc(100vw - 32px);
-      width: calc(100dvw - 32px);
+    .entry-content .mm-home-contact-panel {
+      width: calc(100vw - 32px) !important;
+      width: calc(100dvw - 32px) !important;
+      margin-left: calc(50% - 50vw + 16px) !important;
+      margin-left: calc(50% - 50dvw + 16px) !important;
     }
 
     .mm-home-contact-panel p.has-large-font-size {
