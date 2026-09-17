@@ -42,6 +42,7 @@ extracted-pages/
 
 # vercel
 .vercel
+supabase/.temp
 
 # typescript
 *.tsbuildinfo
