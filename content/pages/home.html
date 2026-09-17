@@ -181,111 +181,8 @@
   </div>
 </section>
 
-<section class="we-create-section" aria-label="What MM Digital creates">
-  <style>
-    .we-create-section {
-      --we-create-duration: 24s;
-      display: flex;
-      align-items: baseline;
-      justify-content: center;
-      gap: 0.28em;
-      min-height: 1.35em;
-      padding: 46px 24px 8px;
-      overflow: hidden;
-      color: #fff;
-      font-family: "Libre Baskerville", Georgia, serif;
-      font-size: clamp(1.35rem, 2.4vw, 2.35rem);
-      font-weight: 400;
-      line-height: 1.15;
-      text-align: center;
-    }
-
-    .we-create-prefix {
-      flex: 0 0 auto;
-    }
-
-    .we-create-words {
-      position: relative;
-      display: inline-grid;
-      min-width: 21ch;
-      min-height: 1.15em;
-      text-align: left;
-    }
-
-    .we-create-word {
-      grid-area: 1 / 1;
-      width: 0;
-      max-width: max-content;
-      overflow: hidden;
-      opacity: 0;
-      white-space: nowrap;
-      border-right: 0.06em solid currentColor;
-      justify-self: start;
-      animation: weCreateType var(--we-create-duration) steps(var(--characters), end) infinite;
-      animation-delay: var(--delay);
-    }
-
-    .we-create-word:nth-child(1) { color: #ff808b; --characters: 21; --delay: 0s; }
-    .we-create-word:nth-child(2) { color: #f6bd60; --characters: 21; --delay: 4s; }
-    .we-create-word:nth-child(3) { color: #84dcc6; --characters: 21; --delay: 8s; }
-    .we-create-word:nth-child(4) { color: #a9def9; --characters: 21; --delay: 12s; }
-    .we-create-word:nth-child(5) { color: #e4c1f9; --characters: 22; --delay: 16s; }
-    .we-create-word:nth-child(6) { color: #ff99c8; --characters: 18; --delay: 20s; }
-
-    @keyframes weCreateType {
-      0% { width: 0; opacity: 1; }
-      8% { width: 100%; opacity: 1; }
-      12.5% { width: 100%; opacity: 1; }
-      16.6% { width: 0; opacity: 1; }
-      16.61%, 100% { width: 0; opacity: 0; }
-    }
-
-    @media (max-width: 760px) {
-      .we-create-section {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.12em;
-        min-height: 2.55em;
-        padding-top: 34px;
-      }
-
-      .we-create-words {
-        min-width: 0;
-        width: 100%;
-        text-align: center;
-      }
-
-      .we-create-word {
-        justify-self: center;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .we-create-word {
-        display: none;
-        width: auto;
-        border-right: 0;
-        opacity: 1;
-        animation: none;
-      }
-
-      .we-create-word:first-child {
-        display: block;
-      }
-    }
-  </style>
-
-  <span class="we-create-prefix">We create</span>
-  <span class="we-create-words" aria-live="off">
-    <span class="we-create-word">brands that stand out</span>
-    <span class="we-create-word">websites that convert</span>
-    <span class="we-create-word">content that connects</span>
-    <span class="we-create-word">strategies that scale</span>
-    <span class="we-create-word">campaigns that perform</span>
-    <span class="we-create-word">growth that lasts</span>
-  </span>
-</section>
 </div>
+<!-- WE_CREATE_TYPING -->
 
 <div class="wp-block-group alignfull ext-animate--on has-background-background-color has-background">
 <div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-desktop"></div>
@@ -1898,10 +1795,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <style>
   .mm-home-contact-panel {
-    width: min(98vw, 1560px);
-    max-width: 1560px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    position: relative;
+    left: 50%;
+    width: min(calc(100vw - 32px), 1560px);
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    transform: translateX(-50%);
   }
 
   .mm-home-contact-panel p.has-large-font-size {

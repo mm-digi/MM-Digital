@@ -68,3 +68,66 @@ footer img {
   font-family: "Libre Baskerville", Georgia, serif;
 }
 
+.we-create-section {
+  display: flex;
+  justify-content: center;
+  min-height: 1.35em;
+  padding: 46px 24px 8px;
+  overflow: hidden;
+  color: #fff;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(1.35rem, 2.4vw, 2.35rem);
+  font-weight: 400;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.we-create-line {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.28em;
+  white-space: nowrap;
+}
+
+.we-create-typed::after {
+  content: "";
+  display: inline-block;
+  height: 0.95em;
+  margin-left: 0.06em;
+  border-right: 0.06em solid currentColor;
+  vertical-align: -0.08em;
+  animation: we-create-caret 0.75s step-end infinite;
+}
+
+.we-create-accessible {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes we-create-caret {
+  50% {
+    border-color: transparent;
+  }
+}
+
+@media (max-width: 760px) {
+  .we-create-section {
+    min-height: 2.2em;
+    padding: 34px 12px 8px;
+    font-size: clamp(1.05rem, 4.2vw, 1.35rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .we-create-typed::after {
+    animation: none;
+  }
+}
+
