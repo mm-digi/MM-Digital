@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 export default function SupabaseLoginTestPage() {
-  const [email, setEmail] = useState("");
+  const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("Not signed in");
   const [accessSummary, setAccessSummary] = useState<string[]>([]);
@@ -15,7 +15,8 @@ export default function SupabaseLoginTestPage() {
     setLoading(true);
     setMessage("");
     const supabase = createClient();
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const loginEmail = usernameOrEmail.includes("@") ? usernameOrEmail.trim() : `${usernameOrEmail.trim().toLowerCase()}@clients.mm-digi.co.uk`;
+    const { data, error } = await supabase.auth.signInWithPassword({ email: loginEmail, password });
     if (error) {
       setMessage(error.message);
     } else {
@@ -80,8 +81,8 @@ export default function SupabaseLoginTestPage() {
         </p>
         <form onSubmit={signIn} className="mt-8 grid gap-4">
           <label className="grid gap-2 text-sm">
-            Test email
-            <input className="site-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            Existing client username
+            <input className="site-input" type="text" value={usernameOrEmail} onChange={(e) => setUsernameOrEmail(e.target.value)} placeholder="e.g. auric-performance" autoComplete="username" required />
           </label>
           <label className="grid gap-2 text-sm">
             Test password
