@@ -207,9 +207,9 @@
     .we-create-words {
       position: relative;
       display: inline-grid;
-      min-width: 22ch;
+      min-width: 21ch;
       min-height: 1.15em;
-      text-align: center;
+      text-align: left;
     }
 
     .we-create-word {
@@ -220,7 +220,7 @@
       opacity: 0;
       white-space: nowrap;
       border-right: 0.06em solid currentColor;
-      justify-self: center;
+      justify-self: start;
       animation: weCreateType var(--we-create-duration) steps(var(--characters), end) infinite;
       animation-delay: var(--delay);
     }
@@ -1898,15 +1898,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <style>
   .mm-home-contact-panel {
-    width: min(94vw, 1360px);
-    max-width: 1360px !important;
+    width: min(98vw, 1560px);
+    max-width: 1560px !important;
     margin-left: auto !important;
     margin-right: auto !important;
+  }
+
+  .mm-home-contact-panel p.has-large-font-size {
+    white-space: nowrap;
   }
 
   @media (max-width: 760px) {
     .mm-home-contact-panel {
       width: calc(100% - 32px);
+    }
+
+    .mm-home-contact-panel p.has-large-font-size {
+      white-space: normal;
     }
   }
 </style>
