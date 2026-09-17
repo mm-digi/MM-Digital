@@ -8,6 +8,12 @@ function secretKey() {
 }
 
 export async function proxy(request: NextRequest) {
+  if (request.nextUrl.hostname === "www.mm-digi.co.uk") {
+    const canonical = new URL(request.url);
+    canonical.hostname = "mm-digi.co.uk";
+    return NextResponse.redirect(canonical, 308);
+  }
+
   const slug = request.nextUrl.pathname.replace(/^\/+|\/+$/g, "");
   if (!DASHBOARD_SLUGS.has(slug)) return NextResponse.next();
 

@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/login/", "/*-dashboard/"],
+      disallow: ["/api/", "/*-dashboard/"],
     },
     sitemap: "https://mm-digi.co.uk/sitemap.xml",
   };

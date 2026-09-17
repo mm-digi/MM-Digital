@@ -227,9 +227,9 @@ export default function WpChrome({
 
   return (
     <>
-      <div dangerouslySetInnerHTML={{ __html: headerHtml }} />
+      <div dangerouslySetInnerHTML={{ __html: headerHtml.replaceAll('alt=""', 'alt="MM Digital logo"') }} />
       {children}
-      <div dangerouslySetInnerHTML={{ __html: footerHtml }} />
+      <div dangerouslySetInnerHTML={{ __html: footerHtml.replaceAll('alt=""', 'alt="MM Digital logo"') }} />
     </>
   );
 }
