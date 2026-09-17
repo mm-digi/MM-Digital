@@ -194,7 +194,7 @@
       overflow: hidden;
       color: #fff;
       font-family: "Libre Baskerville", Georgia, serif;
-      font-size: clamp(2rem, 5.2vw, 5.2rem);
+      font-size: clamp(1.35rem, 2.4vw, 2.35rem);
       font-weight: 400;
       line-height: 1.15;
       text-align: center;
@@ -207,9 +207,9 @@
     .we-create-words {
       position: relative;
       display: inline-grid;
-      min-width: 20ch;
+      min-width: 22ch;
       min-height: 1.15em;
-      text-align: left;
+      text-align: center;
     }
 
     .we-create-word {
@@ -220,6 +220,7 @@
       opacity: 0;
       white-space: nowrap;
       border-right: 0.06em solid currentColor;
+      justify-self: center;
       animation: weCreateType var(--we-create-duration) steps(var(--characters), end) infinite;
       animation-delay: var(--delay);
     }
@@ -1895,7 +1896,22 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 </div>
 
-<div class="wp-block-columns alignwide ext-animate--on has-primary-background-color has-background" style="border-top-left-radius:15px;border-top-right-radius:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px">
+<style>
+  .mm-home-contact-panel {
+    width: min(94vw, 1360px);
+    max-width: 1360px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  @media (max-width: 760px) {
+    .mm-home-contact-panel {
+      width: calc(100% - 32px);
+    }
+  }
+</style>
+
+<div class="wp-block-columns alignwide ext-animate--on has-primary-background-color has-background mm-home-contact-panel" style="border-top-left-radius:15px;border-top-right-radius:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px">
 <div class="wp-block-column">
 <div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
 
