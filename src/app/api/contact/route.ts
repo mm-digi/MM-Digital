@@ -1,5 +1,15 @@
 import { NextResponse } from "next/server";
 
+import { Resend } from "resend";
+
+const escapeHtml = (value: unknown) =>
+  String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
 export async function POST(request: Request) {
   const body = await request.json().catch(() => null);
   if (!body) {
@@ -16,12 +26,34 @@ export async function POST(request: Request) {
   };
 
   try {
-    const res = await fetch("https://formsubmit.co/ajax/info@mm-digi.co.uk", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify(payload),
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error("RESEND_API_KEY is not configured");
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const { error } = await resend.emails.send({
+      from: process.env.RESEND_FROM_EMAIL || "MM Digital <hello@mm-digi.co.uk>",
+      to: process.env.CONTACT_TO_EMAIL || "info@mm-digi.co.uk",
+      replyTo: payload.email || undefined,
+      subject: "New enquiry from mm-digi.co.uk",
+      text: [
+        `Name: ${payload.name}`,
+        `Email: ${payload.email || "Not provided"}`,
+        `Phone: ${payload.phone || "Not provided"}`,
+        "",
+        payload.message || "No message provided",
+      ].join("\n"),
+      html: `
+        <h2>New enquiry from mm-digi.co.uk</h2>
+        <p><strong>Name:</strong> ${escapeHtml(payload.name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(payload.email || "Not provided")}</p>
+        <p><strong>Phone:</strong> ${escapeHtml(payload.phone || "Not provided")}</p>
+        <p><strong>Message:</strong></p>
+        <p>${escapeHtml(payload.message || "No message provided").replaceAll("\n", "<br>")}</p>
+      `,
     });
-    if (!res.ok) throw new Error("formsubmit failed");
+
+    if (error) throw error;
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json(
