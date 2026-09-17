@@ -7,6 +7,7 @@ export default function SupabaseLoginTestPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("Not signed in");
+  const [accessSummary, setAccessSummary] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
   async function signIn(event: FormEvent<HTMLFormElement>) {
@@ -19,6 +20,45 @@ export default function SupabaseLoginTestPage() {
       setMessage(error.message);
     } else {
       setMessage(`Signed in successfully as ${data.user.email || data.user.id}.`);
+      const profile = await supabase
+        .from("profiles")
+        .select("display_name")
+        .eq("id", data.user.id)
+        .maybeSingle();
+      const access = await supabase
+        .from("client_dashboard_access")
+        .select("client_id")
+        .eq("user_id", data.user.id);
+
+      if (profile.error || access.error) {
+        setAccessSummary([profile.error?.message || access.error?.message || "Could not read protected data."]);
+      } else if (!access.data.length) {
+        setAccessSummary([`Profile: ${profile.data?.display_name || "missing"}`, "No dashboard access rows found."]);
+      } else {
+        const clientIds = access.data.map((row) => row.client_id);
+        const clients = await supabase
+          .from("clients")
+          .select("id, name, slug")
+          .in("id", clientIds);
+        const dashboards = await supabase
+          .from("client_dashboards")
+          .select("client_id, name")
+          .in("client_id", clientIds);
+        if (clients.error || dashboards.error) {
+          setAccessSummary([clients.error?.message || dashboards.error?.message || "Could not read assigned records."]);
+        } else {
+          setAccessSummary([
+            `Profile: ${profile.data?.display_name || "missing"}`,
+            ...clients.data.map((client) => {
+              const names = dashboards.data
+                .filter((dashboard) => dashboard.client_id === client.id)
+                .map((dashboard) => dashboard.name)
+                .join(", ");
+              return `Access: ${client.name} (${client.slug})${names ? ` — ${names}` : ""}`;
+            }),
+          ]);
+        }
+      }
     }
     setLoading(false);
   }
@@ -27,6 +67,7 @@ export default function SupabaseLoginTestPage() {
     const supabase = createClient();
     await supabase.auth.signOut();
     setMessage("Signed out");
+    setAccessSummary([]);
   }
 
   return (
@@ -51,6 +92,11 @@ export default function SupabaseLoginTestPage() {
           </button>
         </form>
         <p className="mt-5 text-sm text-[#cfcfcf]" aria-live="polite">{message}</p>
+        {accessSummary.length > 0 && (
+          <div className="mt-4 rounded border border-white/15 p-3 text-sm text-[#cfcfcf]">
+            {accessSummary.map((item) => <p key={item}>{item}</p>)}
+          </div>
+        )}
         <button className="mt-4 text-sm underline" type="button" onClick={signOut}>Sign out</button>
       </div>
     </main>
