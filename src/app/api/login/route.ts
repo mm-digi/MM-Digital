@@ -6,7 +6,7 @@ import { findUser } from "@/lib/users";
 import { createSessionToken, dashboardNameForSlug, sessionCookieOptions, SESSION_COOKIE } from "@/lib/auth";
 
 function isSupabasePreview() {
-  return process.env.VERCEL_ENV === "preview";
+  return process.env.VERCEL_ENV === "preview" || process.env.SUPABASE_LOGIN_ENABLED === "true";
 }
 
 async function supabasePreviewLogin(username: string, password: string, remember: boolean) {
