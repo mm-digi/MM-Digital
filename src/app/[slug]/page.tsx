@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: dashboard
       ? dashboard.name
-      : { absolute: `${page.title.slice(0, 58)}${page.title.length > 58 ? "…" : ""}` },
+      : { absolute: `${page.title.slice(0, 48)}${page.title.length > 48 ? "…" : ""} | MM Digital` },
     description: page.description.slice(0, 155),
     alternates: { canonical: `/${slug}/` },
     ...(dashboard ? { robots: { index: false, follow: false } } : {}),
