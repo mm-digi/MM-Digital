@@ -2168,7 +2168,7 @@ div#n2-ss-4 .n2-ss-slider-1{display:grid;position:relative;}div#n2-ss-4 .n2-ss-s
   display: block !important;
 }
 
-.mm-work-btn {
+.mm-work-card .mm-work-btn {
   position: absolute !important;
   right: 32px !important;
   bottom: 28px !important;
@@ -2193,7 +2193,7 @@ div#n2-ss-4 .n2-ss-slider-1{display:grid;position:relative;}div#n2-ss-4 .n2-ss-s
     object-position: 58% top !important;
   }
 
-  .mm-work-btn {
+  .mm-work-card .mm-work-btn {
     right: 52px !important;
   }
 }
@@ -2204,7 +2204,7 @@ div#n2-ss-4 .n2-ss-slider-1{display:grid;position:relative;}div#n2-ss-4 .n2-ss-s
     object-position: 65% top !important;
   }
 
-  .mm-work-btn {
+  .mm-work-card .mm-work-btn {
     right: 60px !important;
   }
 }
@@ -2249,7 +2249,7 @@ div#n2-ss-4 .n2-ss-slider-1{display:grid;position:relative;}div#n2-ss-4 .n2-ss-s
     object-position: center top !important;
   }
 
-  .mm-work-btn {
+  .mm-work-card .mm-work-btn {
     position: static !important;
     margin: 16px auto 0 !important;
     display: flex !important;
