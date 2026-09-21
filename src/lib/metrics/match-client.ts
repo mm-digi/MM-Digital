@@ -18,8 +18,15 @@ function compact(value: string) {
   return normalize(value).replace(/ /g, "");
 }
 
+const ALIASES: Record<string, string> = {
+  brsallplumbingandheatingltd: "brsbristol",
+  brsplumbingheating: "brsbristol",
+  brsallplumbingandheating: "brsbristol",
+  orielscomedyclub: "orielsexeter",
+};
+
 export function matchClient(accountName: string, clients: ClientRow[]) {
-  const needle = compact(accountName);
+  const needle = ALIASES[compact(accountName)] || compact(accountName);
   if (!needle) return null;
 
   const scored = clients
