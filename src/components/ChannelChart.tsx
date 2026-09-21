@@ -45,6 +45,21 @@ function yTicks(max: number) {
   return [0, nice * 0.25, nice * 0.5, nice * 0.75, nice];
 }
 
+function aggregate(values: number[], mode: "sum" | "last" | "avg") {
+  if (mode === "last") {
+    for (let i = values.length - 1; i >= 0; i -= 1) {
+      if (Number(values[i] || 0) > 0) return Number(values[i]);
+    }
+    return 0;
+  }
+  if (mode === "avg") {
+    const nums = values.filter((value) => Number(value) > 0);
+    if (!nums.length) return 0;
+    return nums.reduce((sum, value) => sum + value, 0) / nums.length;
+  }
+  return values.reduce((sum, value) => sum + Number(value || 0), 0);
+}
+
 function linePoints(
   values: number[],
   max: number,
@@ -87,14 +102,21 @@ export default function ChannelChart({
   const bottom = 32;
   const plotWidth = width - left - right;
   const plotHeight = height - top - bottom;
-  const total = series.reduce((sum, point) => sum + point[metric], 0);
+  const mode = metric === "followers" ? "last" : metric === "avgDuration" ? "avg" : "sum";
+  const total = aggregate(
+    series.map((point) => Number(point[metric] || 0)),
+    mode
+  );
   const sourceKeys = Object.keys(seriesBySource).length ? Object.keys(seriesBySource) : Object.keys(bySource);
   const sources = sourceKeys
     .map((source) => ({
       source,
       label: SOURCE_LABELS[source] || source,
       color: SOURCE_COLORS[source] || "#ff808b",
-      value: (seriesBySource[source] || []).reduce((sum, point) => sum + Number(point[metric] || 0), 0),
+      value: aggregate(
+        (seriesBySource[source] || []).map((point) => Number(point[metric] || 0)),
+        mode
+      ),
     }))
     .filter((item) => item.value > 0)
     .sort((a, b) => b.value - a.value);
@@ -121,7 +143,9 @@ export default function ChannelChart({
     <div className="card p-5">
       <div className="mb-1 flex flex-wrap items-end justify-between gap-2">
         <h3 className="font-serif text-xl">{title}</h3>
-        <strong className="text-[#ff808b]">{formatNumber(total, prefix, duration)} this month</strong>
+        <strong className="text-[#ff808b]">
+          {formatNumber(total, prefix, duration)} {mode === "last" ? "now" : mode === "avg" ? "average" : "this month"}
+        </strong>
       </div>
       <p className="mb-4 text-sm text-[#cfcfcf]">{description}</p>
       <svg viewBox={`0 0 ${width} ${height}`} className="h-52 w-full" role="img" aria-label={title}>
