@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { matchClient, type ClientRow } from "@/lib/metrics/match-client";
+import { fetchGa4Property } from "@/lib/metrics/ga4";
 import { fetchWindsor, rowToMetrics, WINDSOR_CONNECTORS } from "@/lib/metrics/windsor";
 
 export type SyncResult = {
@@ -14,7 +15,7 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
   const supabase = createAdminClient();
   const { data: clients, error: clientError } = await supabase
     .from("clients")
-    .select("id, name, slug, windsor_account_name");
+    .select("id, name, slug, windsor_account_name, ga4_property_id");
 
   if (clientError) {
     throw new Error(clientError.message);
@@ -124,6 +125,41 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
       result.ok = false;
       result.errors.push(`${connector.source}: ${error instanceof Error ? error.message : "failed"}`);
     }
+  }
+
+  if (process.env.GOOGLE_REFRESH_TOKEN) {
+    const gaClients = (clients || []).filter((client: { ga4_property_id?: string | null }) => client.ga4_property_id);
+    result.sources.ga4 = 0;
+    for (const client of gaClients) {
+      try {
+        const days = await fetchGa4Property(String(client.ga4_property_id), 30);
+        result.sources.ga4 += days.length;
+        const payload = days.map((day) => ({
+          client_id: client.id,
+          date: day.date,
+          source: "ga4",
+          sessions: day.sessions,
+          users: day.users,
+          conversions: day.conversions,
+          updated_at: new Date().toISOString(),
+        }));
+        if (!payload.length) continue;
+        const { error } = await supabase.from("daily_metrics").upsert(payload, {
+          onConflict: "client_id,date,source",
+        });
+        if (error) {
+          result.errors.push(`ga4 ${client.name}: ${error.message}`);
+          result.ok = false;
+        } else {
+          result.upserted += payload.length;
+        }
+      } catch (error) {
+        result.ok = false;
+        result.errors.push(`ga4 ${client.name}: ${error instanceof Error ? error.message : "failed"}`);
+      }
+    }
+  } else {
+    result.errors.push("GA4 skipped: GOOGLE_REFRESH_TOKEN is not set");
   }
 
   result.unmatched = [...unmatched].slice(0, 50);

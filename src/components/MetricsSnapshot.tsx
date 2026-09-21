@@ -17,6 +17,7 @@ function change(current: number, previous: number) {
 }
 
 const TILES: { key: keyof MetricTotals; label: string; prefix: string }[] = [
+  { key: "sessions", label: "Website sessions", prefix: "" },
   { key: "spend", label: "Spend", prefix: "£" },
   { key: "clicks", label: "Clicks", prefix: "" },
   { key: "impressions", label: "Impressions", prefix: "" },
