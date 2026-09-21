@@ -44,7 +44,19 @@ function addRow(target: MetricTotals, row: Record<string, number | string | null
 
 export async function getClientSnapshot(slug: string, days = 7): Promise<ClientSnapshot | null> {
   const supabase = createAdminClient();
-  const { data: client } = await supabase.from("clients").select("id, name").eq("slug", slug).maybeSingle();
+  const candidates = [slug, slug.replace(/-dashboard$/, ""), slug.replace(/-2$/, "")];
+  let client = null;
+  for (const candidate of [...new Set(candidates)]) {
+    const { data } = await supabase.from("clients").select("id, name, slug").eq("slug", candidate).maybeSingle();
+    if (data) {
+      client = data;
+      break;
+    }
+  }
+  if (!client) {
+    const { data } = await supabase.from("clients").select("id, name, slug").ilike("slug", `%${slug.replace(/-dashboard$/, "")}%`).maybeSingle();
+    client = data;
+  }
   if (!client) return null;
 
   const to = new Date();
