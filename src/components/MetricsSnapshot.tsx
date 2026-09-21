@@ -1,4 +1,5 @@
-import { getClientSnapshot, type MetricTotals } from "@/lib/metrics/snapshot";
+import Sparkline from "@/components/Sparkline";
+import { getClientSnapshot, type MetricTotals, type PeriodBlock } from "@/lib/metrics/snapshot";
 
 function formatNumber(value: number) {
   if (!value) return "0";
@@ -18,7 +19,7 @@ function change(current: number, previous: number) {
 
 const TILES: { key: keyof MetricTotals; label: string; prefix: string }[] = [
   { key: "sessions", label: "Website sessions", prefix: "" },
-  { key: "spend", label: "Spend", prefix: "£" },
+  { key: "spend", label: "Ad spend", prefix: "£" },
   { key: "clicks", label: "Clicks", prefix: "" },
   { key: "impressions", label: "Impressions", prefix: "" },
   { key: "reach", label: "Reach", prefix: "" },
@@ -26,10 +27,80 @@ const TILES: { key: keyof MetricTotals; label: string; prefix: string }[] = [
   { key: "conversions", label: "Conversions", prefix: "" },
 ];
 
+const SOURCE_LABELS: Record<string, string> = {
+  ga4: "Website",
+  facebook: "Facebook",
+  facebook_ads: "Facebook Ads",
+  instagram: "Instagram",
+  linkedin: "LinkedIn",
+  linkedin_ads: "LinkedIn Ads",
+};
+
+function PeriodGrid({ period, compare }: { period: PeriodBlock; compare: string }) {
+  return (
+    <div>
+      <div className="mb-4">
+        <span className="eyebrow mb-1 block">{period.label}</span>
+        <p className="text-sm text-[#cfcfcf]">
+          {period.from} to {period.to} · vs previous {compare}
+        </p>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
+        {TILES.map(({ key, label, prefix }) => (
+          <div key={`${period.label}-${key}`} className="card p-5">
+            <div className="text-sm text-[#cfcfcf]">{label}</div>
+            <div className="mt-2 text-2xl font-bold text-[#ff808b]">
+              {prefix}
+              {formatNumber(period.totals[key])}
+            </div>
+            <div className="mt-1 text-xs text-white/60">{change(period.totals[key], period.previous[key])}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SourceTable({ title, data }: { title: string; data: Record<string, MetricTotals> }) {
+  const rows = Object.entries(data);
+  if (!rows.length) return null;
+  return (
+    <div className="card overflow-x-auto p-5">
+      <h3 className="mb-4 font-serif text-xl">{title}</h3>
+      <table className="w-full min-w-[640px] text-left text-sm">
+        <thead className="text-[#cfcfcf]">
+          <tr>
+            <th className="pb-3 font-normal">Channel</th>
+            <th className="pb-3 font-normal">Sessions</th>
+            <th className="pb-3 font-normal">Spend</th>
+            <th className="pb-3 font-normal">Clicks</th>
+            <th className="pb-3 font-normal">Impressions</th>
+            <th className="pb-3 font-normal">Reach</th>
+            <th className="pb-3 font-normal">Engagement</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map(([source, totals]) => (
+            <tr key={source} className="border-t border-white/10">
+              <td className="py-3">{SOURCE_LABELS[source] || source}</td>
+              <td>{formatNumber(totals.sessions)}</td>
+              <td>£{formatNumber(totals.spend)}</td>
+              <td>{formatNumber(totals.clicks)}</td>
+              <td>{formatNumber(totals.impressions)}</td>
+              <td>{formatNumber(totals.reach)}</td>
+              <td>{formatNumber(totals.engagement)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export default async function MetricsSnapshot({ slug }: { slug: string }) {
   let snapshot = null;
   try {
-    snapshot = await getClientSnapshot(slug, 7);
+    snapshot = await getClientSnapshot(slug);
   } catch {
     return null;
   }
@@ -41,29 +112,26 @@ export default async function MetricsSnapshot({ slug }: { slug: string }) {
 
   return (
     <section className="px-6 pb-8 pt-10">
-      <div className="mx-auto max-w-[1600px]">
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <span className="eyebrow mb-2 block">This week</span>
-            <h2 className="font-serif text-3xl">Performance snapshot</h2>
-            <p className="mt-2 text-sm text-[#cfcfcf]">
-              Last 7 days vs the week before. Updated {updated}.
-            </p>
-          </div>
+      <div className="mx-auto max-w-[1600px] space-y-10">
+        <div>
+          <span className="eyebrow mb-2 block">Live reporting</span>
+          <h2 className="font-serif text-3xl">Performance snapshot</h2>
+          <p className="mt-2 text-sm text-[#cfcfcf]">Updated {updated}. Looker Studio remains below for the full desktop report.</p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-          {TILES.map(({ key, label, prefix }) => (
-            <div key={key} className="card p-5">
-              <div className="text-sm text-[#cfcfcf]">{label}</div>
-              <div className="mt-2 text-2xl font-bold text-[#ff808b]">
-                {prefix}
-                {formatNumber(snapshot.totals[key])}
-              </div>
-              <div className="mt-1 text-xs text-white/60">
-                {change(snapshot.totals[key], snapshot.previous[key])} vs prior week
-              </div>
-            </div>
-          ))}
+
+        <PeriodGrid period={snapshot.week} compare="week" />
+        <PeriodGrid period={snapshot.month} compare="month" />
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          <Sparkline label="Website sessions" values={snapshot.series.map((point) => point.sessions)} />
+          <Sparkline label="Ad spend" values={snapshot.series.map((point) => point.spend)} />
+          <Sparkline label="Impressions" values={snapshot.series.map((point) => point.impressions)} />
+          <Sparkline label="Clicks" values={snapshot.series.map((point) => point.clicks)} />
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          <SourceTable title="This week by channel" data={snapshot.bySourceWeek} />
+          <SourceTable title="This month by channel" data={snapshot.bySourceMonth} />
         </div>
       </div>
     </section>

@@ -122,8 +122,13 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
         result.upserted += payload.length;
       }
     } catch (error) {
+      const message = error instanceof Error ? error.message : "failed";
+      if (/no .* accounts are configured/i.test(message)) {
+        result.errors.push(`${connector.source}: skipped (not connected in Windsor)`);
+        continue;
+      }
       result.ok = false;
-      result.errors.push(`${connector.source}: ${error instanceof Error ? error.message : "failed"}`);
+      result.errors.push(`${connector.source}: ${message}`);
     }
   }
 

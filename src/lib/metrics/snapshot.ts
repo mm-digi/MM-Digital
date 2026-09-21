@@ -10,14 +10,31 @@ export type MetricTotals = {
   conversions: number;
 };
 
-export type ClientSnapshot = {
-  clientName: string;
+export type DayPoint = {
+  date: string;
+  sessions: number;
+  spend: number;
+  impressions: number;
+  reach: number;
+  clicks: number;
+};
+
+export type PeriodBlock = {
+  label: string;
   from: string;
   to: string;
-  updatedAt: string | null;
   totals: MetricTotals;
   previous: MetricTotals;
-  bySource: Record<string, MetricTotals>;
+};
+
+export type ClientSnapshot = {
+  clientName: string;
+  updatedAt: string | null;
+  week: PeriodBlock;
+  month: PeriodBlock;
+  bySourceWeek: Record<string, MetricTotals>;
+  bySourceMonth: Record<string, MetricTotals>;
+  series: DayPoint[];
 };
 
 function emptyTotals(): MetricTotals {
@@ -42,7 +59,39 @@ function addRow(target: MetricTotals, row: Record<string, number | string | null
   target.conversions += Number(row.conversions || 0);
 }
 
-export async function getClientSnapshot(slug: string, days = 7): Promise<ClientSnapshot | null> {
+function shiftDays(base: Date, days: number) {
+  const next = new Date(base);
+  next.setUTCDate(base.getUTCDate() + days);
+  return next;
+}
+
+function iso(d: Date) {
+  return d.toISOString().slice(0, 10);
+}
+
+function fillSeries(fromIso: string, toIso: string, rows: Record<string, number | string | null>[]) {
+  const byDate = new Map<string, DayPoint>();
+  const cursor = new Date(`${fromIso}T00:00:00Z`);
+  const end = new Date(`${toIso}T00:00:00Z`);
+  while (cursor <= end) {
+    const key = iso(cursor);
+    byDate.set(key, { date: key, sessions: 0, spend: 0, impressions: 0, reach: 0, clicks: 0 });
+    cursor.setUTCDate(cursor.getUTCDate() + 1);
+  }
+  for (const row of rows) {
+    const key = String(row.date);
+    const point = byDate.get(key);
+    if (!point) continue;
+    point.sessions += Number(row.sessions || 0);
+    point.spend += Number(row.spend || 0);
+    point.impressions += Number(row.impressions || 0);
+    point.reach += Number(row.reach || 0);
+    point.clicks += Number(row.clicks || 0);
+  }
+  return [...byDate.values()];
+}
+
+export async function getClientSnapshot(slug: string): Promise<ClientSnapshot | null> {
   const supabase = createAdminClient();
   const candidates = [slug, slug.replace(/-dashboard$/, ""), slug.replace(/-2$/, "")];
   let client = null;
@@ -54,54 +103,73 @@ export async function getClientSnapshot(slug: string, days = 7): Promise<ClientS
     }
   }
   if (!client) {
-    const { data } = await supabase.from("clients").select("id, name, slug").ilike("slug", `%${slug.replace(/-dashboard$/, "")}%`).maybeSingle();
+    const { data } = await supabase
+      .from("clients")
+      .select("id, name, slug")
+      .ilike("slug", `%${slug.replace(/-dashboard$/, "")}%`)
+      .maybeSingle();
     client = data;
   }
   if (!client) return null;
 
   const to = new Date();
-  const from = new Date();
-  from.setUTCDate(to.getUTCDate() - (days - 1));
-  const prevTo = new Date(from);
-  prevTo.setUTCDate(prevTo.getUTCDate() - 1);
-  const prevFrom = new Date(prevTo);
-  prevFrom.setUTCDate(prevFrom.getUTCDate() - (days - 1));
-
-  const iso = (d: Date) => d.toISOString().slice(0, 10);
+  to.setUTCHours(0, 0, 0, 0);
+  const weekFrom = shiftDays(to, -6);
+  const weekPrevTo = shiftDays(weekFrom, -1);
+  const weekPrevFrom = shiftDays(weekPrevTo, -6);
+  const monthFrom = shiftDays(to, -29);
+  const monthPrevTo = shiftDays(monthFrom, -1);
+  const monthPrevFrom = shiftDays(monthPrevTo, -29);
 
   const { data: rows } = await supabase
     .from("daily_metrics")
     .select("date, source, sessions, spend, clicks, impressions, reach, engagement, conversions, updated_at")
     .eq("client_id", client.id)
-    .gte("date", iso(prevFrom))
+    .gte("date", iso(monthPrevFrom))
     .lte("date", iso(to));
 
-  const totals = emptyTotals();
-  const previous = emptyTotals();
-  const bySource: Record<string, MetricTotals> = {};
+  const week = emptyTotals();
+  const weekPrev = emptyTotals();
+  const month = emptyTotals();
+  const monthPrev = emptyTotals();
+  const bySourceWeek: Record<string, MetricTotals> = {};
+  const bySourceMonth: Record<string, MetricTotals> = {};
   let updatedAt: string | null = null;
-  const fromIso = iso(from);
+
+  const weekFromIso = iso(weekFrom);
+  const monthFromIso = iso(monthFrom);
+  const weekPrevFromIso = iso(weekPrevFrom);
+  const monthPrevFromIso = iso(monthPrevFrom);
 
   for (const row of rows || []) {
     if (row.updated_at && (!updatedAt || row.updated_at > updatedAt)) updatedAt = row.updated_at;
-    const bucket = row.date >= fromIso ? totals : previous;
-    addRow(bucket, row);
-    if (row.date >= fromIso) {
-      bySource[row.source] ||= emptyTotals();
-      addRow(bySource[row.source], row);
+    const date = String(row.date);
+    if (date >= weekFromIso) {
+      addRow(week, row);
+      bySourceWeek[row.source] ||= emptyTotals();
+      addRow(bySourceWeek[row.source], row);
+    } else if (date >= weekPrevFromIso) {
+      addRow(weekPrev, row);
+    }
+    if (date >= monthFromIso) {
+      addRow(month, row);
+      bySourceMonth[row.source] ||= emptyTotals();
+      addRow(bySourceMonth[row.source], row);
+    } else if (date >= monthPrevFromIso) {
+      addRow(monthPrev, row);
     }
   }
 
-  const hasData = (rows || []).some((row) => row.date >= fromIso);
-  if (!hasData) return null;
+  const monthRows = (rows || []).filter((row) => String(row.date) >= monthFromIso);
+  if (!monthRows.length) return null;
 
   return {
     clientName: client.name,
-    from: fromIso,
-    to: iso(to),
     updatedAt,
-    totals,
-    previous,
-    bySource,
+    week: { label: "This week", from: weekFromIso, to: iso(to), totals: week, previous: weekPrev },
+    month: { label: "This month", from: monthFromIso, to: iso(to), totals: month, previous: monthPrev },
+    bySourceWeek,
+    bySourceMonth,
+    series: fillSeries(monthFromIso, iso(to), monthRows),
   };
 }

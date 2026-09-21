@@ -30,7 +30,7 @@ export const WINDSOR_CONNECTORS: ConnectorConfig[] = [
   {
     source: "linkedin",
     connector: "linkedin_organic",
-    fields: ["date", "account_name", "impressions", "clicks", "engagement"],
+    fields: ["date", "account_name", "share_count", "like_count", "comment_count", "impression_count"],
   },
   {
     source: "linkedin_ads",
@@ -62,11 +62,11 @@ export function rowToMetrics(source: WindsorSource, row: WindsorRow) {
     accountId: String(row.account_id || ""),
     accountName: String(row.account_name || row.account || ""),
     source,
-    impressions: num(row, "impressions", "page_impressions"),
+    impressions: num(row, "impressions", "page_impressions", "impression_count"),
     reach: num(row, "reach"),
     clicks: num(row, "clicks"),
     spend: num(row, "spend"),
-    engagement: num(row, "engagement", "page_post_engagements", "likes"),
+    engagement: num(row, "engagement", "page_post_engagements", "likes", "share_count", "like_count"),
     conversions: num(row, "conversions"),
     followers: num(row, "followers", "followers_count", "follower_count", "page_fans"),
     sessions: null as number | null,
@@ -87,7 +87,7 @@ function windsorApiKey() {
   return raw;
 }
 
-export async function fetchWindsor(connector: string, fields: string[], datePreset = "last_30d") {
+export async function fetchWindsor(connector: string, fields: string[], datePreset = "last_90d") {
   const apiKey = windsorApiKey();
 
   const tryFields = [fields, ["date", "account_id", "account_name"]];
