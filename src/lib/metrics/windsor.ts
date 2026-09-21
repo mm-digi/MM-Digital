@@ -68,9 +68,21 @@ export function rowToMetrics(source: WindsorSource, row: WindsorRow) {
   };
 }
 
+function windsorApiKey() {
+  const raw = (process.env.WINDSOR_API_KEY || "").trim().replace(/^["']|["']$/g, "");
+  if (!raw) throw new Error("WINDSOR_API_KEY is not set");
+  if (raw.includes("api_key=")) {
+    try {
+      return new URL(raw).searchParams.get("api_key") || raw;
+    } catch {
+      return raw.split("api_key=").pop() || raw;
+    }
+  }
+  return raw;
+}
+
 export async function fetchWindsor(connector: string, fields: string[], datePreset = "last_30d") {
-  const apiKey = process.env.WINDSOR_API_KEY;
-  if (!apiKey) throw new Error("WINDSOR_API_KEY is not set");
+  const apiKey = windsorApiKey();
 
   const tryFields = [fields, ["date", "account_id", "account_name"]];
   let lastError = "";
