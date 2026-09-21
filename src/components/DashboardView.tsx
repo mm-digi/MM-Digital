@@ -24,31 +24,6 @@ export default function DashboardView({ dashboard }: { dashboard: ClientDashboar
           </div>
         </div>
       </section>
-
-      <section className="px-6 pb-24">
-        <div className="mx-auto max-w-[1600px]">
-          <div className="mx-auto mb-8 max-w-[760px] text-center">
-            <span className="eyebrow mb-2 block">Live Data</span>
-            <h2 className="font-serif text-[clamp(1.5rem,3vw,2.4rem)] leading-tight">
-              {dashboard.reportTitle}
-            </h2>
-            <p className="mt-3 text-[#cfcfcf]">
-              View live website traffic, engagement and performance data from Google, Facebook, Instagram and LinkedIn.
-            </p>
-          </div>
-          <div className="mm-live-report-card overflow-hidden">
-            <iframe
-              className="mm-live-report-frame"
-              src={dashboard.embedUrl}
-              title={`${dashboard.name} analytics`}
-              width="100%"
-              height="1200"
-              allowFullScreen
-              sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
-            />
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

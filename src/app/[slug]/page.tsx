@@ -23,12 +23,11 @@ export default async function SlugPage({ params }: Props) {
   const dashboard = getDashboard(slug);
   const html = readWpPage(slug);
   if (dashboard && html) {
-    const { hero, report } = splitDashboardHtml(html);
+    const { hero } = splitDashboardHtml(html);
     return (
       <>
         <WpHtml html={hero} />
         <MetricsSnapshot slug={dashboard.slug} />
-        {report ? <WpHtml html={report} /> : null}
       </>
     );
   }

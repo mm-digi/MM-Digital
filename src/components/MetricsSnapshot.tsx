@@ -18,6 +18,48 @@ function change(current: number, previous: number) {
   return `${sign}${pct.toFixed(0)}%`;
 }
 
+function joinAnd(parts: string[]) {
+  if (parts.length <= 1) return parts[0] || "";
+  return `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}`;
+}
+
+function buildSummary(
+  name: string,
+  week: PeriodBlock,
+  month: PeriodBlock,
+  bySourceWeek: Record<string, MetricTotals>
+) {
+  const weekParts: string[] = [];
+  if (week.totals.sessions) {
+    weekParts.push(
+      `${formatNumber(week.totals.sessions)} website sessions (${change(week.totals.sessions, week.previous.sessions)} vs last week)`
+    );
+  }
+  const instagram = bySourceWeek.instagram;
+  if (instagram?.reach) weekParts.push(`${formatNumber(instagram.reach)} Instagram reach`);
+  const facebook = bySourceWeek.facebook;
+  if (facebook?.impressions) weekParts.push(`${formatNumber(facebook.impressions)} Facebook impressions`);
+  if (week.totals.spend) weekParts.push(`£${formatNumber(week.totals.spend)} in ad spend`);
+  if (week.totals.clicks) weekParts.push(`${formatNumber(week.totals.clicks)} clicks`);
+  if (week.totals.engagement && !instagram?.reach && !facebook?.impressions) {
+    weekParts.push(`${formatNumber(week.totals.engagement)} social engagements`);
+  }
+
+  const monthParts: string[] = [];
+  if (month.totals.sessions) monthParts.push(`${formatNumber(month.totals.sessions)} website sessions`);
+  if (month.totals.impressions) monthParts.push(`${formatNumber(month.totals.impressions)} impressions`);
+  if (month.totals.spend) monthParts.push(`£${formatNumber(month.totals.spend)} ad spend`);
+
+  let text = weekParts.length
+    ? `This week, ${name} recorded ${joinAnd(weekParts)}.`
+    : `This week’s figures for ${name} are still coming in.`;
+  if (monthParts.length) {
+    text += ` Over the last 30 days, that includes ${joinAnd(monthParts)}.`;
+  }
+  text += " These numbers update automatically each morning from Google Analytics, Facebook, Instagram and ads.";
+  return text;
+}
+
 const TILES: { key: keyof MetricTotals; label: string; prefix: string }[] = [
   { key: "sessions", label: "Website sessions", prefix: "" },
   { key: "spend", label: "Ad spend", prefix: "£" },
@@ -191,7 +233,10 @@ export default async function MetricsSnapshot({ slug }: { slug: string }) {
         <div>
           <span className="eyebrow mb-2 block">Live reporting</span>
           <h2 className="font-serif text-3xl">Performance snapshot</h2>
-          <p className="mt-2 text-sm text-[#cfcfcf]">Updated {updated}. Looker Studio remains below for the full desktop report.</p>
+          <p className="mt-4 max-w-4xl text-[1.08rem] leading-8 text-[#cfcfcf]">
+            {buildSummary(snapshot.clientName, snapshot.week, snapshot.month, snapshot.bySourceWeek)}
+          </p>
+          <p className="mt-3 text-sm text-white/50">Updated {updated}.</p>
         </div>
 
         <PeriodGrid period={snapshot.week} compare="week" />
