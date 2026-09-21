@@ -106,12 +106,14 @@ function chartGroup(
 ) {
   const sourceSeries = snapshot.seriesBySource[source];
   if (!sourceSeries) return null;
+  const visible = charts.filter(([, , metric]) => sourceSeries.some((point) => Number(point[metric] || 0) > 0));
+  if (!visible.length) return null;
   const sourceTotals = { [source]: snapshot.bySourceMonth[source] || emptySourceTotals() };
   return (
     <div>
       <h3 className="mb-4 font-serif text-2xl">{title}</h3>
       <div className="grid gap-4 lg:grid-cols-2">
-        {charts.map(([chartTitle, description, metric]) => (
+        {visible.map(([chartTitle, description, metric]) => (
           <ChannelChart
             key={chartTitle}
             title={chartTitle}
