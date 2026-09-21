@@ -1,5 +1,6 @@
 import ChannelChart from "@/components/ChannelChart";
-import { getClientSnapshot, type MetricTotals, type PeriodBlock } from "@/lib/metrics/snapshot";
+import { formatDateRange } from "@/lib/metrics/dates";
+import { getClientSnapshot, type CampaignPoint, type DayPoint, type MetricTotals, type PeriodBlock } from "@/lib/metrics/snapshot";
 
 function formatNumber(value: number) {
   if (!value) return "0";
@@ -42,7 +43,7 @@ function PeriodGrid({ period, compare }: { period: PeriodBlock; compare: string 
       <div className="mb-4">
         <span className="eyebrow mb-1 block">{period.label}</span>
         <p className="text-sm text-[#cfcfcf]">
-          {period.from} to {period.to} · vs previous {compare}
+          {formatDateRange(period.from, period.to)} · vs previous {compare}
         </p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
@@ -97,6 +98,78 @@ function SourceTable({ title, data }: { title: string; data: Record<string, Metr
   );
 }
 
+function chartGroup(
+  title: string,
+  charts: [string, string, Exclude<keyof DayPoint, "date">][],
+  snapshot: NonNullable<Awaited<ReturnType<typeof getClientSnapshot>>>,
+  source: string
+) {
+  const sourceSeries = snapshot.seriesBySource[source];
+  if (!sourceSeries) return null;
+  const sourceTotals = { [source]: snapshot.bySourceMonth[source] || emptySourceTotals() };
+  return (
+    <div>
+      <h3 className="mb-4 font-serif text-2xl">{title}</h3>
+      <div className="grid gap-4 lg:grid-cols-2">
+        {charts.map(([chartTitle, description, metric]) => (
+          <ChannelChart
+            key={chartTitle}
+            title={chartTitle}
+            description={description}
+            metric={metric}
+            prefix={metric === "spend" ? "£" : ""}
+            duration={metric === "avgDuration"}
+            series={sourceSeries}
+            seriesBySource={{ [source]: sourceSeries }}
+            bySource={sourceTotals}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function emptySourceTotals(): MetricTotals {
+  return {
+    sessions: 0,
+    spend: 0,
+    clicks: 0,
+    impressions: 0,
+    reach: 0,
+    engagement: 0,
+    conversions: 0,
+  };
+}
+
+function CampaignBars({ campaigns }: { campaigns: CampaignPoint[] }) {
+  if (!campaigns.length) return null;
+  const max = Math.max(...campaigns.map((campaign) => campaign.conversions || campaign.clicks), 1);
+  return (
+    <div className="card p-5">
+      <h3 className="font-serif text-xl">Ad leads by campaign</h3>
+      <p className="mb-4 text-sm text-[#cfcfcf]">Results for each Facebook Ads campaign this month.</p>
+      <div className="space-y-3">
+        {campaigns.slice(0, 12).map((campaign) => (
+          <div key={campaign.name}>
+            <div className="mb-1 flex justify-between gap-3 text-sm">
+              <span>{campaign.name}</span>
+              <span className="text-[#ff808b]">
+                {campaign.conversions || campaign.clicks} results · £{campaign.spend.toFixed(0)}
+              </span>
+            </div>
+            <div className="h-2 rounded-full bg-white/10">
+              <div
+                className="h-2 rounded-full bg-[#ff808b]"
+                style={{ width: `${Math.max(6, ((campaign.conversions || campaign.clicks) / max) * 100)}%` }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default async function MetricsSnapshot({ slug }: { slug: string }) {
   let snapshot = null;
   try {
@@ -122,41 +195,42 @@ export default async function MetricsSnapshot({ slug }: { slug: string }) {
         <PeriodGrid period={snapshot.week} compare="week" />
         <PeriodGrid period={snapshot.month} compare="month" />
 
-        <div className="grid gap-4 lg:grid-cols-2">
-          <ChannelChart
-            title="Website sessions"
-            description="How many visits the website received, from Google Analytics."
-            metric="sessions"
-            series={snapshot.series}
-            seriesBySource={snapshot.seriesBySource}
-            bySource={snapshot.bySourceMonth}
-          />
-          <ChannelChart
-            title="Ad spend"
-            description="Paid media spend, split by Facebook Ads and LinkedIn Ads."
-            metric="spend"
-            prefix="£"
-            series={snapshot.series}
-            seriesBySource={snapshot.seriesBySource}
-            bySource={snapshot.bySourceMonth}
-          />
-          <ChannelChart
-            title="Impressions"
-            description="How often your content was shown, split by Facebook, Instagram, LinkedIn and ads."
-            metric="impressions"
-            series={snapshot.series}
-            seriesBySource={snapshot.seriesBySource}
-            bySource={snapshot.bySourceMonth}
-          />
-          <ChannelChart
-            title="Clicks"
-            description="Clicks on ads and social posts, split by channel."
-            metric="clicks"
-            series={snapshot.series}
-            seriesBySource={snapshot.seriesBySource}
-            bySource={snapshot.bySourceMonth}
-          />
-        </div>
+        {chartGroup("Website", [
+          ["Website views", "How many pages were viewed.", "pageviews"],
+          ["Website sessions", "How many visits the website received.", "sessions"],
+          ["Average website duration", "How long people stayed on the site.", "avgDuration"],
+          ["New website users", "First-time visitors from Google Analytics.", "newUsers"],
+        ], snapshot, "ga4")}
+
+        {chartGroup("Facebook", [
+          ["Facebook page views", "Times people viewed the Facebook page.", "pageViews"],
+          ["Facebook followers", "Total page followers.", "followers"],
+          ["Facebook page impressions", "How often Facebook content was shown.", "impressions"],
+          ["Facebook post reactions", "Reactions and engagement on posts.", "reactions"],
+        ], snapshot, "facebook")}
+
+        {chartGroup("Instagram", [
+          ["Instagram views", "How many times Instagram content was viewed.", "views"],
+          ["Instagram followers", "Follower count from Instagram.", "followers"],
+          ["Instagram reach", "Unique accounts reached.", "reach"],
+          ["Instagram likes", "Likes on Instagram posts.", "likes"],
+        ], snapshot, "instagram")}
+
+        {chartGroup("LinkedIn", [
+          ["LinkedIn page views", "Views of the LinkedIn page.", "pageViews"],
+          ["LinkedIn total likes", "Likes on LinkedIn posts.", "likes"],
+          ["LinkedIn impressions", "How often LinkedIn content was shown.", "impressions"],
+          ["LinkedIn page engagement", "Shares, comments and other engagement.", "engagement"],
+        ], snapshot, "linkedin")}
+
+        {chartGroup("Facebook Ads", [
+          ["Ad spend over time", "Paid spend on Facebook Ads.", "spend"],
+          ["Ad results over time", "Leads and conversions from ads.", "conversions"],
+          ["Ad clicks over time", "Clicks on Facebook ads.", "clicks"],
+          ["Ad impressions over time", "How often ads were shown.", "impressions"],
+        ], snapshot, "facebook_ads")}
+
+        <CampaignBars campaigns={snapshot.campaigns} />
 
         <div className="grid gap-4 lg:grid-cols-2">
           <SourceTable title="This week by channel" data={snapshot.bySourceWeek} />

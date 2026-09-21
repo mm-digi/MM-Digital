@@ -5,6 +5,9 @@ export type Ga4Day = {
   sessions: number;
   users: number;
   conversions: number;
+  pageviews: number;
+  newUsers: number;
+  avgDuration: number;
 };
 
 function parseGa4Date(value: string) {
@@ -18,7 +21,14 @@ export async function fetchGa4Property(propertyId: string, days = 30): Promise<G
   const body = {
     dateRanges: [{ startDate: `${days}daysAgo`, endDate: "yesterday" }],
     dimensions: [{ name: "date" }],
-    metrics: [{ name: "sessions" }, { name: "totalUsers" }, { name: "conversions" }],
+    metrics: [
+      { name: "sessions" },
+      { name: "totalUsers" },
+      { name: "conversions" },
+      { name: "screenPageViews" },
+      { name: "newUsers" },
+      { name: "averageSessionDuration" },
+    ],
     orderBys: [{ dimension: { dimensionName: "date" } }],
   };
 
@@ -40,6 +50,9 @@ export async function fetchGa4Property(propertyId: string, days = 30): Promise<G
     sessions: Number(row.metricValues?.[0]?.value || 0),
     users: Number(row.metricValues?.[1]?.value || 0),
     conversions: Number(row.metricValues?.[2]?.value || 0),
+    pageviews: Number(row.metricValues?.[3]?.value || 0),
+    newUsers: Number(row.metricValues?.[4]?.value || 0),
+    avgDuration: Number(row.metricValues?.[5]?.value || 0),
   }));
 }
 

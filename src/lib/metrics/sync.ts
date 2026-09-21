@@ -3,6 +3,39 @@ import { matchClient, type ClientRow } from "@/lib/metrics/match-client";
 import { fetchGa4Property } from "@/lib/metrics/ga4";
 import { fetchWindsor, rowToMetrics, WINDSOR_CONNECTORS } from "@/lib/metrics/windsor";
 
+type Extra = {
+  views?: number | null;
+  likes?: number | null;
+  page_views?: number | null;
+  reactions?: number | null;
+  pageviews?: number | null;
+  new_users?: number | null;
+  avg_duration?: number | null;
+  campaigns?: { name: string; spend: number; clicks: number; conversions: number }[];
+};
+
+function mergeExtra(a: Extra = {}, b: Extra = {}): Extra {
+  const campaigns = [...(a.campaigns || [])];
+  for (const campaign of b.campaigns || []) {
+    const found = campaigns.find((item) => item.name === campaign.name);
+    if (found) {
+      found.spend += campaign.spend;
+      found.clicks += campaign.clicks;
+      found.conversions += campaign.conversions;
+    } else campaigns.push({ ...campaign });
+  }
+  return {
+    views: (a.views || 0) + (b.views || 0) || null,
+    likes: (a.likes || 0) + (b.likes || 0) || null,
+    page_views: (a.page_views || 0) + (b.page_views || 0) || null,
+    reactions: (a.reactions || 0) + (b.reactions || 0) || null,
+    pageviews: (a.pageviews || 0) + (b.pageviews || 0) || null,
+    new_users: (a.new_users || 0) + (b.new_users || 0) || null,
+    avg_duration: b.avg_duration ?? a.avg_duration ?? null,
+    campaigns,
+  };
+}
+
 export type SyncResult = {
   ok: boolean;
   upserted: number;
@@ -55,6 +88,7 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
           engagement: (existing.engagement || 0) + (metrics.engagement || 0),
           conversions: (existing.conversions || 0) + (metrics.conversions || 0),
           followers: metrics.followers ?? existing.followers,
+          extra: mergeExtra(existing.extra as Extra, metrics.extra as Extra) as typeof existing.extra,
         });
       }
 
@@ -71,6 +105,7 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
         spend: number | null;
         engagement: number | null;
         followers: number | null;
+        extra: Extra;
         updated_at: string;
       };
       const merged = new Map<string, MetricRow>();
@@ -96,6 +131,7 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
             spend: metrics.spend,
             engagement: metrics.engagement,
             followers: metrics.followers,
+            extra: metrics.extra as Extra,
             updated_at: new Date().toISOString(),
           });
           continue;
@@ -107,6 +143,7 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
         existing.spend = (Number(existing.spend) || 0) + (metrics.spend || 0);
         existing.engagement = (Number(existing.engagement) || 0) + (metrics.engagement || 0);
         existing.followers = metrics.followers ?? existing.followers;
+        existing.extra = mergeExtra(existing.extra, metrics.extra);
       }
       const payload = [...merged.values()];
 
@@ -137,7 +174,7 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
     result.sources.ga4 = 0;
     for (const client of gaClients) {
       try {
-        const days = await fetchGa4Property(String(client.ga4_property_id), 30);
+        const days = await fetchGa4Property(String(client.ga4_property_id), 90);
         result.sources.ga4 += days.length;
         const payload = days.map((day) => ({
           client_id: client.id,
@@ -146,6 +183,11 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
           sessions: day.sessions,
           users: day.users,
           conversions: day.conversions,
+          extra: {
+            pageviews: day.pageviews,
+            new_users: day.newUsers,
+            avg_duration: day.avgDuration,
+          },
           updated_at: new Date().toISOString(),
         }));
         if (!payload.length) continue;

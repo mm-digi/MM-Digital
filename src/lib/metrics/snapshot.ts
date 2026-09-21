@@ -17,6 +17,23 @@ export type DayPoint = {
   impressions: number;
   reach: number;
   clicks: number;
+  conversions: number;
+  engagement: number;
+  followers: number;
+  pageviews: number;
+  newUsers: number;
+  avgDuration: number;
+  views: number;
+  likes: number;
+  reactions: number;
+  pageViews: number;
+};
+
+export type CampaignPoint = {
+  name: string;
+  spend: number;
+  clicks: number;
+  conversions: number;
 };
 
 export type PeriodBlock = {
@@ -36,6 +53,7 @@ export type ClientSnapshot = {
   bySourceMonth: Record<string, MetricTotals>;
   series: DayPoint[];
   seriesBySource: Record<string, DayPoint[]>;
+  campaigns: CampaignPoint[];
 };
 
 function emptyTotals(): MetricTotals {
@@ -70,13 +88,44 @@ function iso(d: Date) {
   return d.toISOString().slice(0, 10);
 }
 
-function fillSeries(fromIso: string, toIso: string, rows: Record<string, number | string | null>[]) {
+function extraOf(row: Record<string, unknown>) {
+  const extra = row.extra;
+  if (extra && typeof extra === "object") return extra as Record<string, unknown>;
+  return {};
+}
+
+function extraNum(row: Record<string, unknown>, key: string) {
+  return Number(extraOf(row)[key] || 0);
+}
+
+function emptyPoint(date: string): DayPoint {
+  return {
+    date,
+    sessions: 0,
+    spend: 0,
+    impressions: 0,
+    reach: 0,
+    clicks: 0,
+    conversions: 0,
+    engagement: 0,
+    followers: 0,
+    pageviews: 0,
+    newUsers: 0,
+    avgDuration: 0,
+    views: 0,
+    likes: 0,
+    reactions: 0,
+    pageViews: 0,
+  };
+}
+
+function fillSeries(fromIso: string, toIso: string, rows: Record<string, unknown>[]) {
   const byDate = new Map<string, DayPoint>();
   const cursor = new Date(`${fromIso}T00:00:00Z`);
   const end = new Date(`${toIso}T00:00:00Z`);
   while (cursor <= end) {
     const key = iso(cursor);
-    byDate.set(key, { date: key, sessions: 0, spend: 0, impressions: 0, reach: 0, clicks: 0 });
+    byDate.set(key, emptyPoint(key));
     cursor.setUTCDate(cursor.getUTCDate() + 1);
   }
   for (const row of rows) {
@@ -88,6 +137,16 @@ function fillSeries(fromIso: string, toIso: string, rows: Record<string, number 
     point.impressions += Number(row.impressions || 0);
     point.reach += Number(row.reach || 0);
     point.clicks += Number(row.clicks || 0);
+    point.conversions += Number(row.conversions || 0);
+    point.engagement += Number(row.engagement || 0);
+    point.followers += Number(row.followers || 0);
+    point.pageviews += extraNum(row, "pageviews");
+    point.newUsers += extraNum(row, "new_users");
+    point.avgDuration += extraNum(row, "avg_duration");
+    point.views += extraNum(row, "views");
+    point.likes += extraNum(row, "likes");
+    point.reactions += extraNum(row, "reactions") || Number(row.engagement || 0);
+    point.pageViews += extraNum(row, "page_views");
   }
   return [...byDate.values()];
 }
@@ -124,7 +183,7 @@ export async function getClientSnapshot(slug: string): Promise<ClientSnapshot | 
 
   const { data: rows } = await supabase
     .from("daily_metrics")
-    .select("date, source, sessions, spend, clicks, impressions, reach, engagement, conversions, updated_at")
+    .select("date, source, sessions, spend, clicks, impressions, reach, engagement, conversions, followers, extra, updated_at")
     .eq("client_id", client.id)
     .gte("date", iso(monthPrevFrom))
     .lte("date", iso(to));
@@ -173,6 +232,18 @@ export async function getClientSnapshot(slug: string): Promise<ClientSnapshot | 
       monthRows.filter((row) => String(row.source) === source)
     );
   }
+  const campaignMap = new Map<string, CampaignPoint>();
+  for (const row of monthRows) {
+    const extra = extraOf(row as Record<string, unknown>);
+    const campaigns = Array.isArray(extra.campaigns) ? extra.campaigns : [];
+    for (const campaign of campaigns as CampaignPoint[]) {
+      const found = campaignMap.get(campaign.name) || { name: campaign.name, spend: 0, clicks: 0, conversions: 0 };
+      found.spend += Number(campaign.spend || 0);
+      found.clicks += Number(campaign.clicks || 0);
+      found.conversions += Number(campaign.conversions || 0);
+      campaignMap.set(campaign.name, found);
+    }
+  }
 
   return {
     clientName: client.name,
@@ -183,5 +254,6 @@ export async function getClientSnapshot(slug: string): Promise<ClientSnapshot | 
     bySourceMonth,
     series: fillSeries(monthFromIso, iso(to), monthRows),
     seriesBySource,
+    campaigns: [...campaignMap.values()].sort((a, b) => b.conversions - a.conversions || b.spend - a.spend),
   };
 }

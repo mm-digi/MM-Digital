@@ -15,17 +15,17 @@ export const WINDSOR_CONNECTORS: ConnectorConfig[] = [
   {
     source: "facebook_ads",
     connector: "facebook",
-    fields: ["date", "account_id", "account_name", "spend", "clicks", "impressions", "reach", "conversions"],
+    fields: ["date", "account_name", "campaign", "spend", "clicks", "impressions", "reach", "conversions"],
   },
   {
     source: "facebook",
     connector: "facebook_organic",
-    fields: ["date", "account_id", "account_name", "page_impressions", "page_post_engagements", "page_fans", "impressions", "reach", "engagement", "followers_count"],
+    fields: ["date", "account_name", "page_impressions", "page_fans", "page_views", "post_reactions", "page_post_engagements"],
   },
   {
     source: "instagram",
     connector: "instagram",
-    fields: ["date", "account_name", "impressions", "reach", "likes"],
+    fields: ["date", "account_name", "views", "reach", "likes", "follower_count"],
   },
   {
     source: "linkedin",
@@ -57,6 +57,11 @@ function num(row: WindsorRow, ...keys: string[]) {
 }
 
 export function rowToMetrics(source: WindsorSource, row: WindsorRow) {
+  const likes = num(row, "likes", "like_count");
+  const views = num(row, "views");
+  const pageViews = num(row, "page_views");
+  const reactions = num(row, "post_reactions");
+  const campaign = String(row.campaign || "").trim();
   return {
     date: String(row.date || "").slice(0, 10),
     accountId: String(row.account_id || ""),
@@ -67,10 +72,26 @@ export function rowToMetrics(source: WindsorSource, row: WindsorRow) {
     clicks: num(row, "clicks"),
     spend: num(row, "spend"),
     engagement: num(row, "engagement", "page_post_engagements", "likes", "share_count", "like_count"),
-    conversions: num(row, "conversions"),
+    conversions: num(row, "conversions", "leads"),
     followers: num(row, "followers", "followers_count", "follower_count", "page_fans"),
     sessions: null as number | null,
     users: null as number | null,
+    extra: {
+      views,
+      likes,
+      page_views: pageViews,
+      reactions,
+      campaigns: campaign
+        ? [
+            {
+              name: campaign,
+              spend: num(row, "spend") || 0,
+              clicks: num(row, "clicks") || 0,
+              conversions: num(row, "conversions", "leads") || 0,
+            },
+          ]
+        : [],
+    },
   };
 }
 
