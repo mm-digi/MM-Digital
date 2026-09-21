@@ -58,28 +58,42 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
       }
 
       const payload = [];
+      const merged = new Map<string, (typeof payload)[number]>();
       for (const metrics of byKey.values()) {
         const client = matchClient(metrics.accountName, (clients || []) as ClientRow[]);
         if (!client) {
           unmatched.add(`${connector.source}: ${metrics.accountName || metrics.accountId}`);
           continue;
         }
-        payload.push({
-          client_id: client.id,
-          date: metrics.date,
-          source: connector.source,
-          sessions: metrics.sessions,
-          users: metrics.users,
-          conversions: metrics.conversions,
-          impressions: metrics.impressions,
-          reach: metrics.reach,
-          clicks: metrics.clicks,
-          spend: metrics.spend,
-          engagement: metrics.engagement,
-          followers: metrics.followers,
-          updated_at: new Date().toISOString(),
-        });
+        const mergeKey = `${client.id}|${metrics.date}|${connector.source}`;
+        const existing = merged.get(mergeKey);
+        if (!existing) {
+          merged.set(mergeKey, {
+            client_id: client.id,
+            date: metrics.date,
+            source: connector.source,
+            sessions: metrics.sessions,
+            users: metrics.users,
+            conversions: metrics.conversions,
+            impressions: metrics.impressions,
+            reach: metrics.reach,
+            clicks: metrics.clicks,
+            spend: metrics.spend,
+            engagement: metrics.engagement,
+            followers: metrics.followers,
+            updated_at: new Date().toISOString(),
+          });
+          continue;
+        }
+        existing.conversions = (Number(existing.conversions) || 0) + (metrics.conversions || 0);
+        existing.impressions = (Number(existing.impressions) || 0) + (metrics.impressions || 0);
+        existing.reach = (Number(existing.reach) || 0) + (metrics.reach || 0);
+        existing.clicks = (Number(existing.clicks) || 0) + (metrics.clicks || 0);
+        existing.spend = (Number(existing.spend) || 0) + (metrics.spend || 0);
+        existing.engagement = (Number(existing.engagement) || 0) + (metrics.engagement || 0);
+        existing.followers = metrics.followers ?? existing.followers;
       }
+      payload.push(...merged.values());
 
       if (!payload.length) continue;
 

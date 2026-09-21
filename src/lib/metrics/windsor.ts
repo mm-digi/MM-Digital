@@ -2,7 +2,8 @@ export type WindsorSource =
   | "facebook_ads"
   | "facebook"
   | "instagram"
-  | "linkedin";
+  | "linkedin"
+  | "linkedin_ads";
 
 type ConnectorConfig = {
   source: WindsorSource;
@@ -24,12 +25,17 @@ export const WINDSOR_CONNECTORS: ConnectorConfig[] = [
   {
     source: "instagram",
     connector: "instagram",
-    fields: ["date", "account_id", "account_name", "impressions", "reach", "engagement", "follower_count", "followers_count", "clicks"],
+    fields: ["date", "account_name", "impressions", "reach", "likes"],
   },
   {
     source: "linkedin",
     connector: "linkedin_organic",
-    fields: ["date", "account_id", "account_name", "impressions", "clicks", "engagement", "followers", "followers_count"],
+    fields: ["date", "account_name", "impressions", "clicks", "engagement"],
+  },
+  {
+    source: "linkedin_ads",
+    connector: "linkedin",
+    fields: ["date", "account_name", "impressions", "clicks", "spend"],
   },
 ];
 
@@ -60,7 +66,7 @@ export function rowToMetrics(source: WindsorSource, row: WindsorRow) {
     reach: num(row, "reach"),
     clicks: num(row, "clicks"),
     spend: num(row, "spend"),
-    engagement: num(row, "engagement", "page_post_engagements"),
+    engagement: num(row, "engagement", "page_post_engagements", "likes"),
     conversions: num(row, "conversions"),
     followers: num(row, "followers", "followers_count", "follower_count", "page_fans"),
     sessions: null as number | null,

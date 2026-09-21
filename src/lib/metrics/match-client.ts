@@ -9,28 +9,32 @@ function normalize(value: string) {
   return value
     .toLowerCase()
     .replace(/&/g, "and")
+    .replace(/\b(ltd|limited|ads)\b/g, "")
     .replace(/[^a-z0-9]+/g, " ")
     .trim();
 }
 
+function compact(value: string) {
+  return normalize(value).replace(/ /g, "");
+}
+
 export function matchClient(accountName: string, clients: ClientRow[]) {
-  const needle = normalize(accountName);
+  const needle = compact(accountName);
   if (!needle) return null;
 
-  const exact = clients.find((client) => {
-    const names = [client.windsor_account_name, client.name, client.slug.replace(/-/g, " ")]
-      .filter(Boolean)
-      .map((value) => normalize(String(value)));
-    return names.includes(needle);
-  });
-  if (exact) return exact;
-
-  return (
-    clients.find((client) => {
-      const names = [client.windsor_account_name, client.name]
+  const scored = clients
+    .map((client) => {
+      const names = [client.windsor_account_name, client.name, client.slug]
         .filter(Boolean)
-        .map((value) => normalize(String(value)));
-      return names.some((name) => name && (needle.includes(name) || name.includes(needle)));
-    }) || null
-  );
+        .map((value) => compact(String(value)));
+      if (names.includes(needle)) return { client, score: 3 };
+      if (names.some((name) => name && (needle.includes(name) || name.includes(needle)))) {
+        return { client, score: 1 };
+      }
+      return null;
+    })
+    .filter(Boolean) as { client: ClientRow; score: number }[];
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored[0]?.client || null;
 }
