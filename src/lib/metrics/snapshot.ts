@@ -132,6 +132,7 @@ function fillSeries(fromIso: string, toIso: string, rows: Record<string, unknown
     const key = String(row.date);
     const point = byDate.get(key);
     if (!point) continue;
+    const source = String(row.source || "");
     point.sessions += Number(row.sessions || 0);
     point.spend += Number(row.spend || 0);
     point.impressions += Number(row.impressions || 0);
@@ -140,13 +141,13 @@ function fillSeries(fromIso: string, toIso: string, rows: Record<string, unknown
     point.conversions += Number(row.conversions || 0);
     point.engagement += Number(row.engagement || 0);
     point.followers += Number(row.followers || 0);
-    point.pageviews += extraNum(row, "pageviews");
-    point.newUsers += extraNum(row, "new_users");
+    point.pageviews += extraNum(row, "pageviews") || (source === "ga4" ? Number(row.sessions || 0) : 0);
+    point.newUsers += extraNum(row, "new_users") || Number(row.users || 0);
     point.avgDuration += extraNum(row, "avg_duration");
-    point.views += extraNum(row, "views");
-    point.likes += extraNum(row, "likes");
-    point.reactions += extraNum(row, "reactions") || Number(row.engagement || 0);
-    point.pageViews += extraNum(row, "page_views");
+    point.views += extraNum(row, "views") || (source === "instagram" ? Number(row.impressions || 0) : 0);
+    point.likes += extraNum(row, "likes") || (source === "instagram" || source === "linkedin" ? Number(row.engagement || 0) : 0);
+    point.reactions += extraNum(row, "reactions") || (source === "facebook" ? Number(row.engagement || 0) : 0);
+    point.pageViews += extraNum(row, "page_views") || (source === "facebook" || source === "linkedin" ? Number(row.impressions || 0) : 0);
   }
   return [...byDate.values()];
 }
