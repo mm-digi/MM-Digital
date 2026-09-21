@@ -35,6 +35,7 @@ export type ClientSnapshot = {
   bySourceWeek: Record<string, MetricTotals>;
   bySourceMonth: Record<string, MetricTotals>;
   series: DayPoint[];
+  seriesBySource: Record<string, DayPoint[]>;
 };
 
 function emptyTotals(): MetricTotals {
@@ -163,6 +164,16 @@ export async function getClientSnapshot(slug: string): Promise<ClientSnapshot | 
   const monthRows = (rows || []).filter((row) => String(row.date) >= monthFromIso);
   if (!monthRows.length) return null;
 
+  const seriesBySource: Record<string, DayPoint[]> = {};
+  const sources = [...new Set(monthRows.map((row) => String(row.source)))];
+  for (const source of sources) {
+    seriesBySource[source] = fillSeries(
+      monthFromIso,
+      iso(to),
+      monthRows.filter((row) => String(row.source) === source)
+    );
+  }
+
   return {
     clientName: client.name,
     updatedAt,
@@ -171,5 +182,6 @@ export async function getClientSnapshot(slug: string): Promise<ClientSnapshot | 
     bySourceWeek,
     bySourceMonth,
     series: fillSeries(monthFromIso, iso(to), monthRows),
+    seriesBySource,
   };
 }

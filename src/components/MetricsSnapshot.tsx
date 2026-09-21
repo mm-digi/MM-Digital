@@ -1,4 +1,4 @@
-import Sparkline from "@/components/Sparkline";
+import ChannelChart from "@/components/ChannelChart";
 import { getClientSnapshot, type MetricTotals, type PeriodBlock } from "@/lib/metrics/snapshot";
 
 function formatNumber(value: number) {
@@ -123,10 +123,39 @@ export default async function MetricsSnapshot({ slug }: { slug: string }) {
         <PeriodGrid period={snapshot.month} compare="month" />
 
         <div className="grid gap-4 lg:grid-cols-2">
-          <Sparkline label="Website sessions" values={snapshot.series.map((point) => point.sessions)} />
-          <Sparkline label="Ad spend" values={snapshot.series.map((point) => point.spend)} />
-          <Sparkline label="Impressions" values={snapshot.series.map((point) => point.impressions)} />
-          <Sparkline label="Clicks" values={snapshot.series.map((point) => point.clicks)} />
+          <ChannelChart
+            title="Website sessions"
+            description="How many visits the website received, from Google Analytics."
+            metric="sessions"
+            series={snapshot.series}
+            seriesBySource={snapshot.seriesBySource}
+            bySource={snapshot.bySourceMonth}
+          />
+          <ChannelChart
+            title="Ad spend"
+            description="Paid media spend, split by Facebook Ads and LinkedIn Ads."
+            metric="spend"
+            prefix="£"
+            series={snapshot.series}
+            seriesBySource={snapshot.seriesBySource}
+            bySource={snapshot.bySourceMonth}
+          />
+          <ChannelChart
+            title="Impressions"
+            description="How often your content was shown, split by Facebook, Instagram, LinkedIn and ads."
+            metric="impressions"
+            series={snapshot.series}
+            seriesBySource={snapshot.seriesBySource}
+            bySource={snapshot.bySourceMonth}
+          />
+          <ChannelChart
+            title="Clicks"
+            description="Clicks on ads and social posts, split by channel."
+            metric="clicks"
+            series={snapshot.series}
+            seriesBySource={snapshot.seriesBySource}
+            bySource={snapshot.bySourceMonth}
+          />
         </div>
 
         <div className="grid gap-4 lg:grid-cols-2">

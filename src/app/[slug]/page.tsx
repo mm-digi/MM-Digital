@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getDashboard } from "@/lib/clients";
-import { readWpPage } from "@/lib/wp";
+import { readWpPage, splitDashboardHtml } from "@/lib/wp";
 import DashboardView from "@/components/DashboardView";
 import MetricsSnapshot from "@/components/MetricsSnapshot";
 import WpHtml from "@/components/WpHtml";
@@ -23,10 +23,12 @@ export default async function SlugPage({ params }: Props) {
   const dashboard = getDashboard(slug);
   const html = readWpPage(slug);
   if (dashboard && html) {
+    const { hero, report } = splitDashboardHtml(html);
     return (
       <>
+        <WpHtml html={hero} />
         <MetricsSnapshot slug={dashboard.slug} />
-        <WpHtml html={html} />
+        {report ? <WpHtml html={report} /> : null}
       </>
     );
   }
