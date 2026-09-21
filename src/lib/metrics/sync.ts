@@ -57,8 +57,22 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
         });
       }
 
-      const payload = [];
-      const merged = new Map<string, (typeof payload)[number]>();
+      type MetricRow = {
+        client_id: string;
+        date: string;
+        source: string;
+        sessions: number | null;
+        users: number | null;
+        conversions: number | null;
+        impressions: number | null;
+        reach: number | null;
+        clicks: number | null;
+        spend: number | null;
+        engagement: number | null;
+        followers: number | null;
+        updated_at: string;
+      };
+      const merged = new Map<string, MetricRow>();
       for (const metrics of byKey.values()) {
         const client = matchClient(metrics.accountName, (clients || []) as ClientRow[]);
         if (!client) {
@@ -93,7 +107,7 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
         existing.engagement = (Number(existing.engagement) || 0) + (metrics.engagement || 0);
         existing.followers = metrics.followers ?? existing.followers;
       }
-      payload.push(...merged.values());
+      const payload = [...merged.values()];
 
       if (!payload.length) continue;
 
