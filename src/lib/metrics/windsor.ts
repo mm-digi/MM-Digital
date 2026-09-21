@@ -25,7 +25,7 @@ export const WINDSOR_CONNECTORS: ConnectorConfig[] = [
   {
     source: "instagram",
     connector: "instagram",
-    fields: ["date", "account_name", "views", "reach", "likes", "follower_count"],
+    fields: ["date", "account_name", "views", "reach", "likes"],
   },
   {
     source: "linkedin",
@@ -111,7 +111,7 @@ function windsorApiKey() {
 export async function fetchWindsor(connector: string, fields: string[], datePreset = "last_90d") {
   const apiKey = windsorApiKey();
 
-  const tryFields = [fields, ["date", "account_id", "account_name"]];
+  const tryFields = [fields, fields.filter((field) => !["campaign", "account_id"].includes(field)), ["date", "account_name"]];
   let lastError = "";
 
   for (const fieldSet of tryFields) {

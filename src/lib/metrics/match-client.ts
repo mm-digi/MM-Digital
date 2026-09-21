@@ -23,6 +23,7 @@ const ALIASES: Record<string, string> = {
   brsplumbingheating: "brsbristol",
   brsallplumbingandheating: "brsbristol",
   orielscomedyclub: "orielsexeter",
+  auricperfomance: "auricperformance",
 };
 
 export function matchClient(accountName: string, clients: ClientRow[]) {
