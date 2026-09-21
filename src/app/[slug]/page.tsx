@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getDashboard } from "@/lib/clients";
 import { readWpPage } from "@/lib/wp";
 import DashboardView from "@/components/DashboardView";
+import MetricsSnapshot from "@/components/MetricsSnapshot";
 import WpHtml from "@/components/WpHtml";
 import type { Metadata } from "next";
 
@@ -21,8 +22,22 @@ export default async function SlugPage({ params }: Props) {
   const { slug } = await params;
   const dashboard = getDashboard(slug);
   const html = readWpPage(slug);
-  if (dashboard && html) return <WpHtml html={html} />;
-  if (dashboard) return <DashboardView dashboard={dashboard} />;
+  if (dashboard && html) {
+    return (
+      <>
+        <MetricsSnapshot slug={dashboard.slug} />
+        <WpHtml html={html} />
+      </>
+    );
+  }
+  if (dashboard) {
+    return (
+      <>
+        <MetricsSnapshot slug={dashboard.slug} />
+        <DashboardView dashboard={dashboard} />
+      </>
+    );
+  }
   if (html) return <WpHtml html={html} />;
 
   notFound();
