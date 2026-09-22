@@ -8,6 +8,16 @@ function secretKey() {
 }
 
 export async function proxy(request: NextRequest) {
+  // www.mm-digi.co.uk and mm-digi.co.uk are both aliased to this project on
+  // Vercel, but nothing redirects between them - so search engines see two
+  // copies of every page. Canonicalize to the apex domain with a permanent
+  // redirect, preserving path and query string.
+  if (request.nextUrl.hostname === "www.mm-digi.co.uk") {
+    const canonical = new URL(request.nextUrl);
+    canonical.hostname = "mm-digi.co.uk";
+    return NextResponse.redirect(canonical, 301);
+  }
+
   const slug = request.nextUrl.pathname.replace(/^\/+|\/+$/g, "");
   if (!DASHBOARD_SLUGS.has(slug)) return NextResponse.next();
 
