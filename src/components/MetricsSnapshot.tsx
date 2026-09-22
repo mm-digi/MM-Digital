@@ -88,11 +88,11 @@ function PeriodGrid({ period, compare }: { period: PeriodBlock; compare: string 
           {formatDateRange(period.from, period.to)} · vs previous {compare}
         </p>
       </div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
         {TILES.map(({ key, label, prefix }) => (
-          <div key={`${period.label}-${key}`} className="card p-5">
-            <div className="text-sm text-[#cfcfcf]">{label}</div>
-            <div className="mt-2 text-2xl font-bold text-[#ff808b]">
+          <div key={`${period.label}-${key}`} className="card p-4 sm:p-5">
+            <div className="text-xs text-[#cfcfcf] sm:text-sm">{label}</div>
+            <div className="mt-2 text-xl font-bold text-[#ff808b] sm:text-2xl">
               {prefix}
               {formatNumber(period.totals[key])}
             </div>
