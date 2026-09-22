@@ -782,6 +782,30 @@ iframe.mm-live-report-frame,
   line-height: 1.55;
   color: #222;
 }
+.mm-google-card p.mm-review-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.mm-review-toggle-input:checked ~ p.mm-review-clamp {
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+.mm-review-more {
+  display: inline-block;
+  margin-top: 8px;
+  color: #ff808b;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+.mm-review-more::after {
+  content: "Read more";
+}
+.mm-review-toggle-input:checked ~ .mm-review-more::after {
+  content: "Show less";
+}
 .mm-google-slider .mm-ti-arrow {
   position: static;
   transform: none;
