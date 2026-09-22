@@ -705,7 +705,8 @@ iframe.mm-live-report-frame,
 .mm-google-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  text-align: center;
   gap: 20px;
   margin-bottom: 18px;
   flex-wrap: wrap;
@@ -726,17 +727,6 @@ iframe.mm-live-report-frame,
   font-size: 1.15rem;
   line-height: 1;
   margin: 4px 0;
-}
-.mm-google-logo {
-  width: 110px !important;
-  height: 24px !important;
-  max-width: 110px !important;
-  object-fit: contain;
-  flex-shrink: 0;
-  background: #fff;
-  padding: 6px 10px;
-  border-radius: 6px;
-  box-sizing: content-box;
 }
 .mm-google-slider {
   position: relative;
