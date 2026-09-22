@@ -42,6 +42,16 @@ body:has(.mm-hero) .mm-hero {
   }
 }
 
+header.wp-block-template-part .wp-block-navigation-item__content,
+header.wp-block-template-part .wp-block-navigation-item__content strong {
+  transition: color 0.2s ease;
+}
+header.wp-block-template-part .wp-block-navigation-item__content:hover,
+header.wp-block-template-part .wp-block-navigation-item__content:hover .wp-block-navigation-item__label,
+header.wp-block-template-part .wp-block-navigation-item__content:hover strong {
+  color: #ff808b;
+}
+
 /* Sit the "We create…" line halfway between the logo row and the copy below.
    Negative margin keeps the about block where it is. */
 .we-create-section {
