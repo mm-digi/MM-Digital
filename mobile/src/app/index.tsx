@@ -2,10 +2,12 @@ import { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import { router } from "expo-router";
 import { useAuth } from "@/lib/auth-context";
-import { fetchDashboard, type ClientSnapshot, type MetricTotals, type PeriodBlock } from "@/lib/api";
+import { fetchDashboard, type ClientSnapshot, type DayPoint, type MetricTotals, type PeriodBlock } from "@/lib/api";
 import { formatChange, formatDateRange, formatNumber } from "@/lib/format";
 import { colors, radius, spacing } from "@/lib/theme";
 import StatTile from "@/components/StatTile";
+import LineChart from "@/components/LineChart";
+import ChannelTable from "@/components/ChannelTable";
 
 const TILES: { key: keyof MetricTotals; label: string; prefix: string }[] = [
   { key: "sessions", label: "Website sessions", prefix: "" },
@@ -16,6 +18,103 @@ const TILES: { key: keyof MetricTotals; label: string; prefix: string }[] = [
   { key: "engagement", label: "Engagement", prefix: "" },
   { key: "conversions", label: "Conversions", prefix: "" },
 ];
+
+const CHART_GROUPS: {
+  title: string;
+  source: string;
+  charts: [string, string, Exclude<keyof DayPoint, "date">][];
+}[] = [
+  {
+    title: "Website",
+    source: "ga4",
+    charts: [
+      ["Website views", "How many pages were viewed.", "pageviews"],
+      ["Website sessions", "How many visits the website received.", "sessions"],
+      ["Average website duration", "How long people stayed on the site.", "avgDuration"],
+      ["New website users", "First-time visitors from Google Analytics.", "newUsers"],
+    ],
+  },
+  {
+    title: "Facebook",
+    source: "facebook",
+    charts: [
+      ["Facebook page views", "Times people viewed the Facebook page.", "pageViews"],
+      ["Facebook followers", "Total page followers.", "followers"],
+      ["Facebook page impressions", "How often Facebook content was shown.", "impressions"],
+      ["Facebook post reactions", "Reactions and engagement on posts.", "reactions"],
+    ],
+  },
+  {
+    title: "Instagram",
+    source: "instagram",
+    charts: [
+      ["Instagram views", "How many times Instagram content was viewed.", "views"],
+      ["Instagram followers", "Follower count from Instagram.", "followers"],
+      ["Instagram reach", "Unique accounts reached.", "reach"],
+      ["Instagram likes", "Likes on Instagram posts.", "likes"],
+    ],
+  },
+  {
+    title: "LinkedIn",
+    source: "linkedin",
+    charts: [
+      ["LinkedIn page views", "Views of the LinkedIn page.", "pageViews"],
+      ["LinkedIn total likes", "Likes on LinkedIn posts.", "likes"],
+      ["LinkedIn impressions", "How often LinkedIn content was shown.", "impressions"],
+      ["LinkedIn page engagement", "Shares, comments and other engagement.", "engagement"],
+    ],
+  },
+  {
+    title: "Facebook Ads",
+    source: "facebook_ads",
+    charts: [
+      ["Ad spend over time", "Paid spend on Facebook Ads.", "spend"],
+      ["Ad results over time", "Leads and conversions from ads.", "conversions"],
+      ["Ad clicks over time", "Clicks on Facebook ads.", "clicks"],
+      ["Ad impressions over time", "How often ads were shown.", "impressions"],
+    ],
+  },
+];
+
+function emptySourceTotals(): MetricTotals {
+  return { sessions: 0, spend: 0, clicks: 0, impressions: 0, reach: 0, engagement: 0, conversions: 0 };
+}
+
+function ChartGroupSection({ snapshot }: { snapshot: ClientSnapshot }) {
+  return (
+    <>
+      {CHART_GROUPS.map((group) => {
+        const sourceSeries = snapshot.seriesBySource[group.source];
+        if (!sourceSeries) return null;
+        const visible = group.charts.filter(([, , metric]) =>
+          sourceSeries.some((point) => Number(point[metric] || 0) > 0)
+        );
+        if (!visible.length) return null;
+        const sourceTotals = { [group.source]: snapshot.bySourceMonth[group.source] || emptySourceTotals() };
+        return (
+          <View key={group.title} style={styles.section}>
+            <Text style={styles.sectionTitle}>{group.title}</Text>
+            <View style={styles.chartStack}>
+              {visible.map(([chartTitle, description, metric]) => (
+                <LineChart
+                  key={chartTitle}
+                  title={chartTitle}
+                  description={description}
+                  metric={metric}
+                  prefix={metric === "spend" ? "£" : ""}
+                  duration={metric === "avgDuration"}
+                  series={sourceSeries}
+                  seriesBySource={{ [group.source]: sourceSeries }}
+                  bySource={sourceTotals}
+                />
+              ))}
+            </View>
+          </View>
+        );
+      })}
+    </>
+  );
+}
 
 function PeriodSection({ period, compare }: { period: PeriodBlock; compare: string }) {
   return (
@@ -126,6 +225,8 @@ export default function DashboardScreen() {
           <PeriodSection period={snapshot.week} compare="week" />
           <PeriodSection period={snapshot.month} compare="month" />
 
+          <ChartGroupSection snapshot={snapshot} />
+
           {snapshot.campaigns.length > 0 && (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Ad leads by campaign</Text>
@@ -141,6 +242,11 @@ export default function DashboardScreen() {
               ))}
             </View>
           )}
+
+          <View style={styles.section}>
+            <ChannelTable title="This week by channel" data={snapshot.bySourceWeek} />
+            <ChannelTable title="This month by channel" data={snapshot.bySourceMonth} />
+          </View>
         </>
       )}
     </ScrollView>
@@ -207,6 +313,9 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
     fontSize: 13,
     marginBottom: spacing.md,
+  },
+  chartStack: {
+    gap: spacing.sm,
   },
   tileGrid: {
     flexDirection: "row",

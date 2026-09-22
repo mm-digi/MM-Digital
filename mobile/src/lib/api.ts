@@ -49,6 +49,25 @@ export type CampaignPoint = {
   conversions: number;
 };
 
+export type DayPoint = {
+  date: string;
+  sessions: number;
+  spend: number;
+  impressions: number;
+  reach: number;
+  clicks: number;
+  conversions: number;
+  engagement: number;
+  followers: number;
+  pageviews: number;
+  newUsers: number;
+  avgDuration: number;
+  views: number;
+  likes: number;
+  reactions: number;
+  pageViews: number;
+};
+
 export type ClientSnapshot = {
   clientName: string;
   updatedAt: string | null;
@@ -56,6 +75,8 @@ export type ClientSnapshot = {
   month: PeriodBlock;
   bySourceWeek: Record<string, MetricTotals>;
   bySourceMonth: Record<string, MetricTotals>;
+  series: DayPoint[];
+  seriesBySource: Record<string, DayPoint[]>;
   campaigns: CampaignPoint[];
 };
 
