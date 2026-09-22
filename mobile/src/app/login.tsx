@@ -11,12 +11,14 @@ import {
   View,
 } from "react-native";
 import { router } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { login } from "@/lib/api";
 import { useAuth } from "@/lib/auth-context";
 import { colors, radius, spacing } from "@/lib/theme";
 
 export default function LoginScreen() {
   const auth = useAuth();
+  const insets = useSafeAreaInsets();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -44,7 +46,10 @@ export default function LoginScreen() {
       style={styles.flex}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        contentContainerStyle={[styles.scroll, { paddingTop: Math.max(insets.top, spacing.lg) }]}
+        keyboardShouldPersistTaps="handled"
+      >
         <Text style={styles.eyebrow}>Client Access</Text>
         <Text style={styles.title}>Login</Text>
         <Text style={styles.subtitle}>Sign in to view your live analytics dashboard.</Text>

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { useAuth } from "@/lib/auth-context";
 import { fetchDashboard, type ClientSnapshot, type DayPoint, type MetricTotals, type PeriodBlock } from "@/lib/api";
@@ -140,6 +141,7 @@ function PeriodSection({ period, compare }: { period: PeriodBlock; compare: stri
 
 export default function DashboardScreen() {
   const auth = useAuth();
+  const insets = useSafeAreaInsets();
   const [snapshot, setSnapshot] = useState<ClientSnapshot | null>(null);
   const [name, setName] = useState<string | null>(null);
   const [error, setError] = useState("");
@@ -198,7 +200,7 @@ export default function DashboardScreen() {
   return (
     <ScrollView
       style={styles.flex}
-      contentContainerStyle={styles.scroll}
+      contentContainerStyle={[styles.scroll, { paddingTop: insets.top + spacing.lg }]}
       refreshControl={
         <RefreshControl
           refreshing={refreshing}
