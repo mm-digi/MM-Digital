@@ -8,11 +8,19 @@ import type { Metadata } from "next";
 
 type Props = { params: Promise<{ slug: string }> };
 
+// A couple of pages use a long, descriptive hero headline as their <h1> by
+// design (real on-page content, not a title-tag-friendly heading), so the
+// auto-extracted title from that h1 comes out too long for search results.
+const TITLE_OVERRIDES: Record<string, string> = {
+  "oriels-case-study": "Case Study: Oriels Cocktail Bar",
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const dashboard = getDashboard(slug);
   const html = dashboard ? null : readWpPage(slug);
-  const title = dashboard?.name || (html && extractTitleFromHtml(html)) || slug.replace(/-/g, " ");
+  const title =
+    dashboard?.name || TITLE_OVERRIDES[slug] || (html && extractTitleFromHtml(html)) || slug.replace(/-/g, " ");
   const description = html ? extractDescriptionFromHtml(html) : null;
   return {
     title,

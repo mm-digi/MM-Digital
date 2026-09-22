@@ -13,6 +13,7 @@ export function readWpPage(slug: string) {
 
 function stripHtmlToText(fragment: string): string {
   return fragment
+    .replace(/<br\s*\/?>/gi, " ")
     .replace(/<[^>]+>/g, "")
     .replace(/&amp;/g, "&")
     .replace(/&#0?38;/g, "&")
