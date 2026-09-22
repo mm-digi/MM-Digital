@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 
 export default function WpChrome({
   headerHtml,
@@ -11,6 +11,24 @@ export default function WpChrome({
   footerHtml: string;
   children: React.ReactNode;
 }) {
+  useLayoutEffect(() => {
+    const header = document.querySelector("header.wp-block-template-part");
+    if (!header || !document.querySelector(".mm-hero")) return;
+    const apply = () => {
+      document.documentElement.style.setProperty(
+        "--mm-header-h",
+        `${header.getBoundingClientRect().height}px`
+      );
+    };
+    apply();
+    const observer = new ResizeObserver(apply);
+    observer.observe(header);
+    return () => {
+      observer.disconnect();
+      document.documentElement.style.removeProperty("--mm-header-h");
+    };
+  }, []);
+
   useEffect(() => {
     const opens = [...document.querySelectorAll(".wp-block-navigation__responsive-container-open")];
     const closes = [...document.querySelectorAll(".wp-block-navigation__responsive-container-close")];

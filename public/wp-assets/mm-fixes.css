@@ -14,6 +14,47 @@ body {
   height: 100% !important;
 }
 
+/* Homepage only: slide the hero up under the header so particles reach the top edge.
+   --mm-header-h is the measured header height (WpChrome). Extra padding keeps the
+   headline in the same place it sat when the header was in normal flow. */
+body:has(.mm-hero) header.wp-block-template-part,
+body:has(.mm-hero) header.wp-block-template-part .desktop-header {
+  background: transparent !important;
+  background-image: none !important;
+}
+body:has(.mm-hero) .mm-hero {
+  margin-top: calc(-1 * var(--mm-header-h, 0px));
+  padding-top: calc(120px + var(--mm-header-h, 0px));
+}
+@media (max-width: 768px) {
+  body:has(.mm-hero) .mm-hero {
+    padding-top: calc(110px + var(--mm-header-h, 0px));
+  }
+}
+
+/* Desktop nav sits on the logo image box. The mark's visual weight is lower
+   (network sphere over the letters), so drop the links and login to match it. */
+@media (min-width: 782px) {
+  header.wp-block-template-part .desktop-header:not(.uag-hide-desktop) nav.wp-block-navigation,
+  header.wp-block-template-part .desktop-header:not(.uag-hide-desktop) .header-contact-btn {
+    position: relative;
+    top: 12px;
+  }
+}
+
+/* Sit the "We create…" line halfway between the logo row and the copy below.
+   Negative margin keeps the about block where it is. */
+.we-create-section {
+  margin-top: 167px;
+  margin-bottom: -167px;
+}
+@media (max-width: 760px) {
+  .we-create-section {
+    margin-top: 55px;
+    margin-bottom: -55px;
+  }
+}
+
 .mm-typed-wrap {
   max-width: 1100px;
   margin: 40px auto 10px;
