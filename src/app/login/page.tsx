@@ -6,7 +6,11 @@ import { Suspense } from "react";
 
 function LoginForm() {
   const params = useSearchParams();
-  const [error, setError] = useState(params.get("error") === "forbidden" ? "This dashboard belongs to another account." : "");
+  const initialError =
+    params.get("error") === "forbidden"
+      ? "This dashboard belongs to another account."
+      : params.get("error") || "";
+  const [error, setError] = useState(initialError);
   const [loading, setLoading] = useState(false);
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -43,7 +47,8 @@ function LoginForm() {
         <span className="eyebrow">Client Access</span>
         <h1 className="mt-3 font-serif text-4xl">Login</h1>
         <p className="mt-3 text-[#cfcfcf]">Sign in to view your live analytics dashboard.</p>
-        <form onSubmit={onSubmit} className="mt-8 grid gap-4">
+        <form onSubmit={onSubmit} action="/api/login/" method="post" className="mt-8 grid gap-4">
+          <input type="hidden" name="redirect" value={params.get("redirect") || ""} />
           <label className="grid gap-2 text-sm">
             Username or E-mail
             <input className="site-input" name="username" autoComplete="username" required />
