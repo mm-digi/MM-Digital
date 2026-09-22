@@ -209,7 +209,7 @@
       display: inline-grid;
       min-width: 20ch;
       min-height: 1.15em;
-      text-align: center;
+      text-align: left;
     }
 
     .we-create-word {
@@ -220,7 +220,6 @@
       opacity: 0;
       white-space: nowrap;
       border-right: 0.06em solid currentColor;
-      justify-self: center;
       animation: weCreateType var(--we-create-duration) steps(var(--characters), end) infinite;
       animation-delay: var(--delay);
     }
@@ -258,6 +257,10 @@
       .we-create-word {
         justify-self: center;
       }
+
+      .mm-we-create-gap {
+        height: 40px !important;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -288,9 +291,7 @@
 </div>
 
 <div class="wp-block-group alignfull ext-animate--on has-background-background-color has-background">
-<div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-desktop"></div>
-
-<div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
+<div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on mm-we-create-gap"></div>
 </div>
 
 <div class="wp-block-group alignfull ext-animate--on">
