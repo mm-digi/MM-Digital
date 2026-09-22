@@ -140,7 +140,7 @@ export default function ChannelChart({
   );
 
   return (
-    <div className="card p-5">
+    <div className="mm-card p-5">
       <div className="mb-1 flex flex-wrap items-end justify-between gap-2">
         <h3 className="font-serif text-xl">{title}</h3>
         <strong className="text-[#ff808b]">

@@ -88,9 +88,12 @@ function PeriodGrid({ period, compare }: { period: PeriodBlock; compare: string 
           {formatDateRange(period.from, period.to)} · vs previous {compare}
         </p>
       </div>
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
-        {TILES.map(({ key, label, prefix }) => (
-          <div key={`${period.label}-${key}`} className="card p-4 sm:p-5">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-7">
+        {TILES.map(({ key, label, prefix }, index) => (
+          <div
+            key={`${period.label}-${key}`}
+            className={`mm-card p-4 sm:p-5 ${index === TILES.length - 1 ? "col-span-2 xl:col-span-1" : ""}`}
+          >
             <div className="text-xs text-[#cfcfcf] sm:text-sm">{label}</div>
             <div className="mt-2 text-xl font-bold text-[#ff808b] sm:text-2xl">
               {prefix}
@@ -108,7 +111,7 @@ function SourceTable({ title, data }: { title: string; data: Record<string, Metr
   const rows = Object.entries(data);
   if (!rows.length) return null;
   return (
-    <div className="card overflow-x-auto p-5">
+    <div className="mm-card overflow-x-auto p-5">
       <h3 className="mb-4 font-serif text-xl">{title}</h3>
       <table className="w-full min-w-[640px] text-left text-sm">
         <thead className="text-[#cfcfcf]">
@@ -189,7 +192,7 @@ function CampaignBars({ campaigns }: { campaigns: CampaignPoint[] }) {
   if (!campaigns.length) return null;
   const max = Math.max(...campaigns.map((campaign) => campaign.conversions || campaign.clicks), 1);
   return (
-    <div className="card p-5">
+    <div className="mm-card p-5">
       <h3 className="font-serif text-xl">Ad leads by campaign</h3>
       <p className="mb-4 text-sm text-[#cfcfcf]">Results for each Facebook Ads campaign this month.</p>
       <div className="space-y-3">

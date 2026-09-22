@@ -39,7 +39,7 @@ function LoginForm() {
 
   return (
     <div className="px-5 py-24">
-      <div className="mx-auto max-w-md card p-8">
+      <div className="mx-auto max-w-md mm-card p-8">
         <span className="eyebrow">Client Access</span>
         <h1 className="mt-3 font-serif text-4xl">Login</h1>
         <p className="mt-3 text-[#cfcfcf]">Sign in to view your live analytics dashboard.</p>

@@ -17,7 +17,7 @@ export default function DashboardView({ dashboard }: { dashboard: ClientDashboar
               Speak To Us
             </a>
           </div>
-          <div className="card p-8">
+          <div className="mm-card p-8">
             <p className="text-[1.04rem] leading-7 text-[#cfcfcf]">
               Here’s your latest social media and website activity. We’re continuously working behind the scenes to grow your visibility, increase engagement and drive more visits across your channels and website.
             </p>
