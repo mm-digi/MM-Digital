@@ -10,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .readdirSync(path.join(process.cwd(), "content", "pages"))
     .filter((name) => name.endsWith(".html"))
     .map((name) => name.replace(/\.html$/, ""))
-    .filter((slug) => slug !== "home" && slug !== "6135-2" && !DASHBOARD_SLUGS.has(slug));
+    .filter((slug) => slug !== "home" && !DASHBOARD_SLUGS.has(slug));
 
   return [
     { url: SITE_URL, changeFrequency: "weekly", priority: 1 },

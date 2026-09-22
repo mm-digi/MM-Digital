@@ -9,6 +9,16 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  async redirects() {
+    return [
+      {
+        source: "/6135-2/",
+        destination: "/why-most-businesses-waste-their-ad-spend-and-what-to-do-instead/",
+        permanent: true,
+      },
+    ];
+  },
+
   async headers() {
     return [
       {

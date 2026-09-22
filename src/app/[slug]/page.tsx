@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getDashboard } from "@/lib/clients";
-import { readWpPage, splitDashboardHtml } from "@/lib/wp";
+import { extractDescriptionFromHtml, extractTitleFromHtml, readWpPage, splitDashboardHtml } from "@/lib/wp";
 import DashboardView from "@/components/DashboardView";
 import MetricsSnapshot from "@/components/MetricsSnapshot";
 import WpHtml from "@/components/WpHtml";
@@ -11,9 +11,13 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const dashboard = getDashboard(slug);
+  const html = dashboard ? null : readWpPage(slug);
+  const title = dashboard?.name || (html && extractTitleFromHtml(html)) || slug.replace(/-/g, " ");
+  const description = html ? extractDescriptionFromHtml(html) : null;
   return {
-    title: dashboard?.name || slug.replace(/-/g, " "),
+    title,
     alternates: { canonical: `/${slug}/` },
+    ...(description ? { description } : {}),
     ...(dashboard ? { robots: { index: false, follow: false } } : {}),
   };
 }
