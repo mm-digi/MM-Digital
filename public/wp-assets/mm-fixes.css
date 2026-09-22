@@ -547,7 +547,7 @@ iframe.mm-live-report-frame,
 }
 
 .wp-block-columns.has-primary-background-color {
-  max-width: 1080px !important;
+  max-width: 1360px !important;
   margin-left: auto !important;
   margin-right: auto !important;
 }
@@ -755,6 +755,7 @@ iframe.mm-live-report-frame,
 @media (max-width: 640px) {
   .mm-google-card {
     flex-basis: 100%;
+    min-height: 0;
   }
 }
 .logo-marquee-section,
