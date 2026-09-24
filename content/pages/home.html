@@ -617,8 +617,9 @@
   width: 100% !important;
   height: 100% !important;
   max-width: none !important;
-  object-fit: cover !important;
-  object-position: center top !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: #000 !important;
   display: block !important;
 }
 
@@ -640,35 +641,15 @@
   white-space: nowrap !important;
 }
 
-/* Laptop: balanced crop */
 @media (min-width: 769px) and (max-width: 1600px) {
-  .mm-work-card img {
-    object-fit: cover !important;
-    object-position: 58% top !important;
-  }
-
   .mm-work-btn {
     right: 52px !important;
   }
 }
 
-/* Smaller or narrower laptops: protect the right side */
 @media (min-width: 769px) and (max-width: 1350px) {
-  .mm-work-card img {
-    object-position: 65% top !important;
-  }
-
   .mm-work-btn {
     right: 60px !important;
-  }
-}
-
-/* Short/wide laptop screens: stop top/right crop getting harsh */
-@media (min-width: 769px) and (max-width: 1600px) and (max-height: 820px) {
-  .mm-work-card img {
-    object-fit: contain !important;
-    object-position: center top !important;
-    background: #000 !important;
   }
 }
 
@@ -721,35 +702,35 @@
 
     <div class="mm-work-card">
       <div class="mm-work-inner">
-        <img src="/media/mm-digital-home-image-0acbadd.webp" alt="Launching Oriels Exeter into one of the city’s most in-demand venues">
+        <img src="/media/banners/oriels-desktop.webp" alt="Growing Oriels into one of Exeter's most in-demand venues">
         <a class="mm-work-btn" href="/our-work/">View Our Work →</a>
       </div>
     </div>
 
     <div class="mm-work-card">
       <div class="mm-work-inner">
-        <img src="/media/mm-digital-home-image-cbece3d.webp" alt="Expanding Yvonne Coomber’s digital presence">
+        <img src="/media/banners/yvonne-desktop.webp" alt="Continuously growing Yvonne Coomber's online presence">
         <a class="mm-work-btn" href="/our-work/">View Our Work →</a>
       </div>
     </div>
 
     <div class="mm-work-card">
       <div class="mm-work-inner">
-        <img src="/media/mm-digital-home-image-b618cf9.webp" alt="From brand concept to live presence: the Lost In Hound story">
+        <img src="/media/banners/lost-in-hound-desktop.webp" alt="From brand concept to thriving presence: the Lost In Hound story">
         <a class="mm-work-btn" href="/our-work/">View Our Work →</a>
       </div>
     </div>
 
     <div class="mm-work-card">
       <div class="mm-work-inner">
-        <img src="/media/waldrons-new-2.webp" alt="Growing Waldrons Patisserie through a full digital rebuild and long-term marketing partnership">
+        <img src="/media/banners/waldrons-desktop.webp" alt="From digital rebuild to long-term growth: Waldrons Patisserie">
         <a class="mm-work-btn" href="/our-work/">View Our Work →</a>
       </div>
     </div>
 
     <div class="mm-work-card">
       <div class="mm-work-inner">
-        <img src="/media/mm-digital-home-image-b0b218d.webp" alt="Full brand identity, digital platform and pre-launch presence built for Auric Performance">
+        <img src="/media/banners/auric-desktop.webp" alt="Creating Auric Performance's brand and digital presence from scratch">
         <a class="mm-work-btn" href="/our-work/">View Our Work →</a>
       </div>
     </div>

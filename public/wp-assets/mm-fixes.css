@@ -201,6 +201,10 @@ header.wp-block-template-part .wp-block-navigation-item__content:hover strong {
 .mm-social-facebook { background: #3b5998; }
 .mm-social-instagram { background: #f00069; }
 .mm-social-linkedin { background: #3452c2; }
+.stk-mm-tiktok .stk-button {
+  background: #111111 !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55) !important;
+}
 .mm-social-email { background: #fff; color: #000; }
 .mm-social-phone { background: #ff808b; }
 .mm-footer-legal {
