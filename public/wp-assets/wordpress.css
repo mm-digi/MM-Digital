@@ -2073,52 +2073,15 @@ div#n2-ss-4 .n2-ss-slider-1{display:grid;position:relative;}div#n2-ss-4 .n2-ss-s
     }
 
     .about-copy {
-      max-height: 330px;
-      overflow: hidden;
+      max-height: none;
+      overflow: visible;
       padding: 26px 22px;
       border-radius: 22px;
-      transition: max-height .35s ease;
     }
 
-    .about-copy::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 90px;
-      background: linear-gradient(180deg, rgba(10,10,10,0), rgba(10,10,10,0.96));
-      pointer-events: none;
-      border-radius: 0 0 22px 22px;
-    }
-
-    .about-copy.is-open {
-      max-height: 2000px;
-    }
-
-    .about-copy.is-open::after {
-      display: none;
-    }
-
+    .about-copy::after,
     .about-read-more {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      min-height: 50px;
-      margin-top: 16px;
-      border: 0;
-      border-radius: 999px;
-      background: #ff808b;
-      color: #fff;
-      font-weight: 700;
-      font-family: 'Glacial Indifference', Arial, Helvetica, sans-serif;
-      cursor: pointer;
-      box-shadow: 0 14px 34px rgba(0,0,0,.28);
-    }
-
-    .about-read-more:hover {
-      background: #ff6d79;
+      display: none;
     }
   }
 

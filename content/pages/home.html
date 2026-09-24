@@ -376,9 +376,6 @@
           </p>
         </div>
 
-        <button class="about-read-more" type="button" aria-expanded="false" aria-controls="aboutCopy">
-          Read More
-        </button>
       </div>
 
     </div>
@@ -504,71 +501,20 @@
     }
 
     .about-copy {
-      max-height: 330px;
-      overflow: hidden;
+      max-height: none;
+      overflow: visible;
       padding: 26px 22px;
       border-radius: 22px;
-      transition: max-height .35s ease;
     }
 
-    .about-copy::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 90px;
-      background: linear-gradient(180deg, rgba(10,10,10,0), rgba(10,10,10,0.96));
-      pointer-events: none;
-      border-radius: 0 0 22px 22px;
-    }
-
-    .about-copy.is-open {
-      max-height: 2000px;
-    }
-
-    .about-copy.is-open::after {
-      display: none;
-    }
-
+    .about-copy::after,
     .about-read-more {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      min-height: 50px;
-      margin-top: 16px;
-      border: 0;
-      border-radius: 999px;
-      background: #ff808b;
-      color: #fff;
-      font-weight: 700;
-      font-family: 'Glacial Indifference', Arial, Helvetica, sans-serif;
-      cursor: pointer;
-      box-shadow: 0 14px 34px rgba(0,0,0,.28);
-    }
-
-    .about-read-more:hover {
-      background: #ff6d79;
+      display: none;
     }
   }
 </style>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const aboutCopy = document.getElementById('aboutCopy');
-    const readMoreButton = document.querySelector('.about-read-more');
 
-    if (!aboutCopy || !readMoreButton) return;
-
-    readMoreButton.addEventListener('click', function () {
-      const isOpen = aboutCopy.classList.toggle('is-open');
-
-      readMoreButton.textContent = isOpen ? 'Show Less' : 'Read More';
-      readMoreButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-  });
-</script>
 </div>
 
 <div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
@@ -1930,9 +1876,30 @@ document.addEventListener("DOMContentLoaded", function () {
     margin-right: auto !important;
   }
 
-  @media (max-width: 760px) {
+  @media (max-width: 781px) {
     .mm-home-contact-panel {
       width: calc(100% - 32px);
+    }
+
+    .mm-home-contact-panel .mm-contact-lead {
+      font-size: clamp(15px, 4.15vw, 22px) !important;
+      white-space: nowrap;
+      line-height: 1.25;
+    }
+
+    .mm-home-contact-panel .stk-ea4c8ef {
+      margin-bottom: 28px;
+    }
+
+    .mm-home-contact-panel figure.wp-block-image {
+      margin-top: 0;
+      margin-bottom: 16px;
+    }
+
+    .mm-home-contact-panel > .wp-block-column:last-child > .wp-block-spacer {
+      display: none !important;
+      height: 0 !important;
+      min-height: 0 !important;
     }
   }
 </style>
@@ -1943,7 +1910,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <h2 id="14-launch-your-brands-growth-with-mm-digital" class="wp-block-heading has-background-color has-text-color has-link-color has-libre-baskerville-font-family">Get in Touch</h2>
 
-<p class="ext-animate--on has-glacial-indifference-font-family has-large-font-size">See how we'd drive results for you</p>
+<p class="ext-animate--on has-glacial-indifference-font-family has-large-font-size mm-contact-lead">See how we'd drive results for you</p>
 
 <p class="has-background-color has-text-color has-link-color has-glacial-indifference-font-family has-medium-font-size">Discover how MM Digital's expert strategies can elevate your online presence. Join us now to start transforming your brand with data-driven creativity and personalized marketing solutions.</p>
 
