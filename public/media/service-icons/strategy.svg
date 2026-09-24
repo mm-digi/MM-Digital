@@ -8,9 +8,8 @@
   </defs>
   <circle cx="80" cy="80" r="78" fill="url(#glow)"/>
   <circle cx="80" cy="80" r="48" fill="#070707" stroke="#ff808b" stroke-width="2.4"/>
-  <path d="M54 98c10-2 14-16 24-18s12-14 28-20" stroke="#ff808b" stroke-width="2.6" stroke-linecap="round"/>
-  <circle cx="54" cy="98" r="4.2" fill="#ff808b"/>
-  <circle cx="78" cy="80" r="4.2" fill="#ff808b"/>
-  <circle cx="106" cy="60" r="4.2" fill="#ff808b"/>
-  <path d="M106 60v-16h12l-3.2 4.2L118 52.2" fill="#ff808b"/>
+  <path d="M58 98c12 0 14-16 24-18s12-12 22-18" stroke="#ff808b" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+  <circle cx="58" cy="98" r="3.6" fill="#ff808b"/>
+  <circle cx="82" cy="80" r="3.6" fill="#ff808b"/>
+  <circle cx="104" cy="62" r="3.6" fill="#ff808b"/>
 </svg>

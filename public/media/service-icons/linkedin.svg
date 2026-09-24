@@ -8,10 +8,8 @@
   </defs>
   <circle cx="80" cy="80" r="78" fill="url(#glow)"/>
   <circle cx="80" cy="80" r="48" fill="#070707" stroke="#ff808b" stroke-width="2.4"/>
-  <rect x="58" y="62" width="32" height="32" rx="5" fill="#ff808b"/>
-  <circle cx="67" cy="71" r="2.3" fill="#070707"/>
-  <rect x="65" y="76" width="4" height="12" rx="1" fill="#070707"/>
-  <path d="M74 88v-8.2c0-2.4 3.2-3.6 5.2-2 1.2 1 1.8 2.2 1.8 4.2V88" stroke="#070707" stroke-width="3.2" stroke-linecap="round"/>
-  <path d="M96 74c8 2 12 8 12 14" stroke="#ff808b" stroke-width="2.3" stroke-linecap="round"/>
-  <path d="M104 84l4 4 6-8" stroke="#ff808b" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="56" y="56" width="48" height="48" rx="7" fill="#ff808b"/>
+  <circle cx="70.2" cy="69.6" r="3.3" fill="#070707"/>
+  <rect x="67.2" y="76.2" width="6" height="16.4" rx="1.2" fill="#070707"/>
+  <path d="M79.4 92.6V78.6c0-4 2.7-6 6-4.6 2.6 1.1 3.8 3.4 3.8 6.4v12.2" stroke="#070707" stroke-width="5.8" stroke-linecap="round" fill="none"/>
 </svg>
