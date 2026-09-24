@@ -116,6 +116,53 @@
         max-height: 55px;
       }
     }
+
+    /* Even spacing: logo images are cropped to their own width, so each item
+       hugs its logo and one fixed gap separates them all. Scoped to the
+       section so it beats the older !important rules in wordpress.css. The
+       group's trailing padding matches the gap so the -50% loop is seamless. */
+    .logo-marquee-section {
+      --logo-gap: 56px;
+      --logo-height: 105px;
+    }
+
+    .logo-marquee-section .logo-marquee-track {
+      gap: 0 !important;
+      min-width: 0 !important;
+      animation-name: mmLogoMarquee !important;
+    }
+
+    .logo-marquee-section .logo-marquee-group {
+      gap: var(--logo-gap);
+      padding-right: var(--logo-gap);
+    }
+
+    .logo-marquee-section .logo-item {
+      width: auto !important;
+      min-width: 0 !important;
+      height: var(--logo-height) !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .logo-marquee-section .logo-item img {
+      width: auto !important;
+      height: var(--logo-height) !important;
+      max-width: none !important;
+      max-height: none !important;
+    }
+
+    @keyframes mmLogoMarquee {
+      from { transform: translate3d(0, 0, 0); }
+      to { transform: translate3d(-50%, 0, 0); }
+    }
+
+    @media (max-width: 767px) {
+      .logo-marquee-section {
+        --logo-gap: 36px;
+        --logo-height: 80px;
+      }
+    }
   </style>
 
   <h2 class="logo-marquee-title">Trusted by Leading Brands</h2>

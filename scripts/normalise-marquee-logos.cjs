@@ -1,10 +1,10 @@
-// Trims each brand logo to its visible edges and re-centres it on a uniform
-// 500x250 black canvas, scaled so every logo carries similar visual weight
-// in the homepage "Trusted by Leading Brands" marquee.
+// Trims each brand logo to its visible edges and re-centres it vertically on a
+// 250px-tall black canvas cropped to the logo's width, scaled so every logo
+// carries similar visual weight. Cropping the width lets the marquee put an
+// even gap between logos in the homepage "Trusted by Leading Brands" marquee.
 const sharp = require("sharp");
 const path = require("path");
 
-const CANVAS_W = 500;
 const CANVAS_H = 250;
 const TARGET_AREA = 26000; // content area (px²) on the canvas
 const MAX_W = 440;
@@ -51,9 +51,9 @@ const pub = (p) => path.join(__dirname, "..", "public", p);
 
     const resized = await sharp(trimmed.data).resize(nw, nh).toBuffer();
     await sharp({
-      create: { width: CANVAS_W, height: CANVAS_H, channels: 3, background: "#000" },
+      create: { width: nw, height: CANVAS_H, channels: 3, background: "#000" },
     })
-      .composite([{ input: resized, left: Math.round((CANVAS_W - nw) / 2), top: Math.round((CANVAS_H - nh) / 2) }])
+      .composite([{ input: resized, left: 0, top: Math.round((CANVAS_H - nh) / 2) }])
       .webp({ quality: 90 })
       .toFile(pub(`logos/marquee/${slug}.webp`));
 
