@@ -28,6 +28,18 @@ function LoginForm() {
           remember: form.get("remember") === "on",
         }),
       });
+      const contentType = res.headers.get("content-type") || "";
+      if (!contentType.includes("application/json")) {
+        const key = "mm-login-challenge";
+        if (!sessionStorage.getItem(key)) {
+          sessionStorage.setItem(key, "1");
+          window.location.reload();
+          return;
+        }
+        setError("The site is verifying your browser. Wait for that check to finish, then sign in again.");
+        return;
+      }
+      sessionStorage.removeItem("mm-login-challenge");
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         setError(data.error || "Invalid username or password.");
