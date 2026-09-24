@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="42%" stop-color="#ff808b" stop-opacity="0"/>
+      <stop offset="58%" stop-color="#ff808b" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#ff808b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="80" cy="80" r="78" fill="url(#glow)"/>
+  <circle cx="80" cy="80" r="48" fill="#070707" stroke="#ff808b" stroke-width="2.4"/>
+  <circle cx="74" cy="76" r="16" stroke="#ff808b" stroke-width="2.5"/>
+  <path d="M86 88l12 12" stroke="#ff808b" stroke-width="3" stroke-linecap="round"/>
+  <path d="M66 82v-6M72 82v-10M78 82V66" stroke="#ff808b" stroke-width="2.4" stroke-linecap="round"/>
+</svg>
