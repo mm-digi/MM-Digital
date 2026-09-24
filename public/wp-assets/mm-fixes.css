@@ -844,3 +844,61 @@ iframe.mm-live-report-frame,
 .mm-hero-title .mm-hero-accent {
   color: #ff808b;
 }
+
+/* Revenue rings match the pink circles on Mission, Vision and Values. */
+.stats-ring-hero {
+  width: min(280px, 78%);
+  max-width: 280px;
+  aspect-ratio: 1;
+  margin: 0 auto 28px;
+  border-radius: 50%;
+  border: 3px solid #ff808b;
+  background:
+    radial-gradient(circle at center, rgba(255,128,139,0.2) 0%, rgba(255,128,139,0.05) 42%, #070707 68%);
+  box-shadow:
+    0 0 0 10px rgba(255,128,139,0.16),
+    0 0 42px 12px rgba(255,128,139,0.42);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stats-ring-image {
+  display: none;
+}
+
+.stats-ring-center {
+  position: static;
+  transform: none;
+  width: 78%;
+}
+
+.stats-ring-number,
+.stat-value {
+  font-variant-numeric: tabular-nums;
+}
+
+.stats-ring-number.is-landed,
+.stat-value.is-landed {
+  animation: mmStatsLand 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes mmStatsLand {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 640px) {
+  .stats-ring-hero {
+    width: min(230px, 70%);
+    max-width: 230px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stats-ring-number.is-landed,
+  .stat-value.is-landed {
+    animation: none;
+  }
+}

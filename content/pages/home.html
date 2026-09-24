@@ -1850,41 +1850,73 @@ text-decoration:none;
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const counters = document.querySelectorAll(".counter");
+  const section = document.querySelector(".stats-comparison-section");
+  if (!section) return;
 
-  function animateCounter(counter) {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function finalText(counter) {
     const target = parseFloat(counter.dataset.target);
     const decimals = parseInt(counter.dataset.decimals || "0", 10);
-    const duration = 1800;
+    return target.toFixed(decimals);
+  }
+
+  function land(counter) {
+    const holder = counter.closest(".stats-ring-number, .stat-value");
+    if (holder) holder.classList.add("is-landed");
+  }
+
+  function animateCounter(counter, duration) {
+    const target = parseFloat(counter.dataset.target);
+    const decimals = parseInt(counter.dataset.decimals || "0", 10);
     const startTime = performance.now();
 
     function update(currentTime) {
       const progress = Math.min((currentTime - startTime) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = target * eased;
-
-      counter.textContent = current.toFixed(decimals);
-
+      const eased = 1 - Math.pow(1 - progress, 4);
+      counter.textContent = (target * eased).toFixed(decimals);
       if (progress < 1) {
         requestAnimationFrame(update);
       } else {
         counter.textContent = target.toFixed(decimals);
+        land(counter);
       }
     }
 
     requestAnimationFrame(update);
   }
 
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        animateCounter(entry.target);
-        obs.unobserve(entry.target);
-      }
+  function play() {
+    section.querySelectorAll(".stats-panel").forEach(function (panel) {
+      const counters = panel.querySelectorAll(".counter");
+      counters.forEach(function (counter, index) {
+        if (reduce) {
+          counter.textContent = finalText(counter);
+          return;
+        }
+        const delay = index === 0 ? 0 : 160 + (index - 1) * 80;
+        const duration = index === 0 ? 2000 : 1400;
+        window.setTimeout(function () {
+          animateCounter(counter, duration);
+        }, delay);
+      });
     });
-  }, { threshold: 0.35 });
+  }
 
-  counters.forEach(counter => observer.observe(counter));
+  if (reduce || !("IntersectionObserver" in window)) {
+    play();
+    return;
+  }
+
+  const observer = new IntersectionObserver(function (entries, obs) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      play();
+      obs.disconnect();
+    });
+  }, { threshold: 0.2 });
+
+  observer.observe(section);
 });
 </script>
 </div>
