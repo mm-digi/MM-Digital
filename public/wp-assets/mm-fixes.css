@@ -832,3 +832,11 @@ iframe.mm-live-report-frame,
   overflow: hidden !important;
   max-width: 100%;
 }
+
+/* Hero headline: "From" and "To" stay white; "Concept" and "Conversion" stay pink. */
+.mm-hero-title .mm-hero-plain {
+  color: #fff;
+}
+.mm-hero-title .mm-hero-accent {
+  color: #ff808b;
+}
