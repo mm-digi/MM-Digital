@@ -1488,7 +1488,7 @@ text-decoration:none;
       <!-- CARD 1 -->
       <div class="mm-mvv-card">
         <div class="mm-mvv-image-wrap">
-          <img src="/media/mm-digital-computer.webp" alt="Our Mission" class="mm-mvv-image">
+          <img src="/media/our-mission.webp" alt="Our Mission" class="mm-mvv-image">
         </div>
         <h3>Our Mission</h3>
         <p>
@@ -1499,7 +1499,7 @@ text-decoration:none;
       <!-- CARD 2 -->
       <div class="mm-mvv-card">
         <div class="mm-mvv-image-wrap">
-          <img src="/media/mm-digital-our-vision.webp" alt="Our Vision" class="mm-mvv-image">
+          <img src="/media/our-vision.webp" alt="Our Vision" class="mm-mvv-image">
         </div>
         <h3>Our Vision</h3>
         <p>
@@ -1510,7 +1510,7 @@ text-decoration:none;
       <!-- CARD 3 -->
       <div class="mm-mvv-card">
         <div class="mm-mvv-image-wrap">
-          <img src="/media/mm-digital-star.webp" alt="Our Values" class="mm-mvv-image">
+          <img src="/media/our-values.webp" alt="Our Values" class="mm-mvv-image">
         </div>
         <h3>Our Values</h3>
         <p>
@@ -1587,9 +1587,12 @@ text-decoration:none;
 }
 
 .mm-mvv-image-wrap {
-  border-radius: 20px;
-  overflow: hidden;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
   margin-bottom: 22px;
+  overflow: visible;
+  background: radial-gradient(circle at center, rgba(255,128,139,0.32) 0%, rgba(255,128,139,0.1) 36%, transparent 64%);
   animation: mmMvvFloat 6s ease-in-out infinite;
 }
 
@@ -1603,8 +1606,15 @@ text-decoration:none;
 
 .mm-mvv-image {
   display: block;
-  width: 100%;
+  width: 68%;
+  aspect-ratio: 1;
   height: auto;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #ff808b;
+  box-shadow:
+    0 0 0 10px rgba(255,128,139,0.16),
+    0 0 42px 12px rgba(255,128,139,0.42);
 }
 
 .mm-mvv-card h3 {
