@@ -20,7 +20,7 @@ export const CLIENT_USERS: ClientUser[] = [
   { username: "waldrons-patisserie-client", slug: "waldrons-patisserie-dashboard", passwordHash: "$2b$12$cGd9wB7bmux.e3UydjHSIOs9kzrWJFeM3H45gmbPmX56cCYWq0yuK" },
   { username: "brs-bristol", slug: "brs-bristol-dashboard", passwordHash: "$2b$12$I6OOPz4EMSeBTbfjOXqSWuhagToYlWe.qXCzgMRUoHBijgHnTGcKG" },
   { username: "evolution-padel", slug: "evolution-padel-2", passwordHash: "$2b$12$wMWktOwx05fzs0y/bSTzY.THddkgHzQRcD/O9njPm5jhPQoyBnCsG" },
-  { username: "new-reflexions", slug: "new-reflexions-dashboard", passwordHash: "$2b$12$wQjES06u1/pRPSwu./KM2uW5WOl239KybJ2KYL7rSZh4a4wT8g2y." },
+  { username: "new-reflexions", slug: "new-reflexions-dashboard", passwordHash: "$2b$12$8fDfkxHMo6ELBcqxKHvMxum6KeXKH4S4vVX0Aq6KyXBwv6W5XIM2." },
   { username: "search-mortgage-solutions", slug: "search-mortgage-solutions-dashboard", passwordHash: "$2b$12$KsWIrbJrqISpWkGFtOcIBuJfOB/gtVNMitDXoXqth5wEGkvnpiZ5y" },
   { username: "the-loft-hair-studio-client", slug: "the-loft-hair-studio-dashboard", passwordHash: "$2b$12$J18R/vuk9i2tOWEPSpQZWO.G/PFrA6NUaRsA.hGjofLPUgRxL/NOC" },
   { username: "tors-vodka-client", slug: "tors-vodka-dashboard", passwordHash: "$2b$12$c4k15UQfyHoUUs.lVjIOjuh3JdjYgevcgZcuHsmjhfZyHEgR7diJu" },
