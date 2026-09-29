@@ -179,9 +179,16 @@ export const CLIENT_DASHBOARDS: ClientDashboard[] = [
     slug: "design-with-bloom-dashboard",
     name: "Design With Bloom",
     heading: "Design With Bloom's Analytics Dashboard",
-    reportTitle: "Website & Facebook Analytics",
+    reportTitle: "Website, Facebook, Instagram, LinkedIn & Facebook Ads Analytics",
     embedUrl:
       "https://datastudio.google.com/embed/reporting/a639f29e-ceb5-446b-b8c1-f760cc2c22f0/page/p_fyawgjua7d",
+  },
+  {
+    slug: "jazz-beauty-clinic-dashboard",
+    name: "Jazz Beauty Clinic",
+    heading: "Jazz Beauty Clinic's Analytics Dashboard",
+    reportTitle: "Website Analytics",
+    embedUrl: "",
   },
 ];
 
