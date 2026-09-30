@@ -218,7 +218,11 @@ export default function WpChrome({
         if (!dragged && Math.abs(dx) > 5) {
           dragged = true;
           track.classList.add("is-dragging");
-          track.setPointerCapture(e.pointerId);
+          // Keeps the drag going if the mouse leaves the row; harmless to skip
+          // if the browser has already released the pointer.
+          try {
+            track.setPointerCapture(e.pointerId);
+          } catch {}
         }
         if (!dragged) return;
         const now = performance.now();
