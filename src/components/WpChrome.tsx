@@ -186,6 +186,84 @@ export default function WpChrome({
       update();
       sliders.push(() => window.removeEventListener("resize", update));
     });
+    // Testimonials: one quote at a time, moving on every 7 seconds (a pink
+    // bar shows the time left). Hovering or focusing pauses it, and the
+    // arrows step backwards and forwards.
+    document.querySelectorAll(".mm-quotes").forEach((section) => {
+      const quotes = [...section.querySelectorAll(".mm-quote")] as HTMLElement[];
+      const count = section.querySelector(".mm-quote-count b");
+      const bar = section.querySelector(".mm-quote-progress i") as HTMLElement | null;
+      const prevBtn = section.querySelector(".mm-quote-prev");
+      const nextBtn = section.querySelector(".mm-quote-next");
+      if (!quotes.length || !bar) return;
+      const DURATION = 7000;
+      let index = 0;
+      let timer = 0;
+      let startedAt = 0;
+      let remaining = DURATION;
+      let paused = false;
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      const restartBar = () => {
+        bar.classList.remove("is-running");
+        void bar.offsetWidth; // restart the CSS animation
+        if (!reduceMotion) bar.classList.add("is-running");
+      };
+      const schedule = (ms: number) => {
+        window.clearTimeout(timer);
+        if (reduceMotion) return;
+        startedAt = performance.now();
+        remaining = ms;
+        timer = window.setTimeout(() => show(index + 1), ms);
+      };
+      const show = (i: number) => {
+        index = (i + quotes.length) % quotes.length;
+        quotes.forEach((q, n) => {
+          q.classList.toggle("is-active", n === index);
+          q.setAttribute("aria-hidden", n === index ? "false" : "true");
+        });
+        if (count) count.textContent = String(index + 1).padStart(2, "0");
+        restartBar();
+        if (paused) {
+          remaining = DURATION;
+        } else {
+          schedule(DURATION);
+        }
+      };
+      const pause = () => {
+        if (paused) return;
+        paused = true;
+        section.classList.add("is-paused");
+        window.clearTimeout(timer);
+        remaining = Math.max(0, remaining - (performance.now() - startedAt));
+      };
+      const resume = () => {
+        if (!paused) return;
+        paused = false;
+        section.classList.remove("is-paused");
+        schedule(remaining);
+      };
+      const onPrev = () => show(index - 1);
+      const onNext = () => show(index + 1);
+      const stage = section.querySelector(".mm-quotes-stage") as HTMLElement | null;
+
+      prevBtn?.addEventListener("click", onPrev);
+      nextBtn?.addEventListener("click", onNext);
+      stage?.addEventListener("pointerenter", pause);
+      stage?.addEventListener("pointerleave", resume);
+      stage?.addEventListener("focusin", pause);
+      stage?.addEventListener("focusout", resume);
+      show(0);
+      sliders.push(() => {
+        window.clearTimeout(timer);
+        prevBtn?.removeEventListener("click", onPrev);
+        nextBtn?.removeEventListener("click", onNext);
+        stage?.removeEventListener("pointerenter", pause);
+        stage?.removeEventListener("pointerleave", resume);
+        stage?.removeEventListener("focusin", pause);
+        stage?.removeEventListener("focusout", resume);
+      });
+    });
     // "What We Do" row: a native sideways scroller (swipe/trackpad) that can
     // also be grabbed and dragged with a mouse. On release it glides to the
     // nearest card, carrying on in the direction of a quick flick.
