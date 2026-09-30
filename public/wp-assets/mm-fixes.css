@@ -607,7 +607,7 @@ iframe.mm-live-report-frame,
   margin-right: auto !important;
 }
 
-.wp-block-columns:has(#contact-us) {
+.wp-block-columns:has(#contact-us):not(.mm-contact-columns) {
   max-width: 760px !important;
   margin-left: auto !important;
   margin-right: auto !important;
