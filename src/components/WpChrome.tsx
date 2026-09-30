@@ -261,6 +261,14 @@ export default function WpChrome({
         quotes.forEach((q, n) => {
           q.classList.toggle("is-active", n === index);
           q.setAttribute("aria-hidden", n === index ? "false" : "true");
+          if (n !== index) {
+            q.classList.remove("is-open");
+            const more = q.querySelector(".mm-quote-more");
+            if (more) {
+              more.textContent = "Read more";
+              more.setAttribute("aria-expanded", "false");
+            }
+          }
         });
         if (count) count.textContent = String(index + 1).padStart(2, "0");
         restartBar();
@@ -287,6 +295,17 @@ export default function WpChrome({
       const onNext = () => show(index + 1);
       const stage = section.querySelector(".mm-quotes-stage") as HTMLElement | null;
 
+      const moreButtons = [...section.querySelectorAll(".mm-quote-more")] as HTMLButtonElement[];
+      const onMore = (event: Event) => {
+        const btn = event.currentTarget as HTMLButtonElement;
+        const quote = btn.closest(".mm-quote");
+        if (!quote) return;
+        const open = quote.classList.toggle("is-open");
+        btn.textContent = open ? "Read less" : "Read more";
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      };
+      moreButtons.forEach((btn) => btn.addEventListener("click", onMore));
+
       prevBtn?.addEventListener("click", onPrev);
       nextBtn?.addEventListener("click", onNext);
       stage?.addEventListener("pointerenter", pause);
@@ -296,6 +315,7 @@ export default function WpChrome({
       show(0);
       sliders.push(() => {
         window.clearTimeout(timer);
+        moreButtons.forEach((btn) => btn.removeEventListener("click", onMore));
         prevBtn?.removeEventListener("click", onPrev);
         nextBtn?.removeEventListener("click", onNext);
         stage?.removeEventListener("pointerenter", pause);

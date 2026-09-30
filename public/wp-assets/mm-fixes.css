@@ -198,14 +198,14 @@ header.wp-block-template-part .wp-block-navigation-item__content:hover strong {
   font-weight: 700;
   font-size: 0.85rem;
 }
-.mm-social-facebook { background: #3b5998; }
-.mm-social-instagram { background: #f00069; }
-.mm-social-linkedin { background: #3452c2; }
+.mm-social-facebook { background: #ff808b; }
+.mm-social-instagram { background: #ff808b; }
+.mm-social-linkedin { background: #ff808b; }
 .stk-mm-tiktok .stk-button {
-  background: #111111 !important;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55) !important;
+  background: #ff808b !important;
+  box-shadow: none !important;
 }
-.mm-social-email { background: #fff; color: #000; }
+.mm-social-email { background: #ff808b; color: #fff; }
 .mm-social-phone { background: #ff808b; }
 .mm-footer-legal {
   max-width: 760px;

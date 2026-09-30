@@ -962,7 +962,7 @@
   <div class="mm-dash-inner">
     <div class="mm-dash-text">
       <span class="mm-dash-eyebrow">Client Dashboards</span>
-      <h2 id="mm-dash-title">All your data,<br><em>in one place.</em></h2>
+      <h2 id="mm-dash-title"><span class="mm-line">All Your Data,</span><span class="mm-line mm-line-pink">In One Place</span></h2>
       <p class="mm-dash-copy">
         Every one of our clients and partners receives full insight into exactly how their campaigns are performing, through their own secure, encrypted dashboard, included with their retainer and reachable any time.
       </p>
@@ -1037,7 +1037,7 @@
     <div class="mm-chat-panel">
       <div class="mm-dash-text">
         <span class="mm-dash-eyebrow">Introducing MM AI</span>
-        <h2>Ask the question.<br><em>Get the answer from your data.</em></h2>
+        <h2><span class="mm-line">Ask The Question</span><span class="mm-line">Get The Answer</span><span class="mm-line mm-line-pink">From Your Data</span></h2>
         <p class="mm-dash-copy">
           Introducing MM AI, our brand-new marketing intelligence, now being rolled out across all of our clients.
         </p>
@@ -1085,8 +1085,8 @@
 
       <div class="mm-res-head">
         <div>
-          <span class="mm-dash-eyebrow">Our Results</span>
-          <h2>Results that speak<br><em>for themselves.</em></h2>
+          <span class="mm-dash-eyebrow">The Results Are In</span>
+          <h2><span class="mm-line">Results That Speak</span><span class="mm-line mm-line-pink">For Themselves</span></h2>
         </div>
         <div class="mm-res-toggle" role="group" aria-label="Choose a year">
           <label for="mm-yr-2025">2025</label>
@@ -1223,7 +1223,7 @@
   <div class="mm-dash-strip">
     <label for="mm-tab-dash"><span></span>Client Dashboards</label>
     <label for="mm-tab-ai"><span></span>Introducing MM AI</label>
-    <label for="mm-tab-results"><span></span>Our Results</label>
+    <label for="mm-tab-results"><span></span>The Results Are In</label>
   </div>
 </section>
 </div>
@@ -1329,7 +1329,7 @@
   </style>
 
   <span class="mm-brands-eyebrow">Proud to work with</span>
-  <h2 id="mm-brands-title">Trusted by Leading Brands</h2>
+  <h2 id="mm-brands-title"><span class="mm-line">Trusted By</span><span class="mm-line mm-line-pink">Leading Brands</span></h2>
 
   <ul class="mm-brands-grid">
       <li class="mm-brands-item"><img src="/logos/grid/aspects-of-oak.webp" width="238" height="109" style="width:84.1%" alt="Aspects of Oak"></li>
@@ -1608,7 +1608,7 @@
   <div class="mm-meet-grid">
     <div class="mm-meet-intro">
       <span class="mm-meet-eyebrow">Meet MM Digital</span>
-      <h2 id="mm-meet-title">Measurable Growth For <em>Ambitious Brands</em></h2>
+      <h2 id="mm-meet-title"><span class="mm-line">Measurable Growth</span><span class="mm-line mm-line-pink">For Ambitious Brands</span></h2>
       <p class="mm-meet-sub">We are a digital marketing agency based in Exeter, serving clients across the UK &amp; Europe.</p>
       <a href="/get-in-touch/" class="mm-meet-btn">Get In Touch</a>
     </div>
@@ -2100,7 +2100,7 @@
 
   <div class="mm-tech-text">
     <span class="mm-tech-eyebrow">Trusted Tech Partners</span>
-    <h2 id="mm-tech-title">Working With Industry<br><em>Leading Brands</em></h2>
+    <h2 id="mm-tech-title"><span class="mm-line">Working With Industry</span><span class="mm-line mm-line-pink">Leading Brands</span></h2>
     <p class="mm-tech-sub">We use the most powerful platforms in digital marketing to deliver exceptional results for every client we work with.</p>
   </div>
 
@@ -2185,13 +2185,9 @@
       position: relative;
       width: 100%;
       overflow: hidden;
-      padding: 230px 0 250px;
-      /* The two pink glow bands frame the section top and bottom, leaving the
-         heading and cards on clean black like the template */
-      background:
-        url("/media/what-we-do/glow-top.webp") top center / 100% 220px no-repeat,
-        url("/media/what-we-do/glow-bottom.webp") bottom center / 100% 220px no-repeat,
-        #000;
+      padding: 160px 0 170px;
+      /* Pink mesh bands stay, held well back so the section reads as black */
+      background: #000;
       color: #fff;
     }
 
@@ -2200,8 +2196,21 @@
       content: "";
       position: absolute;
       inset: 0 0 auto;
+      z-index: 1;
       height: 90px;
       background: linear-gradient(180deg, #000, transparent);
+      pointer-events: none;
+    }
+
+    .mm-wwd::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        url("/media/what-we-do/glow-top.webp") top center / 100% 170px no-repeat,
+        url("/media/what-we-do/glow-bottom.webp") bottom center / 100% 170px no-repeat;
+      opacity: 0.28;
       pointer-events: none;
     }
 
@@ -2345,12 +2354,13 @@
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
+      filter: brightness(0.62) saturate(0.7);
       transition: transform 0.5s ease, filter 0.5s ease;
     }
 
     .mm-wwd-item:hover .mm-wwd-art img {
       transform: scale(1.07);
-      filter: drop-shadow(0 0 24px rgba(255, 128, 139, 0.35));
+      filter: brightness(0.78) saturate(0.85) drop-shadow(0 0 24px rgba(255, 128, 139, 0.28));
     }
 
     .mm-wwd-item h3 {
@@ -2394,8 +2404,11 @@
 
     @media (max-width: 900px) {
       .mm-wwd {
-        padding: 150px 0 160px;
-        background-size: 100% 130px, 100% 130px, auto;
+        padding: 110px 0 120px;
+      }
+
+      .mm-wwd::after {
+        background-size: 100% 110px, 100% 110px;
       }
 
       .mm-wwd-head {
@@ -2439,11 +2452,11 @@
   <div class="mm-wwd-head">
     <div>
       <span class="mm-wwd-eyebrow">Meet MM Digital</span>
-      <h2 id="mm-wwd-title">What We Do</h2>
+      <h2 id="mm-wwd-title"><span class="mm-line">What We Do</span><span class="mm-line mm-line-pink">For Your Brand</span></h2>
       <p class="mm-wwd-sub">As a full-service digital agency we offer everything you need to drive results online.</p>
     </div>
     <div class="mm-wwd-actions">
-      <a href="/digital-services/" class="mm-wwd-btn">Everything we do &rarr;</a>
+      <a href="/digital-services/" class="mm-wwd-btn">Everything We Do &rarr;</a>
     </div>
   </div>
 
@@ -2761,7 +2774,7 @@
 
   <div class="mm-quotes-intro">
     <span class="mm-quotes-eyebrow">Testimonials</span>
-    <h2 id="mm-quotes-title">Hear it From The People <em>Who Know Us Best</em></h2>
+    <h2 id="mm-quotes-title"><span class="mm-line">Hear It From</span><span class="mm-line">The People</span><span class="mm-line mm-line-pink">Who Know Us Best</span></h2>
     <div class="mm-quotes-rating">
       <span class="mm-quotes-stars" aria-hidden="true">★★★★★</span>
       <span>Rated <b>Excellent</b> on Google · 28 reviews</span>
@@ -2773,6 +2786,13 @@
       <span class="mm-quote-mark" aria-hidden="true">“</span>
       <div class="mm-quote-slides" aria-live="polite">
         <figure class="mm-quote is-active" data-index="0">
+          <blockquote><span class="mm-quote-visible">Max and his team aren’t just our marketing, PR, web design and social media management partners, they’re very much a part of the family!</span><span class="mm-quote-rest"> Since first meeting with Max a little over a year ago, we have continuously developed the relationship into one where Max isn’t only a key partner to the business but also our go to person, he’s our 24 hour a day support blanket, our sounding board and more often than not our shield against the evil forces on the web. Working with Max isn’t just a transaction, it’s a collaborative process in which he strives to go consistently above and beyond to ensure that everything is perfect. He is as committed to our success as we are and takes all of our problems as personally as we do!<br><br>Working with Max and his team is a dream, we receive the personal touch that you often don’t get with larger companies. He has adapted his way of working to fit somewhat of an unorthodox approach to business and communications. No comment is too far for Max, no request is too insane, no problem too big or no moan too small.<br><br>If you want a team behind your business that actually cares, MM Digital is the place to go!</span></blockquote>
+          <button class="mm-quote-more" type="button" aria-expanded="false">Read more</button>
+          <figcaption>
+            <span class="mm-quote-who"><b>Josh Neal Bate</b></span>
+          </figcaption>
+        </figure>
+        <figure class="mm-quote" data-index="1" aria-hidden="true">
           <blockquote>MM Digital have been fantastic to work with, proactive, creative and highly supportive. The content they produce for our social media is outstanding and has truly elevated our online presence. Highly recommend their professionalism and expertise.</blockquote>
           <figcaption>
             <span class="mm-quote-who"><b>Robert</b><small>CEO</small></span>
@@ -2852,7 +2872,7 @@
         </figure>
       </div>
       <div class="mm-quote-foot">
-        <span class="mm-quote-count"><b>01</b> / 13</span>
+        <span class="mm-quote-count"><b>01</b> / 14</span>
         <div class="mm-quote-progress" aria-hidden="true"><i></i></div>
         <div class="mm-quote-nav">
           <button class="mm-quote-prev" type="button" aria-label="Previous review">&larr;</button>
@@ -3011,7 +3031,7 @@
 
   <div class="mm-why-intro">
     <span class="mm-why-eyebrow">Mission, Vision &amp; Values</span>
-    <h2 id="mm-why-title">What Makes MM Digital<br><em>Drive Results?</em></h2>
+    <h2 id="mm-why-title"><span class="mm-line">What Makes MM Digital</span><span class="mm-line mm-line-pink">Drive Results?</span></h2>
   </div>
 
   <ol class="mm-why-list">
@@ -3322,7 +3342,7 @@
 
     <div class="mm-cta-content">
       <span class="mm-cta-eyebrow">Get in Touch</span>
-      <h2 id="mm-cta-title">See how we'd drive results <em>for you</em></h2>
+      <h2 id="mm-cta-title"><span class="mm-line">See How We'd Drive</span><span class="mm-line mm-line-pink">Results For You</span></h2>
       <p class="mm-cta-copy">Discover how MM Digital's expert strategies can elevate your online presence. Join us now to start transforming your brand with data-driven creativity and personalized marketing solutions.</p>
 
       <form class="mm-cta-form mm-home-contact-form" novalidate>
@@ -3352,3 +3372,116 @@
   </div>
 </section>
 </div>
+
+<style>
+  /* Section titles share one size. Each line stays whole so a single word
+     never sits on its own line, and the last line is pink. */
+  .mm-dash h2,
+  .mm-brands h2,
+  .mm-meet h2,
+  .mm-tech h2,
+  .mm-wwd h2,
+  .mm-quotes h2,
+  .mm-why h2,
+  .mm-cta h2 {
+    font-family: "Libre Baskerville", Georgia, serif !important;
+    font-size: clamp(1.45rem, 2.8vw, 3.35rem) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.02em !important;
+    color: #fff !important;
+  }
+
+  .mm-brands h2:hover {
+    color: #fff !important;
+  }
+
+  .mm-line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .mm-line-pink {
+    color: #ff808b !important;
+    font-style: normal;
+  }
+
+  .mm-quote-rest {
+    display: none;
+  }
+
+  .mm-quote.is-open .mm-quote-rest {
+    display: inline;
+  }
+
+  .mm-quote blockquote:has(+ .mm-quote-more) {
+    margin-bottom: 18px;
+  }
+
+  .mm-quote-more {
+    margin: 0 0 22px;
+  }
+
+  /* One pink pill for action buttons. The hero pair is left as it is. */
+  .mm-dash-btn,
+  .mm-meet-btn,
+  .mm-work-btn,
+  .mobile-stack-btn,
+  .mm-wwd-btn,
+  .mm-cta-submit,
+  .mm-cta-link,
+  .mm-cta-quick a,
+  .mm-quote-more {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    min-height: 50px !important;
+    padding: 0 28px !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: #ff808b !important;
+    box-shadow: none !important;
+    color: #fff !important;
+    font-family: "Glacial Indifference", Arial, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0 !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.25s ease !important;
+  }
+
+  .mm-dash-btn:hover,
+  .mm-meet-btn:hover,
+  .mm-work-btn:hover,
+  .mm-wwd-btn:hover,
+  .mm-cta-submit:hover,
+  .mm-cta-link:hover,
+  .mm-cta-quick a:hover,
+  .mm-quote-more:hover {
+    background: #ff6d79 !important;
+    color: #fff !important;
+    transform: translateY(-2px) !important;
+  }
+
+  .mobile-stack-btn:hover {
+    background: #ff6d79 !important;
+    color: #fff !important;
+    transform: translateX(-50%) translateY(-2px) !important;
+  }
+
+  .mm-cta-quick a svg {
+    fill: #fff !important;
+  }
+
+  @media (max-width: 768px) {
+    .mm-work-card:not(:last-child) .mm-work-btn {
+      display: none !important;
+    }
+  }
+
+  .mobile-stack-card:not(:last-child) .mobile-stack-btn {
+    display: none !important;
+  }
+</style>
