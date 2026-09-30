@@ -4,6 +4,30 @@ import { FormEvent, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
+// Loads the site in a hidden same-origin frame so Vercel's checkpoint can run
+// its browser check and set its clearance cookie, retrying the login request
+// until it gets through (or about 15 seconds pass).
+async function retryAfterCheckpoint(
+  attempt: () => Promise<Response>,
+  isChallenge: (r: Response) => boolean
+) {
+  const frame = document.createElement("iframe");
+  frame.src = "/login/?checkpoint=1";
+  frame.style.display = "none";
+  frame.setAttribute("aria-hidden", "true");
+  document.body.appendChild(frame);
+  try {
+    let res = await attempt();
+    for (let i = 0; i < 10 && isChallenge(res); i++) {
+      await new Promise((r) => setTimeout(r, 1500));
+      res = await attempt();
+    }
+    return res;
+  } finally {
+    frame.remove();
+  }
+}
+
 function LoginForm() {
   const params = useSearchParams();
   const initialError =
@@ -18,28 +42,34 @@ function LoginForm() {
     setLoading(true);
     setError("");
     const form = new FormData(e.currentTarget);
-    try {
-      const res = await fetch("/api/login/", {
+    const body = JSON.stringify({
+      username: form.get("username"),
+      password: form.get("password"),
+      remember: form.get("remember") === "on",
+    });
+    const attempt = () =>
+      fetch("/api/login/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: form.get("username"),
-          password: form.get("password"),
-          remember: form.get("remember") === "on",
-        }),
+        body,
       });
-      const contentType = res.headers.get("content-type") || "";
-      if (!contentType.includes("application/json")) {
-        const key = "mm-login-challenge";
-        if (!sessionStorage.getItem(key)) {
-          sessionStorage.setItem(key, "1");
-          window.location.reload();
+    const isChallenge = (r: Response) =>
+      !(r.headers.get("content-type") || "").includes("application/json");
+    try {
+      let res = await attempt();
+      if (isChallenge(res)) {
+        // Vercel's security checkpoint intercepted the request. Reloading the
+        // page used to clear it but also wiped what the client had typed, so
+        // they had to sign in twice. Instead, let the checkpoint run in a
+        // hidden frame and retry with the same details once it has passed.
+        setError("Verifying your browser, one moment...");
+        res = await retryAfterCheckpoint(attempt, isChallenge);
+        setError("");
+        if (isChallenge(res)) {
+          setError("The site is still verifying your browser. Please wait a few seconds and press Log In again.");
           return;
         }
-        setError("The site is verifying your browser. Wait for that check to finish, then sign in again.");
-        return;
       }
-      sessionStorage.removeItem("mm-login-challenge");
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         setError(data.error || "Invalid username or password.");
