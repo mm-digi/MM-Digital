@@ -348,10 +348,9 @@
      calendar is always visible; Google scrolls inside the frame. */
   .mm-booking-sticky {
     position: sticky;
-    top: 110px;
+    top: 130px;
     box-sizing: border-box;
-    padding-top: 20px;
-    height: calc(100vh - 134px);
+    height: calc(100vh - 154px);
     min-height: 560px;
     display: flex;
     flex-direction: column;
@@ -362,7 +361,8 @@
     font-family: "Libre Baskerville", serif !important;
     font-size: min(var(--wp--preset--font-size--xx-large), 7.4cqi) !important;
     white-space: nowrap;
-    line-height: var(--wp--custom--typography--line-height--tiny);
+    /* Same line box as the Get in Touch h1 so the two headings line up */
+    line-height: calc(var(--wp--preset--font-size--xx-large) * 1.15) !important;
     letter-spacing: -0.02em;
     color: #ffffff;
     text-align: center;
