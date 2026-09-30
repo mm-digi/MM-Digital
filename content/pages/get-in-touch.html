@@ -339,30 +339,48 @@
   }
 
   .mm-booking-column {
+    container-type: inline-size;
     align-self: stretch;
     scroll-margin-top: 100px;
   }
 
+  /* Pinned beside the form and sized to the screen, so the whole
+     calendar is always visible; Google scrolls inside the frame. */
   .mm-booking-sticky {
     position: sticky;
     top: 110px;
+    box-sizing: border-box;
     padding-top: 20px;
+    height: calc(100vh - 134px);
+    min-height: 560px;
+    display: flex;
+    flex-direction: column;
   }
 
+  /* Match the Get in Touch heading and intro on the left */
   .mm-booking-title {
-    font-family: "Libre Baskerville", serif;
+    font-family: "Libre Baskerville", serif !important;
+    font-size: min(var(--wp--preset--font-size--xx-large), 7.4cqi) !important;
+    white-space: nowrap;
+    line-height: var(--wp--custom--typography--line-height--tiny);
+    letter-spacing: -0.02em;
+    color: #ffffff;
     text-align: center;
     margin: 0 0 12px;
   }
 
   .mm-booking-intro {
-    font-family: "Glacial Indifference", Arial, sans-serif;
+    font-family: "Glacial Indifference", Arial, sans-serif !important;
+    font-size: var(--wp--preset--font-size--medium) !important;
+    line-height: 1.5 !important;
+    color: #ffffff !important;
     text-align: center;
     margin: 0 0 24px;
-    color: rgba(255, 255, 255, 0.8);
   }
 
   .mm-booking-frame {
+    flex: 1 1 auto;
+    min-height: 0;
     background: #ffffff;
     border-radius: 16px;
     overflow: hidden;
@@ -371,8 +389,20 @@
   .mm-booking-frame iframe {
     display: block;
     width: 100%;
-    height: 720px;
+    height: 100%;
     border: 0;
+  }
+
+  /* Short screens: too little room to pin it, so let it scroll normally */
+  @media (max-height: 700px) {
+    .mm-booking-sticky {
+      position: static;
+      height: auto;
+    }
+
+    .mm-booking-frame iframe {
+      height: 720px;
+    }
   }
 
   @media (max-width: 1024px) {
@@ -388,8 +418,15 @@
       order: -1;
     }
 
+    .mm-booking-title {
+      font-size: var(--wp--preset--font-size--xx-large) !important;
+      white-space: normal;
+    }
+
     .mm-booking-sticky {
       position: static;
+      height: auto;
+      min-height: 0;
     }
 
     .mm-booking-frame iframe {
