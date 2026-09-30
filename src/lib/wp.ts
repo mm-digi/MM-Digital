@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { hideUnpublishedCards } from "./schedule";
 
 export function readWpFile(relativePath: string) {
   return fs.readFileSync(path.join(process.cwd(), "content", relativePath), "utf8");
@@ -8,7 +9,7 @@ export function readWpFile(relativePath: string) {
 export function readWpPage(slug: string) {
   const file = path.join(process.cwd(), "content/pages", `${slug}.html`);
   if (!fs.existsSync(file)) return null;
-  return fs.readFileSync(file, "utf8");
+  return hideUnpublishedCards(fs.readFileSync(file, "utf8"));
 }
 
 function stripHtmlToText(fragment: string): string {

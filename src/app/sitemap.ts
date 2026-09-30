@@ -2,6 +2,10 @@ import type { MetadataRoute } from "next";
 import fs from "node:fs";
 import path from "node:path";
 import { DASHBOARD_SLUGS } from "@/lib/clients";
+import { isUnpublished } from "@/lib/schedule";
+
+// Rebuild every 15 minutes so scheduled posts join the sitemap once live.
+export const revalidate = 900;
 
 const SITE_URL = "https://mm-digi.co.uk";
 
@@ -10,7 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .readdirSync(path.join(process.cwd(), "content", "pages"))
     .filter((name) => name.endsWith(".html"))
     .map((name) => name.replace(/\.html$/, ""))
-    .filter((slug) => slug !== "home" && !DASHBOARD_SLUGS.has(slug));
+    .filter((slug) => slug !== "home" && !DASHBOARD_SLUGS.has(slug) && !isUnpublished(slug));
 
   return [
     { url: SITE_URL, changeFrequency: "weekly", priority: 1 },

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getDashboard } from "@/lib/clients";
 import { extractDescriptionFromHtml, extractTitleFromHtml, readWpPage, splitDashboardHtml } from "@/lib/wp";
+import { isUnpublished } from "@/lib/schedule";
 import DashboardView from "@/components/DashboardView";
 import MetricsSnapshot from "@/components/MetricsSnapshot";
 import WpHtml from "@/components/WpHtml";
@@ -15,13 +16,19 @@ const TITLE_OVERRIDES: Record<string, string> = {
   "oriels-case-study": "Case Study: Oriels Cocktail Bar",
 };
 
+// Hand-written meta descriptions, used instead of the first paragraph.
+const DESCRIPTION_OVERRIDES: Record<string, string> = {
+  "local-seo-how-to-get-your-business-found-on-google":
+    "Want your business to show up when local customers search on Google? Here's how local SEO works, and the practical steps to get found in your area.",
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const dashboard = getDashboard(slug);
   const html = dashboard ? null : readWpPage(slug);
   const title =
     dashboard?.name || TITLE_OVERRIDES[slug] || (html && extractTitleFromHtml(html)) || slug.replace(/-/g, " ");
-  const description = html ? extractDescriptionFromHtml(html) : null;
+  const description = DESCRIPTION_OVERRIDES[slug] || (html ? extractDescriptionFromHtml(html) : null);
   return {
     title,
     alternates: { canonical: `/${slug}/` },
@@ -32,6 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function SlugPage({ params }: Props) {
   const { slug } = await params;
+  if (isUnpublished(slug)) notFound();
   const dashboard = getDashboard(slug);
   const html = readWpPage(slug);
   if (dashboard && html) {
