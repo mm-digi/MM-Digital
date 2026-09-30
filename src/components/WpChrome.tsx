@@ -50,24 +50,64 @@ export default function WpChrome({
 
     const forms = [
       ...document.querySelectorAll(
-        "form.kb-advanced-form, form.wpcf7-form, form.uagb-forms-main-form, form.mm-newsletter-form"
+        "form.kb-advanced-form, form.wpcf7-form, form.uagb-forms-main-form, form.mm-newsletter-form, form.mm-home-contact-form"
       ),
     ];
     const onSubmit = async (e: Event) => {
       e.preventDefault();
       const form = e.currentTarget as HTMLFormElement;
+      // Forms with a .mm-form-status element show the result on the page
+      // instead of an alert, and check required fields first.
+      const status = form.querySelector(".mm-form-status");
+      const button = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+      const say = (text: string, kind: "success" | "error" | "") => {
+        if (!status) return;
+        status.textContent = text;
+        status.classList.toggle("is-success", kind === "success");
+        status.classList.toggle("is-error", kind === "error");
+      };
+      if (status && !form.checkValidity()) {
+        say("Please fill in your name, a valid email and your message.", "error");
+        (form.querySelector(":invalid") as HTMLElement | null)?.focus();
+        return;
+      }
       const data = Object.fromEntries(new FormData(form).entries());
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      alert(
-        res.ok
-          ? "The form has been submitted successfully!"
-          : "There has been some error while submitting the form."
-      );
-      if (res.ok) form.reset();
+      const label = button?.textContent;
+      if (button) {
+        button.disabled = true;
+        button.textContent = "Sending…";
+      }
+      say("", "");
+      let ok = false;
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        });
+        ok = res.ok;
+      } catch {
+        ok = false;
+      }
+      if (button) {
+        button.disabled = false;
+        button.textContent = label ?? "Submit";
+      }
+      if (status) {
+        say(
+          ok
+            ? "Thanks, your message is on its way. We'll be in touch soon."
+            : "Sorry, something went wrong. Please try again or call us on 07880 601123.",
+          ok ? "success" : "error"
+        );
+      } else {
+        alert(
+          ok
+            ? "The form has been submitted successfully!"
+            : "There has been some error while submitting the form."
+        );
+      }
+      if (ok) form.reset();
     };
     forms.forEach((form) => form.addEventListener("submit", onSubmit));
 

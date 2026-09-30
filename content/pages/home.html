@@ -2864,280 +2864,491 @@
 </section>
 </div>
 
-<div class="wp-block-group alignfull ext-animate--on">
-<section class="mm-mvv-section">
-  <div class="mm-mvv-wrap">
+<div class="wp-block-group alignfull">
+<section class="mm-why" aria-labelledby="mm-why-title">
+  <style>
+    .mm-why {
+      --mm-pink: #ff808b;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 72px;
+      align-items: start;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 120px 48px;
+    }
 
-    <div class="mm-mvv-header">
-      <h2>What Makes MM <br>Digital Drive Results?</br</h2>
-    </div>
+    /* The heading stays in view while the three rows scroll past */
+    .mm-why-intro {
+      position: sticky;
+      top: 120px;
+      container-type: inline-size;
+    }
 
-    <div class="mm-mvv-grid">
+    .mm-why-eyebrow {
+      display: block;
+      margin-bottom: 14px;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mm-pink);
+    }
 
-      <!-- CARD 1 -->
-      <div class="mm-mvv-card">
-        <div class="mm-mvv-image-wrap">
-          <img src="/media/our-mission.webp" alt="Our Mission" class="mm-mvv-image">
-        </div>
+    /* Sized to its column so "What Makes MM Digital" always fits one line */
+    .mm-why h2 {
+      margin: 0;
+      font-family: "Libre Baskerville", Georgia, serif;
+      font-size: clamp(1.5rem, 7.6cqi, 4rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+
+    .mm-why h2 em {
+      font-style: normal;
+      color: var(--mm-pink);
+    }
+
+    .mm-why-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .mm-why-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 32px;
+      align-items: start;
+      margin: 0;
+      padding: 48px 8px 48px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    /* A pink line sweeps along the bottom of the row on hover */
+    .mm-why-item::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -1px;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, var(--mm-pink), rgba(255, 128, 139, 0));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .mm-why-item:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* Big outlined numbers that fill with pink on hover */
+    .mm-why-num {
+      font-family: "Libre Baskerville", Georgia, serif;
+      font-size: 5.5rem;
+      line-height: 0.9;
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--mm-pink);
+      transition: color 0.45s ease, text-shadow 0.45s ease;
+    }
+
+    .mm-why-item:hover .mm-why-num {
+      color: var(--mm-pink);
+      text-shadow: 0 0 40px rgba(255, 128, 139, 0.45);
+    }
+
+    .mm-why-item h3 {
+      margin: 6px 0 14px;
+      font-family: "Libre Baskerville", Georgia, serif;
+      font-size: clamp(1.6rem, 2.2vw, 2.1rem);
+      line-height: 1.2;
+      color: #fff;
+      transition: color 0.3s ease;
+    }
+
+    .mm-why-item:hover h3 {
+      color: var(--mm-pink);
+    }
+
+    .mm-why-item p {
+      max-width: 620px;
+      margin: 0;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #cfcfcf;
+    }
+
+    @media (max-width: 1024px) {
+      .mm-why {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 80px 20px;
+      }
+
+      .mm-why-intro {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .mm-why-item {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 36px 0;
+      }
+
+      .mm-why-num {
+        font-size: 3.6rem;
+      }
+    }
+  </style>
+
+  <div class="mm-why-intro">
+    <span class="mm-why-eyebrow">Mission, Vision &amp; Values</span>
+    <h2 id="mm-why-title">What Makes MM Digital<br><em>Drive Results?</em></h2>
+  </div>
+
+  <ol class="mm-why-list">
+    <li class="mm-why-item">
+      <span class="mm-why-num" aria-hidden="true">01</span>
+      <div>
         <h3>Our Mission</h3>
-        <p>
-          At MM Digital, we don’t just follow trends, we set them. Our mission is to propel businesses forward with innovative, data-driven digital strategies that drive growth, spark engagement, and deliver measurable success.
-        </p>
+        <p>At MM Digital, we don’t just follow trends, we set them. Our mission is to propel businesses forward with innovative, data-driven digital strategies that drive growth, spark engagement, and deliver measurable success.</p>
       </div>
-
-      <!-- CARD 2 -->
-      <div class="mm-mvv-card">
-        <div class="mm-mvv-image-wrap">
-          <img src="/media/our-vision.webp" alt="Our Vision" class="mm-mvv-image">
-        </div>
+    </li>
+    <li class="mm-why-item">
+      <span class="mm-why-num" aria-hidden="true">02</span>
+      <div>
         <h3>Our Vision</h3>
-        <p>
-          We envision a world where brands thrive in the digital age. Our vision is to empower businesses with transformative marketing strategies that push boundaries, shape industries, and redefine what success looks like.
-        </p>
+        <p>We envision a world where brands thrive in the digital age. Our vision is to empower businesses with transformative marketing strategies that push boundaries, shape industries, and redefine what success looks like.</p>
       </div>
-
-      <!-- CARD 3 -->
-      <div class="mm-mvv-card">
-        <div class="mm-mvv-image-wrap">
-          <img src="/media/our-values.webp" alt="Our Values" class="mm-mvv-image">
-        </div>
+    </li>
+    <li class="mm-why-item">
+      <span class="mm-why-num" aria-hidden="true">03</span>
+      <div>
         <h3>Our Values</h3>
-        <p>
-          Innovation, collaboration, and results define us. We build lasting partnerships with our clients, rooted in trust and commitment to delivering exceptional value through every campaign. We pursue excellence relentlessly.
-        </p>
+        <p>Innovation, collaboration, and results define us. We build lasting partnerships with our clients, rooted in trust and commitment to delivering exceptional value through every campaign. We pursue excellence relentlessly.</p>
       </div>
+    </li>
+  </ol>
+</section>
+</div>
 
+<div class="wp-block-group alignfull">
+<section class="mm-cta" aria-labelledby="mm-cta-title">
+  <style>
+    .mm-cta {
+      --mm-pink: #ff808b;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 40px 48px 120px;
+    }
+
+    .mm-cta-panel {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 64px;
+      align-items: center;
+      padding: 64px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 36px;
+      background:
+        radial-gradient(ellipse 55% 70% at 0% 100%, rgba(255, 128, 139, 0.18), transparent 70%),
+        radial-gradient(ellipse 45% 60% at 100% 0%, rgba(255, 128, 139, 0.12), transparent 70%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012));
+      box-shadow: 0 50px 120px rgba(0, 0, 0, 0.55);
+      overflow: hidden;
+    }
+
+    /* The cat, framed and gently floating */
+    .mm-cta-cat {
+      position: relative;
+      margin: 0;
+      border-radius: 26px;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(255, 128, 139, 0.35), 0 30px 80px rgba(255, 128, 139, 0.18);
+      animation: mmCatFloat 6s ease-in-out infinite;
+    }
+
+    .mm-cta-cat img {
+      display: block;
+      width: 100%;
+      height: auto;
+      transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .mm-cta-cat:hover img {
+      transform: scale(1.04);
+    }
+
+    @keyframes mmCatFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .mm-cta-quick {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .mm-cta-quick a {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 1rem;
+      color: #fff !important;
+      text-decoration: none !important;
+      transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+    }
+
+    .mm-cta-quick a:hover {
+      border-color: var(--mm-pink);
+      background: rgba(255, 128, 139, 0.08);
+      color: var(--mm-pink) !important;
+    }
+
+    .mm-cta-quick svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--mm-pink);
+    }
+
+    .mm-cta-eyebrow {
+      display: block;
+      margin-bottom: 14px;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mm-pink);
+    }
+
+    .mm-cta h2 {
+      margin: 0 0 16px;
+      font-family: "Libre Baskerville", Georgia, serif;
+      font-size: clamp(2.2rem, 3.8vw, 3.4rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+
+    .mm-cta h2 em {
+      font-style: normal;
+      color: var(--mm-pink);
+    }
+
+    .mm-cta-copy {
+      margin: 0 0 30px;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 1.08rem;
+      line-height: 1.65;
+      color: #cfcfcf;
+    }
+
+    /* Form */
+    .mm-cta-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .mm-cta-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .mm-cta-field--full {
+      grid-column: 1 / -1;
+    }
+
+    .mm-cta-field label {
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .mm-cta-field input,
+    .mm-cta-field textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 15px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.35);
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 1rem;
+      color: #fff;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .mm-cta-field textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .mm-cta-field input::placeholder,
+    .mm-cta-field textarea::placeholder {
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .mm-cta-field input:focus,
+    .mm-cta-field textarea:focus {
+      outline: none;
+      border-color: var(--mm-pink);
+      box-shadow: 0 0 0 4px rgba(255, 128, 139, 0.15);
+    }
+
+    .mm-cta-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 18px 24px;
+      margin-top: 6px;
+    }
+
+    .mm-cta-submit {
+      min-height: 54px;
+      padding: 0 34px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--mm-pink);
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.25s ease, transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .mm-cta-submit:hover {
+      background: #ff6d79;
+      transform: translateY(-2px);
+    }
+
+    .mm-cta-submit:disabled {
+      opacity: 0.6;
+      cursor: default;
+      transform: none;
+    }
+
+    .mm-cta-link {
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff !important;
+      text-decoration: none !important;
+      transition: color 0.25s ease;
+    }
+
+    .mm-cta-link:hover {
+      color: var(--mm-pink) !important;
+    }
+
+    .mm-form-status {
+      grid-column: 1 / -1;
+      margin: 0;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 1rem;
+      color: #cfcfcf;
+    }
+
+    .mm-form-status:empty {
+      display: none;
+    }
+
+    .mm-form-status.is-success {
+      color: #8fe3b0;
+    }
+
+    .mm-form-status.is-error {
+      color: var(--mm-pink);
+    }
+
+    @media (max-width: 1024px) {
+      .mm-cta {
+        padding: 20px 20px 80px;
+      }
+
+      .mm-cta-panel {
+        grid-template-columns: 1fr;
+        gap: 44px;
+        padding: 40px 28px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .mm-cta-panel {
+        padding: 28px 20px;
+        border-radius: 26px;
+      }
+
+      .mm-cta-form {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mm-cta-cat {
+        animation: none;
+      }
+    }
+  </style>
+
+  <div class="mm-cta-panel">
+    <div class="mm-cta-visual">
+      <figure class="mm-cta-cat">
+        <img loading="eager" src="/media/mm-digital-cat.webp" width="1024" height="683" alt="Marketing becomes easy with MM Digital">
+      </figure>
+      <div class="mm-cta-quick">
+        <a href="tel:07880601123"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>07880 601123</a>
+        <a href="mailto:info@mm-digi.co.uk"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 7.2L20 6H4l8 5.2zM4 8.3V18h16V8.3l-7.46 4.85a1 1 0 0 1-1.08 0z"/></svg>info@mm-digi.co.uk</a>
+      </div>
     </div>
 
+    <div class="mm-cta-content">
+      <span class="mm-cta-eyebrow">Get in Touch</span>
+      <h2 id="mm-cta-title">See how we'd drive results <em>for you</em></h2>
+      <p class="mm-cta-copy">Discover how MM Digital's expert strategies can elevate your online presence. Join us now to start transforming your brand with data-driven creativity and personalized marketing solutions.</p>
+
+      <form class="mm-cta-form mm-home-contact-form" novalidate>
+        <div class="mm-cta-field">
+          <label for="mm-cta-first">First name</label>
+          <input id="mm-cta-first" name="firstName" type="text" placeholder="John" autocomplete="given-name" required>
+        </div>
+        <div class="mm-cta-field">
+          <label for="mm-cta-last">Last name</label>
+          <input id="mm-cta-last" name="lastName" type="text" placeholder="Doe" autocomplete="family-name" required>
+        </div>
+        <div class="mm-cta-field mm-cta-field--full">
+          <label for="mm-cta-email">Email</label>
+          <input id="mm-cta-email" name="email" type="email" placeholder="example@mail.com" autocomplete="email" required>
+        </div>
+        <div class="mm-cta-field mm-cta-field--full">
+          <label for="mm-cta-message">Message</label>
+          <textarea id="mm-cta-message" name="message" placeholder="Tell us about your brand and goals" required></textarea>
+        </div>
+        <p class="mm-form-status" role="status" aria-live="polite"></p>
+        <div class="mm-cta-actions">
+          <button class="mm-cta-submit" type="submit">Send Message</button>
+          <a class="mm-cta-link" href="/digital-services/">Discover Our Services &rarr;</a>
+        </div>
+      </form>
+    </div>
   </div>
 </section>
-
-<style>
-.mm-mvv-section {
-  padding: 90px 24px;
-  background: transparent;
-}
-
-.mm-mvv-wrap {
-  max-width: 1600px;
-  margin: auto;
-}
-
-.mm-mvv-header {
-  text-align: center;
-  margin-bottom: 56px;
-  opacity: 0;
-  transform: translateY(30px);
-  animation: mmMvvFadeUp 0.8s ease forwards;
-}
-
-.mm-mvv-header h2 {
-  margin: 0;
-  color: #ffffff;
-  font-family: "Libre Baskerville", Georgia, serif;
-  font-size: clamp(2rem, 4vw, 3.4rem);
-  line-height: 1.08;
-}
-
-.mm-mvv-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 34px;
-  align-items: stretch;
-}
-
-.mm-mvv-card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 28px;
-  padding: 24px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
-  opacity: 0;
-  transform: translateY(36px);
-  animation: mmMvvFadeUp 0.8s ease forwards;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.mm-mvv-card:nth-child(1) {
-  animation-delay: 0.15s;
-}
-
-.mm-mvv-card:nth-child(2) {
-  animation-delay: 0.3s;
-}
-
-.mm-mvv-card:nth-child(3) {
-  animation-delay: 0.45s;
-}
-
-.mm-mvv-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 28px 60px rgba(0,0,0,0.4);
-}
-
-.mm-mvv-image-wrap {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 1;
-  margin-bottom: 22px;
-  overflow: visible;
-  background: radial-gradient(circle at center, rgba(255,128,139,0.32) 0%, rgba(255,128,139,0.1) 36%, transparent 64%);
-  animation: mmMvvFloat 6s ease-in-out infinite;
-}
-
-.mm-mvv-card:nth-child(2) .mm-mvv-image-wrap {
-  animation-delay: 0.8s;
-}
-
-.mm-mvv-card:nth-child(3) .mm-mvv-image-wrap {
-  animation-delay: 1.6s;
-}
-
-.mm-mvv-image {
-  display: block;
-  width: 68%;
-  aspect-ratio: 1;
-  height: auto;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 3px solid #ff808b;
-  box-shadow:
-    0 0 0 10px rgba(255,128,139,0.16),
-    0 0 42px 12px rgba(255,128,139,0.42);
-}
-
-.mm-mvv-card h3 {
-  margin: 0 0 14px 0;
-  color: #ff808b;
-  font-family: "Libre Baskerville", Georgia, serif;
-  font-size: clamp(1.7rem, 2.4vw, 2.2rem);
-  line-height: 1.12;
-}
-
-.mm-mvv-card p {
-  margin: 0;
-  color: #cfcfcf;
-  font-family: "Glacial Indifference", Arial, sans-serif;
-  font-size: 1.02rem;
-  line-height: 1.7;
-}
-
-@keyframes mmMvvFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(36px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes mmMvvFloat {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-}
-
-@media (max-width: 1000px) {
-  .mm-mvv-grid {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-}
-
-@media (max-width: 640px) {
-  .mm-mvv-section {
-    padding: 70px 18px;
-  }
-
-  .mm-mvv-header {
-    margin-bottom: 40px;
-  }
-
-  .mm-mvv-card {
-    padding: 18px;
-  }
-
-  .mm-mvv-card p {
-    font-size: 1rem;
-  }
-}
-</style>
-</div>
-
-<style>
-  .mm-home-contact-panel {
-    width: min(94vw, 1360px);
-    max-width: 1360px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  @media (max-width: 781px) {
-    .mm-home-contact-panel {
-      width: calc(100% - 32px);
-    }
-
-    .mm-home-contact-panel .mm-contact-lead {
-      font-size: clamp(15px, 4.15vw, 22px) !important;
-      white-space: nowrap;
-      line-height: 1.25;
-    }
-
-    .mm-home-contact-panel .stk-ea4c8ef {
-      margin-bottom: 28px;
-    }
-
-    .mm-home-contact-panel figure.wp-block-image {
-      margin-top: 0;
-      margin-bottom: 16px;
-    }
-
-    .mm-home-contact-panel > .wp-block-column:last-child > .wp-block-spacer {
-      display: none !important;
-      height: 0 !important;
-      min-height: 0 !important;
-    }
-  }
-</style>
-
-<div class="wp-block-columns alignwide ext-animate--on has-primary-background-color has-background mm-home-contact-panel" style="border-top-left-radius:15px;border-top-right-radius:15px;border-bottom-left-radius:15px;border-bottom-right-radius:15px">
-<div class="wp-block-column">
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<h2 id="14-launch-your-brands-growth-with-mm-digital" class="wp-block-heading has-background-color has-text-color has-link-color has-libre-baskerville-font-family">Get in Touch</h2>
-
-<p class="ext-animate--on has-glacial-indifference-font-family has-large-font-size mm-contact-lead">See how we'd drive results for you</p>
-
-<p class="has-background-color has-text-color has-link-color has-glacial-indifference-font-family has-medium-font-size">Discover how MM Digital's expert strategies can elevate your online presence. Join us now to start transforming your brand with data-driven creativity and personalized marketing solutions.</p>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-ea4c8ef ext-animate--on" data-block-id="ea4c8ef"><div class="stk-row stk-inner-blocks has-text-align-left stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button has-text-align-right ext-animate--on stk-block stk-17f27d1" data-block-id="17f27d1"><style>.stk-17f27d1 .stk-button{background:#ffffff !important;}.stk-17f27d1 .stk-button__inner-text{color:#0f0e17 !important;}</style><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="/digital-services/"><span class="has-text-color stk-button__inner-text"><strong>Discover Our Services</strong></span></a></div>
-</div></div>
-
-<figure class="wp-block-image size-large is-style-ext-preset--media-text--natural-1--card-1 image-hover"><img src="/media/mm-digital-cat.webp" alt="Marketing becomes easy with MM Digital" class="wp-image-273"/></figure>
-</div>
-
-<div class="wp-block-column">
-<div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<div class="wp-block-uagb-forms uagb-forms__outer-wrap uagb-block-5a1dd51e uagb-forms__medium-btn ext-animate--on"><form class="uagb-forms-main-form" method="post" autocomplete="on" name="uagb-form-5a1dd51e">
-<div class="wp-block-uagb-forms-name uagb-forms-name-wrap uagb-forms-field-set uagb-block-1782b19e"><div class="uagb-forms-name-label required uagb-forms-input-label" id="1782b19e">First Name</div><input type="text" placeholder="John" required class="uagb-forms-name-input uagb-forms-input" name="1782b19e" autocomplete="given-name"/></div>
-
-<div class="wp-block-uagb-forms-name uagb-forms-name-wrap uagb-forms-field-set uagb-block-506ec60d"><div class="uagb-forms-name-label required uagb-forms-input-label" id="506ec60d">Last Name</div><input type="text" placeholder="Doe" required class="uagb-forms-name-input uagb-forms-input" name="506ec60d" autocomplete="family-name"/></div>
-
-<div class="wp-block-uagb-forms-email uagb-forms-email-wrap uagb-forms-field-set uagb-block-d7841bcd"><div class="uagb-forms-email-label  uagb-forms-input-label" id="d7841bcd">Email</div><input type="email" class="uagb-forms-email-input uagb-forms-input" placeholder="example@mail.com" name="d7841bcd" autocomplete="email"/></div>
-
-<div class="wp-block-uagb-forms-textarea uagb-forms-textarea-wrap uagb-forms-field-set uagb-block-54f7680f"><div class="uagb-forms-textarea-label required uagb-forms-input-label" id="54f7680f">Message</div><textarea required class="uagb-forms-textarea-input uagb-forms-input" rows="4" placeholder="Enter your message" name="54f7680f" autocomplete="off"></textarea></div>
-<div class="uagb-forms-form-hidden-data"><input type="hidden" class="uagb_forms_form_label" value="Spectra Form"/><input type="hidden" class="uagb_forms_form_id" value="uagb-form-5a1dd51e"/></div><div class="uagb-form-reacaptcha-error-5a1dd51e"></div><div class="uagb-forms-main-submit-button-wrap wp-block-button"><button class="uagb-forms-main-submit-button wp-block-button__link"><div class="uagb-forms-main-submit-button-text">Submit</div></button></div></form><div class="uagb-forms-success-message-5a1dd51e uagb-forms-submit-message-hide"><span>The form has been submitted successfully!</span></div><div class="uagb-forms-failed-message-5a1dd51e uagb-forms-submit-message-hide"><span>There has been some error while submitting the form. Please verify all form fields again.</span></div></div>
-</div>
 </div>
