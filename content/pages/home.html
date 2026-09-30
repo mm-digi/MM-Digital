@@ -38,6 +38,381 @@
 </section>
 </div>
 
+<div class="wp-block-group alignfull">
+<section class="mm-dash" aria-labelledby="mm-dash-title">
+  <style>
+    .mm-dash {
+      --mm-pink: #ff808b;
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 60% 70% at 68% 50%, rgba(255, 128, 139, 0.10), transparent 70%),
+        linear-gradient(180deg, #000 0%, #0b0709 45%, #000 100%);
+      color: #fff;
+    }
+
+    .mm-dash-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: center;
+      gap: 40px;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 60px 48px 40px;
+    }
+
+    .mm-dash-eyebrow {
+      display: block;
+      margin-bottom: 14px;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mm-pink);
+    }
+
+    .mm-dash h2 {
+      margin: 0 0 22px;
+      font-family: "Libre Baskerville", Georgia, serif;
+      font-size: clamp(2.2rem, 4.2vw, 3.8rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+
+    .mm-dash h2 em {
+      font-style: normal;
+      color: var(--mm-pink);
+    }
+
+    .mm-dash-copy {
+      max-width: 540px;
+      margin: 0 0 30px;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: #cfcfcf;
+    }
+
+    .mm-dash-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .mm-dash-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 50px;
+      padding: 0 26px;
+      border-radius: 999px;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    }
+
+    .mm-dash-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .mm-dash-btn--primary {
+      background: var(--mm-pink);
+      color: #fff !important;
+    }
+
+    .mm-dash-btn--primary:hover {
+      background: #ff6d79;
+    }
+
+    .mm-dash-btn--ghost {
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      color: #fff !important;
+    }
+
+    .mm-dash-btn--ghost:hover {
+      border-color: var(--mm-pink);
+      color: var(--mm-pink) !important;
+    }
+
+    /* Graphic */
+    .mm-dash-graphic svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .mm-dash-ring {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.12);
+      stroke-width: 1;
+    }
+
+    .mm-dash-ring--pink {
+      stroke: rgba(255, 128, 139, 0.45);
+      stroke-dasharray: 2 10;
+      transform-origin: 520px 330px;
+      animation: mmDashSpin 60s linear infinite;
+    }
+
+    .mm-dash-link {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.35);
+      stroke-width: 1.2;
+    }
+
+    .mm-dash-pulse {
+      fill: var(--mm-pink);
+      filter: drop-shadow(0 0 6px var(--mm-pink));
+    }
+
+    .mm-dash-hub-diamond {
+      fill: rgba(255, 128, 139, 0.06);
+      stroke: var(--mm-pink);
+      stroke-width: 1.4;
+      transform-origin: 520px 330px;
+      animation: mmDashBreathe 4s ease-in-out infinite;
+    }
+
+    .mm-dash-hub-core {
+      fill: #000;
+      stroke: var(--mm-pink);
+      stroke-width: 1.6;
+      filter: drop-shadow(0 0 10px rgba(255, 128, 139, 0.8));
+    }
+
+    .mm-dash-hub-label {
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      fill: rgba(255, 255, 255, 0.75);
+    }
+
+    .mm-dash-star {
+      fill: #fff;
+      animation: mmDashTwinkle 5s ease-in-out infinite;
+    }
+
+    .mm-dash-logo {
+      transition: opacity 0.3s ease;
+      opacity: 0.9;
+    }
+
+    .mm-dash-bars rect {
+      fill: var(--mm-pink);
+      transform-box: fill-box;
+      transform-origin: bottom;
+      animation: mmDashBar 3s ease-in-out infinite;
+    }
+
+    .mm-dash-bars rect:nth-child(2) { animation-delay: 0.4s; }
+    .mm-dash-bars rect:nth-child(3) { animation-delay: 0.8s; }
+
+    @keyframes mmDashSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes mmDashBreathe {
+      0%, 100% { transform: rotate(45deg) scale(1); }
+      50% { transform: rotate(45deg) scale(1.06); }
+    }
+
+    @keyframes mmDashTwinkle {
+      0%, 100% { opacity: 0.15; }
+      50% { opacity: 0.7; }
+    }
+
+    @keyframes mmDashBar {
+      0%, 100% { transform: scaleY(0.55); }
+      50% { transform: scaleY(1); }
+    }
+
+    /* Lines draw themselves in as the section scrolls into view */
+    @supports (animation-timeline: view()) {
+      .mm-dash-link {
+        stroke-dasharray: 600;
+        animation: mmDashDraw linear both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 45%;
+      }
+
+      @keyframes mmDashDraw {
+        from { stroke-dashoffset: 600; }
+        to { stroke-dashoffset: 0; }
+      }
+    }
+
+    /* Bottom strip */
+    .mm-dash-strip {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .mm-dash-strip div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 26px 20px;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 1.1rem;
+      color: #fff;
+    }
+
+    .mm-dash-strip div + div {
+      border-left: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .mm-dash-strip span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--mm-pink);
+      box-shadow: 0 0 10px var(--mm-pink);
+    }
+
+    @media (max-width: 1024px) {
+      .mm-dash-inner {
+        grid-template-columns: 1fr;
+        padding: 40px 20px 20px;
+        text-align: center;
+      }
+
+      .mm-dash-copy {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .mm-dash-buttons {
+        justify-content: center;
+      }
+
+      .mm-dash-graphic {
+        max-width: 640px;
+        margin: 0 auto;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .mm-dash-hub-label {
+        display: none;
+      }
+
+      .mm-dash-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .mm-dash-strip div {
+        padding: 16px 20px;
+      }
+
+      .mm-dash-strip div + div {
+        border-left: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.14);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mm-dash *,
+      .mm-dash *::before {
+        animation: none !important;
+      }
+
+      .mm-dash-pulse {
+        display: none;
+      }
+    }
+  </style>
+
+  <div class="mm-dash-inner">
+    <div class="mm-dash-text">
+      <span class="mm-dash-eyebrow">Client Dashboards</span>
+      <h2 id="mm-dash-title">Every channel.<br><em>One live dashboard.</em></h2>
+      <p class="mm-dash-copy">
+        Every client gets their own live dashboard. We pull your Google Analytics, Meta, Instagram and LinkedIn data into one place, refresh it every morning, and use AI and analytics to spot what's working, flag what isn't and show you exactly where your growth is coming from.
+      </p>
+      <div class="mm-dash-buttons">
+        <a href="/login/" class="mm-dash-btn mm-dash-btn--ghost">Client Login &rarr;</a>
+      </div>
+    </div>
+
+    <div class="mm-dash-graphic" aria-hidden="true">
+      <svg viewBox="0 0 900 640" role="presentation">
+        <!-- faint stars, carrying on the hero's particle field -->
+        <g>
+          <circle class="mm-dash-star" cx="60" cy="40" r="1.6" />
+          <circle class="mm-dash-star" cx="330" cy="70" r="1.2" style="animation-delay:1s" />
+          <circle class="mm-dash-star" cx="610" cy="30" r="1.4" style="animation-delay:2s" />
+          <circle class="mm-dash-star" cx="860" cy="210" r="1.6" style="animation-delay:3s" />
+          <circle class="mm-dash-star" cx="40" cy="300" r="1.2" style="animation-delay:1.5s" />
+          <circle class="mm-dash-star" cx="380" cy="600" r="1.4" style="animation-delay:2.5s" />
+          <circle class="mm-dash-star" cx="820" cy="560" r="1.2" style="animation-delay:0.5s" />
+          <circle class="mm-dash-star" cx="700" cy="620" r="1.6" style="animation-delay:3.5s" />
+        </g>
+
+        <!-- rings around the dashboard hub -->
+        <circle class="mm-dash-ring" cx="520" cy="330" r="130" />
+        <circle class="mm-dash-ring mm-dash-ring--pink" cx="520" cy="330" r="215" />
+        <circle class="mm-dash-ring" cx="520" cy="330" r="300" />
+
+        <!-- data lines from each platform into the hub -->
+        <path id="mm-l-ga" class="mm-dash-link" d="M 175 175 L 520 330" />
+        <path id="mm-l-ig" class="mm-dash-link" d="M 205 350 L 520 330" />
+        <path id="mm-l-meta" class="mm-dash-link" d="M 210 535 L 520 330" />
+        <path id="mm-l-li" class="mm-dash-link" d="M 760 120 L 520 330" />
+
+        <circle class="mm-dash-pulse" r="4">
+          <animateMotion dur="3.2s" repeatCount="indefinite"><mpath href="#mm-l-ga" /></animateMotion>
+        </circle>
+        <circle class="mm-dash-pulse" r="4">
+          <animateMotion dur="2.6s" begin="0.8s" repeatCount="indefinite"><mpath href="#mm-l-ig" /></animateMotion>
+        </circle>
+        <circle class="mm-dash-pulse" r="4">
+          <animateMotion dur="3.6s" begin="0.4s" repeatCount="indefinite"><mpath href="#mm-l-meta" /></animateMotion>
+        </circle>
+        <circle class="mm-dash-pulse" r="4">
+          <animateMotion dur="2.9s" begin="1.4s" repeatCount="indefinite"><mpath href="#mm-l-li" /></animateMotion>
+        </circle>
+
+        <!-- platform logos -->
+        <image class="mm-dash-logo" href="/media/dashboard/google-analytics.webp" x="60" y="70" width="120" height="87" />
+        <image class="mm-dash-logo" href="/media/dashboard/instagram.webp" x="20" y="332" width="170" height="40" />
+        <image class="mm-dash-logo" href="/media/dashboard/meta.webp" x="40" y="545" width="165" height="38" />
+        <image class="mm-dash-logo" href="/media/dashboard/linkedin.webp" x="700" y="70" width="150" height="37" />
+
+        <!-- the dashboard hub -->
+        <rect class="mm-dash-hub-diamond" x="450" y="260" width="140" height="140" rx="6" />
+        <rect class="mm-dash-hub-core" x="494" y="304" width="52" height="52" rx="8" />
+        <g class="mm-dash-bars">
+          <rect x="505" y="330" width="7" height="16" rx="2" />
+          <rect x="517" y="322" width="7" height="24" rx="2" />
+          <rect x="529" y="314" width="7" height="32" rx="2" />
+        </g>
+        <text class="mm-dash-hub-label" x="520" y="450" text-anchor="middle">Your live dashboard</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="mm-dash-strip">
+    <div><span></span>Live client dashboards</div>
+    <div><span></span>AI-powered insights</div>
+    <div><span></span>Updated every morning</div>
+  </div>
+</section>
+</div>
+
 <div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
 
 <div class="wp-block-group alignfull ext-animate--on">
