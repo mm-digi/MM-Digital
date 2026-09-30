@@ -16,7 +16,7 @@
     </p>
 
     <div class="mm-hero-buttons">
-      <a href="tel:07880601123" class="mm-btn-primary">
+      <a href="/get-in-touch/#book-a-call" class="mm-btn-primary">
         Book A Free Strategy Call
       </a>
 
@@ -161,6 +161,48 @@
       .logo-marquee-section {
         --logo-gap: 36px;
         --logo-height: 80px;
+      }
+    }
+
+    /* Title: bigger, brighter side lines, pink on hover */
+    .logo-marquee-section .logo-marquee-title {
+      font-size: 24px !important;
+      cursor: default;
+      transition: color 0.3s ease, -webkit-text-fill-color 0.3s ease;
+    }
+
+    .logo-marquee-section .logo-marquee-title::before,
+    .logo-marquee-section .logo-marquee-title::after {
+      background: rgba(255, 255, 255, 0.85) !important;
+      transition: background 0.3s ease;
+    }
+
+    .logo-marquee-section .logo-marquee-title:hover {
+      color: #ff808b !important;
+      -webkit-text-fill-color: #ff808b !important;
+    }
+
+    .logo-marquee-section .logo-marquee-title:hover::before,
+    .logo-marquee-section .logo-marquee-title:hover::after {
+      background: #ff808b !important;
+    }
+
+    /* Logos zoom on hover; vertical padding stops the zoom being clipped */
+    .logo-marquee-section .logo-marquee-track-wrap {
+      padding: 14px 0;
+    }
+
+    .logo-marquee-section .logo-item img {
+      transition: transform 0.3s ease;
+    }
+
+    .logo-marquee-section .logo-item:hover img {
+      transform: scale(1.15);
+    }
+
+    @media (max-width: 767px) {
+      .logo-marquee-section .logo-marquee-title {
+        font-size: 19px !important;
       }
     }
   </style>
