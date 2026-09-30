@@ -186,6 +186,101 @@ export default function WpChrome({
       update();
       sliders.push(() => window.removeEventListener("resize", update));
     });
+    // "What We Do" row: a native sideways scroller (swipe/trackpad) that can
+    // also be grabbed and dragged with a mouse. On release it glides to the
+    // nearest card, carrying on in the direction of a quick flick.
+    document.querySelectorAll(".mm-wwd-track").forEach((el) => {
+      const track = el as HTMLElement;
+      let startX = 0;
+      let startScroll = 0;
+      let lastX = 0;
+      let lastTime = 0;
+      let velocity = 0;
+      let pointerId: number | null = null;
+      let dragged = false;
+
+      const onDown = (e: PointerEvent) => {
+        if (e.pointerType !== "mouse" || e.button !== 0) return;
+        // Stops the browser's own link/image drag and text selection, which
+        // would otherwise hijack a drag that starts on a picture or text (and
+        // show a white ghost box). Clicks still fire as normal.
+        e.preventDefault();
+        pointerId = e.pointerId;
+        startX = lastX = e.clientX;
+        lastTime = performance.now();
+        startScroll = track.scrollLeft;
+        velocity = 0;
+        dragged = false;
+      };
+      const onMove = (e: PointerEvent) => {
+        if (pointerId !== e.pointerId) return;
+        const dx = e.clientX - startX;
+        if (!dragged && Math.abs(dx) > 5) {
+          dragged = true;
+          track.classList.add("is-dragging");
+          track.setPointerCapture(e.pointerId);
+        }
+        if (!dragged) return;
+        const now = performance.now();
+        velocity = (e.clientX - lastX) / Math.max(1, now - lastTime);
+        lastX = e.clientX;
+        lastTime = now;
+        track.scrollLeft = startScroll - dx;
+      };
+      const onUp = (e: PointerEvent) => {
+        if (pointerId !== e.pointerId) return;
+        pointerId = null;
+        if (!dragged) return;
+        // Each card's resting position is its distance from the first card,
+        // since the first card rests at scrollLeft 0.
+        const items = [...track.querySelectorAll(".mm-wwd-item")] as HTMLElement[];
+        const first = items[0]?.offsetLeft || 0;
+        const max = track.scrollWidth - track.clientWidth;
+        const target = track.scrollLeft - velocity * 250;
+        let best = track.scrollLeft;
+        let bestDist = Infinity;
+        for (const item of items) {
+          const pos = Math.min(max, item.offsetLeft - first);
+          const dist = Math.abs(pos - target);
+          if (dist < bestDist) {
+            bestDist = dist;
+            best = pos;
+          }
+        }
+        // Keep snapping off until the glide finishes, or CSS snapping would
+        // cut it short and leave the row between two cards.
+        track.scrollTo({ left: best, behavior: "smooth" });
+        // Turn snapping back on when the glide ends, with a timeout as a
+        // safety net in case it's interrupted and no scrollend arrives.
+        const settle = () => track.classList.remove("is-dragging");
+        track.addEventListener("scrollend", settle, { once: true });
+        setTimeout(settle, 900);
+      };
+      // A drag shouldn't count as a click on the service it ended over.
+      const onClick = (e: MouseEvent) => {
+        if (!dragged) return;
+        e.preventDefault();
+        e.stopPropagation();
+        dragged = false;
+      };
+
+      const onDragStart = (e: DragEvent) => e.preventDefault();
+
+      track.addEventListener("pointerdown", onDown);
+      track.addEventListener("pointermove", onMove);
+      track.addEventListener("pointerup", onUp);
+      track.addEventListener("pointercancel", onUp);
+      track.addEventListener("click", onClick, true);
+      track.addEventListener("dragstart", onDragStart);
+      sliders.push(() => {
+        track.removeEventListener("pointerdown", onDown);
+        track.removeEventListener("pointermove", onMove);
+        track.removeEventListener("pointerup", onUp);
+        track.removeEventListener("pointercancel", onUp);
+        track.removeEventListener("click", onClick, true);
+        track.removeEventListener("dragstart", onDragStart);
+      });
+    });
     document.querySelectorAll(".mm-services-slider, .mm-reviews-slider").forEach((slider) => {
       const track = slider.querySelector(".mm-services-track, .mm-reviews-track") as HTMLElement | null;
       const cards = [...slider.querySelectorAll(".mm-service-card, .mm-review-card")] as HTMLElement[];

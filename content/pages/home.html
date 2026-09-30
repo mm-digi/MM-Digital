@@ -250,7 +250,40 @@
       }
     }
 
-    /* Bottom strip */
+    /* Tabs: hidden radio buttons drive which panel shows, so the switching
+       works without any script (page HTML is injected, scripts don't run). */
+    /* Fixed to the viewport so focusing one never scrolls the page */
+    .mm-dash-radio {
+      position: fixed;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .mm-dash-panels {
+      display: grid;
+      align-items: center;
+      min-height: 780px;
+    }
+
+    .mm-dash-panel {
+      display: none;
+      grid-area: 1 / 1;
+    }
+
+    #mm-tab-dash:checked ~ .mm-dash-panels .mm-panel-dash,
+    #mm-tab-ai:checked ~ .mm-dash-panels .mm-panel-ai,
+    #mm-tab-chat:checked ~ .mm-dash-panels .mm-panel-chat {
+      display: block;
+      animation: mmPanelIn 0.6s ease both;
+    }
+
+    @keyframes mmPanelIn {
+      from { opacity: 0; transform: translateY(12px); }
+    }
+
+    /* Bottom strip, now the tab bar */
     .mm-dash-strip {
       position: relative;
       z-index: 1;
@@ -259,7 +292,8 @@
       border-top: 1px solid rgba(255, 255, 255, 0.14);
     }
 
-    .mm-dash-strip div {
+    .mm-dash-strip label {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -267,19 +301,453 @@
       padding: 26px 20px;
       font-family: "Glacial Indifference", Arial, sans-serif;
       font-size: 1.1rem;
-      color: #fff;
+      color: rgba(255, 255, 255, 0.55);
+      cursor: pointer;
+      transition: color 0.25s ease, background 0.25s ease;
     }
 
-    .mm-dash-strip div + div {
+    .mm-dash-strip label + label {
       border-left: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .mm-dash-strip label:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .mm-dash-strip label::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: var(--mm-pink);
+      transform: translateX(-50%);
+      transition: width 0.35s ease;
     }
 
     .mm-dash-strip span {
       width: 8px;
       height: 8px;
       border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      transition: background 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    #mm-tab-dash:checked ~ .mm-dash-strip label[for="mm-tab-dash"],
+    #mm-tab-ai:checked ~ .mm-dash-strip label[for="mm-tab-ai"],
+    #mm-tab-chat:checked ~ .mm-dash-strip label[for="mm-tab-chat"] {
+      color: #fff;
+    }
+
+    #mm-tab-dash:checked ~ .mm-dash-strip label[for="mm-tab-dash"]::after,
+    #mm-tab-ai:checked ~ .mm-dash-strip label[for="mm-tab-ai"]::after,
+    #mm-tab-chat:checked ~ .mm-dash-strip label[for="mm-tab-chat"]::after {
+      width: 60%;
+    }
+
+    #mm-tab-dash:checked ~ .mm-dash-strip label[for="mm-tab-dash"] span,
+    #mm-tab-ai:checked ~ .mm-dash-strip label[for="mm-tab-ai"] span,
+    #mm-tab-chat:checked ~ .mm-dash-strip label[for="mm-tab-chat"] span {
       background: var(--mm-pink);
       box-shadow: 0 0 10px var(--mm-pink);
+    }
+
+    #mm-tab-dash:focus-visible ~ .mm-dash-strip label[for="mm-tab-dash"],
+    #mm-tab-ai:focus-visible ~ .mm-dash-strip label[for="mm-tab-ai"],
+    #mm-tab-chat:focus-visible ~ .mm-dash-strip label[for="mm-tab-chat"] {
+      outline: 2px solid var(--mm-pink);
+      outline-offset: -6px;
+    }
+
+    /* ---------- MM AI: pipeline panel ---------- */
+    .mm-ai {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 60px 48px 50px;
+    }
+
+    .mm-ai-head {
+      max-width: 980px;
+      margin: 0 auto 50px;
+      text-align: center;
+    }
+
+    .mm-ai-head .mm-dash-copy {
+      margin: 0 auto;
+    }
+
+    .mm-ai-flow {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 90px minmax(0, 1.6fr) 90px minmax(0, 1fr);
+      align-items: center;
+    }
+
+    .mm-ai-stage-label {
+      display: block;
+      margin-bottom: 14px;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      text-align: center;
+    }
+
+    .mm-ai-card {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+      padding: 26px 22px;
+      text-align: center;
+    }
+
+    .mm-ai-card--source img {
+      width: 84px;
+      height: 84px;
+      object-fit: contain;
+      margin: 0 auto 14px;
+      display: block;
+    }
+
+    .mm-ai-card h3 {
+      margin: 0 0 6px;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 1.15rem;
+      color: #fff;
+    }
+
+    .mm-ai-card p {
+      margin: 0;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .mm-ai-core {
+      position: relative;
+      border-color: rgba(255, 128, 139, 0.55);
+      box-shadow: 0 0 60px rgba(255, 128, 139, 0.12), inset 0 0 40px rgba(255, 128, 139, 0.05);
+    }
+
+    .mm-ai-card .mm-ai-core-title {
+      margin: 0 0 20px;
+      font-family: "Libre Baskerville", Georgia, serif !important;
+      font-size: 1.6rem;
+      color: var(--mm-pink);
+    }
+
+    .mm-ai-tools {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .mm-ai-tool {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: left;
+      transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+    }
+
+    .mm-ai-tool:hover {
+      border-color: rgba(255, 128, 139, 0.6);
+      background: rgba(255, 128, 139, 0.06);
+      transform: translateY(-2px);
+    }
+
+    .mm-ai-tool img {
+      flex: 0 0 auto;
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+    }
+
+    .mm-ai-tool strong {
+      display: block;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 1.05rem;
+      color: #fff;
+    }
+
+    .mm-ai-tool small {
+      display: block;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .mm-ai-link {
+      position: relative;
+      height: 1px;
+      margin-top: 30px;
+      background: rgba(255, 255, 255, 0.3);
+      overflow: visible;
+    }
+
+    .mm-ai-link::before,
+    .mm-ai-link::after {
+      content: "";
+      position: absolute;
+      top: -3px;
+      left: 0;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--mm-pink);
+      box-shadow: 0 0 8px var(--mm-pink);
+      animation: mmAiFlow 2.4s linear infinite;
+    }
+
+    .mm-ai-link::after {
+      animation-delay: 1.2s;
+    }
+
+    @keyframes mmAiFlow {
+      0% { left: 0; opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { left: calc(100% - 7px); opacity: 0; }
+    }
+
+    .mm-ai-outputs {
+      display: grid;
+      gap: 10px;
+    }
+
+    .mm-ai-outputs div {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 1rem;
+      color: #fff;
+      text-align: left;
+    }
+
+    .mm-ai-outputs div::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--mm-pink);
+    }
+
+    /* ---------- MM AI: chat panel ---------- */
+    .mm-chat-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: center;
+      gap: 60px;
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 60px 48px 50px;
+    }
+
+    .mm-chat-powered {
+      margin-top: 30px;
+    }
+
+    .mm-chat-powered .mm-ai-stage-label {
+      text-align: left;
+    }
+
+    .mm-chat-logos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .mm-chat-logos span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+
+    .mm-chat-logos img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+
+    .mm-chat {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(20, 14, 16, 0.95), rgba(8, 6, 7, 0.95));
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 80px rgba(255, 128, 139, 0.08);
+      overflow: hidden;
+    }
+
+    .mm-chat-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .mm-chat-bar i {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .mm-chat-bar b {
+      margin-left: 10px;
+      font-weight: 400;
+    }
+
+    .mm-chat-bar em {
+      margin-left: auto;
+      font-style: normal;
+      font-size: 0.8rem;
+      color: var(--mm-pink);
+    }
+
+    .mm-chat-body {
+      display: grid;
+      gap: 18px;
+      padding: 26px 24px 30px;
+      min-height: 320px;
+      align-content: start;
+    }
+
+    .mm-chat-msg {
+      max-width: 85%;
+      padding: 14px 18px;
+      border-radius: 18px;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 1.02rem;
+      line-height: 1.5;
+    }
+
+    .mm-chat-user {
+      justify-self: end;
+      background: var(--mm-pink);
+      color: #fff;
+      border-bottom-right-radius: 6px;
+    }
+
+    .mm-chat-user span {
+      display: inline-block;
+      white-space: nowrap;
+      animation: mmType 1.8s steps(34) 0.4s both;
+    }
+
+    @keyframes mmType {
+      from { clip-path: inset(0 100% 0 0); }
+      to { clip-path: inset(0 0 0 0); }
+    }
+
+    .mm-chat-thinking {
+      display: flex;
+      gap: 6px;
+      padding: 16px 18px;
+      justify-self: start;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.06);
+      animation: mmThinking 1.4s ease 2.3s both;
+    }
+
+    .mm-chat-thinking i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.6);
+      animation: mmDot 0.9s ease-in-out infinite;
+    }
+
+    .mm-chat-thinking i:nth-child(2) { animation-delay: 0.15s; }
+    .mm-chat-thinking i:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes mmThinking {
+      0% { opacity: 0; }
+      15%, 80% { opacity: 1; }
+      100% { opacity: 0; height: 0; padding: 0; margin: 0; }
+    }
+
+    @keyframes mmDot {
+      0%, 100% { transform: translateY(0); opacity: 0.4; }
+      50% { transform: translateY(-4px); opacity: 1; }
+    }
+
+    .mm-chat-ai {
+      justify-self: start;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #e8e8e8;
+      border-bottom-left-radius: 6px;
+      animation: mmReply 0.6s ease 3.7s both;
+    }
+
+    .mm-chat-ai strong {
+      color: #fff;
+    }
+
+    @keyframes mmReply {
+      from { opacity: 0; transform: translateY(10px); }
+    }
+
+    .mm-chat-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      height: 70px;
+      margin-top: 14px;
+    }
+
+    .mm-chat-bars div {
+      flex: 1;
+      border-radius: 6px 6px 2px 2px;
+      background: rgba(255, 255, 255, 0.18);
+      transform-origin: bottom;
+      animation: mmGrow 0.8s ease both;
+    }
+
+    .mm-chat-bars div:nth-child(1) { height: 45%; animation-delay: 4.1s; }
+    .mm-chat-bars div:nth-child(2) { height: 100%; animation-delay: 4.25s; background: var(--mm-pink); }
+    .mm-chat-bars div:nth-child(3) { height: 60%; animation-delay: 4.4s; }
+    .mm-chat-bars div:nth-child(4) { height: 32%; animation-delay: 4.55s; }
+
+    @keyframes mmGrow {
+      from { transform: scaleY(0); }
+    }
+
+    .mm-chat-legend {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .mm-chat-note {
+      margin: 12px 0 0;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.4);
+      text-align: right;
     }
 
     @media (max-width: 1024px) {
@@ -303,6 +771,76 @@
         margin: 0 auto;
         width: 100%;
       }
+
+      .mm-dash-panels {
+        min-height: 0;
+      }
+
+      /* Tabs move above the panels on smaller screens, so switching shows
+         the new panel straight away instead of far above the tab bar */
+      .mm-dash {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .mm-dash-strip {
+        order: -1;
+        border-top: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+      }
+
+      .mm-ai,
+      .mm-chat-panel {
+        padding: 40px 20px 30px;
+      }
+
+      .mm-ai-flow {
+        grid-template-columns: 1fr;
+        max-width: 560px;
+        margin: 0 auto;
+      }
+
+      /* Connectors turn vertical when the pipeline stacks */
+      .mm-ai-link {
+        width: 1px;
+        height: 50px;
+        margin: 6px auto 20px;
+      }
+
+      .mm-ai-link::before,
+      .mm-ai-link::after {
+        left: -3px;
+        top: 0;
+        animation-name: mmAiFlowDown;
+      }
+
+      @keyframes mmAiFlowDown {
+        0% { top: 0; opacity: 0; }
+        15% { opacity: 1; }
+        85% { opacity: 1; }
+        100% { top: calc(100% - 7px); opacity: 0; }
+      }
+
+      .mm-chat-panel {
+        grid-template-columns: 1fr;
+        gap: 36px;
+        text-align: center;
+      }
+
+      .mm-chat-powered .mm-ai-stage-label {
+        text-align: center;
+      }
+
+      .mm-chat-logos {
+        justify-content: center;
+      }
+
+      .mm-chat {
+        max-width: 620px;
+        margin: 0 auto;
+        width: 100%;
+        text-align: left;
+      }
     }
 
     @media (max-width: 640px) {
@@ -310,17 +848,31 @@
         display: none;
       }
 
-      .mm-dash-strip {
+      .mm-dash-strip label {
+        padding: 16px 8px;
+        gap: 8px;
+        font-size: 0.9rem;
+        line-height: 1.2;
+        text-align: center;
+      }
+
+      .mm-dash-strip span {
+        display: none;
+      }
+
+      .mm-ai-tools {
         grid-template-columns: 1fr;
       }
 
-      .mm-dash-strip div {
-        padding: 16px 20px;
+      /* The question wraps on phones, so show it whole instead of typing */
+      .mm-chat-user span {
+        white-space: normal;
+        animation: mmReply 0.5s ease 0.3s both;
       }
 
-      .mm-dash-strip div + div {
-        border-left: 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.14);
+      .mm-chat-msg {
+        max-width: 92%;
+        font-size: 0.95rem;
       }
     }
 
@@ -336,6 +888,12 @@
     }
   </style>
 
+  <input class="mm-dash-radio" type="radio" name="mm-dash-tab" id="mm-tab-dash" checked>
+  <input class="mm-dash-radio" type="radio" name="mm-dash-tab" id="mm-tab-ai">
+  <input class="mm-dash-radio" type="radio" name="mm-dash-tab" id="mm-tab-chat">
+
+  <div class="mm-dash-panels">
+  <div class="mm-dash-panel mm-panel-dash">
   <div class="mm-dash-inner">
     <div class="mm-dash-text">
       <span class="mm-dash-eyebrow">Client Dashboards</span>
@@ -404,11 +962,115 @@
       </svg>
     </div>
   </div>
+  </div>
+
+  <!-- MM AI: pipeline -->
+  <div class="mm-dash-panel mm-panel-ai">
+    <div class="mm-ai">
+      <div class="mm-ai-head">
+        <span class="mm-dash-eyebrow">MM AI</span>
+        <h2>The best AI,<br><em>working together for you.</em></h2>
+        <p class="mm-dash-copy">
+          We don't rely on one tool. MM AI brings together Claude, ChatGPT by OpenAI, Gemini and Grok, fed by live data from Windsor AI, so every strategy, campaign and report is built on the best thinking available.
+        </p>
+      </div>
+
+      <div class="mm-ai-flow">
+        <div>
+          <span class="mm-ai-stage-label">Data in</span>
+          <div class="mm-ai-card mm-ai-card--source">
+            <img src="/media/ai/windsor.webp" alt="Windsor AI">
+            <h3>Windsor AI</h3>
+            <p>Connects every channel's live data in one feed</p>
+          </div>
+        </div>
+
+        <div class="mm-ai-link" aria-hidden="true"></div>
+
+        <div>
+          <span class="mm-ai-stage-label">The thinking</span>
+          <div class="mm-ai-card mm-ai-core">
+            <p class="mm-ai-core-title">MM AI</p>
+            <div class="mm-ai-tools">
+              <div class="mm-ai-tool">
+                <img src="/media/ai/claude.webp" alt="">
+                <div><strong>Claude</strong><small>Strategy &amp; copywriting</small></div>
+              </div>
+              <div class="mm-ai-tool">
+                <img src="/media/ai/chatgpt.webp" alt="">
+                <div><strong>ChatGPT</strong><small>Ideas &amp; content by OpenAI</small></div>
+              </div>
+              <div class="mm-ai-tool">
+                <img src="/media/ai/gemini.webp" alt="">
+                <div><strong>Gemini</strong><small>Research &amp; insight</small></div>
+              </div>
+              <div class="mm-ai-tool">
+                <img src="/media/ai/grok.webp" alt="">
+                <div><strong>Grok</strong><small>Real-time trends</small></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mm-ai-link" aria-hidden="true"></div>
+
+        <div>
+          <span class="mm-ai-stage-label">Results out</span>
+          <div class="mm-ai-outputs">
+            <div>Growth strategy</div>
+            <div>Content that converts</div>
+            <div>Performance insights</div>
+            <div>Clear monthly reports</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MM AI: chat window (preview option) -->
+  <div class="mm-dash-panel mm-panel-chat">
+    <div class="mm-chat-panel">
+      <div class="mm-dash-text">
+        <span class="mm-dash-eyebrow">MM AI</span>
+        <h2>Ask the question.<br><em>Get the answer from your data.</em></h2>
+        <p class="mm-dash-copy">
+          MM AI combines the leading AI tools with your live marketing data, so we can answer the questions that matter in seconds: what's working, what isn't, and where to put your budget next.
+        </p>
+        <div class="mm-chat-powered">
+          <span class="mm-ai-stage-label">Powered by</span>
+          <div class="mm-chat-logos">
+            <span><img src="/media/ai/claude.webp" alt="">Claude</span>
+            <span><img src="/media/ai/chatgpt.webp" alt="">ChatGPT</span>
+            <span><img src="/media/ai/gemini.webp" alt="">Gemini</span>
+            <span><img src="/media/ai/grok.webp" alt="">Grok</span>
+            <span><img src="/media/ai/windsor.webp" alt="">Windsor AI</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="mm-chat" aria-label="Example MM AI conversation">
+          <div class="mm-chat-bar"><i></i><i></i><i></i><b>MM AI</b><em>&#9679; Live data</em></div>
+          <div class="mm-chat-body">
+            <div class="mm-chat-msg mm-chat-user"><span>Which campaign drove the most leads?</span></div>
+            <div class="mm-chat-thinking" aria-hidden="true"><i></i><i></i><i></i></div>
+            <div class="mm-chat-msg mm-chat-ai">
+              Your <strong>Instagram Reels campaign</strong> drove 42% of this month's leads at the lowest cost per lead. I'd move 15% of the Meta budget into Reels next month.
+              <div class="mm-chat-bars" aria-hidden="true"><div></div><div></div><div></div><div></div></div>
+              <div class="mm-chat-legend" aria-hidden="true"><span>Search</span><span>Reels</span><span>Feed</span><span>Email</span></div>
+            </div>
+          </div>
+        </div>
+        <p class="mm-chat-note">Example conversation</p>
+      </div>
+    </div>
+  </div>
+  </div>
 
   <div class="mm-dash-strip">
-    <div><span></span>Live client dashboards</div>
-    <div><span></span>AI-powered insights</div>
-    <div><span></span>Updated every morning</div>
+    <label for="mm-tab-dash"><span></span>Client Dashboards</label>
+    <label for="mm-tab-ai"><span></span>MM AI</label>
+    <label for="mm-tab-chat"><span></span>Ask MM AI</label>
   </div>
 </section>
 </div>
@@ -1460,359 +2122,334 @@
 </style>
 </div>
 
-<div class="wp-block-group alignfull ext-animate--on">
-<section class="services-intro-section">
+<div class="wp-block-group alignfull">
+<section class="mm-wwd" aria-labelledby="mm-wwd-title">
+  <style>
+    .mm-wwd {
+      --mm-pink: #ff808b;
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      padding: 230px 0 250px;
+      /* The two pink glow bands frame the section top and bottom, leaving the
+         heading and cards on clean black like the template */
+      background:
+        url("/media/what-we-do/glow-top.webp") top center / 100% 220px no-repeat,
+        url("/media/what-we-do/glow-bottom.webp") bottom center / 100% 220px no-repeat,
+        #000;
+      color: #fff;
+    }
 
-<div class="services-intro-wrap">
+    /* Fade the top band in from the section above rather than a hard edge */
+    .mm-wwd::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 90px;
+      background: linear-gradient(180deg, #000, transparent);
+      pointer-events: none;
+    }
 
-<div class="services-intro">
+    .mm-wwd > * {
+      position: relative;
+      z-index: 1;
+    }
 
-<span class="services-eyebrow">Meet MM Digital</span>
+    .mm-wwd-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+      max-width: 1600px;
+      margin: 0 auto 60px;
+      padding: 0 48px;
+    }
 
-<h2 class="services-title">What We Do</h2>
+    .mm-wwd-eyebrow {
+      display: block;
+      margin-bottom: 14px;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mm-pink);
+    }
 
-<p class="services-subtext">
-As a full-service digital agency we offer everything you need to drive results online.
-</p>
+    .mm-wwd h2 {
+      margin: 0 0 22px;
+      font-family: "Libre Baskerville", Georgia, serif;
+      font-size: clamp(2.6rem, 6vw, 5.4rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
 
-<a href="/digital-services/" class="services-btn">
-Discover More
-</a>
+    .mm-wwd-sub {
+      max-width: 720px;
+      margin: 0;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: clamp(1.15rem, 1.8vw, 1.6rem);
+      line-height: 1.4;
+      color: rgba(255, 255, 255, 0.85);
+    }
 
-</div>
+    .mm-wwd-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 0 0 auto;
+    }
 
-</div>
+    .mm-wwd-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 50px;
+      padding: 0 26px;
+      border: 1px solid var(--mm-pink);
+      border-radius: 999px;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--mm-pink) !important;
+      text-decoration: none;
+      transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+    }
 
-</section>
+    .mm-wwd-btn:hover {
+      background: var(--mm-pink);
+      color: #fff !important;
+      transform: translateY(-2px);
+    }
 
-<style>
+    /* The row: scrolls sideways (drag with the mouse, swipe or trackpad) and
+       fades out on the right like the template, hinting there's more */
+    .mm-wwd-track {
+      display: flex;
+      gap: 48px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      /* Same left edge as the heading text (1600px wide plus 48px gutters) */
+      scroll-padding-left: max(48px, calc((100% - 1600px) / 2));
+      padding: 10px max(48px, calc((100% - 1600px) / 2)) 20px;
+      scrollbar-width: none;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
+      mask-image: linear-gradient(90deg, #000 85%, transparent);
+    }
 
-.services-intro-section{
-padding:90px 24px;
-}
+    .mm-wwd-track::-webkit-scrollbar {
+      display: none;
+    }
 
-.services-intro-wrap{
-max-width:1600px;
-margin:auto;
-}
+    /* While dragging: no snapping (so it follows the mouse), no text or
+       image selection, and a closed-hand cursor */
+    .mm-wwd-track.is-dragging {
+      cursor: grabbing;
+      scroll-snap-type: none;
+      user-select: none;
+    }
 
-.services-intro{
-max-width:580px;
-padding-left:28px;
-border-left:2px solid #ff808b;
-}
+    .mm-wwd-track img,
+    .mm-wwd-item {
+      -webkit-user-drag: none;
+    }
 
-.services-eyebrow{
-font-size:.85rem;
-letter-spacing:.18em;
-text-transform:uppercase;
-color:#ff808b;
-margin-bottom:4px;
-font-weight:700;
-display:block;
-font-family:'Glacial Indifference', Arial, Helvetica, sans-serif;
-}
+    /* No white focus box when clicking with a mouse; keyboard users still
+       get a pink outline */
+    .mm-wwd-item:focus {
+      outline: none;
+    }
 
-.services-title{
-font-family:'Libre Baskerville', Georgia, "Times New Roman", serif;
-font-size:clamp(2.4rem,5vw,4.2rem);
-line-height:1.05;
-margin:0 0 18px 0;
-color:#ffffff;
-}
+    .mm-wwd-item:focus-visible {
+      outline: 2px solid var(--mm-pink);
+      outline-offset: 8px;
+      border-radius: 8px;
+    }
 
-.services-subtext{
-color:#cfcfcf;
-font-size:1.1rem;
-max-width:520px;
-margin-bottom:32px;
-line-height:1.6;
-font-family:'Glacial Indifference', Arial, Helvetica, sans-serif;
-}
+    .mm-wwd-item {
+      flex: 0 0 clamp(300px, 24vw, 400px);
+      scroll-snap-align: start;
+      color: #fff !important;
+      text-decoration: none !important;
+    }
 
-.services-btn{
-display:inline-flex;
-align-items:center;
-justify-content:center;
-min-height:52px;
-padding:0 26px;
-border-radius:999px;
-font-weight:700;
-background:#ff808b;
-color:#fff;
-transition:.25s;
-box-shadow:0 20px 50px rgba(0,0,0,.35);
-text-decoration:none;
-font-family:'Glacial Indifference', Arial, Helvetica, sans-serif;
-}
+    .mm-wwd-art {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 240px;
+      margin-bottom: 34px;
+    }
 
-.services-btn:hover{
-background:#ff6d79;
-transform:translateY(-2px);
-text-decoration:none;
-}
+    .mm-wwd-art img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      transition: transform 0.5s ease, filter 0.5s ease;
+    }
 
-</style>
-</div>
+    .mm-wwd-item:hover .mm-wwd-art img {
+      transform: scale(1.07);
+      filter: drop-shadow(0 0 24px rgba(255, 128, 139, 0.35));
+    }
 
-<div class="wp-block-group alignfull ext-animate--on">
-<section class="mm-services-section">
-  <div class="mm-services-wrap">
+    .mm-wwd-item h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 14px;
+      font-family: "Libre Baskerville", Georgia, serif;
+      font-size: clamp(1.1rem, 1.4vw, 1.5rem);
+      line-height: 1.2;
+      white-space: nowrap;
+      color: #fff;
+      transition: color 0.25s ease;
+    }
 
-    <div class="mm-services-header">
-      <p class="mm-services-eyebrow">What We Do</p>
-     <h2 class="mm-services-title">
-  <span class="mm-title-line">Marketing Services</span>
-  <span class="mm-title-line">Built For Growth</span>
-</h2>
-      <p class="mm-services-intro">
-        From strategy and brand identity to websites, social media, paid advertising and AI, everything we do is designed to strengthen your digital presence, attract the right audience and drive long-term growth.
-      </p>
+    .mm-wwd-item h3::after {
+      content: "\2192";
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 0.9em;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .mm-wwd-item:hover h3 {
+      color: var(--mm-pink);
+    }
+
+    .mm-wwd-item:hover h3::after {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .mm-wwd-item p {
+      margin: 0;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 1.02rem;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    @media (max-width: 900px) {
+      .mm-wwd {
+        padding: 150px 0 160px;
+        background-size: 100% 130px, 100% 130px, auto;
+      }
+
+      .mm-wwd-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 28px;
+        margin-bottom: 40px;
+        padding: 0 20px;
+      }
+
+      .mm-wwd-track {
+        gap: 28px;
+        scroll-padding-left: 20px;
+        padding: 10px 20px 20px;
+        -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
+        mask-image: linear-gradient(90deg, #000 88%, transparent);
+      }
+
+      .mm-wwd-item {
+        flex-basis: 75vw;
+      }
+
+      .mm-wwd-art {
+        height: 200px;
+        margin-bottom: 24px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mm-wwd-track {
+        scroll-behavior: auto;
+      }
+
+      .mm-wwd-art img,
+      .mm-wwd-item h3::after {
+        transition: none;
+      }
+    }
+  </style>
+
+  <div class="mm-wwd-head">
+    <div>
+      <span class="mm-wwd-eyebrow">Meet MM Digital</span>
+      <h2 id="mm-wwd-title">What We Do</h2>
+      <p class="mm-wwd-sub">As a full-service digital agency we offer everything you need to drive results online.</p>
     </div>
-
-    <div class="mm-services-slider">
-
-      <button class="mm-services-arrow mm-services-prev" aria-label="Previous services">
-        ←
-      </button>
-
-      <div class="mm-services-viewport">
-        <div class="mm-services-track">
-
-          <a href="/digital-services/" class="mm-service-card">
-            <img class="mm-service-photo" src="/media/service-photos/strategy.webp?v=2" alt="">
-            <div class="mm-service-icon-wrap">
-              <img src="/media/service-icons/strategy.svg" alt="Digital Strategy icon" class="mm-service-icon">
-            </div>
-            <h3 class="mm-service-title">Digital Strategy</h3>
-            <p class="mm-service-text">Great marketing starts with a clear plan. We build focused digital strategies that align your website, social media, paid campaigns and content into one joined-up approach, all built around your commercial goals and designed to deliver measurable, long-term growth.</p>
-          </a>
-
-          <a href="/digital-services/" class="mm-service-card">
-            <img class="mm-service-photo" src="/media/service-photos/web.webp?v=2" alt="">
-            <div class="mm-service-icon-wrap">
-              <img src="/media/service-icons/web.svg" alt="Web Development icon" class="mm-service-icon">
-            </div>
-            <h3 class="mm-service-title">Web Development</h3>
-            <p class="mm-service-text">We design and build fast, modern, fully responsive websites that are created to convert visitors into customers. Every site is tailored to your brand, mobile-optimised, built for performance and handed over with full training and ongoing support.</p>
-          </a>
-
-          <a href="/digital-services/" class="mm-service-card">
-            <img class="mm-service-photo" src="/media/service-photos/social.webp?v=2" alt="">
-            <div class="mm-service-icon-wrap">
-              <img src="/media/service-icons/social.svg" alt="Social Media icon" class="mm-service-icon">
-            </div>
-            <h3 class="mm-service-title">Social Media Management</h3>
-            <p class="mm-service-text">We manage your social media presence across every platform, ensuring consistent posting, active community management and genuine audience growth. We focus on building real engagement and turning followers into customers through content that actually connects.</p>
-          </a>
-
-          <a href="/digital-services/" class="mm-service-card">
-            <img class="mm-service-photo" src="/media/service-photos/paid.webp?v=2" alt="">
-            <div class="mm-service-icon-wrap">
-              <img src="/media/service-icons/paid.svg" alt="Paid Media icon" class="mm-service-icon">
-            </div>
-            <h3 class="mm-service-title">Paid Media</h3>
-            <p class="mm-service-text">We create and manage paid advertising campaigns across Google, Meta and LinkedIn that generate real leads and sales. Every campaign is strategically built, continuously optimised and laser-focused on delivering the best possible return on your investment.</p>
-          </a>
-
-          <a href="/digital-services/" class="mm-service-card">
-            <img class="mm-service-photo" src="/media/service-photos/seo.webp?v=2" alt="">
-            <div class="mm-service-icon-wrap">
-              <img src="/media/service-icons/seo.svg" alt="SEO and CRO icon" class="mm-service-icon">
-            </div>
-            <h3 class="mm-service-title">SEO &amp; CRO</h3>
-            <p class="mm-service-text">We optimise your website to increase visibility in search engines and improve conversion performance. From technical SEO and keyword strategy to on-page optimisation and conversion rate improvements, we make sure more of the right people find you and take action when they do.</p>
-          </a>
-
-          <a href="/digital-services/" class="mm-service-card">
-            <img class="mm-service-photo" src="/media/service-photos/email.webp?v=2" alt="">
-            <div class="mm-service-icon-wrap">
-              <img src="/media/service-icons/email.svg" alt="Email Marketing icon" class="mm-service-icon">
-            </div>
-            <h3 class="mm-service-title">Email Marketing</h3>
-            <p class="mm-service-text">We build and manage email marketing strategies that keep your audience engaged, nurture leads and drive repeat business. From automated sequences to monthly campaigns, every email is crafted to deliver results and keep your brand front of mind.</p>
-          </a>
-
-          <a href="/digital-services/" class="mm-service-card">
-            <img class="mm-service-photo" src="/media/service-photos/linkedin.webp?v=2" alt="">
-            <div class="mm-service-icon-wrap">
-              <img src="/media/service-icons/linkedin.svg" alt="LinkedIn Outreach and Lead Generation icon" class="mm-service-icon">
-            </div>
-            <h3 class="mm-service-title">LinkedIn Outreach &amp; Lead Generation</h3>
-            <p class="mm-service-text">We run targeted LinkedIn outreach campaigns that put your business directly in front of the right decision makers. From connection strategy and messaging sequences to lead list management and reporting, we turn LinkedIn into a genuine business development tool.</p>
-          </a>
-
-          <a href="/digital-services/" class="mm-service-card">
-            <img class="mm-service-photo" src="/media/service-photos/ai.webp?v=2" alt="">
-            <div class="mm-service-icon-wrap">
-              <img src="/media/service-icons/ai.svg" alt="AI and Marketing Automation icon" class="mm-service-icon">
-            </div>
-            <h3 class="mm-service-title">AI &amp; Marketing Automation</h3>
-            <p class="mm-service-text">We implement AI-powered tools and automation workflows that improve efficiency, reduce workload and scale what works. From AI content assistance and chatbots to automated lead nurturing and reporting, we help your business work smarter and grow faster.</p>
-          </a>
-
-          <a href="/digital-services/" class="mm-service-card">
-            <img class="mm-service-photo" src="/media/service-photos/app.webp?v=2" alt="">
-            <div class="mm-service-icon-wrap">
-              <img src="/media/service-icons/app.svg" alt="App Design and App Store Optimisation icon" class="mm-service-icon">
-            </div>
-            <h3 class="mm-service-title">App Design &amp; App <br>Store Optimisation<br></h3>
-            <p class="mm-service-text">We design, build and launch mobile applications for iOS and Android, from initial concept and UX design through to full development and App Store submission. We also manage App Store Optimisation to improve discoverability and drive downloads.</p>
-          </a>
-
-          <a href="/digital-services/" class="mm-service-card">
-            <img class="mm-service-photo" src="/media/service-photos/ux.webp?v=2" alt="">
-            <div class="mm-service-icon-wrap">
-              <img src="/media/service-icons/ux.svg" alt="UX and UI Design icon" class="mm-service-icon">
-            </div>
-            <h3 class="mm-service-title">UX &amp; UI Design</h3>
-            <p class="mm-service-text">We design intuitive, visually compelling user experiences that make your website and digital platforms easy and enjoyable to use. Every design decision is made with your audience in mind, improving engagement, building trust and increasing conversion performance.</p>
-          </a>
-
-          <a href="/digital-services/" class="mm-service-card">
-            <img class="mm-service-photo" src="/media/service-photos/analytics.webp?v=2" alt="">
-            <div class="mm-service-icon-wrap">
-              <img src="/media/service-icons/analytics.svg" alt="Analytics and Reporting icon" class="mm-service-icon">
-            </div>
-            <h3 class="mm-service-title">Analytics &amp; Reporting</h3>
-            <p class="mm-service-text">We provide clear, honest reporting and real-time insights so you always know exactly how your marketing is performing. Our data-driven approach gives you full visibility through your live analytics dashboard and regular performance reviews, helping you make informed decisions at every step.</p>
-          </a>
-
-          <a href="/digital-services/" class="mm-service-card">
-            <img class="mm-service-photo" src="/media/service-photos/graphic.webp?v=2" alt="">
-            <div class="mm-service-icon-wrap">
-              <img src="/media/service-icons/graphic.svg" alt="Graphic Design icon" class="mm-service-icon">
-            </div>
-            <h3 class="mm-service-title">Graphic Design</h3>
-            <p class="mm-service-text">We bring your brand to life across digital and print. From social media graphics and ad creative to brochures, presentations and brand assets, we create clean, impactful designs that strengthen your identity and communicate your message clearly.</p>
-          </a>
-
-          <a href="/digital-services/" class="mm-service-card">
-            <img class="mm-service-photo" src="/media/service-photos/brand.webp?v=2" alt="">
-            <div class="mm-service-icon-wrap">
-              <img src="/media/service-icons/brand.svg" alt="Branding and Brand Identity icon" class="mm-service-icon">
-            </div>
-            <h3 class="mm-service-title">Branding &amp; <br>Brand Identity<br></h3>
-            <p class="mm-service-text">We build distinctive brand identities that position your business professionally and memorably. From logo creation, colour palettes and typography to tone of voice guidelines and full brand guidelines documents, we make sure your brand is consistent, compelling and built to last.</p>
-          </a>
-
-        </div>
-      </div>
-
-      <button class="mm-services-arrow mm-services-next" aria-label="Next services">
-        →
-      </button>
-
+    <div class="mm-wwd-actions">
+      <a href="/digital-services/" class="mm-wwd-btn">Everything we do &rarr;</a>
     </div>
+  </div>
 
+  <div class="mm-wwd-track">
+    <a href="/digital-services/#digital-strategy" class="mm-wwd-item">
+      <div class="mm-wwd-art"><img src="/media/what-we-do/strategy.webp" alt=""></div>
+      <h3>Digital Strategy</h3>
+      <p>Joined-up strategies built around your goals and long-term growth.</p>
+    </a>
+    <a href="/digital-services/#web-development" class="mm-wwd-item">
+      <div class="mm-wwd-art"><img src="/media/what-we-do/web.webp" alt=""></div>
+      <h3>Web Development</h3>
+      <p>Fast, modern websites built to turn visitors into customers.</p>
+    </a>
+    <a href="/digital-services/#social" class="mm-wwd-item">
+      <div class="mm-wwd-art"><img src="/media/what-we-do/social.webp" alt=""></div>
+      <h3>Social Media Management</h3>
+      <p>Consistent content and real audience growth on every platform.</p>
+    </a>
+    <a href="/digital-services/#paid-media" class="mm-wwd-item">
+      <div class="mm-wwd-art"><img src="/media/what-we-do/paid.webp" alt=""></div>
+      <h3>Paid Media</h3>
+      <p>Google, Meta and LinkedIn ads built to deliver the best return.</p>
+    </a>
+    <a href="/digital-services/#seo-and-cro" class="mm-wwd-item">
+      <div class="mm-wwd-art"><img src="/media/what-we-do/seo.webp" alt=""></div>
+      <h3>SEO &amp; CRO</h3>
+      <p>Get found by the right people, and turn more of them into leads.</p>
+    </a>
+    <a href="/digital-services/#email-marketing" class="mm-wwd-item">
+      <div class="mm-wwd-art"><img src="/media/what-we-do/email.webp" alt=""></div>
+      <h3>Email Marketing</h3>
+      <p>Automated emails that nurture leads and drive repeat business.</p>
+    </a>
+    <a href="/digital-services/#linkedin-outreach" class="mm-wwd-item">
+      <div class="mm-wwd-art"><img src="/media/what-we-do/linkedin.webp" alt=""></div>
+      <h3>LinkedIn Outreach</h3>
+      <p>Targeted outreach that reaches the right decision makers.</p>
+    </a>
+    <a href="/digital-services/#ai" class="mm-wwd-item">
+      <div class="mm-wwd-art"><img src="/media/what-we-do/ai.webp" alt=""></div>
+      <h3>AI &amp; Automation</h3>
+      <p>AI tools and workflows that cut workload and scale what works.</p>
+    </a>
+    <a href="/digital-services/#ux-and-ui" class="mm-wwd-item">
+      <div class="mm-wwd-art"><img src="/media/what-we-do/ux.webp" alt=""></div>
+      <h3>UX &amp; UI Design</h3>
+      <p>Intuitive experiences that build trust and lift conversions.</p>
+    </a>
+    <a href="/digital-services/#analytics" class="mm-wwd-item">
+      <div class="mm-wwd-art"><img src="/media/what-we-do/analytics.webp" alt=""></div>
+      <h3>Analytics &amp; Reporting</h3>
+      <p>Clear reporting and a live dashboard, so you know what's working.</p>
+    </a>
+    <a href="/digital-services/#graphic-design" class="mm-wwd-item">
+      <div class="mm-wwd-art"><img src="/media/what-we-do/graphic.webp" alt=""></div>
+      <h3>Graphic Design</h3>
+      <p>Clean, impactful creative across digital and print for your brand.</p>
+    </a>
   </div>
 </section>
-<style>
-@media (max-width: 767px) {
-  .mm-services-section {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    overflow: hidden !important;
-  }
-
-  .mm-services-wrap {
-    width: 100% !important;
-    max-width: none !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
-
-  .mm-services-header {
-    padding-left: 18px !important;
-    padding-right: 18px !important;
-  }
-
-  .mm-services-slider {
-    position: relative !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-    box-sizing: border-box !important;
-    overflow: visible !important;
-  }
-
-  .mm-services-viewport {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow: hidden !important;
-  }
-
-  .mm-services-track {
-    gap: 12px !important;
-  }
-
-  .mm-service-card {
-    flex: 0 0 100% !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 100% !important;
-    box-sizing: border-box !important;
-  }
-
-  .mm-services-arrow {
-    width: auto !important;
-    height: auto !important;
-    min-width: 0 !important;
-    min-height: 0 !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    color: #ff808b !important;
-    font-size: 30px !important;
-    line-height: 1 !important;
-    padding: 0 4px !important;
-    z-index: 5 !important;
-  }
-
-  .mm-services-prev {
-    left: 2px !important;
-  }
-
-  .mm-services-next {
-    right: 2px !important;
-  }
-}
-.mm-services-title,
-.mm-services-intro {
-  max-width: 980px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-.mm-services-title .mm-title-line {
-  display: block;
-  white-space: nowrap;
-}
-
-@media (max-width: 480px) {
-  .mm-services-title {
-    font-size: clamp(34px, 10vw, 44px) !important;
-    line-height: 1.05 !important;
-  }
-}
-@media (max-width: 767px) {
-  .mm-services-title {
-    font-size: clamp(30px, 8.5vw, 40px) !important;
-    line-height: 1.08 !important;
-    max-width: 100% !important;
-    overflow-wrap: normal !important;
-  }
-
-  .mm-services-title .mm-title-line,
-  .mm-services-title .mm-mobile-break {
-    display: block !important;
-    white-space: nowrap !important;
-  }
-}
-</style>
 </div>
 
 <div class="wp-block-group alignfull is-style-ext-preset--group--natural-1--section has-background-background-color has-background" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
