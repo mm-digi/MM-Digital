@@ -210,9 +210,17 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 24px;
-  margin: 72px 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
+}
+
+.mma-section.mma-team {
+  padding-top: 28px;
+}
+
+.mma-team .mma-split {
+  margin-top: 88px;
 }
 
 .mma-members li {
@@ -353,8 +361,9 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
-/* ---------- Typed line, styled like the homepage "We create…" line ---------- */
+/* ---------- Typed line, same colours as the homepage "We create" line ---------- */
 .mma-typeline {
+  --mma-type-duration: 24s;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -369,9 +378,10 @@
 
 .mma-typeline-words {
   display: inline-grid;
+  justify-items: center;
 }
 
-/* An invisible copy sets the width; the visible copy types across it */
+/* An invisible copy holds the width. Six copies of the phrase type in turn. */
 .mma-typeline-size,
 .mma-typeline-word {
   grid-area: 1 / 1;
@@ -383,40 +393,54 @@
 }
 
 .mma-typeline-word {
+  --characters: 33;
   width: 0;
+  max-width: max-content;
+  justify-self: start;
   overflow: hidden;
   padding-bottom: 0.2em;
   margin-bottom: -0.2em;
-  color: #ff808b;
+  opacity: 0;
   border-right: 0.06em solid currentColor;
-  animation: mmaType 8s steps(var(--characters), end) infinite;
+  animation: mmaType var(--mma-type-duration) steps(var(--characters), end) infinite;
+  animation-delay: var(--delay, 0s);
 }
 
+.mma-typeline-word:nth-child(2) { color: #ff808b; --delay: 0s; }
+.mma-typeline-word:nth-child(3) { color: #f6bd60; --delay: 4s; }
+.mma-typeline-word:nth-child(4) { color: #84dcc6; --delay: 8s; }
+.mma-typeline-word:nth-child(5) { color: #a9def9; --delay: 12s; }
+.mma-typeline-word:nth-child(6) { color: #e4c1f9; --delay: 16s; }
+.mma-typeline-word:nth-child(7) { color: #ff99c8; --delay: 20s; }
+
 @keyframes mmaType {
-  0% { width: 0; }
-  40% { width: 100%; }
-  80% { width: 100%; }
-  95%, 100% { width: 0; }
+  0% { width: 0; opacity: 1; }
+  8% { width: 100%; opacity: 1; }
+  12.5% { width: 100%; opacity: 1; }
+  16.6% { width: 0; opacity: 1; }
+  16.61%, 100% { width: 0; opacity: 0; }
 }
 
 @media (max-width: 640px) {
-  .mma-typeline-size,
-  .mma-typeline-word {
-    white-space: normal;
-  }
-
-  .mma-typeline-word {
-    width: auto;
-    border-right: 0;
-    animation: none;
+  .mma-typeline {
+    padding-left: 16px;
+    padding-right: 16px;
+    font-size: clamp(0.95rem, 4.15vw, 1.35rem);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .mma-typeline-word {
+    display: none;
     width: auto;
+    max-width: none;
     border-right: 0;
+    opacity: 1;
     animation: none;
+  }
+
+  .mma-typeline-word:nth-child(2) {
+    display: block;
   }
 }
 
@@ -841,6 +865,12 @@
   color: #cfcfcf;
 }
 
+@media (max-width: 1024px) {
+  .mma-team .mma-split {
+    margin-top: 56px;
+  }
+}
+
 /* ---------- Smaller screens ---------- */
 @media (max-width: 1100px) {
   .mma-members,
@@ -949,20 +979,6 @@
 </section>
 
 <section class="mma-section mma-team" aria-labelledby="mma-team-title">
-  <div class="mma-wrap mma-split">
-    <div class="mma-intro">
-      <span class="mma-eyebrow">About Us</span>
-      <h2 id="mma-team-title"><span class="mm-line">Meet The Team</span><span class="mm-line mm-line-pink">Behind Your Growth</span></h2>
-      <p class="mma-lead">Get to know our team.</p>
-      <a href="/get-in-touch/" class="mma-btn">Contact Us</a>
-    </div>
-    <div class="mma-copy">
-      <p>Since launching MM Digital, we've focused on one thing: delivering measurable commercial results. From increasing bookings and generating qualified leads to strengthening online visibility and refining brand positioning, our work is always built around outcomes that directly impact your bottom line.</p>
-      <p>We operate as a true extension of your team, providing strategic direction, technical expertise and ongoing digital support. Whether we're navigating a complex marketing challenge or building a long-term growth plan, we create structured roadmaps that turn ambition into scalable progress.</p>
-      <p>And by staying ahead of platform updates, emerging technologies and evolving consumer behaviour, we keep our clients competitive and relevant. We don't simply help you get seen, we position your brand to lead, to stand out, and to move confidently ahead of the market.</p>
-    </div>
-  </div>
-
   <div class="mma-wrap">
     <ul class="mma-members">
       <li>
@@ -977,7 +993,7 @@
               <b>Maximilian Madl</b>
               <small>Founder &amp; Director</small>
               <span class="mma-member-bio">With a passion for driving growth and delivering exceptional results, Maximilian leads our team in crafting tailored digital marketing strategies that help businesses thrive.</span>
-              <span class="mma-member-social"><a href="https://www.linkedin.com/in/maximillian-madl-0637b6139/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Maximilian Madl's LinkedIn profile">in</a><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></a></span>
+              <span class="mma-member-social"><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></a><a href="https://www.linkedin.com/in/maximillian-madl-0637b6139/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Maximilian Madl's LinkedIn profile">in</a></span>
             </span>
           </span>
         </label>
@@ -994,7 +1010,7 @@
               <b>Tash Card</b>
               <small>Senior Web Specialist</small>
               <span class="mma-member-bio">Tash brings a strong technical mindset and a data-driven approach to her role, supporting the design and development of websites while ensuring functionality and performance remain at the forefront.</span>
-              <span class="mma-member-social"><a href="https://www.linkedin.com/in/natasha-card-a2b40b195/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Tash Card's LinkedIn profile">in</a><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></a></span>
+              <span class="mma-member-social"><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></a><a href="https://www.linkedin.com/in/natasha-card-a2b40b195/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Tash Card's LinkedIn profile">in</a></span>
             </span>
           </span>
         </label>
@@ -1011,7 +1027,7 @@
               <b>Mariette James</b>
               <small>Marketing &amp; Social Media Executive</small>
               <span class="mma-member-bio">Mariette brings a blend of creative and commercial thinking to her role. She works across the social media calendars, content creation and campaigns, ensuring every piece of content is on brand and aligned with client goals.</span>
-              <span class="mma-member-social"><a href="https://www.linkedin.com/in/mariettejames/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Mariette James's LinkedIn profile">in</a><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></a></span>
+              <span class="mma-member-social"><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></a><a href="https://www.linkedin.com/in/mariettejames/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Mariette James's LinkedIn profile">in</a></span>
             </span>
           </span>
         </label>
@@ -1028,7 +1044,7 @@
               <b>Natasha Heasman-Langley</b>
               <small>Campaign Manager</small>
               <span class="mma-member-bio">Natasha brings creative and commercial experience to MM Digital, with a career spanning fashion, editorial and content creation. She brings a strong understanding of visual storytelling, brand identity and audience engagement to her role.</span>
-              <span class="mma-member-social"><a href="https://www.linkedin.com/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Natasha Heasman-Langley's LinkedIn profile">in</a><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></a></span>
+              <span class="mma-member-social"><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></a><a href="https://www.linkedin.com/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Natasha Heasman-Langley's LinkedIn profile">in</a></span>
             </span>
           </span>
         </label>
@@ -1036,21 +1052,18 @@
     </ul>
     <p class="mma-hint">Click our images to find out more</p>
   </div>
-</section>
 
-<section class="mma-section" aria-labelledby="mma-partner-title">
   <div class="mma-wrap mma-split">
     <div class="mma-intro">
       <span class="mma-eyebrow">About Us</span>
-      <h2 id="mma-partner-title"><span class="mm-line">Let’s Achieve</span><span class="mm-line mm-line-pink">More Together</span></h2>
-      <p class="mma-lead">A marketing partner you can rely on.</p>
-      <a href="/our-work/" class="mma-btn">See Our Work</a>
+      <h2 id="mma-team-title"><span class="mm-line">Meet The Team</span><span class="mm-line mm-line-pink">Behind Your Growth</span></h2>
+      <p class="mma-lead">Get to know our team.</p>
+      <a href="/get-in-touch/" class="mma-btn">Contact Us</a>
     </div>
-    <div class="mma-glass mma-copy">
-      <p>Every business has different goals, challenges, and opportunities. At MM Digital, we take the time to understand how your business works before building a strategy that supports where you want to go next.</p>
-      <p>Rather than offering isolated services, we focus on creating a clear and connected digital approach. From website development and social media to technical improvements and ongoing marketing support, everything we do is designed to strengthen your overall digital presence.</p>
-      <p>We believe the best results come from strong partnerships. That’s why we work closely with our clients, providing clear communication, honest guidance, and consistent support as your business grows.</p>
-      <p>Our aim is simple: to help your business stay visible, competitive, and moving forward in an ever-changing digital landscape.</p>
+    <div class="mma-copy">
+      <p>Since launching MM Digital, we've focused on one thing: delivering measurable commercial results. From increasing bookings and generating qualified leads to strengthening online visibility and refining brand positioning, our work is always built around outcomes that directly impact your bottom line.</p>
+      <p>We operate as a true extension of your team, providing strategic direction, technical expertise and ongoing digital support. Whether we're navigating a complex marketing challenge or building a long-term growth plan, we create structured roadmaps that turn ambition into scalable progress.</p>
+      <p>And by staying ahead of platform updates, emerging technologies and evolving consumer behaviour, we keep our clients competitive and relevant. We don't simply help you get seen, we position your brand to lead, to stand out, and to move confidently ahead of the market.</p>
     </div>
   </div>
 </section>
@@ -1059,7 +1072,12 @@
   <span class="mma-typeline-lead" aria-hidden="true">We’re dedicated to creating bold and innovative content</span>
   <span class="mma-typeline-words" aria-hidden="true">
     <span class="mma-typeline-size">that drives your brand’s success.</span>
-    <span class="mma-typeline-word" style="--characters:33">that drives your brand’s success.</span>
+    <span class="mma-typeline-word">that drives your brand’s success.</span>
+    <span class="mma-typeline-word">that drives your brand’s success.</span>
+    <span class="mma-typeline-word">that drives your brand’s success.</span>
+    <span class="mma-typeline-word">that drives your brand’s success.</span>
+    <span class="mma-typeline-word">that drives your brand’s success.</span>
+    <span class="mma-typeline-word">that drives your brand’s success.</span>
   </span>
 </section>
 
