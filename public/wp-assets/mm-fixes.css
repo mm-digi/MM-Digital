@@ -984,3 +984,9 @@ iframe.mm-live-report-frame,
   box-shadow: 0 0 30px rgba(255, 128, 139, 0.8), 0 0 8px rgba(255, 128, 139, 0.9) !important;
   transform: translateY(-3px);
 }
+
+/* Footer social icons: Stackable gives button icons an 8px left margin to space them from
+   button text. These buttons are icon-only, so it just pushed each icon 4px off centre. */
+.stk-7a717f7 .stk-button .stk--svg-wrapper svg {
+  margin: 0 !important;
+}
