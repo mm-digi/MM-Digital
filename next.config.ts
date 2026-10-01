@@ -16,6 +16,16 @@ const nextConfig: NextConfig = {
         destination: "/why-most-businesses-waste-their-ad-spend-and-what-to-do-instead/",
         permanent: true,
       },
+      {
+        source: "/packages",
+        destination: "/pricing/",
+        permanent: true,
+      },
+      {
+        source: "/packages/",
+        destination: "/pricing/",
+        permanent: true,
+      },
     ];
   },
 
