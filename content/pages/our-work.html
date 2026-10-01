@@ -213,19 +213,48 @@
   color: #fff;
 }
 
-.mmw-shots {
+.mmw-devices {
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  align-items: end;
   transform: scale(1);
   transform-origin: center center;
 }
 
-.mmw-shots img {
+.mmw-devices .mmw-art {
+  grid-area: 1 / 1;
+  width: 86%;
+  justify-self: start;
+  align-self: end;
+  height: auto;
+  border-radius: 18px;
+  background: #000;
+}
+
+.mmw-phone {
+  grid-area: 1 / 1;
+  justify-self: end;
+  align-self: end;
+  z-index: 1;
+  width: 28%;
+  padding: 6px;
+  border-radius: 26px;
+  background: #18181b;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 0 32px rgba(255, 128, 139, 0.32),
+    0 22px 44px rgba(0, 0, 0, 0.65);
+  transform: rotate(4deg);
+}
+
+.mmw-phone img {
+  display: block;
   width: 100%;
-  height: 190px;
+  aspect-ratio: 9 / 17.5;
+  height: auto;
   object-fit: cover;
-  border-radius: 16px;
+  object-position: top center;
+  border-radius: 20px;
 }
 
 .mmw-card-stats {
@@ -319,7 +348,7 @@
 @media (hover: hover) {
   .mmw-card,
   .mmw-card-bg,
-  .mmw-shots,
+  .mmw-devices,
   .mmw-card-stats {
     transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.45s ease, box-shadow 0.45s ease;
   }
@@ -330,7 +359,7 @@
   }
 
   .mmw-card:hover .mmw-card-bg { transform: scale(1.06); }
-  .mmw-card:hover .mmw-shots { transform: scale(0.84); }
+  .mmw-card:hover .mmw-devices { transform: scale(0.84); }
   .mmw-card:hover .mmw-card-stats { transform: translateY(-26px); }
 }
 
@@ -338,7 +367,7 @@
 @media (hover: none) {
   .mmw-card.is-in { animation: mmwEdge 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
   .mmw-card.is-in .mmw-card-bg { animation: mmwBg 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
-  .mmw-card.is-in .mmw-shots { animation: mmwShots 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  .mmw-card.is-in .mmw-devices { animation: mmwShots 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
   .mmw-card.is-in .mmw-card-stats { animation: mmwStats 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 }
 
@@ -545,7 +574,6 @@
 @media (max-width: 1100px) {
   .mmw-studies-grid,
   .mmw-why-grid { grid-template-columns: 1fr; }
-  .mmw-shots img { height: 220px; }
 }
 
 @media (max-width: 900px) {
@@ -568,7 +596,8 @@
   .mmw-intro { padding-left: 20px; }
   .mmw-wall-track img { width: 260px; }
   .mmw-card-body { padding: 22px; }
-  .mmw-shots img { height: 140px; }
+  .mmw-phone { width: 36%; }
+  .mmw-devices .mmw-art { width: 82%; }
   .mmw-card-stats,
   .mmw-metrics { grid-template-columns: 1fr; }
 }
@@ -580,14 +609,14 @@
   .mmw-card.is-in,
   .mmw-card.is-in .mmw-count,
   .mmw-card.is-in .mmw-card-bg,
-  .mmw-card.is-in .mmw-shots,
+  .mmw-card.is-in .mmw-devices,
   .mmw-card.is-in .mmw-card-stats,
   .mmw-card-bg,
-  .mmw-shots,
+  .mmw-devices,
   .mmw-card-stats { animation: none; }
   .mmw-glass.mmw-lift:hover,
   .mmw-btn:hover,
-  .mmw-card:hover .mmw-shots,
+  .mmw-card:hover .mmw-devices,
   .mmw-card:hover .mmw-card-stats,
   .mmw-card:hover .mmw-card-bg { transform: none; }
 }
@@ -622,66 +651,92 @@
     </div>
     <div class="mmw-studies-grid">
       <article class="mmw-card">
-        <div class="mmw-card-bg" style="background-image:url('/media/q9b300-41-2.webp')"></div>
-        <div class="mmw-card-body">
-          <h3>Launching Oriels Exeter Into One Of The City’s Most In-Demand Venues</h3>
-          <div class="mmw-shots">
-            <img src="/media/mm-digital-our-work-image-18ef866.webp" alt="Launching Oriels Exeter into one of the city’s most in-demand venues" width="700" height="500">
-            <img src="/media/mm-digital-our-work-image-b968f48.webp" alt="Launching Oriels Exeter into one of the city’s most in-demand venues" width="700" height="500">
-          </div>
-          <dl class="mmw-card-stats">
-            <div><dt><span class="mmw-count is-decimal" style="--to:31" data-suf="m" aria-hidden="true"></span><span class="mmw-sr">3.1m</span></dt><dd>Social Media Views</dd></div>
-            <div><dt><span class="mmw-count is-grouped" style="--to:905" data-suf="+" aria-hidden="true"></span><span class="mmw-sr">90,500+</span></dt><dd>Website Visits Driven</dd></div>
-          </dl>
-          <a class="mmw-btn" href="/oriels-case-study/">Read the case study</a>
-        </div>
-      </article>
-
-      <article class="mmw-card">
-        <div class="mmw-card-bg" style="background-image:url('/media/flowerpower2-sml.webp')"></div>
-        <div class="mmw-card-body">
-          <h3>Expanding Yvonne Coomber’s Digital Presence</h3>
-          <div class="mmw-shots">
-            <img src="/media/mm-digital-our-work-image-e3d1f07.webp" alt="Expanding Yvonne Coomber’s digital presence" width="700" height="500">
-            <img src="/media/mm-digital-our-work-image-5996792.webp" alt="Expanding Yvonne Coomber’s digital presence" width="700" height="500">
-          </div>
-          <dl class="mmw-card-stats">
-            <div><dt><span class="mmw-count" style="--to:1" data-suf="m+" aria-hidden="true"></span><span class="mmw-sr">1m+</span></dt><dd>Art Lovers Reached Across Social Media</dd></div>
-            <div><dt><span class="mmw-count" style="--to:42" data-suf="%+" aria-hidden="true"></span><span class="mmw-sr">42%+</span></dt><dd>Increase In Audience Engagement</dd></div>
-          </dl>
-          <a class="mmw-btn" href="/yvonne-coombers-case-study/">Read the case study</a>
-        </div>
-      </article>
-
-      <article class="mmw-card">
-        <div class="mmw-card-bg" style="background-image:url('/media/mm-digital-our-work-image.webp')"></div>
-        <div class="mmw-card-body">
-          <h3>Expanding Waldrons Patisserie’s Digital Reach Across The UK Foodservice Industry</h3>
-          <div class="mmw-shots">
-            <img src="/media/mm-digital-our-work-image-6e00809.webp" alt="Expanding Waldrons Patisserie’s digital reach across the UK foodservice industry" width="700" height="500">
-            <img src="/media/mm-digital-our-work-image-cc15e12.webp" alt="Expanding Waldrons Patisserie’s digital reach across the UK foodservice industry" width="700" height="500">
-          </div>
-          <dl class="mmw-card-stats">
-            <div><dt><span class="mmw-count" style="--to:1" data-suf="m+" aria-hidden="true"></span><span class="mmw-sr">1m+</span></dt><dd>Social Media Views</dd></div>
-            <div><dt><span class="mmw-count" style="--to:1" data-suf="+" aria-hidden="true"></span><span class="mmw-sr">1+</span></dt><dd>Complete Website &amp; Digital Platform Rebuild</dd></div>
-          </dl>
-          <a class="mmw-btn" href="/waldrons-patisseries-case-study/">Read the case study</a>
-        </div>
-      </article>
-
-      <article class="mmw-card">
-        <div class="mmw-card-bg" style="background-image:url('/media/mm-digital-our-work-image-b38b842.webp')"></div>
+        <div class="mmw-card-bg" style="background-image:url('/media/work/aspects-oak.webp')"></div>
         <div class="mmw-card-body">
           <h3>Strengthening Aspects of Oak’s Online Presence For High-End Carpentry &amp; Construction</h3>
-          <div class="mmw-shots">
-            <img src="/media/mm-digital-our-work-image-6df17bb.webp" alt="Strengthening Aspects of Oak’s online presence for high-end carpentry and construction" width="700" height="500">
-            <img src="/media/mm-digital-our-work-image-acc5bac.webp" alt="Strengthening Aspects of Oak’s online presence for high-end carpentry and construction" width="700" height="500">
+          <div class="mmw-devices">
+            <img class="mmw-art" src="/media/work/aspects-oak.webp" alt="Aspects of Oak carpentry and construction" width="1600" height="898">
+            <div class="mmw-phone">
+              <img src="/media/work/aspects-oak-phone.webp" alt="The Aspects of Oak website on a phone" width="900" height="1955">
+            </div>
           </div>
           <dl class="mmw-card-stats">
             <div><dt><span class="mmw-count" style="--to:3" data-suf="k+" aria-hidden="true"></span><span class="mmw-sr">3k+</span></dt><dd>Local Leads Generated</dd></div>
             <div><dt><span class="mmw-count" style="--to:22" data-suf="%+" aria-hidden="true"></span><span class="mmw-sr">22%+</span></dt><dd>Visibility Boost</dd></div>
           </dl>
-          <a class="mmw-btn" href="/aspects-of-oaks-case-study/">Read the case study</a>
+        </div>
+      </article>
+
+      <article class="mmw-card">
+        <div class="mmw-card-bg" style="background-image:url('/media/work/auric-photo.webp')"></div>
+        <div class="mmw-card-body">
+          <h3>Creating Auric Performance’s Brand And Digital Presence From Scratch</h3>
+          <div class="mmw-devices">
+            <img class="mmw-art" src="/media/work/auric.webp" alt="Auric Performance physical performance coaching" width="1600" height="898">
+            <div class="mmw-phone">
+              <img src="/media/work/auric-phone.webp" alt="The Auric Performance website on a phone" width="900" height="1955">
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="mmw-card">
+        <div class="mmw-card-bg" style="background-image:url('/media/work/lost-in-hound-photo.webp')"></div>
+        <div class="mmw-card-body">
+          <h3>From Brand Concept To A Thriving Presence For Lost In Hound</h3>
+          <div class="mmw-devices">
+            <img class="mmw-art" src="/media/work/lost-in-hound.webp" alt="Lost in Hound collars and leads" width="1600" height="898">
+            <div class="mmw-phone">
+              <img src="/media/work/lost-in-hound-phone.webp" alt="The Lost in Hound website on a phone" width="900" height="1955">
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="mmw-card">
+        <div class="mmw-card-bg" style="background-image:url('/media/work/oriels.webp')"></div>
+        <div class="mmw-card-body">
+          <h3>Launching Oriels Exeter Into One Of The City’s Most In-Demand Venues</h3>
+          <div class="mmw-devices">
+            <img class="mmw-art" src="/media/work/oriels.webp" alt="Oriels events across the week" width="1600" height="898">
+            <div class="mmw-phone">
+              <img src="/media/work/oriels-phone.webp" alt="The Oriels website on a phone" width="900" height="1955">
+            </div>
+          </div>
+          <dl class="mmw-card-stats">
+            <div><dt><span class="mmw-count is-decimal" style="--to:31" data-suf="m" aria-hidden="true"></span><span class="mmw-sr">3.1m</span></dt><dd>Social Media Views</dd></div>
+            <div><dt><span class="mmw-count is-grouped" style="--to:905" data-suf="+" aria-hidden="true"></span><span class="mmw-sr">90,500+</span></dt><dd>Website Visits Driven</dd></div>
+          </dl>
+        </div>
+      </article>
+
+      <article class="mmw-card">
+        <div class="mmw-card-bg" style="background-image:url('/media/work/sdr-photo.webp')"></div>
+        <div class="mmw-card-body">
+          <h3>SDR, The Car Buying Service</h3>
+          <div class="mmw-devices">
+            <img class="mmw-art" src="/media/work/sdr.webp" alt="SDR, the car buying service" width="1600" height="898">
+            <div class="mmw-phone">
+              <img src="/media/work/sdr-phone.webp" alt="The SDR website on a phone" width="900" height="1955">
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="mmw-card">
+        <div class="mmw-card-bg" style="background-image:url('/media/work/waldrons.webp')"></div>
+        <div class="mmw-card-body">
+          <h3>Expanding Waldrons Patisserie’s Digital Reach Across The UK Foodservice Industry</h3>
+          <div class="mmw-devices">
+            <img class="mmw-art" src="/media/work/waldrons.webp" alt="Waldrons Patisserie cheesecake" width="1600" height="898">
+            <div class="mmw-phone">
+              <img src="/media/work/waldrons-phone.webp" alt="The Waldrons Patisserie website on a phone" width="900" height="1955">
+            </div>
+          </div>
+          <dl class="mmw-card-stats">
+            <div><dt><span class="mmw-count" style="--to:1" data-suf="m+" aria-hidden="true"></span><span class="mmw-sr">1m+</span></dt><dd>Social Media Views</dd></div>
+            <div><dt><span class="mmw-count" style="--to:1" data-suf="+" aria-hidden="true"></span><span class="mmw-sr">1+</span></dt><dd>Complete Website &amp; Digital Platform Rebuild</dd></div>
+          </dl>
         </div>
       </article>
     </div>
