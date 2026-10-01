@@ -1,1045 +1,372 @@
 
-<div class="wp-block-group alignfull ext-animate--on">
+<div class="wp-block-group alignfull">
+<style>
+.mmp-hero, .mmp-section { --mm-pink: #ff808b; color: #fff; }
+.mmp-hero *, .mmp-section * { box-sizing: border-box; }
+.mmp-wrap { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
+.mmp-eyebrow {
+  display: block; margin-bottom: 14px;
+  font-family: "Glacial Indifference", Arial, sans-serif; font-size: 0.85rem; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--mm-pink);
+}
+.mmp-hero h1, .mmp-section h2, .mmp-card h3, .mmp-custom h3, .mmp-compare h3, .mmp-cta h2 {
+  margin: 0 0 18px; font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(1.9rem, 3.6vw, 3.6rem); line-height: 1.1; letter-spacing: -0.02em; color: #fff;
+}
+.mmp-card h3, .mmp-custom h3, .mmp-compare h3 { font-size: clamp(1.6rem, 2.2vw, 2.2rem); }
+.mmp-hero .mm-line, .mmp-section .mm-line { display: block; }
+.mmp-hero .mm-line-pink, .mmp-section .mm-line-pink { color: #ff808b !important; }
+.mmp-lead, .mmp-glass p, .mmp-custom p, .mmp-card .mmp-sub, .mmp-compare p, .mmp-cta p {
+  margin: 0 0 16px; font-family: "Glacial Indifference", Arial, sans-serif;
+  font-size: 1.15rem; line-height: 1.65; color: #cfcfcf;
+}
+.mmp-btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 28px;
+  border-radius: 999px; background: var(--mm-pink); border: 0;
+  font-family: "Glacial Indifference", Arial, sans-serif; font-size: 16px; font-weight: 700;
+  color: #fff !important; text-decoration: none !important; transition: background .2s ease, transform .2s ease, border-color .2s ease;
+}
+.mmp-btn:hover { background: #ff6d79; transform: translateY(-2px); }
+.mmp-btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,.35); }
+.mmp-btn-ghost:hover { background: rgba(255,128,139,.14); border-color: var(--mm-pink); }
 
-<section class="mm-packages-hero">
-  <div class="mm-packages-inner">
-    <div class="mm-packages-grid">
+.mmp-hero { position: relative; overflow: hidden; padding: 150px 0 120px; }
+.mmp-wall {
+  position: absolute; inset: -40px 0; display: grid; gap: 18px; align-content: center;
+  transform: rotate(-4deg) scale(1.08);
+}
+.mmp-wall-row { overflow: hidden; }
+.mmp-wall-track { display: flex; gap: 18px; width: max-content; animation: mmpDrift 80s linear infinite; }
+.mmp-wall-row-2 .mmp-wall-track { animation-direction: reverse; animation-duration: 95s; }
+.mmp-wall-row-3 .mmp-wall-track { animation-duration: 70s; }
+.mmp-wall-track img { width: 440px; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; }
+@keyframes mmpDrift { to { transform: translateX(-50%); } }
+.mmp-shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.92) 0%, rgba(0,0,0,.72) 48%, rgba(0,0,0,.5) 100%),
+    radial-gradient(ellipse 55% 80% at 82% 50%, rgba(255,128,139,.2), transparent 70%);
+}
+.mmp-split {
+  position: relative; z-index: 1; display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 64px; align-items: center;
+}
+.mmp-intro { padding-left: 32px; border-left: 2px solid var(--mm-pink); }
+.mmp-lead { margin-bottom: 28px; }
+.mmp-picks {
+  padding: 28px 28px 18px; border-radius: 28px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(10,6,8,.72);
+  box-shadow: 0 30px 70px rgba(0,0,0,.45);
+  backdrop-filter: blur(16px);
+}
+.mmp-picks .mmp-eyebrow { margin-bottom: 18px; }
+.mmp-pick {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  margin: 0 0 10px; padding: 16px 18px; border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04);
+  color: #fff !important; text-decoration: none !important;
+}
+.mmp-pick:hover { border-color: rgba(255,128,139,.7); background: rgba(255,128,139,.1); }
+.mmp-pick.is-featured {
+  border-color: rgba(255,128,139,.7);
+  background: rgba(255,128,139,.14);
+}
+.mmp-pick-copy { display: flex; flex-direction: column; gap: 4px; }
+.mmp-pick-name {
+  font-family: "Libre Baskerville", Georgia, serif; font-size: 1.35rem; line-height: 1.1; color: #fff;
+}
+.mmp-pick-note {
+  font-family: "Glacial Indifference", Arial, sans-serif; font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: #ff808b;
+}
+.mmp-pick-price {
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(1.45rem, 2vw, 1.9rem); line-height: 1; color: #ff808b; white-space: nowrap;
+}
+.mmp-pick-price span {
+  font-family: "Glacial Indifference", Arial, sans-serif; font-size: 0.9rem; color: #cfcfcf;
+}
+.mmp-card { scroll-margin-top: 110px; }
 
-      <div class="mm-packages-content">
-        <span class="mm-packages-eyebrow">Our Packages</span>
+.mmp-section { padding: 40px 0 90px; }
+.mmp-center { max-width: 820px; margin: 0 auto 48px; text-align: center; }
+.mmp-center .mmp-lead { margin-bottom: 0; }
+.mmp-glass {
+  padding: 56px; border: 1px solid rgba(255,255,255,.12); border-radius: 36px;
+  background:
+    radial-gradient(ellipse 50% 80% at 100% 0%, rgba(255,128,139,.16), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
+}
+.mmp-custom { margin-bottom: 48px; }
+.mmp-custom p:last-of-type { margin-bottom: 28px; }
 
-        <h1>Marketing Packages Designed Around Real Business Growth</h1>
+.mmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.mmp-card {
+  position: relative; display: flex; flex-direction: column;
+  padding: 36px 32px; border: 1px solid rgba(255,255,255,.12); border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+}
+.mmp-card.featured {
+  border-color: rgba(255,128,139,.7);
+  box-shadow: 0 0 0 1px rgba(255,128,139,.35), 0 18px 48px rgba(255,128,139,.16);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255,128,139,.2), transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+}
+.mmp-badge {
+  position: absolute; top: 22px; right: 22px;
+  padding: 6px 12px; border-radius: 999px; background: var(--mm-pink);
+  font-family: "Glacial Indifference", Arial, sans-serif; font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase; color: #fff;
+}
+.mmp-sub { min-height: 3.3em; }
+.mmp-price {
+  margin: 4px 0 6px; font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(2.2rem, 3vw, 3rem); line-height: 1; color: #ff808b;
+}
+.mmp-price span { font-family: "Glacial Indifference", Arial, sans-serif; font-size: 1rem; color: #cfcfcf; }
+.mmp-from { margin-right: 6px; }
+.mmp-meta {
+  margin-bottom: 22px; font-family: "Glacial Indifference", Arial, sans-serif;
+  font-size: 0.95rem; color: rgba(255,255,255,.62);
+}
+.mmp-card .mmp-btn { align-self: flex-start; margin-bottom: 26px; }
+.mmp-label {
+  margin: 8px 0 12px; font-family: "Glacial Indifference", Arial, sans-serif;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mm-pink);
+}
+.mmp-list, .mmp-details { margin: 0 0 8px; padding: 0; list-style: none; }
+.mmp-list li, .mmp-details li {
+  position: relative; margin: 0 0 10px; padding-left: 16px;
+  font-family: "Glacial Indifference", Arial, sans-serif; font-size: 0.98rem; line-height: 1.45; color: #e4e4e4;
+}
+.mmp-list li::before, .mmp-details li::before {
+  content: ""; position: absolute; left: 0; top: 0.5em; width: 7px; height: 7px; border-radius: 50%; background: var(--mm-pink);
+}
+.mmp-more {
+  margin-top: auto; padding: 18px 18px 8px; border-radius: 18px;
+  background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.08);
+}
 
-        <p>
-          Choose from our structured marketing packages designed to strengthen your online presence,
-          generate new opportunities, and deliver measurable results. While our packages provide a
-          clear starting point, many clients work with us on fully customised retainers tailored to
-          their goals, industry, and stage of growth.
-        </p>
+.mmp-compare { margin-top: 64px; }
+.mmp-table-wrap { overflow-x: auto; border: 1px solid rgba(255,255,255,.12); border-radius: 28px; }
+.mmp-table { width: 100%; min-width: 760px; border-collapse: collapse; }
+.mmp-table th, .mmp-table td {
+  padding: 16px 18px; text-align: left; border-bottom: 1px solid rgba(255,255,255,.08);
+  font-family: "Glacial Indifference", Arial, sans-serif; font-size: 0.98rem; color: #e8e8e8;
+}
+.mmp-table th {
+  font-family: "Libre Baskerville", Georgia, serif; font-size: 1.05rem; font-weight: 700; color: #fff;
+  background: rgba(255,255,255,.03);
+}
+.mmp-table th:nth-child(3), .mmp-table td:nth-child(3) { background: rgba(255,128,139,.1); color: #fff; }
+.mmp-table tr:last-child td { border-bottom: 0; }
 
-        <p>
-          Every business is different, which is why we’re always happy to create a bespoke marketing
-          solution that fits exactly what you need.
-        </p>
+.mmp-cta { margin-top: 56px; text-align: center; padding: 64px 40px; }
+.mmp-cta h2 { margin-bottom: 12px; }
+.mmp-cta p { max-width: 640px; margin: 0 auto 28px; }
+.mmp-cta-row { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
 
-        <div class="mm-packages-buttons">
-          <a href="/get-in-touch/" class="mm-btn mm-btn-primary">Start Now</a>
-        </div>
-      </div>
+@media (min-width: 900px) {
+  .mmp-hero .mm-line, .mmp-center .mm-line, .mmp-cta .mm-line { white-space: nowrap; }
+}
+@media (max-width: 1100px) {
+  .mmp-wrap { padding: 0 20px; }
+  .mmp-split, .mmp-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .mmp-intro, .mmp-picks, .mmp-pick { min-width: 0; }
+  .mmp-glass, .mmp-cta { padding: 32px 22px; border-radius: 26px; }
+  .mmp-sub { min-height: 0; }
+}
+@media (max-width: 640px) {
+  .mmp-hero { padding: 120px 0 70px; }
+  .mmp-intro { padding-left: 20px; }
+  .mmp-card { padding: 28px 20px; }
+  .mmp-badge { position: static; display: inline-block; margin-bottom: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mmp-wall-track { animation: none; }
+  .mmp-btn { transition: none; }
+}
+</style>
 
-      <div class="mm-packages-video-wrap">
-        <video autoplay muted loop playsinline preload="auto">
-          <source src="/media/mm-digital-computermp4.mp4" type="video/mp4">
-        </video>
-      </div>
-
+<section class="mmp-hero" aria-labelledby="mmp-hero-title">
+  <div class="mmp-wall" aria-hidden="true">
+    <div class="mmp-wall-row mmp-wall-row-1"><div class="mmp-wall-track"><img src="/media/covers/oriels-brunch.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/auric.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/vaala.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/captrad.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/waldrons.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/lost-in-hound.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/oriels-brunch.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/auric.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/vaala.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/captrad.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/waldrons.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/lost-in-hound.webp" alt="" width="960" height="540" loading="eager"></div></div>
+    <div class="mmp-wall-row mmp-wall-row-2"><div class="mmp-wall-track"><img src="/media/covers/bastion.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/sdr.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/aspects-of-oak.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/the-loft.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/brs.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/new-reflexions.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/bastion.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/sdr.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/aspects-of-oak.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/the-loft.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/brs.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/new-reflexions.webp" alt="" width="960" height="540" loading="eager"></div></div>
+    <div class="mmp-wall-row mmp-wall-row-3"><div class="mmp-wall-track"><img src="/media/covers/oriels-comedy.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/mtd.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/search-mortgage.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/bfb.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/oriels-winter.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/captrad-2.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/oriels-comedy.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/mtd.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/search-mortgage.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/bfb.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/oriels-winter.webp" alt="" width="960" height="540" loading="eager"><img src="/media/covers/captrad-2.webp" alt="" width="960" height="540" loading="eager"></div></div>
+  </div>
+  <div class="mmp-shade" aria-hidden="true"></div>
+  <div class="mmp-wrap mmp-split">
+    <div class="mmp-intro">
+      <span class="mmp-eyebrow">Our Packages</span>
+      <h1 id="mmp-hero-title"><span class="mm-line">Marketing Packages</span><span class="mm-line mm-line-pink">Designed For Growth</span></h1>
+      <p class="mmp-lead">Choose from our structured marketing packages designed to strengthen your online presence, generate new opportunities, and deliver measurable results. While our packages provide a clear starting point, many clients work with us on fully customised retainers tailored to their goals, industry, and stage of growth.</p>
+      <a href="/get-in-touch/" class="mmp-btn">Start Now</a>
     </div>
+    <aside class="mmp-picks" aria-label="Package prices">
+      <span class="mmp-eyebrow">Monthly retainers</span>
+      <a class="mmp-pick" href="#mmp-starter">
+        <span class="mmp-pick-copy"><span class="mmp-pick-name">Starter</span></span>
+        <span class="mmp-pick-price">£350 <span>/ month</span></span>
+      </a>
+      <a class="mmp-pick is-featured" href="#mmp-growth">
+        <span class="mmp-pick-copy"><span class="mmp-pick-name">Growth</span><span class="mmp-pick-note">Most popular</span></span>
+        <span class="mmp-pick-price">£600 <span>/ month</span></span>
+      </a>
+      <a class="mmp-pick" href="#mmp-supercharged">
+        <span class="mmp-pick-copy"><span class="mmp-pick-name">Supercharged</span></span>
+        <span class="mmp-pick-price"><span class="mmp-from">From</span> £950 <span>/ month</span></span>
+      </a>
+      <a class="mmp-pick" href="#mmp-custom">
+        <span class="mmp-pick-copy"><span class="mmp-pick-name">Custom</span></span>
+        <span class="mmp-pick-price">Bespoke</span>
+      </a>
+    </aside>
   </div>
 </section>
 
-<style>
-.mm-packages-hero {
-  padding: 30px 24px 80px;
-  background: #000;
-  color: #fff;
-}
-
-.mm-packages-inner {
-  max-width: 1600px;
-  margin: auto;
-}
-
-.mm-packages-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 48px;
-  align-items: center;
-}
-
-/* LEFT CONTENT */
-.mm-packages-content {
-  position: relative;
-  padding-left: 28px;
-  max-width: 700px;
-}
-
-.mm-packages-content::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 10px;
-  bottom: 10px;
-  width: 2px;
-  background: #ff808b;
-}
-
-.mm-packages-eyebrow {
-  font-size: 0.85rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #ff808b;
-  margin-bottom: 8px;
-  font-weight: 700;
-  display: block;
-  font-family: "Glacial Indifference", Arial, Helvetica, sans-serif;
-}
-
-.mm-packages-content h1 {
-  margin: 0 0 20px 0;
-  font-family: "Libre Baskerville", Georgia, "Times New Roman", serif;
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
-  line-height: 1.05;
-  color: #fff;
-}
-
-.mm-packages-content p {
-  margin: 0 0 16px;
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: rgba(255,255,255,0.9);
-  font-family: "Glacial Indifference", Arial, Helvetica, sans-serif;
-}
-
-.mm-packages-buttons {
-  margin-top: 32px;
-}
-
-/* BUTTON */
-.mm-btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 52px;
-  padding: 0 26px;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 16px;
-  background: #ff808b;
-  color: #fff;
-  text-decoration: none;
-  box-shadow: 0 20px 50px rgba(0,0,0,.35);
-  font-family: "Glacial Indifference", Arial, Helvetica, sans-serif;
-  transition: .25s;
-}
-
-.mm-btn-primary:hover {
-  background: #ff6d79;
-  transform: translateY(-2px);
-  text-decoration: none;
-}
-
-/* RIGHT VIDEO */
-.mm-packages-video-wrap {
-  border-radius: 28px;
-  overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
-  min-height: 520px;
-}
-
-.mm-packages-video-wrap video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 520px;
-  object-fit: cover;
-}
-
-/* MOBILE */
-@media (max-width: 900px) {
-  .mm-packages-hero {
-    padding: 30px 18px 70px;
-  }
-
-  .mm-packages-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .mm-packages-content {
-    max-width: 100%;
-  }
-
-  .mm-packages-video-wrap {
-    display: none;
-  }
-
-  .mm-packages-buttons a.mm-btn.mm-btn-primary {
-    min-height: 52px !important;
-    padding: 0 26px !important;
-    font-size: 16px !important;
-    line-height: 1 !important;
-    width: auto !important;
-    max-width: max-content !important;
-    min-width: 0 !important;
-    border-radius: 999px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-}
-
-@media (max-width: 640px) {
-  .mm-packages-content h1 {
-    font-size: clamp(2rem, 8vw, 2.8rem);
-  }
-
-  .mm-packages-content p {
-    font-size: 1rem;
-  }
-}
-</style>
-</div>
-
-<div class="wp-block-group alignfull ext-animate--on">
-<section class="mm-pricing-section">
-  <style>
-    .mm-pricing-section {
-      background: #f8fafc;
-      padding: 80px 20px;
-      font-family: 'Glacial Indifference', Arial, sans-serif;
-      color: #111111;
-      border-radius: 30px;
-      overflow: hidden;
-    }
-
-    .mm-pricing-wrap {
-      max-width: 1500px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-
-    .mm-pricing-intro {
-      max-width: 760px;
-      margin-bottom: 40px;
-    }
-
-    .mm-pricing-eyebrow {
-      display: inline-block;
-      padding: 10px 18px;
-      border-radius: 16px;
-      background: #ff808b;
-      color: #ffffff;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 18px;
-      text-decoration: none;
-      transition: transform 0.18s ease, background 0.2s ease, color 0.2s ease;
-    }
-
-    .mm-pricing-eyebrow:hover {
-      transform: scale(1.05);
-      background: #ffffff;
-      color: #000000;
-      border: 1px solid #ff808b;
-    }
-
-    .mm-pricing-intro h2 {
-      font-family: 'Libre Baskerville', serif;
-      font-size: 42px;
-      line-height: 1.1;
-      margin: 0 0 16px;
-      color: #000000;
-    }
-
-    .mm-pricing-intro p {
-      font-size: 18px;
-      line-height: 1.7;
-      color: #475569;
-      margin: 0;
-    }
-
-    .mm-custom {
-      margin-top: 0;
-      margin-bottom: 50px;
-      background: #f1f0de;
-      border: 1px solid #ffd1d6;
-      border-radius: 24px;
-      padding: 42px;
-      box-shadow: 0 10px 30px rgba(15,23,42,0.05);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .mm-custom:before {
-      content: "";
-      position: absolute;
-      top: -60px;
-      right: -60px;
-      width: 180px;
-      height: 180px;
-      background: rgba(255,128,139,0.12);
-      border-radius: 50%;
-    }
-
-    .mm-custom-inner {
-      position: relative;
-      z-index: 1;
-      max-width: 980px;
-    }
-
-    .mm-custom-eyebrow {
-      display: inline-block;
-      padding: 8px 14px;
-      border-radius: 14px;
-      background: #ff808b;
-      color: #ffffff;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 18px;
-    }
-
-    .mm-custom h3 {
-      margin: 0 0 16px;
-      font-size: 34px;
-      line-height: 1.2;
-      font-family: 'Libre Baskerville', serif;
-      color: #111111;
-    }
-
-    .mm-custom p {
-      margin: 0 0 16px;
-      max-width: 900px;
-      color: #475569;
-      font-size: 17px;
-      line-height: 1.85;
-    }
-
-    .mm-custom p:last-of-type {
-      margin-bottom: 0;
-    }
-
-    .mm-custom-cta {
-      margin-top: 24px;
-      display: inline-block;
-      padding: 14px 22px;
-      border-radius: 16px;
-      text-decoration: none;
-      font-weight: 700;
-      background: #ff808b;
-      color: #ffffff;
-      transition: transform 0.18s ease, background 0.2s ease, color 0.2s ease;
-    }
-
-    .mm-custom-cta:hover {
-      transform: scale(1.05);
-      background: #000000;
-      color: #ffffff;
-    }
-
-    .mm-pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px;
-      margin-top: 40px;
-    }
-
-    .mm-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 24px;
-      padding: 32px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
-      position: relative;
-    }
-
-    .mm-card.featured {
-      background: #ff808b;
-      color: #ffffff;
-      transform: translateY(-8px);
-      box-shadow: 0 20px 50px rgba(255,128,139,0.35);
-      border-color: transparent;
-    }
-
-    .mm-badge {
-      position: absolute;
-      top: 24px;
-      right: 24px;
-      background: rgba(255,255,255,0.2);
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .mm-card h3 {
-      margin: 0;
-      font-size: 28px;
-      font-family: 'Libre Baskerville', serif;
-      line-height: 1.2;
-      color: #000000;
-    }
-
-    .mm-card.featured h3 {
-      color: #ffffff;
-    }
-
-    .mm-subtitle {
-      margin: 10px 0 0;
-      font-size: 15px;
-      line-height: 1.6;
-      color: #64748b;
-    }
-
-    .mm-card.featured .mm-subtitle,
-    .mm-card.featured .mm-meta,
-    .mm-card.featured .mm-details li,
-    .mm-card.featured .mm-includes-title {
-      color: rgba(255,255,255,0.9);
-    }
-
-    .mm-price {
-      margin-top: 28px;
-      font-size: 44px;
-      font-weight: 700;
-      line-height: 1;
-      font-family: 'Libre Baskerville', serif;
-    }
-
-    .mm-price span {
-      font-size: 15px;
-      font-weight: 500;
-      font-family: 'Glacial Indifference', Arial, sans-serif;
-    }
-
-    .mm-meta {
-      margin-top: 10px;
-      color: #64748b;
-      font-size: 14px;
-    }
-
-    .mm-button {
-      display: inline-block;
-      width: 100%;
-      text-align: center;
-      margin-top: 28px;
-      padding: 14px 18px;
-      border-radius: 16px;
-      background: #ff808b;
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: 700;
-      transition: transform 0.18s ease, background 0.2s ease, color 0.2s ease;
-      box-sizing: border-box;
-    }
-
-    .mm-button:hover {
-      transform: scale(1.05);
-      background: #e56f79;
-    }
-
-    .mm-card.featured .mm-button {
-      background: #ffffff;
-      color: #000000;
-    }
-
-    .mm-card.featured .mm-button:hover {
-      transform: scale(1.05);
-      background: #000000;
-      color: #ffffff;
-    }
-
-    .mm-includes-title {
-      margin: 30px 0 14px;
-      color: #64748b;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .mm-list,
-    .mm-details {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .mm-list li {
-      position: relative;
-      padding-left: 18px;
-      margin-bottom: 12px;
-      line-height: 1.6;
-    }
-
-    .mm-list li:before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #ff808b;
-      position: absolute;
-      left: 0;
-      top: 10px;
-    }
-
-    .mm-card.featured .mm-list li:before {
-      background: #ffffff;
-    }
-
-    .mm-details-box {
-      margin-top: 26px;
-      padding: 18px 20px;
-      border-radius: 18px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-    }
-
-    .mm-card.featured .mm-details-box {
-      background: rgba(255,255,255,0.15);
-      border-color: rgba(255,255,255,0.2);
-    }
-
-    .mm-details li {
-      margin-bottom: 10px;
-      color: #475569;
-      line-height: 1.6;
-      font-size: 14px;
-    }
-
-.mm-from {
-  font-size: 16px;
-  font-weight: 500;
-  margin-right: 4px;
-}
-
-    .mm-compare {
-      margin-top: 60px;
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(15,23,42,0.05);
-    }
-
-    .mm-compare-head {
-      padding: 28px 32px 16px;
-    }
-
-    .mm-compare-head h3 {
-      margin: 0 0 8px;
-      font-size: 30px;
-      font-family: 'Libre Baskerville', serif;
-    }
-
-    .mm-compare-head p {
-      margin: 0;
-      color: #64748b;
-      line-height: 1.7;
-    }
-
-    .mm-table-wrap {
-      overflow-x: auto;
-    }
-
-    .mm-table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 900px;
-    }
-
-    .mm-table th,
-    .mm-table td {
-      padding: 16px 20px;
-      border-top: 1px solid #e2e8f0;
-      text-align: left;
-      font-size: 15px;
-    }
-
-    .mm-table th {
-      background: #f8fafc;
-      color: #475569;
-      font-weight: 700;
-      border-top: none;
-    }
-
-    .mm-table td:nth-child(3) {
-      color: #ff808b;
-      font-weight: 700;
-    }
-
-    .mm-cta {
-      margin-top: 40px;
-      padding: 36px;
-      border-radius: 24px;
-      background: #ff808b;
-      color: #ffffff;
-      text-align: center;
-    }
-
-    .mm-cta h3 {
-      margin: 0 0 12px;
-      font-size: 32px;
-      font-family: 'Libre Baskerville', serif;
-    }
-
-    .mm-cta p {
-      margin: 0 0 24px;
-      color: rgba(255,255,255,0.9);
-      font-size: 16px;
-      line-height: 1.7;
-    }
-
-    .mm-cta-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    .mm-cta-primary {
-      display: inline-block;
-      padding: 14px 22px;
-      border-radius: 16px;
-      text-decoration: none;
-      font-weight: 700;
-      background: #ffffff;
-      color: #000000;
-      transition: transform 0.18s ease, background 0.2s ease, color 0.2s ease;
-    }
-
-    .mm-cta-primary:hover {
-      transform: scale(1.05);
-      background: #000000;
-      color: #ffffff;
-    }
-
-    .mm-cta-secondary {
-      display: inline-block;
-      padding: 14px 22px;
-      border-radius: 16px;
-      text-decoration: none;
-      font-weight: 700;
-      background: #000000;
-      color: #ffffff;
-      transition: transform 0.18s ease, background 0.2s ease, color 0.2s ease;
-    }
-
-    .mm-cta-secondary:hover {
-      transform: scale(1.05);
-      background: #ffffff;
-      color: #000000;
-    }
-
-    @media (max-width: 1200px) {
-      .mm-pricing-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 991px) {
-      .mm-pricing-section {
-        padding: 56px 16px;
-        border-radius: 22px;
-      }
-
-      .mm-pricing-wrap {
-        padding: 0 12px;
-      }
-
-      .mm-pricing-intro {
-        max-width: 100%;
-        margin-bottom: 28px;
-      }
-
-      .mm-pricing-intro h2 {
-        font-size: 34px;
-        line-height: 1.15;
-      }
-
-      .mm-pricing-intro p {
-        font-size: 16px;
-        line-height: 1.65;
-      }
-
-      .mm-custom {
-        padding: 30px 24px;
-        margin-bottom: 36px;
-        border-radius: 20px;
-      }
-
-      .mm-custom h3 {
-        font-size: 28px;
-        line-height: 1.25;
-      }
-
-      .mm-custom p {
-        font-size: 16px;
-        line-height: 1.75;
-      }
-
-      .mm-pricing-grid {
-        grid-template-columns: 1fr;
-        gap: 18px;
-        margin-top: 28px;
-      }
-
-      .mm-card {
-        padding: 24px;
-        border-radius: 20px;
-      }
-
-      .mm-card.featured {
-        transform: none;
-      }
-
-      .mm-price {
-        font-size: 38px;
-      }
-
-      .mm-compare {
-        margin-top: 42px;
-        border-radius: 20px;
-      }
-
-      .mm-compare-head {
-        padding: 24px 22px 14px;
-      }
-
-      .mm-compare-head h3 {
-        font-size: 26px;
-      }
-
-      .mm-cta {
-        margin-top: 32px;
-        padding: 28px 22px;
-        border-radius: 20px;
-      }
-
-      .mm-cta h3 {
-        font-size: 28px;
-        line-height: 1.2;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .mm-pricing-section {
-        padding: 40px 12px;
-        border-radius: 18px;
-      }
-
-      .mm-pricing-wrap {
-        padding: 0;
-      }
-
-      .mm-pricing-eyebrow,
-      .mm-custom-eyebrow {
-        font-size: 12px;
-        padding: 8px 14px;
-        border-radius: 12px;
-      }
-
-      .mm-pricing-intro h2 {
-        font-size: 28px;
-        margin-bottom: 12px;
-      }
-
-      .mm-pricing-intro p {
-        font-size: 15px;
-        line-height: 1.6;
-      }
-
-      .mm-custom {
-        padding: 22px 18px;
-        margin-bottom: 28px;
-        border-radius: 18px;
-      }
-
-      .mm-custom:before {
-        width: 120px;
-        height: 120px;
-        top: -35px;
-        right: -35px;
-      }
-
-      .mm-custom h3 {
-        font-size: 24px;
-        margin-bottom: 12px;
-      }
-
-      .mm-custom p {
-        font-size: 15px;
-        line-height: 1.65;
-        margin-bottom: 14px;
-      }
-
-      .mm-custom-cta {
-        width: 100%;
-        text-align: center;
-        padding: 14px 18px;
-        box-sizing: border-box;
-      }
-
-      .mm-pricing-grid {
-        gap: 14px;
-      }
-
-      .mm-card {
-        padding: 20px 18px;
-        border-radius: 18px;
-      }
-
-      .mm-badge {
-        position: static;
-        display: inline-block;
-        margin-bottom: 14px;
-      }
-
-      .mm-card h3 {
-        font-size: 24px;
-      }
-
-      .mm-subtitle {
-        font-size: 14px;
-        line-height: 1.5;
-      }
-
-      .mm-price {
-        margin-top: 20px;
-        font-size: 34px;
-      }
-
-      .mm-price span {
-        font-size: 14px;
-      }
-
-      .mm-meta {
-        font-size: 13px;
-      }
-
-      .mm-button {
-        margin-top: 20px;
-        padding: 13px 16px;
-        border-radius: 14px;
-      }
-
-      .mm-includes-title {
-        margin: 22px 0 12px;
-        font-size: 11px;
-        letter-spacing: 0.1em;
-      }
-
-      .mm-list li,
-      .mm-details li {
-        font-size: 14px;
-        line-height: 1.55;
-      }
-
-      .mm-details-box {
-        margin-top: 20px;
-        padding: 16px;
-        border-radius: 16px;
-      }
-
-      .mm-compare-head {
-        padding: 20px 16px 12px;
-      }
-
-      .mm-compare-head h3 {
-        font-size: 22px;
-      }
-
-      .mm-compare-head p {
-        font-size: 14px;
-        line-height: 1.6;
-      }
-
-      .mm-table {
-        min-width: 760px;
-      }
-
-      .mm-table th,
-      .mm-table td {
-        padding: 14px 16px;
-        font-size: 14px;
-        white-space: nowrap;
-      }
-
-      .mm-cta {
-        padding: 24px 18px;
-        border-radius: 18px;
-      }
-
-      .mm-cta h3 {
-        font-size: 24px;
-        margin-bottom: 10px;
-      }
-
-      .mm-cta p {
-        font-size: 15px;
-        line-height: 1.6;
-        margin-bottom: 18px;
-      }
-
-      .mm-cta-buttons {
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .mm-cta-primary,
-      .mm-cta-secondary {
-        width: 100%;
-        text-align: center;
-        box-sizing: border-box;
-        padding: 14px 18px;
-        border-radius: 14px;
-      }
-    }
-  </style>
-
-  <div class="mm-pricing-wrap">
-    <div class="mm-pricing-intro">
-      <span class="mm-pricing-eyebrow">Our Marketing Packages</span>
-      <h2>Marketing Support That Scales With Your Business</h2>
-      <p>
-        From structured packages to completely bespoke retainers, our services are designed to adapt to your business. Whether you’re just starting out or looking to expand your marketing activity, we build solutions that grow with you.
-      </p>
+<section class="mmp-section" aria-labelledby="mmp-packages-title">
+  <div class="mmp-wrap">
+    <div class="mmp-center">
+      <span class="mmp-eyebrow">Our Marketing Packages</span>
+      <h2 id="mmp-packages-title"><span class="mm-line">Marketing Support</span><span class="mm-line mm-line-pink">That Scales With You</span></h2>
+      <p class="mmp-lead">From structured packages to completely bespoke retainers, our services are designed to adapt to your business. Whether you’re just starting out or looking to expand your marketing activity, we build solutions that grow with you.</p>
     </div>
 
-    <div class="mm-custom">
-      <div class="mm-custom-inner">
-        <span class="mm-custom-eyebrow">Tailored Support</span>
-        <h3>Flexible Pricing That Works For Your Business</h3>
-        <p>Every business is different, and so is every marketing strategy. While our packages provide a clear starting point, many of our clients work with us on fully customised retainers designed around their specific goals, industry, and stage of growth.</p>
-        <p>At MM Digital, we believe marketing should be strategic, adaptable, and tailored, not forced into a one-size-fits-all package. Some businesses require a focused service such as social media management or website support, while others need a broader digital strategy covering multiple platforms and channels.</p>
-        <p>That’s why we offer the flexibility to build a bespoke retainer that aligns with exactly what your business needs. Whether you’re launching something new, scaling your marketing activity, or simply looking for ongoing support, we can structure a package that works for you.</p>
-        <p>If you’re unsure which option is right for your business, we’re always happy to discuss your goals and create a plan that delivers the best results.</p>
-        <a href="/get-in-touch/" class="mm-custom-cta">Discuss a Bespoke Retainer</a>
-      </div>
+    <div class="mmp-glass mmp-custom">
+      <span class="mmp-eyebrow">Tailored Support</span>
+      <h3><span class="mm-line">Flexible Pricing</span><span class="mm-line mm-line-pink">That Works For You</span></h3>
+      <p>Every business is different, and so is every marketing strategy. While our packages provide a clear starting point, many of our clients work with us on fully customised retainers designed around their specific goals, industry, and stage of growth.</p>
+      <p>At MM Digital, we believe marketing should be strategic, adaptable, and tailored, not forced into a one-size-fits-all package. Some businesses require a focused service such as social media management or website support, while others need a broader digital strategy covering multiple platforms and channels.</p>
+      <p>That’s why we offer the flexibility to build a bespoke retainer that aligns with exactly what your business needs. Whether you’re launching something new, scaling your marketing activity, or simply looking for ongoing support, we can structure a package that works for you.</p>
+      <p>If you’re unsure which option is right for your business, we’re always happy to discuss your goals and create a plan that delivers the best results. Every business is different, which is why we’re always happy to create a bespoke marketing solution that fits exactly what you need.</p>
+      <a href="/get-in-touch/" class="mmp-btn">Discuss a Bespoke Retainer</a>
     </div>
 
-    <div class="mm-pricing-grid">
-      <div class="mm-card">
+    <div class="mmp-grid">
+      <article class="mmp-card" id="mmp-starter">
         <h3>Starter</h3>
-        <p class="mm-subtitle">Jumpstart Your Marketing Journey</p>
-        <div class="mm-price">£350 <span>/ month</span></div>
-        <div class="mm-meta">+ £50 onboarding fee</div>
-        <a href="/get-in-touch/" class="mm-button">Get Started</a>
-
-        <div class="mm-includes-title">Includes</div>
-        <ul class="mm-list">
+        <p class="mmp-sub">Jumpstart Your Marketing Journey</p>
+        <div class="mmp-price">£350 <span>/ month</span></div>
+        <div class="mmp-meta">+ £50 onboarding fee</div>
+        <a href="/get-in-touch/" class="mmp-btn">Get Started</a>
+        <div class="mmp-label">Includes</div>
+        <ul class="mmp-list">
           <li>Customised onboarding</li>
-          <li>Branding, audits & support</li>
+          <li>Branding, audits &amp; support</li>
           <li>Basic social media management</li>
           <li>Monthly reporting</li>
           <li>Basic access to powerful internal systems</li>
-<li>Foundation level paid advertising</li>
-<li>Website design, support & maintenance not included</li>
-<li>Weekly update and support meetings as standard</li>
+          <li>Foundation level paid advertising</li>
+          <li>Website design, support &amp; maintenance not included</li>
+          <li>Weekly update and support meetings as standard</li>
         </ul>
-
-        <div class="mm-details-box">
-          <div class="mm-includes-title">Further details</div>
-          <ul class="mm-details">
-            <li>Initial strategy call, onboarding & roadmap</li>
+        <div class="mmp-more">
+          <div class="mmp-label">Further details</div>
+          <ul class="mmp-details">
+            <li>Initial strategy call, onboarding &amp; roadmap</li>
             <li>Basic website and social media audit</li>
             <li>Delivery from our team of experts</li>
             <li>Full scale digital support</li>
-            <li>Service & support availability 24/7<br>7 days a week</li>
+            <li>Service &amp; support availability 24/7<br>7 days a week</li>
           </ul>
         </div>
-      </div>
+      </article>
 
-      <div class="mm-card featured">
-        <span class="mm-badge">Most Popular</span>
+      <article class="mmp-card featured" id="mmp-growth">
+        <span class="mmp-badge">Most Popular</span>
         <h3>Growth</h3>
-        <p class="mm-subtitle">Expand Your Reach and Accelerate Growth</p>
-        <div class="mm-price">£600 <span>/ month</span></div>
-        <div class="mm-meta">+ £30 onboarding fee</div>
-        <a href="/get-in-touch/" class="mm-button">Get Started</a>
-
-        <div class="mm-includes-title">Includes</div>
-        <ul class="mm-list">
+        <p class="mmp-sub">Expand Your Reach and Accelerate Growth</p>
+        <div class="mmp-price">£600 <span>/ month</span></div>
+        <div class="mmp-meta">+ £30 onboarding fee</div>
+        <a href="/get-in-touch/" class="mmp-btn">Get Started</a>
+        <div class="mmp-label">Includes</div>
+        <ul class="mmp-list">
           <li>Customised onboarding</li>
-          <li>Detailed branding exploration, audits, support & competitor research</li>
+          <li>Detailed branding exploration, audits, support &amp; competitor research</li>
           <li>Growth focused social media management</li>
           <li>Cross platform monthly reporting</li>
           <li>Full access to an array of powerful, internal systems</li>
-<li>Growth focused paid advertising</li>
-<li>Website design support and maintenance included</li>
-<li>Weekly update and support meetings as standard</li>
+          <li>Growth focused paid advertising</li>
+          <li>Website design support and maintenance included</li>
+          <li>Weekly update and support meetings as standard</li>
         </ul>
-
-        <div class="mm-details-box">
-          <div class="mm-includes-title">Further details</div>
-          <ul class="mm-details">
-            <li>Initial strategy call, business & team support, onboarding, road maps & strategy</li>
+        <div class="mmp-more">
+          <div class="mmp-label">Further details</div>
+          <ul class="mmp-details">
+            <li>Initial strategy call, business &amp; team support, onboarding, road maps &amp; strategy</li>
             <li>Unlimited website and social media audits</li>
             <li>Continous delivery from our team of experts</li>
-            <li>Full scale digital support, graphics, web design & maintenance</li>
-            <li>Service & support availability 24/7 <br>7 days a week</li>
+            <li>Full scale digital support, graphics, web design &amp; maintenance</li>
+            <li>Service &amp; support availability 24/7<br>7 days a week</li>
           </ul>
         </div>
-      </div>
+      </article>
 
-      <div class="mm-card">
+      <article class="mmp-card" id="mmp-supercharged">
         <h3>Supercharged</h3>
-        <p class="mm-subtitle">Strategic Marketing for Ambitious Businesses</p>
-        <div class="mm-price"><span class="mm-from">From</span> £950 <span>/ month</span></div>
-        <div class="mm-meta">Onboarding included</div>
-        <a href="/get-in-touch/" class="mm-button">Book Strategy Call</a>
-
-        <div class="mm-includes-title">Includes</div>
-        <ul class="mm-list">
+        <p class="mmp-sub">Strategic Marketing for Ambitious Businesses</p>
+        <div class="mmp-price"><span class="mmp-from">From</span> £950 <span>/ month</span></div>
+        <div class="mmp-meta">Onboarding included</div>
+        <a href="/get-in-touch/" class="mmp-btn">Book Strategy Call</a>
+        <div class="mmp-label">Includes</div>
+        <ul class="mmp-list">
           <li>Unlimited customised onboarding</li>
-          <li>Graphic design led branding exploration, unlimited audits, high demand support & competitor research/consultation</li>
-          <li>Supercharged social media management covering unlimited platforms & unlimited delivery</li>
-          <li>In depth, cross platform monthly reporting covering unlimited platforms & highly analytic focused feedback</li>
-          <li>Unlimited access to powerful software, internal & external systems & unlimited team support</li>
-<li>High ROI focused paid advertising</li>
-<li>Unlimited web design support and maintenance included</li>
-<li>Weekly update and support meetings for multiple individuals and teams as standard</li>
+          <li>Graphic design led branding exploration, unlimited audits, high demand support &amp; competitor research/consultation</li>
+          <li>Supercharged social media management covering unlimited platforms &amp; unlimited delivery</li>
+          <li>In depth, cross platform monthly reporting covering unlimited platforms &amp; highly analytic focused feedback</li>
+          <li>Unlimited access to powerful software, internal &amp; external systems &amp; unlimited team support</li>
+          <li>High ROI focused paid advertising</li>
+          <li>Unlimited web design support and maintenance included</li>
+          <li>Weekly update and support meetings for multiple individuals and teams as standard</li>
         </ul>
-
-        <div class="mm-details-box">
-          <div class="mm-includes-title">Further details</div>
-          <ul class="mm-details">
-            <li>Unlimited strategy calls, non stop business and team support covering entire departments or businesses, large scale in depth onboarding with continuous support, custom build roadmaps, digital strategies & insights</li>
-            <li>Unlimited social media audits covering unlimited platforms & clear strategic deliveries</li>
+        <div class="mmp-more">
+          <div class="mmp-label">Further details</div>
+          <ul class="mmp-details">
+            <li>Unlimited strategy calls, non stop business and team support covering entire departments or businesses, large scale in depth onboarding with continuous support, custom build roadmaps, digital strategies &amp; insights</li>
+            <li>Unlimited social media audits covering unlimited platforms &amp; clear strategic deliveries</li>
             <li>Non stop delivery from our team of experts including digital marketing, web design, graphic design and consulting</li>
             <li>Unlimited digital support encompassing your entire digital sphere</li>
-            <li>Service & support availability 24/7 <br>7 days a week</li>
+            <li>Service &amp; support availability 24/7<br>7 days a week</li>
           </ul>
         </div>
-      </div>
+      </article>
 
-      <div class="mm-card">
+      <article class="mmp-card" id="mmp-custom">
         <h3>Custom</h3>
-        <p class="mm-subtitle">A tailored package built around you</p>
-        <div class="mm-price">Bespoke</div>
-        <div class="mm-meta">Pricing tailored to your requirements</div>
-        <a href="/get-in-touch/" class="mm-button">Enquire Now</a>
-
-        <div class="mm-includes-title">Includes</div>
-        <ul class="mm-list">
+        <p class="mmp-sub">A tailored package built around you</p>
+        <div class="mmp-price">Bespoke</div>
+        <div class="mmp-meta">Pricing tailored to your requirements</div>
+        <a href="/get-in-touch/" class="mmp-btn">Enquire Now</a>
+        <div class="mmp-label">Includes</div>
+        <ul class="mmp-list">
           <li>Fully tailored marketing packages built around your business goals</li>
           <li>Flexible support for specific projects, campaigns, or launches</li>
           <li>Website design, development, or redesign projects</li>
           <li>Branding, strategy, and digital audits delivered on demand</li>
           <li>One-off or short-term marketing support when you need it</li>
         </ul>
-
-        <div class="mm-details-box">
-          <div class="mm-includes-title">Further details</div>
-          <ul class="mm-details">
+        <div class="mmp-more">
+          <div class="mmp-label">Further details</div>
+          <ul class="mmp-details">
             <li>Custom packages are ideal for businesses that need something outside our standard plans</li>
             <li>This could include a new website build, branding project, campaign launch, technical improvements, or specialist marketing support</li>
             <li>Each project is scoped individually, ensuring the right level of strategy, design, and technical delivery to achieve your objectives</li>
             <li>We build a clear plan, timeline, and deliverables tailored specifically to your requirements</li>
-            <li>Service & support availability 24/7 <br>7 days a week</li>
+            <li>Service &amp; support availability 24/7<br>7 days a week</li>
           </ul>
         </div>
-      </div>
+      </article>
     </div>
 
-    <div class="mm-compare">
-      <div class="mm-compare-head">
-        <h3>Compare plans</h3>
-        <p>Compare our packages to find the best marketing solution for your business.</p>
+    <div class="mmp-compare">
+      <div class="mmp-center">
+        <h2 id="mmp-compare-title"><span class="mm-line">Compare</span><span class="mm-line mm-line-pink">The Plans</span></h2>
+        <p class="mmp-lead">Compare our packages to find the best marketing solution for your business.</p>
       </div>
-      <div class="mm-table-wrap">
-        <table class="mm-table">
+      <div class="mmp-table-wrap">
+        <table class="mmp-table">
           <thead>
             <tr>
               <th>Feature</th>
@@ -1090,20 +417,14 @@
       </div>
     </div>
 
-    <div class="mm-cta">
-      <h3>Ready to launch your digital growth?</h3>
+    <div class="mmp-glass mmp-cta">
+      <h2><span class="mm-line">Ready To Launch</span><span class="mm-line mm-line-pink">Your Digital Growth</span></h2>
       <p>Ready to take your marketing to the next level? Book a free consultation with our team today.</p>
-      <div class="mm-cta-buttons">
-        <a href="/get-in-touch/#book-a-call" class="mm-cta-primary">Book a Free Strategy Call</a>
-        <a href="/our-work/" class="mm-cta-secondary">View Our Work</a>
+      <div class="mmp-cta-row">
+        <a href="/get-in-touch/#book-a-call" class="mmp-btn">Book a Free Strategy Call</a>
+        <a href="/our-work/" class="mmp-btn mmp-btn-ghost">View Our Work</a>
       </div>
     </div>
   </div>
 </section>
 </div>
-
-<p class="ext-animate--on"></p>
-
-<p class="ext-animate--on"></p>
-
-<p class="ext-animate--on"></p>

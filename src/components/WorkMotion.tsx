@@ -7,6 +7,14 @@ import { useEffect } from "react";
 // HTML never run, so the observer lives here.
 export default function WorkMotion() {
   useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.querySelectorAll(".mmw-frame video").forEach((node) => {
+      const video = node as HTMLVideoElement;
+      video.muted = true;
+      if (reduced) video.pause();
+      else video.play().catch(() => {});
+    });
+
     const cards = document.querySelectorAll(".mmw-card");
     if (!cards.length) return;
 

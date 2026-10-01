@@ -36,7 +36,7 @@
   }
 
   .blog-section{
-    padding:90px 24px;
+    padding:48px 24px 90px;
   }
 
   .blog-wrap{
@@ -45,14 +45,60 @@
   }
 
   .blog-hero{
+    position:relative;
+    overflow:hidden;
+    padding:150px 0 110px;
+  }
+
+  .blog-wall{
+    position:absolute;
+    inset:-40px 0;
+    display:grid;
+    gap:18px;
+    align-content:center;
+    transform:rotate(-4deg) scale(1.08);
+  }
+
+  .blog-wall-row{overflow:hidden}
+
+  .blog-wall-track{
+    display:flex;
+    gap:18px;
+    width:max-content;
+    animation:blogDrift 80s linear infinite;
+  }
+
+  .blog-wall-row-2 .blog-wall-track{animation-direction:reverse;animation-duration:95s}
+  .blog-wall-row-3 .blog-wall-track{animation-duration:70s}
+
+  .blog-wall-track img{
+    width:440px;
+    height:auto;
+    aspect-ratio:16/9;
+    object-fit:cover;
+    border-radius:16px;
+  }
+
+  @keyframes blogDrift{to{transform:translateX(-50%)}}
+
+  .blog-shade{
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(90deg, rgba(0,0,0,.92) 0%, rgba(0,0,0,.72) 48%, rgba(0,0,0,.5) 100%),
+      radial-gradient(ellipse 55% 80% at 82% 50%, rgba(255,128,139,.2), transparent 70%);
+  }
+
+  .blog-hero-inner{
+    position:relative;
+    z-index:1;
     max-width:1600px;
-    margin-left:auto;
-    margin-right:auto;
+    margin:0 auto;
+    padding:0 48px;
     display:grid;
     grid-template-columns:1fr 1.2fr;
     gap:48px;
     align-items:center;
-    margin-bottom:56px;
   }
 
   .blog-intro{
@@ -72,43 +118,52 @@
 
   .blog-intro h1{
     font-family:'Libre Baskerville', Georgia, "Times New Roman", serif;
-    font-size:clamp(2.4rem,5vw,4.2rem);
-    line-height:1;
+    font-size:clamp(1.9rem,3.6vw,3.6rem);
+    line-height:1.1;
+    letter-spacing:-0.02em;
     margin-bottom:18px;
+    color:#fff;
   }
 
-  .blog-intro p{
-    color:var(--muted);
-    font-size:1.1rem;
-    max-width:420px;
+  .blog-intro .mm-line{display:block}
+  .blog-intro .mm-line-pink{color:#ff808b !important}
+
+  .blog-lead{
+    color:#cfcfcf;
+    font-size:1.15rem;
+    line-height:1.65;
     margin-bottom:28px;
   }
 
-  .btn{
+  .blog-hero .btn{
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    min-height:52px;
-    padding:0 26px;
+    min-height:50px;
+    padding:0 28px;
+    border:0;
     border-radius:999px;
+    font-family:'Glacial Indifference', Arial, Helvetica, sans-serif;
+    font-size:16px;
     font-weight:700;
-    background:var(--accent);
-    color:#fff;
-    transition:.25s;
-    box-shadow:var(--shadow);
+    background:#ff808b;
+    color:#fff !important;
+    transition:background .2s ease, transform .2s ease;
+    box-shadow:none;
     text-decoration:none !important;
     border-bottom:none !important;
   }
 
-  .btn:hover{
-    background:var(--accent-hover);
+  .blog-hero .btn:hover{
+    background:#ff6d79;
     transform:translateY(-2px);
     text-decoration:none !important;
     border-bottom:none !important;
   }
 
   .blog-copy{
-    background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));
+    background:rgba(8,6,8,.82);
+    backdrop-filter:blur(18px);
     border:1px solid var(--border);
     border-radius:var(--radius-xl);
     padding:34px;
@@ -116,8 +171,9 @@
   }
 
   .blog-copy p{
-    color:var(--muted);
-    font-size:1.04rem;
+    color:#cfcfcf;
+    font-size:1.15rem;
+    line-height:1.65;
     margin-bottom:18px;
   }
 
@@ -312,10 +368,20 @@
     }
   }
 
-  @media(max-width:900px){
-    .blog-hero{
+  @media(min-width:900px){
+    .blog-intro .mm-line{white-space:nowrap}
+  }
+
+  @media(max-width:1100px){
+    .blog-hero-inner{
       grid-template-columns:1fr;
+      gap:36px;
+      padding:0 20px;
     }
+  }
+
+  @media(max-width:900px){
+    .blog-hero{padding:120px 0 70px}
   }
 
   @media(max-width:700px){
@@ -326,8 +392,10 @@
 
   @media(max-width:640px){
     .blog-section{
-      padding:70px 18px;
+      padding:36px 18px 70px;
     }
+
+    .blog-intro{padding-left:20px}
 
     .blog-card img{
       height:220px;
@@ -337,37 +405,38 @@
       padding:26px;
     }
   }
+
+  @media(prefers-reduced-motion:reduce){
+    .blog-wall-track{animation:none}
+    .blog-hero .btn{transition:none}
+  }
 </style>
+
+<section class="blog-hero" aria-labelledby="blog-hero-title">
+  <div class="blog-wall" aria-hidden="true">
+    <div class="blog-wall-row"><div class="blog-wall-track"><img src="/media/local-seo.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/ai-54f0e93.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/modern-website-design.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/summer-marketing.webp" alt="" width="940" height="788" loading="eager"><img src="/media/mm-digital-strategy.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/mm-digital-may-blog.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/local-seo.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/ai-54f0e93.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/modern-website-design.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/summer-marketing.webp" alt="" width="940" height="788" loading="eager"><img src="/media/mm-digital-strategy.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/mm-digital-may-blog.webp" alt="" width="1600" height="900" loading="eager"></div></div>
+    <div class="blog-wall-row blog-wall-row-2"><div class="blog-wall-track"><img src="/media/mm-digital-blog.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/mm-digital-marketing.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/mm-digital-ai-image.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/mm-digital-2026-marketing.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/local-seo.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/summer-marketing.webp" alt="" width="940" height="788" loading="eager"><img src="/media/mm-digital-blog.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/mm-digital-marketing.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/mm-digital-ai-image.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/mm-digital-2026-marketing.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/local-seo.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/summer-marketing.webp" alt="" width="940" height="788" loading="eager"></div></div>
+    <div class="blog-wall-row blog-wall-row-3"><div class="blog-wall-track"><img src="/media/mm-digital-strategy.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/modern-website-design.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/ai-54f0e93.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/mm-digital-may-blog.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/mm-digital-marketing.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/mm-digital-2026-marketing.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/mm-digital-strategy.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/modern-website-design.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/ai-54f0e93.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/mm-digital-may-blog.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/mm-digital-marketing.webp" alt="" width="1600" height="900" loading="eager"><img src="/media/mm-digital-2026-marketing.webp" alt="" width="1600" height="900" loading="eager"></div></div>
+  </div>
+  <div class="blog-shade" aria-hidden="true"></div>
+  <div class="blog-hero-inner">
+    <div class="blog-intro">
+      <span class="eyebrow">Insights &amp; Strategy</span>
+      <h1 id="blog-hero-title"><span class="mm-line">Our Blogs</span><span class="mm-line mm-line-pink">Grow Smarter Online</span></h1>
+      <p class="blog-lead">Practical marketing ideas, digital insights, and clear advice for businesses that want to grow smarter online.</p>
+      <a href="/get-in-touch/" class="btn">Get in Touch</a>
+    </div>
+    <div class="blog-copy">
+      <p>At MM Digital, we believe great marketing starts with understanding what works, what doesn’t, and where the digital landscape is heading. Our blog is where we share insights, ideas, and practical advice to help businesses grow their online presence and make smarter marketing decisions.</p>
+      <p>From social media strategies and website performance to branding, advertising, and emerging digital trends, our articles are designed to give you clear, useful information you can actually apply to your business.</p>
+      <p>Whether you're looking for inspiration, guidance, or a deeper understanding of how digital marketing can support your growth, our blog is a great place to start.</p>
+    </div>
+  </div>
+</section>
 
 <section class="blog-section">
 
   <div class="blog-wrap">
-
-    <div class="blog-hero">
-
-      <div class="blog-intro">
-
-        <span class="eyebrow">Insights &amp; Strategy</span>
-
-        <h1>Our Blogs</h1>
-
-        <p>Practical marketing ideas, digital insights, and clear advice for businesses that want to grow smarter online.</p>
-
-        <a href="/get-in-touch/" class="btn">Get in Touch</a>
-
-      </div>
-
-      <div class="blog-copy">
-
-        <p>At MM Digital, we believe great marketing starts with understanding what works, what doesn’t, and where the digital landscape is heading. Our blog is where we share insights, ideas, and practical advice to help businesses grow their online presence and make smarter marketing decisions.</p>
-
-        <p>From social media strategies and website performance to branding, advertising, and emerging digital trends, our articles are designed to give you clear, useful information you can actually apply to your business.</p>
-
-        <p>Whether you're looking for inspiration, guidance, or a deeper understanding of how digital marketing can support your growth, our blog is a great place to start.</p>
-
-      </div>
-
-    </div>
 
     <div class="blog-slider-wrap">
 
