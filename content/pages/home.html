@@ -3129,6 +3129,18 @@
       transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
+    /* The team: four selfies, two over two, in the same floating frame */
+    .mm-cta-team {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: #000;
+    }
+    .mm-cta-team img {
+      aspect-ratio: 3 / 2;
+      object-position: 50% 50%;
+    }
+
     .mm-cta-cat:hover img {
       transform: scale(1.04);
     }
@@ -3356,8 +3368,11 @@
 
   <div class="mm-cta-panel">
     <div class="mm-cta-visual">
-      <figure class="mm-cta-cat">
-        <img loading="lazy" src="/media/mm-contact-us-neon-3.webp" width="1200" height="800" alt="Glowing pink neon email, phone and chat icons">
+      <figure class="mm-cta-cat mm-cta-team">
+        <img loading="lazy" src="/media/team-grid/maximilian.webp" width="600" height="400" alt="Maximilian Madl, MM Digital">
+        <img loading="lazy" src="/media/team-grid/tash.webp" width="600" height="400" alt="Tash Card, MM Digital">
+        <img loading="lazy" src="/media/team-grid/mariette.webp" width="600" height="400" alt="Mariette James, MM Digital">
+        <img loading="lazy" src="/media/team-grid/natasha.webp" width="600" height="400" alt="Natasha Heasman-Langley, MM Digital">
       </figure>
       <div class="mm-cta-quick">
         <a href="tel:07880601123"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>07880 601123</a>
