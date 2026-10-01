@@ -205,6 +205,14 @@
       animation: mmDashTwinkle 5s ease-in-out infinite;
     }
 
+    .mm-dash-logo-text {
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      font-size: 30px;
+      font-weight: 700;
+      fill: #fff;
+      opacity: 0.9;
+    }
+
     .mm-dash-logo {
       transition: opacity 0.3s ease;
       opacity: 0.9;
@@ -1011,6 +1019,9 @@
         <path id="mm-l-ig" class="mm-dash-link" d="M 205 350 L 520 330" />
         <path id="mm-l-meta" class="mm-dash-link" d="M 210 535 L 520 330" />
         <path id="mm-l-li" class="mm-dash-link" d="M 760 120 L 520 330" />
+        <path id="mm-l-windsor" class="mm-dash-link" d="M 520 116 L 520 330" />
+        <path id="mm-l-claude" class="mm-dash-link" d="M 730 330 L 520 330" />
+        <path id="mm-l-openai" class="mm-dash-link" d="M 696 500 L 520 330" />
 
         <circle class="mm-dash-pulse" r="4">
           <animateMotion dur="3.2s" repeatCount="indefinite"><mpath href="#mm-l-ga" /></animateMotion>
@@ -1024,12 +1035,26 @@
         <circle class="mm-dash-pulse" r="4">
           <animateMotion dur="2.9s" begin="1.4s" repeatCount="indefinite"><mpath href="#mm-l-li" /></animateMotion>
         </circle>
+        <circle class="mm-dash-pulse" r="4">
+          <animateMotion dur="2.4s" begin="0.6s" repeatCount="indefinite"><mpath href="#mm-l-windsor" /></animateMotion>
+        </circle>
+        <circle class="mm-dash-pulse" r="4">
+          <animateMotion dur="2.2s" begin="1.1s" repeatCount="indefinite"><mpath href="#mm-l-claude" /></animateMotion>
+        </circle>
+        <circle class="mm-dash-pulse" r="4">
+          <animateMotion dur="3.1s" begin="0.2s" repeatCount="indefinite"><mpath href="#mm-l-openai" /></animateMotion>
+        </circle>
 
         <!-- platform logos -->
         <image class="mm-dash-logo" href="/media/dashboard/google-analytics.webp" x="60" y="70" width="120" height="87" />
         <image class="mm-dash-logo" href="/media/dashboard/instagram.webp" x="20" y="332" width="170" height="40" />
         <image class="mm-dash-logo" href="/media/dashboard/meta.webp" x="40" y="545" width="165" height="38" />
         <image class="mm-dash-logo" href="/media/dashboard/linkedin.webp" x="700" y="70" width="150" height="37" />
+        <image class="mm-dash-logo" href="/media/ai/windsor.webp" x="482" y="38" width="76" height="76" />
+        <image class="mm-dash-logo" href="/media/ai/claude.webp" x="738" y="307" width="46" height="46" />
+        <text class="mm-dash-logo-text" x="794" y="341">Claude</text>
+        <image class="mm-dash-logo" href="/media/ai/chatgpt.webp" x="704" y="480" width="44" height="44" />
+        <text class="mm-dash-logo-text" x="756" y="513">OpenAI</text>
 
         <!-- the dashboard hub -->
         <rect class="mm-dash-hub-diamond" x="450" y="260" width="140" height="140" rx="6" />
@@ -1565,27 +1590,17 @@
       transform: translateY(-2px);
     }
 
-    /* Right: open text instead of a boxed card, with the first paragraph
-       as a larger lead-in and the figures picked out in pink */
+    /* Right: open text, every paragraph the same size, figures in pink */
     .mm-meet-copy p {
       margin: 0 0 22px;
       font-family: "Glacial Indifference", Arial, sans-serif;
-      font-size: 1.1rem;
-      line-height: 1.7;
+      font-size: 1.15rem;
+      line-height: 1.6;
       color: #cfcfcf;
     }
 
     .mm-meet-copy p:last-child {
       margin-bottom: 0;
-    }
-
-    .mm-meet-copy .mm-meet-lead {
-      margin-bottom: 28px;
-      padding-bottom: 28px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      font-size: 1.35rem;
-      line-height: 1.55;
-      color: #fff;
     }
 
     .mm-meet-copy strong {
@@ -1608,14 +1623,6 @@
       .mm-meet-intro {
         padding-left: 20px;
       }
-
-      .mm-meet-copy .mm-meet-lead {
-        font-size: 1.2rem;
-      }
-
-      .mm-meet-copy p {
-        font-size: 1.02rem;
-      }
     }
   </style>
 
@@ -1623,19 +1630,22 @@
     <div class="mm-meet-intro">
       <span class="mm-meet-eyebrow">Meet MM Digital</span>
       <h2 id="mm-meet-title"><span class="mm-line">Measurable Growth</span><span class="mm-line mm-line-pink">For Ambitious Brands</span></h2>
-      <p class="mm-meet-sub">We are a digital marketing agency based in Exeter, serving clients across the UK &amp; Europe.</p>
+      <p class="mm-meet-sub">We're a digital marketing agency based in Exeter, working with ambitious businesses across the UK and Europe.</p>
       <a href="/get-in-touch/" class="mm-meet-btn">Get In Touch</a>
     </div>
 
     <div class="mm-meet-copy">
-      <p class="mm-meet-lead">
-        At MM Digital, we work alongside ambitious businesses to strengthen their digital presence and turn it into a genuine, lasting growth asset. We go beyond activity for activity's sake and focus entirely on what drives real, measurable results.
+      <p>
+        At MM Digital, we turn your digital presence into a genuine, lasting growth asset. We go beyond activity for its own sake and focus entirely on what moves the needle: real, measurable results.
       </p>
       <p>
-        To date, we've generated over <strong>£2.1M</strong> in revenue and delivered more than <strong>15K</strong> leads for the <strong>27+</strong> brands we're proud to work with, across everything from social and paid to web, branding and beyond.
+        To date, we've generated over <strong>£2.1M</strong> in revenue and delivered more than <strong>15K</strong> leads for the <strong>27+</strong> brands we're proud to work with, across social, paid, web, branding and beyond.
       </p>
       <p>
-        What began as a vision to deliver better, more accountable marketing has become a trusted partner for businesses who want to grow online with a dedicated team behind them every step of the way. If you're ready to grow your digital presence, we're ready to build it with you.
+        What started as a simple belief, that marketing should be better and more accountable, has grown into a trusted partner for businesses who want real results and a dedicated team behind them every step of the way.
+      </p>
+      <p>
+        If you're ready to grow, we're ready to build it with you.
       </p>
     </div>
   </div>
@@ -3097,7 +3107,7 @@
       overflow: hidden;
     }
 
-    /* The cat, framed and gently floating */
+    /* The contact image, framed and gently floating */
     .mm-cta-cat {
       position: relative;
       margin: 0;
@@ -3107,10 +3117,15 @@
       animation: mmCatFloat 6s ease-in-out infinite;
     }
 
+    /* Landscape 3:2 frame; the artwork fills it, trimmed evenly */
     .mm-cta-cat img {
       display: block;
       width: 100%;
       height: auto;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+      object-position: 50% 50%;
+      background: #000;
       transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
@@ -3342,7 +3357,7 @@
   <div class="mm-cta-panel">
     <div class="mm-cta-visual">
       <figure class="mm-cta-cat">
-        <img loading="eager" src="/media/mm-digital-cat.webp" width="1024" height="683" alt="Marketing becomes easy with MM Digital">
+        <img loading="eager" src="/media/mm-contact-us-key.webp" width="940" height="692" alt="A glowing pink keyboard key reading Contact us">
       </figure>
       <div class="mm-cta-quick">
         <a href="tel:07880601123"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>07880 601123</a>
