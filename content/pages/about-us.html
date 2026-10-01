@@ -10,7 +10,7 @@
       <div class="about-us-intro">
         <span class="about-us-eyebrow">About Us</span>
 
-        <h1>We Create Massive Digital Strategies</h1>
+        <h1><span class="mm-line">We Create Massive</span><span class="mm-line mm-line-pink">Digital Strategies</span></h1>
 
         <p class="about-us-subheading">
           Digital marketing agency based in Exeter, working across the UK &amp; Europe.
@@ -327,7 +327,7 @@
       <div class="our-team-intro">
         <span class="our-team-eyebrow">About Us</span>
 
-        <h1>Our Team</h1>
+        <h1><span class="mm-line mm-line-pink">Our Team</span></h1>
 
         <p class="our-team-subtitle">Get to know our team.</p>
 
@@ -925,7 +925,7 @@
 
 <span class="partner-eyebrow">About Us</span>
 
-<h1>Let’s Achieve<br>More Together</h1>
+<h1><span class="mm-line">Let’s Achieve</span><span class="mm-line mm-line-pink">More Together</span></h1>
 
 <p class="partner-subtitle">A marketing partner you can rely on.</p>
 
@@ -1087,7 +1087,7 @@ padding:70px 18px;
 
     <div class="mm-overview-left">
       <span class="mm-eyebrow">About Us</span>
-      <h2>What is MM Digital exactly?</h2>
+      <h2><span class="mm-line">What Is</span><span class="mm-line mm-line-pink">MM Digital Exactly?</span></h2>
 
       <p>
         MM Digital is a dynamic marketing agency dedicated to helping businesses grow and thrive through innovative, results-driven strategies. Our team blends creativity, technology, and data-driven insights to deliver exceptional results, empowering clients across industries to achieve their digital marketing goals and drive measurable success.
@@ -1370,7 +1370,7 @@ padding:70px 18px;
 <section class="mm-values-section">
   <div class="mm-values-wrap">
 
-    <h1 class="mm-values-title">Our Values</h1>
+    <h1 class="mm-values-title"><span class="mm-line mm-line-pink">Our Values</span></h1>
 
     <div class="mm-values-item">
       <h2>Innovation</h2>
@@ -1493,7 +1493,7 @@ padding:70px 18px;
       <p class="mm-eyebrow">RESULTS-LED DIGITAL MARKETING</p>
 
       <h2 class="mm-impact-title">
-        Outstanding Results, Unforgettable Impact
+        <span class="mm-line">Outstanding Results,</span><span class="mm-line mm-line-pink">Unforgettable Impact</span>
       </h2>
 
       <p class="mm-impact-copy">
@@ -1503,7 +1503,7 @@ padding:70px 18px;
       <div class="mm-divider"></div>
 
       <h3 class="mm-impact-subtitle">
-        Discover Tailored Digital Solutions That Deliver
+        <span class="mm-line">Discover Tailored Digital</span><span class="mm-line mm-line-pink">Solutions That Deliver</span>
       </h3>
 
       <p class="mm-impact-copy">
@@ -1725,7 +1725,7 @@ padding:70px 18px;
     <div class="mm-industries-dark__intro">
       <p class="mm-industries-dark__eyebrow">Industries We Support</p>
 
-      <h2>Tailored Digital Solutions For Ambitious Brands</h2>
+      <h2><span class="mm-line">Tailored Digital Solutions</span><span class="mm-line mm-line-pink">For Ambitious Brands</span></h2>
 
       <p>
         Strategy-led growth for hospitality, luxury, lifestyle, retail and service-based businesses. We combine creative direction, digital marketing and data-led thinking to help brands look better, perform better and grow with purpose.
@@ -2081,7 +2081,7 @@ padding:70px 18px;
   <div class="mm-process-wrap">
 
     <div class="mm-process-header">
-      <h2>Our Process</h2>
+      <h2><span class="mm-line mm-line-pink">Our Process</span></h2>
       <p>
         Discover how MM Digital crafts tailored strategies to elevate your brand, guiding you smoothly from concept to success.
       </p>
@@ -2534,7 +2534,7 @@ font-size:36px;
 </style>
 
 <div class="blog-title">
-  <h2>Our Blogs</h2>
+  <h2><span class="mm-line mm-line-pink">Our Blogs</span></h2>
   <p>Want to Learn More?</p>
 </div>
 
@@ -2700,3 +2700,84 @@ font-size:36px;
 </div>
 
 <div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
+
+<style>
+  /* Section titles share the homepage size. Each line stays whole, and the last line is pink. */
+  .about-us-intro h1,
+  .our-team-intro h1,
+  .partner-intro h1,
+  .mm-overview-left h2,
+  .mm-values-title,
+  .mm-impact-title,
+  .mm-impact-subtitle,
+  .mm-industries-dark__intro h2,
+  .mm-process-header h2,
+  .blog-title h2 {
+    font-family: "Libre Baskerville", Georgia, serif !important;
+    font-size: clamp(1.45rem, 2.8vw, 3.35rem) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  .mm-line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .mm-line-pink {
+    color: #ff808b !important;
+    font-style: normal;
+  }
+
+  .about-us-subheading,
+  .our-team-subtitle,
+  .partner-subtitle,
+  .mm-overview-left > p,
+  .mm-impact-copy,
+  .mm-industries-dark__intro > p:not(.mm-industries-dark__eyebrow),
+  .mm-process-header > p,
+  .blog-title p {
+    font-size: 1.15rem !important;
+  }
+
+  .about-us-btn,
+  .our-team-btn,
+  .partner-btn,
+  .mm-impact-button,
+  .mm-industries-dark__button,
+  .mm-process-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: auto !important;
+    max-width: none !important;
+    min-height: 50px !important;
+    padding: 0 28px !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: #ff808b !important;
+    box-shadow: none !important;
+    color: #fff !important;
+    font-family: "Glacial Indifference", Arial, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0 !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.25s ease !important;
+  }
+
+  .about-us-btn:hover,
+  .our-team-btn:hover,
+  .partner-btn:hover,
+  .mm-impact-button:hover,
+  .mm-industries-dark__button:hover,
+  .mm-process-btn:hover {
+    background: #ff6d79 !important;
+    color: #fff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: none !important;
+  }
+</style>
