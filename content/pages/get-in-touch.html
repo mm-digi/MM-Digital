@@ -83,8 +83,20 @@
     <div class="mmc-intro">
       <span class="mmc-eyebrow">Contact Us</span>
       <h1 id="mmc-hero-title"><span class="mm-line">Got A Project</span><span class="mm-line mm-line-pink">Or Need Assistance?</span></h1>
-      <p class="mmc-lead">What are you trying to achieve? What isn’t currently working? What would success look like? Whether you’re looking to refine your brand, generate qualified leads, or build a structured marketing system that delivers measurable growth, we’re ready to help. Tell us where you are now, where you want to go, and we’ll map out the most effective route to get there.</p>
-      <a href="tel:07880601123" class="mmc-btn">Speak To Us</a>
+      <p class="mmc-lead">Tell us where you are now, where you want to go, and we’ll map out the most effective route to get there.</p>
+      <div class="mmc-btns">
+        <a href="tel:07880601123" class="mmc-btn">Speak To Us</a>
+        <a href="#book-a-call" class="mmc-btn mmc-btn-ghost">Book A Free Call</a>
+      </div>
+    </div>
+    <div class="mmc-panel">
+      <p>What are you trying to achieve? What isn’t currently working? What would success look like? Whether you’re looking to refine your brand, generate qualified leads, or build a structured marketing system that delivers measurable growth, we’re ready to help.</p>
+      <div class="mmc-ways">
+        <a class="mmc-way" href="tel:07880601123"><span class="mmc-way-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg></span><span class="mmc-way-text"><span class="mmc-way-label">Call us</span><span class="mmc-way-value">07880 601123</span></span></a>
+        <a class="mmc-way" href="mailto:info@mm-digi.co.uk"><span class="mmc-way-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/></svg></span><span class="mmc-way-text"><span class="mmc-way-label">Email us</span><span class="mmc-way-value">info<span class="mmc-at">@</span>mm-digi.co.uk</span></span></a>
+        <a class="mmc-way" href="#book-a-call"><span class="mmc-way-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></svg></span><span class="mmc-way-text"><span class="mmc-way-label">Book a call</span><span class="mmc-way-value">Free 30-minute strategy call</span></span></a>
+        <a class="mmc-way" href="https://maps.google.com/maps?q=MM+Digital,+Admiral+Way,+Exeter+EX2+7GA" target="_blank" rel="noopener"><span class="mmc-way-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg></span><span class="mmc-way-text"><span class="mmc-way-label">Visit us</span><span class="mmc-way-value">Admiral Way, Exeter, EX2 7GA</span></span></a>
+      </div>
     </div>
   </div>
 </section>
@@ -122,6 +134,7 @@
 }
 .mmc-hero-inner {
   position: relative; z-index: 1; max-width: 1600px; margin: 0 auto; padding: 0 48px;
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; align-items: center;
 }
 .mmc-intro { max-width: 720px; padding-left: 32px; border-left: 2px solid #ff808b; }
 .mmc-eyebrow {
@@ -147,6 +160,29 @@
   transition: background .2s ease, transform .2s ease;
 }
 .mmc-btn:hover { background: #ff6d79; transform: translateY(-2px); }
+.mmc-btns { display: flex; flex-wrap: wrap; gap: 14px; }
+.mmc-btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,.35); }
+.mmc-btn-ghost:hover { background: rgba(255,128,139,.14); border-color: #ff808b; }
+.mmc-panel {
+  padding: 34px; border: 1px solid rgba(255,255,255,.12); border-radius: 28px;
+  background: rgba(10,6,8,.72); backdrop-filter: blur(10px); box-shadow: 0 30px 70px rgba(0,0,0,.45);
+}
+.mmc-panel > p { margin: 0 0 24px; font-family: "Glacial Indifference", Arial, sans-serif; font-size: 1.05rem; line-height: 1.65; color: #d6d6d6; }
+.mmc-ways { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.mmc-way {
+  display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.04);
+  color: #fff !important; text-decoration: none !important; transition: border-color .2s ease, background .2s ease;
+}
+.mmc-way:hover { border-color: rgba(255,128,139,.7); background: rgba(255,128,139,.1); }
+.mmc-way-icon { display: inline-flex; align-items: center; justify-content: center; flex: 0 0 42px; height: 42px; border-radius: 12px; background: rgba(255,128,139,.14); color: #ff808b; }
+.mmc-way-icon svg { width: 21px; height: 21px; }
+.mmc-way-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.mmc-way-label { font-family: "Glacial Indifference", Arial, sans-serif; font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #ff808b; }
+.mmc-way-value { font-family: "Glacial Indifference", Arial, sans-serif; font-size: .98rem; line-height: 1.35; color: #fff; overflow-wrap: anywhere; }
+.mmc-at { font-family: Arial, Helvetica, sans-serif; font-size: .92em; }
+@media (max-width: 1100px) { .mmc-hero-inner { grid-template-columns: minmax(0, 1fr); gap: 36px; } }
+@media (max-width: 640px) { .mmc-panel { padding: 24px 20px; } .mmc-ways { grid-template-columns: 1fr; } }
 @media (min-width: 900px) {
   .mmc-intro .mm-line { white-space: nowrap; }
 }
