@@ -480,7 +480,7 @@ export default function WpChrome({
       const footer = document.querySelector("footer");
       let frame = 0;
       const selected = () => radios.findIndex((radio) => radio.checked);
-      const center = (scroller: HTMLElement | null, chip: HTMLElement | undefined) => {
+      const center = (scroller: HTMLElement | null, chip: HTMLElement | null | undefined) => {
         if (!scroller || !chip) return;
         scroller.scrollTo({
           left: chip.offsetLeft - (scroller.clientWidth - chip.offsetWidth) / 2,
