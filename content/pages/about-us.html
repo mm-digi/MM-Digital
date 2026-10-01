@@ -451,29 +451,96 @@
   color: #fff;
 }
 
-.mma-fan {
+/* MM Digital's own website on a laptop, with its Instagram on a phone */
+.mma-devices {
   position: relative;
-  height: 420px;
+  padding: 10px 9% 50px 0;
 }
 
-.mma-fan img {
+.mma-devices::before {
+  content: "";
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 78%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  border-radius: 18px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  inset: 10% 5% 0 5%;
+  background: radial-gradient(ellipse at center, rgba(255, 128, 139, 0.28), transparent 70%);
+  filter: blur(20px);
+}
+
+.mma-laptop {
+  position: relative;
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.mma-fan img:nth-child(1) { transform: translate(-58%, -78%) rotate(-7deg); }
-.mma-fan img:nth-child(2) { transform: translate(-44%, -50%) rotate(2deg); }
-.mma-fan img:nth-child(3) { transform: translate(-50%, -18%) rotate(8deg); }
+.mma-laptop-screen {
+  border: 10px solid #18181b;
+  border-bottom-width: 14px;
+  border-radius: 16px 16px 4px 4px;
+  background: #000;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 30px 70px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
 
-.mma-fan:hover img:nth-child(1) { transform: translate(-66%, -92%) rotate(-10deg); }
-.mma-fan:hover img:nth-child(3) { transform: translate(-44%, -4%) rotate(11deg); }
+/* The screenshot is wider than a laptop screen, so it sits on black (the
+   site's own background) rather than being cropped */
+.mma-laptop-screen img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+  background: #000;
+}
+
+.mma-laptop-base {
+  position: relative;
+  width: 112%;
+  height: 16px;
+  margin-left: -6%;
+  border-radius: 2px 2px 14px 14px;
+  background: linear-gradient(180deg, #3a3a40, #1c1c20 60%, #0e0e10);
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.6);
+}
+
+.mma-laptop-base::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 16%;
+  height: 6px;
+  border-radius: 0 0 8px 8px;
+  background: #0e0e10;
+  transform: translateX(-50%);
+}
+
+.mma-phone {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 27%;
+  padding: 7px;
+  border-radius: 34px;
+  background: #18181b;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 0 40px rgba(255, 128, 139, 0.35),
+    0 30px 60px rgba(0, 0, 0, 0.7);
+  transform: rotate(5deg);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.mma-phone img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 27px;
+}
+
+.mma-devices:hover .mma-laptop {
+  transform: translateY(-6px);
+}
+
+.mma-devices:hover .mma-phone {
+  transform: rotate(2deg) translateY(-14px);
+}
 
 /* ---------- Cards ---------- */
 .mma-cards {
@@ -819,10 +886,6 @@
   .mma-steps::before {
     display: none;
   }
-
-  .mma-fan {
-    height: 320px;
-  }
 }
 
 @media (max-width: 640px) {
@@ -853,10 +916,6 @@
 
   .mma-industries {
     grid-template-columns: 1fr;
-  }
-
-  .mma-fan {
-    height: 240px;
   }
 }
 
@@ -1016,10 +1075,16 @@
           <p>At MM Digital, our mission is to empower brands to unlock their full potential with innovative, data-driven marketing solutions. We are committed to pushing boundaries, setting new benchmarks, and driving sustainable growth that leads to lasting success for our clients.</p>
         </blockquote>
       </div>
-      <div class="mma-fan" aria-hidden="true">
-        <img src="/media/covers/waldrons.webp" alt="" loading="lazy">
-        <img src="/media/covers/bastion.webp" alt="" loading="lazy">
-        <img src="/media/covers/auric.webp" alt="" loading="lazy">
+      <div class="mma-devices">
+        <div class="mma-laptop">
+          <div class="mma-laptop-screen">
+            <img src="/media/about/mm-website.webp" width="1400" height="693" alt="The MM Digital website homepage" loading="lazy">
+          </div>
+          <div class="mma-laptop-base" aria-hidden="true"></div>
+        </div>
+        <div class="mma-phone">
+          <img src="/media/about/mm-instagram.webp" width="600" height="1304" alt="The MM Digital Instagram profile" loading="lazy">
+        </div>
       </div>
     </div>
   </div>
@@ -1068,7 +1133,7 @@
       <a href="/our-work/" class="mma-btn">Our Work</a>
     </div>
     <div class="mma-work">
-      <a href="/our-work/" class="mma-work-tile"><img src="/media/covers/oriels-brunch.webp" alt="Oriels" loading="lazy"><span>Oriels</span></a>
+      <a href="/our-work/" class="mma-work-tile"><img src="/media/covers/captrad.webp" alt="Captrad Composites" loading="lazy"><span>Captrad Composites</span></a>
       <a href="/our-work/" class="mma-work-tile"><img src="/media/covers/waldrons.webp" alt="Waldrons Patisserie" loading="lazy"><span>Waldrons Patisserie</span></a>
       <a href="/our-work/" class="mma-work-tile"><img src="/media/covers/auric.webp" alt="Auric Performance" loading="lazy"><span>Auric Performance</span></a>
       <a href="/our-work/" class="mma-work-tile"><img src="/media/covers/lost-in-hound.webp" alt="Lost in Hound" loading="lazy"><span>Lost in Hound</span></a>
