@@ -1,15 +1,15 @@
 
 <div class="wp-block-group alignfull ext-animate--on">
 <style>
-.mds-hero, .mds-services, .mds-bar { --mm-pink: #ff808b; color: #fff; }
-.mds-hero *, .mds-services *, .mds-bar * { box-sizing: border-box; }
+.mds-hero, .mds-services, .mds-bar, .mds-stage { --mm-pink: #ff808b; color: #fff; }
+.mds-hero *, .mds-services *, .mds-bar *, .mds-stage * { box-sizing: border-box; }
 .mds-wrap { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
 .mds-eyebrow {
   display: block; margin-bottom: 14px;
   font-family: "Glacial Indifference", Arial, sans-serif; font-size: 0.85rem; font-weight: 700;
   letter-spacing: 0.18em; text-transform: uppercase; color: var(--mm-pink);
 }
-.mds-hero h1, .mds-services h2 {
+.mds-hero h1, .mds-services h2, .mds-detail h2 {
   margin: 0 0 20px; font-family: "Libre Baskerville", Georgia, serif;
   font-size: clamp(1.9rem, 3.6vw, 3.6rem); line-height: 1.1; letter-spacing: -0.02em; color: #fff;
 }
@@ -84,7 +84,7 @@
 }
 
 /* ---------- Services intro: every service feeds into the growth hub ---------- */
-.mds-services { padding: 40px 0 90px; }
+.mds-services { padding: 40px 0 12px; }
 .mds-services-panel {
   display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 48px; align-items: center;
   padding: 64px 56px; border: 1px solid rgba(255,255,255,.12); border-radius: 36px;
@@ -101,19 +101,19 @@
   transform-origin: 500px 450px; animation: mdsSpin 60s linear infinite;
 }
 .mds-link { fill: none; stroke: rgba(255,255,255,.28); stroke-width: 1.2; transition: stroke .25s ease, stroke-width .25s ease; }
-.mds-hub:has(.mds-node-0:hover, .mds-node-0:focus-visible) .mds-link-0,
-.mds-hub:has(.mds-node-1:hover, .mds-node-1:focus-visible) .mds-link-1,
-.mds-hub:has(.mds-node-2:hover, .mds-node-2:focus-visible) .mds-link-2,
-.mds-hub:has(.mds-node-3:hover, .mds-node-3:focus-visible) .mds-link-3,
-.mds-hub:has(.mds-node-4:hover, .mds-node-4:focus-visible) .mds-link-4,
-.mds-hub:has(.mds-node-5:hover, .mds-node-5:focus-visible) .mds-link-5,
-.mds-hub:has(.mds-node-6:hover, .mds-node-6:focus-visible) .mds-link-6,
-.mds-hub:has(.mds-node-7:hover, .mds-node-7:focus-visible) .mds-link-7,
-.mds-hub:has(.mds-node-8:hover, .mds-node-8:focus-visible) .mds-link-8,
-.mds-hub:has(.mds-node-9:hover, .mds-node-9:focus-visible) .mds-link-9,
-.mds-hub:has(.mds-node-10:hover, .mds-node-10:focus-visible) .mds-link-10,
-.mds-hub:has(.mds-node-11:hover, .mds-node-11:focus-visible) .mds-link-11,
-.mds-hub:has(.mds-node-12:hover, .mds-node-12:focus-visible) .mds-link-12 { stroke: var(--mm-pink); stroke-width: 2.4; }
+.mds-hub:has(.mds-node-0:hover, .mds-node-0:focus-visible, .mds-node-0.is-selected) .mds-link-0,
+.mds-hub:has(.mds-node-1:hover, .mds-node-1:focus-visible, .mds-node-1.is-selected) .mds-link-1,
+.mds-hub:has(.mds-node-2:hover, .mds-node-2:focus-visible, .mds-node-2.is-selected) .mds-link-2,
+.mds-hub:has(.mds-node-3:hover, .mds-node-3:focus-visible, .mds-node-3.is-selected) .mds-link-3,
+.mds-hub:has(.mds-node-4:hover, .mds-node-4:focus-visible, .mds-node-4.is-selected) .mds-link-4,
+.mds-hub:has(.mds-node-5:hover, .mds-node-5:focus-visible, .mds-node-5.is-selected) .mds-link-5,
+.mds-hub:has(.mds-node-6:hover, .mds-node-6:focus-visible, .mds-node-6.is-selected) .mds-link-6,
+.mds-hub:has(.mds-node-7:hover, .mds-node-7:focus-visible, .mds-node-7.is-selected) .mds-link-7,
+.mds-hub:has(.mds-node-8:hover, .mds-node-8:focus-visible, .mds-node-8.is-selected) .mds-link-8,
+.mds-hub:has(.mds-node-9:hover, .mds-node-9:focus-visible, .mds-node-9.is-selected) .mds-link-9,
+.mds-hub:has(.mds-node-10:hover, .mds-node-10:focus-visible, .mds-node-10.is-selected) .mds-link-10,
+.mds-hub:has(.mds-node-11:hover, .mds-node-11:focus-visible, .mds-node-11.is-selected) .mds-link-11,
+.mds-hub:has(.mds-node-12:hover, .mds-node-12:focus-visible, .mds-node-12.is-selected) .mds-link-12 { stroke: var(--mm-pink); stroke-width: 2.4; }
 .mds-pulse { fill: var(--mm-pink); filter: drop-shadow(0 0 6px var(--mm-pink)); }
 .mds-hub-diamond {
   fill: rgba(255,128,139,.06); stroke: var(--mm-pink); stroke-width: 1.4;
@@ -205,12 +205,138 @@
   .mds-wall-track img { width: 300px; }
   .mds-chip span { font-size: 13px; }
 }
-/* Room for the sticky bar when a service link jumps down the page */
-#digital-strategy, #web-development, #social, #ai, #ux-and-ui, #paid-media, #analytics, #seo-and-cro, #graphic-design, #branding, #email-marketing, #linkedin-outreach, #app-design { scroll-margin-top: 80px; }
 @media (prefers-reduced-motion: reduce) {
   .mds-wall-track { animation: none; }
   .mds-typed-words span { animation: none; clip-path: inset(0 100% 0 0); }
   .mds-typed-words span:first-child { clip-path: none; }
+}
+
+/* ---------- One service card at a time, under the growth panel ---------- */
+.mds-pick {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; pointer-events: none;
+}
+.mds-switch { scroll-margin-top: 110px; }
+.mds-switch-inner {
+  display: flex; gap: 6px; padding: 6px; overflow-x: auto; scrollbar-width: none;
+  border: 1px solid rgba(255,255,255,.12); border-radius: 999px;
+  background: rgba(8,6,8,.72); backdrop-filter: blur(12px);
+  box-shadow: 0 16px 40px rgba(0,0,0,.28);
+}
+.mds-switch-inner::-webkit-scrollbar { display: none; }
+.mds-switch .mds-chip, .mds-bar .mds-chip { cursor: pointer; }
+.mds-detail {
+  display: none;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: 48px; align-items: center; margin-top: 28px; padding: 56px;
+  border: 1px solid rgba(255,255,255,.12); border-radius: 36px;
+  background:
+    radial-gradient(ellipse 55% 70% at 78% 50%, rgba(255,128,139,.16), transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
+}
+#mds-s-0:checked ~ .mds-wrap .mds-detail-0,
+#mds-s-1:checked ~ .mds-wrap .mds-detail-1,
+#mds-s-2:checked ~ .mds-wrap .mds-detail-2,
+#mds-s-3:checked ~ .mds-wrap .mds-detail-3,
+#mds-s-4:checked ~ .mds-wrap .mds-detail-4,
+#mds-s-5:checked ~ .mds-wrap .mds-detail-5,
+#mds-s-6:checked ~ .mds-wrap .mds-detail-6,
+#mds-s-7:checked ~ .mds-wrap .mds-detail-7,
+#mds-s-8:checked ~ .mds-wrap .mds-detail-8,
+#mds-s-9:checked ~ .mds-wrap .mds-detail-9,
+#mds-s-10:checked ~ .mds-wrap .mds-detail-10,
+#mds-s-11:checked ~ .mds-wrap .mds-detail-11,
+#mds-s-12:checked ~ .mds-wrap .mds-detail-12 { display: grid; }
+#mds-s-0:checked ~ .mds-wrap label[for="mds-s-0"],
+#mds-s-0:checked ~ .mds-bar label[for="mds-s-0"],
+#mds-s-1:checked ~ .mds-wrap label[for="mds-s-1"],
+#mds-s-1:checked ~ .mds-bar label[for="mds-s-1"],
+#mds-s-2:checked ~ .mds-wrap label[for="mds-s-2"],
+#mds-s-2:checked ~ .mds-bar label[for="mds-s-2"],
+#mds-s-3:checked ~ .mds-wrap label[for="mds-s-3"],
+#mds-s-3:checked ~ .mds-bar label[for="mds-s-3"],
+#mds-s-4:checked ~ .mds-wrap label[for="mds-s-4"],
+#mds-s-4:checked ~ .mds-bar label[for="mds-s-4"],
+#mds-s-5:checked ~ .mds-wrap label[for="mds-s-5"],
+#mds-s-5:checked ~ .mds-bar label[for="mds-s-5"],
+#mds-s-6:checked ~ .mds-wrap label[for="mds-s-6"],
+#mds-s-6:checked ~ .mds-bar label[for="mds-s-6"],
+#mds-s-7:checked ~ .mds-wrap label[for="mds-s-7"],
+#mds-s-7:checked ~ .mds-bar label[for="mds-s-7"],
+#mds-s-8:checked ~ .mds-wrap label[for="mds-s-8"],
+#mds-s-8:checked ~ .mds-bar label[for="mds-s-8"],
+#mds-s-9:checked ~ .mds-wrap label[for="mds-s-9"],
+#mds-s-9:checked ~ .mds-bar label[for="mds-s-9"],
+#mds-s-10:checked ~ .mds-wrap label[for="mds-s-10"],
+#mds-s-10:checked ~ .mds-bar label[for="mds-s-10"],
+#mds-s-11:checked ~ .mds-wrap label[for="mds-s-11"],
+#mds-s-11:checked ~ .mds-bar label[for="mds-s-11"],
+#mds-s-12:checked ~ .mds-wrap label[for="mds-s-12"],
+#mds-s-12:checked ~ .mds-bar label[for="mds-s-12"] { color: #fff !important; background: var(--mm-pink); }
+#mds-s-0:focus-visible ~ .mds-wrap label[for="mds-s-0"],
+#mds-s-0:focus-visible ~ .mds-bar label[for="mds-s-0"],
+#mds-s-1:focus-visible ~ .mds-wrap label[for="mds-s-1"],
+#mds-s-1:focus-visible ~ .mds-bar label[for="mds-s-1"],
+#mds-s-2:focus-visible ~ .mds-wrap label[for="mds-s-2"],
+#mds-s-2:focus-visible ~ .mds-bar label[for="mds-s-2"],
+#mds-s-3:focus-visible ~ .mds-wrap label[for="mds-s-3"],
+#mds-s-3:focus-visible ~ .mds-bar label[for="mds-s-3"],
+#mds-s-4:focus-visible ~ .mds-wrap label[for="mds-s-4"],
+#mds-s-4:focus-visible ~ .mds-bar label[for="mds-s-4"],
+#mds-s-5:focus-visible ~ .mds-wrap label[for="mds-s-5"],
+#mds-s-5:focus-visible ~ .mds-bar label[for="mds-s-5"],
+#mds-s-6:focus-visible ~ .mds-wrap label[for="mds-s-6"],
+#mds-s-6:focus-visible ~ .mds-bar label[for="mds-s-6"],
+#mds-s-7:focus-visible ~ .mds-wrap label[for="mds-s-7"],
+#mds-s-7:focus-visible ~ .mds-bar label[for="mds-s-7"],
+#mds-s-8:focus-visible ~ .mds-wrap label[for="mds-s-8"],
+#mds-s-8:focus-visible ~ .mds-bar label[for="mds-s-8"],
+#mds-s-9:focus-visible ~ .mds-wrap label[for="mds-s-9"],
+#mds-s-9:focus-visible ~ .mds-bar label[for="mds-s-9"],
+#mds-s-10:focus-visible ~ .mds-wrap label[for="mds-s-10"],
+#mds-s-10:focus-visible ~ .mds-bar label[for="mds-s-10"],
+#mds-s-11:focus-visible ~ .mds-wrap label[for="mds-s-11"],
+#mds-s-11:focus-visible ~ .mds-bar label[for="mds-s-11"],
+#mds-s-12:focus-visible ~ .mds-wrap label[for="mds-s-12"],
+#mds-s-12:focus-visible ~ .mds-bar label[for="mds-s-12"] { outline: 2px solid #fff; outline-offset: 2px; }
+.mds-stage .mds-detail h2 { margin: 0 0 18px; font-size: clamp(1.8rem, 2.6vw, 3rem); }
+.mds-detail .mm-line { display: block; }
+.mds-detail .mm-line-pink { color: #ff808b !important; }
+.mds-points {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px 22px;
+  margin: 0 0 22px; padding: 0; list-style: none;
+}
+.mds-points li {
+  position: relative; margin: 0; padding-left: 16px;
+  font-family: "Glacial Indifference", Arial, sans-serif; font-size: 0.98rem; line-height: 1.35; color: #e8e8e8;
+}
+.mds-points li::before {
+  content: ""; position: absolute; left: 0; top: 0.45em; width: 7px; height: 7px; border-radius: 50%; background: var(--mm-pink);
+}
+.mds-stat {
+  margin: 0 0 26px; font-family: "Glacial Indifference", Arial, sans-serif;
+  font-size: 1.05rem; line-height: 1.45; color: #cfcfcf;
+}
+.mds-stat b {
+  display: inline-block; margin-right: 6px;
+  font-family: "Libre Baskerville", Georgia, serif; font-size: 1.7rem; line-height: 1; color: #ff808b; font-weight: 700;
+}
+.mds-detail-photo {
+  border-radius: 24px; overflow: hidden; background: #0b0809; border: 1px solid rgba(255,255,255,.1);
+}
+.mds-detail-photo img { display: block; width: 100%; height: auto; aspect-ratio: 2 / 1; object-fit: cover; }
+.mds-node.is-selected .mds-node-icon {
+  border-color: var(--mm-pink);
+  box-shadow: 0 0 0 4px rgba(255,128,139,.18), 0 0 30px rgba(255,128,139,.45);
+}
+.mds-node.is-selected .mds-node-label { color: var(--mm-pink); }
+@media (max-width: 1100px) {
+  .mds-detail, .mds-points { grid-template-columns: 1fr; }
+  .mds-detail-photo { order: -1; }
+}
+@media (max-width: 640px) {
+  .mds-detail { padding: 28px 20px; border-radius: 26px; }
+  .mds-detail-photo { border-radius: 18px; }
 }
 </style>
 
@@ -244,7 +370,7 @@
         <h2 id="mds-services-title"><span class="mm-line">Driving Growth</span><span class="mm-line mm-line-pink">Through Digital</span></h2>
         <p class="mds-body">At MM Digital, we help businesses grow through clear strategy, strong creative and measurable marketing. From social media and paid advertising to SEO, branding and analytics, our services are designed to build visibility, attract the right audience and turn attention into results. We combine creative thinking with data driven decision making to ensure every campaign, website and piece of content supports real, sustainable business growth.</p>
         <div class="mds-btns">
-          <a href="#digital-strategy" class="mds-btn">Explore Services</a>
+          <a href="#mds-switch" class="mds-btn">Explore Services</a>
           <a href="/get-in-touch/" class="mds-btn mds-btn-ghost">Get in Touch</a>
         </div>
       </div>
@@ -288,446 +414,243 @@
         </g>
         <text class="mds-hub-label" x="500" y="600" text-anchor="middle">Your Growth</text>
       </svg>
-      <a href="#digital-strategy" class="mds-node mds-node-0" style="left:50%;top:10.556%" aria-label="Digital Strategy"><span class="mds-node-icon"><img src="/media/services/strategy.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Digital Strategy</span></a>
-      <a href="#web-development" class="mds-node mds-node-1" style="left:68.4%;top:15.111%" aria-label="Web Development"><span class="mds-node-icon"><img src="/media/services/web.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Web Development</span></a>
-      <a href="#social" class="mds-node mds-node-2" style="left:82.5%;top:27.556%" aria-label="Social Media"><span class="mds-node-icon"><img src="/media/services/social.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Social Media</span></a>
-      <a href="#ai" class="mds-node mds-node-3" style="left:89.2%;top:45.222%" aria-label="AI &amp; Marketing Automation"><span class="mds-node-icon"><img src="/media/services/ai-chip.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">AI &amp; Automation</span></a>
-      <a href="#ux-and-ui" class="mds-node mds-node-4" style="left:86.9%;top:64.000%" aria-label="UX &amp; UI"><span class="mds-node-icon"><img src="/media/services/ux.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">UX &amp; UI</span></a>
-      <a href="#paid-media" class="mds-node mds-node-5" style="left:76.2%;top:79.556%" aria-label="Paid Media"><span class="mds-node-icon"><img src="/media/services/paid.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Paid Media</span></a>
-      <a href="#analytics" class="mds-node mds-node-6" style="left:59.5%;top:88.333%" aria-label="Analytics &amp; Reporting"><span class="mds-node-icon"><img src="/media/services/analytics.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Analytics</span></a>
-      <a href="#seo-and-cro" class="mds-node mds-node-7" style="left:40.5%;top:88.333%" aria-label="SEO &amp; CRO"><span class="mds-node-icon"><img src="/media/services/seo.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">SEO &amp; CRO</span></a>
-      <a href="#graphic-design" class="mds-node mds-node-8" style="left:23.799999999999997%;top:79.556%" aria-label="Graphic Design"><span class="mds-node-icon"><img src="/media/services/graphic.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Graphic Design</span></a>
-      <a href="#branding" class="mds-node mds-node-9" style="left:13.100000000000001%;top:64.000%" aria-label="Branding"><span class="mds-node-icon"><img src="/media/services/branding.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Branding</span></a>
-      <a href="#email-marketing" class="mds-node mds-node-10" style="left:10.8%;top:45.222%" aria-label="Email Marketing"><span class="mds-node-icon"><img src="/media/services/email-loop.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Email Marketing</span></a>
-      <a href="#linkedin-outreach" class="mds-node mds-node-11" style="left:17.5%;top:27.556%" aria-label="LinkedIn Outreach &amp; Lead Generation"><span class="mds-node-icon"><img src="/media/services/linkedin-loop.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">LinkedIn Outreach</span></a>
-      <a href="#app-design" class="mds-node mds-node-12" style="left:31.6%;top:15.111%" aria-label="App Design &amp; App Store Optimisation"><span class="mds-node-icon"><img src="/media/services/app.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">App Design</span></a>
+      <label for="mds-s-0" class="mds-node mds-node-0" style="left:50%;top:10.556%" aria-label="Digital Strategy"><span class="mds-node-icon"><img src="/media/services/strategy.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Digital Strategy</span></label>
+      <label for="mds-s-1" class="mds-node mds-node-1" style="left:68.4%;top:15.111%" aria-label="Web Development"><span class="mds-node-icon"><img src="/media/services/web.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Web Development</span></label>
+      <label for="mds-s-2" class="mds-node mds-node-2" style="left:82.5%;top:27.556%" aria-label="Social Media"><span class="mds-node-icon"><img src="/media/services/social.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Social Media</span></label>
+      <label for="mds-s-3" class="mds-node mds-node-3" style="left:89.2%;top:45.222%" aria-label="AI &amp; Marketing Automation"><span class="mds-node-icon"><img src="/media/services/ai-chip.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">AI &amp; Automation</span></label>
+      <label for="mds-s-4" class="mds-node mds-node-4" style="left:86.9%;top:64.000%" aria-label="UX &amp; UI"><span class="mds-node-icon"><img src="/media/services/ux.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">UX &amp; UI</span></label>
+      <label for="mds-s-5" class="mds-node mds-node-5" style="left:76.2%;top:79.556%" aria-label="Paid Media"><span class="mds-node-icon"><img src="/media/services/paid.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Paid Media</span></label>
+      <label for="mds-s-6" class="mds-node mds-node-6" style="left:59.5%;top:88.333%" aria-label="Analytics &amp; Reporting"><span class="mds-node-icon"><img src="/media/services/analytics.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Analytics</span></label>
+      <label for="mds-s-7" class="mds-node mds-node-7" style="left:40.5%;top:88.333%" aria-label="SEO &amp; CRO"><span class="mds-node-icon"><img src="/media/services/seo.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">SEO &amp; CRO</span></label>
+      <label for="mds-s-8" class="mds-node mds-node-8" style="left:23.799999999999997%;top:79.556%" aria-label="Graphic Design"><span class="mds-node-icon"><img src="/media/services/graphic.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Graphic Design</span></label>
+      <label for="mds-s-9" class="mds-node mds-node-9" style="left:13.100000000000001%;top:64.000%" aria-label="Branding"><span class="mds-node-icon"><img src="/media/services/branding.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Branding</span></label>
+      <label for="mds-s-10" class="mds-node mds-node-10" style="left:10.8%;top:45.222%" aria-label="Email Marketing"><span class="mds-node-icon"><img src="/media/services/email-loop.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Email Marketing</span></label>
+      <label for="mds-s-11" class="mds-node mds-node-11" style="left:17.5%;top:27.556%" aria-label="LinkedIn Outreach &amp; Lead Generation"><span class="mds-node-icon"><img src="/media/services/linkedin-loop.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">LinkedIn Outreach</span></label>
+      <label for="mds-s-12" class="mds-node mds-node-12" style="left:31.6%;top:15.111%" aria-label="App Design &amp; App Store Optimisation"><span class="mds-node-icon"><img src="/media/services/app.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">App Design</span></label>
       </div>
       </nav>
     </div>
   </div>
 </section>
-</div>
-
-<nav class="mds-bar" aria-label="Jump to a service">
-  <div class="mds-bar-inner">
-      <a href="#digital-strategy" class="mds-chip"><img src="/media/services/strategy.webp" alt="" width="192" height="192" loading="lazy"><span>Digital Strategy</span></a>
-      <a href="#web-development" class="mds-chip"><img src="/media/services/web.webp" alt="" width="192" height="192" loading="lazy"><span>Web Development</span></a>
-      <a href="#social" class="mds-chip"><img src="/media/services/social.webp" alt="" width="192" height="192" loading="lazy"><span>Social Media</span></a>
-      <a href="#ai" class="mds-chip"><img src="/media/services/ai-chip.webp" alt="" width="192" height="192" loading="lazy"><span>AI &amp; Marketing Automation</span></a>
-      <a href="#ux-and-ui" class="mds-chip"><img src="/media/services/ux.webp" alt="" width="192" height="192" loading="lazy"><span>UX &amp; UI</span></a>
-      <a href="#paid-media" class="mds-chip"><img src="/media/services/paid.webp" alt="" width="192" height="192" loading="lazy"><span>Paid Media</span></a>
-      <a href="#analytics" class="mds-chip"><img src="/media/services/analytics.webp" alt="" width="192" height="192" loading="lazy"><span>Analytics &amp; Reporting</span></a>
-      <a href="#seo-and-cro" class="mds-chip"><img src="/media/services/seo.webp" alt="" width="192" height="192" loading="lazy"><span>SEO &amp; CRO</span></a>
-      <a href="#graphic-design" class="mds-chip"><img src="/media/services/graphic.webp" alt="" width="192" height="192" loading="lazy"><span>Graphic Design</span></a>
-      <a href="#branding" class="mds-chip"><img src="/media/services/branding.webp" alt="" width="192" height="192" loading="lazy"><span>Branding</span></a>
-      <a href="#email-marketing" class="mds-chip"><img src="/media/services/email-loop.webp" alt="" width="192" height="192" loading="lazy"><span>Email Marketing</span></a>
-      <a href="#linkedin-outreach" class="mds-chip"><img src="/media/services/linkedin-loop.webp" alt="" width="192" height="192" loading="lazy"><span>LinkedIn Outreach &amp; Lead Generation</span></a>
-      <a href="#app-design" class="mds-chip"><img src="/media/services/app.webp" alt="" width="192" height="192" loading="lazy"><span>App Design &amp; App Store Optimisation</span></a>
+<div class="mds-stage">
+<input class="mds-pick" type="radio" name="mds-svc" id="mds-s-0" checked>
+<input class="mds-pick" type="radio" name="mds-svc" id="mds-s-1">
+<input class="mds-pick" type="radio" name="mds-svc" id="mds-s-2">
+<input class="mds-pick" type="radio" name="mds-svc" id="mds-s-3">
+<input class="mds-pick" type="radio" name="mds-svc" id="mds-s-4">
+<input class="mds-pick" type="radio" name="mds-svc" id="mds-s-5">
+<input class="mds-pick" type="radio" name="mds-svc" id="mds-s-6">
+<input class="mds-pick" type="radio" name="mds-svc" id="mds-s-7">
+<input class="mds-pick" type="radio" name="mds-svc" id="mds-s-8">
+<input class="mds-pick" type="radio" name="mds-svc" id="mds-s-9">
+<input class="mds-pick" type="radio" name="mds-svc" id="mds-s-10">
+<input class="mds-pick" type="radio" name="mds-svc" id="mds-s-11">
+<input class="mds-pick" type="radio" name="mds-svc" id="mds-s-12">
+  <div class="mds-wrap">
+    <nav class="mds-switch" id="mds-switch" aria-label="Choose a service">
+      <div class="mds-switch-inner">
+      <label class="mds-chip" for="mds-s-0"><img src="/media/services/strategy.webp" alt="" width="192" height="192" loading="lazy"><span>Digital Strategy</span></label>
+      <label class="mds-chip" for="mds-s-1"><img src="/media/services/web.webp" alt="" width="192" height="192" loading="lazy"><span>Web Development</span></label>
+      <label class="mds-chip" for="mds-s-2"><img src="/media/services/social.webp" alt="" width="192" height="192" loading="lazy"><span>Social Media</span></label>
+      <label class="mds-chip" for="mds-s-3"><img src="/media/services/ai-chip.webp" alt="" width="192" height="192" loading="lazy"><span>AI &amp; Marketing Automation</span></label>
+      <label class="mds-chip" for="mds-s-4"><img src="/media/services/ux.webp" alt="" width="192" height="192" loading="lazy"><span>UX &amp; UI</span></label>
+      <label class="mds-chip" for="mds-s-5"><img src="/media/services/paid.webp" alt="" width="192" height="192" loading="lazy"><span>Paid Media</span></label>
+      <label class="mds-chip" for="mds-s-6"><img src="/media/services/analytics.webp" alt="" width="192" height="192" loading="lazy"><span>Analytics &amp; Reporting</span></label>
+      <label class="mds-chip" for="mds-s-7"><img src="/media/services/seo.webp" alt="" width="192" height="192" loading="lazy"><span>SEO &amp; CRO</span></label>
+      <label class="mds-chip" for="mds-s-8"><img src="/media/services/graphic.webp" alt="" width="192" height="192" loading="lazy"><span>Graphic Design</span></label>
+      <label class="mds-chip" for="mds-s-9"><img src="/media/services/branding.webp" alt="" width="192" height="192" loading="lazy"><span>Branding</span></label>
+      <label class="mds-chip" for="mds-s-10"><img src="/media/services/email-loop.webp" alt="" width="192" height="192" loading="lazy"><span>Email Marketing</span></label>
+      <label class="mds-chip" for="mds-s-11"><img src="/media/services/linkedin-loop.webp" alt="" width="192" height="192" loading="lazy"><span>LinkedIn Outreach &amp; Lead Generation</span></label>
+      <label class="mds-chip" for="mds-s-12"><img src="/media/services/app.webp" alt="" width="192" height="192" loading="lazy"><span>App Design &amp; App Store Optimisation</span></label>
+      </div>
+    </nav>
   </div>
-</nav>
+  <nav class="mds-bar" aria-label="Choose a service">
+    <div class="mds-bar-inner">
+      <label class="mds-chip" for="mds-s-0"><img src="/media/services/strategy.webp" alt="" width="192" height="192" loading="lazy"><span>Digital Strategy</span></label>
+      <label class="mds-chip" for="mds-s-1"><img src="/media/services/web.webp" alt="" width="192" height="192" loading="lazy"><span>Web Development</span></label>
+      <label class="mds-chip" for="mds-s-2"><img src="/media/services/social.webp" alt="" width="192" height="192" loading="lazy"><span>Social Media</span></label>
+      <label class="mds-chip" for="mds-s-3"><img src="/media/services/ai-chip.webp" alt="" width="192" height="192" loading="lazy"><span>AI &amp; Marketing Automation</span></label>
+      <label class="mds-chip" for="mds-s-4"><img src="/media/services/ux.webp" alt="" width="192" height="192" loading="lazy"><span>UX &amp; UI</span></label>
+      <label class="mds-chip" for="mds-s-5"><img src="/media/services/paid.webp" alt="" width="192" height="192" loading="lazy"><span>Paid Media</span></label>
+      <label class="mds-chip" for="mds-s-6"><img src="/media/services/analytics.webp" alt="" width="192" height="192" loading="lazy"><span>Analytics &amp; Reporting</span></label>
+      <label class="mds-chip" for="mds-s-7"><img src="/media/services/seo.webp" alt="" width="192" height="192" loading="lazy"><span>SEO &amp; CRO</span></label>
+      <label class="mds-chip" for="mds-s-8"><img src="/media/services/graphic.webp" alt="" width="192" height="192" loading="lazy"><span>Graphic Design</span></label>
+      <label class="mds-chip" for="mds-s-9"><img src="/media/services/branding.webp" alt="" width="192" height="192" loading="lazy"><span>Branding</span></label>
+      <label class="mds-chip" for="mds-s-10"><img src="/media/services/email-loop.webp" alt="" width="192" height="192" loading="lazy"><span>Email Marketing</span></label>
+      <label class="mds-chip" for="mds-s-11"><img src="/media/services/linkedin-loop.webp" alt="" width="192" height="192" loading="lazy"><span>LinkedIn Outreach &amp; Lead Generation</span></label>
+      <label class="mds-chip" for="mds-s-12"><img src="/media/services/app.webp" alt="" width="192" height="192" loading="lazy"><span>App Design &amp; App Store Optimisation</span></label>
+    </div>
+  </nav>
+  <div class="mds-wrap">
+      <article class="mds-detail mds-detail-0" aria-labelledby="mds-detail-0">
+        <div>
+          <h2 id="mds-detail-0"><span class="mm-line">Digital</span><span class="mm-line mm-line-pink">Strategy</span></h2>
+          <p class="mds-body">A clear plan that brings your website, marketing and content together, so the business grows with purpose.</p>
+          <ul class="mds-points"><li>Market and competitor analysis</li><li>Audience and customer journey mapping</li><li>Brand positioning and messaging</li><li>Website and digital presence review</li><li>Content and social media planning</li><li>SEO and visibility planning</li><li>Paid media and lead generation</li><li>Performance tracking and analytics</li></ul>
+          <p class="mds-stat"><b>2×</b> more likely to hit marketing objectives with a documented strategy.</p>
+          <a class="mds-btn" href="/get-in-touch/">Get in Touch</a>
+        </div>
+        <div class="mds-detail-photo">
+          <img src="/media/mm-digital-digital-strategy.webp" alt="Digital Strategy" width="2560" height="1280" loading="eager">
+        </div>
+      </article>
 
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
+      <article class="mds-detail mds-detail-1" aria-labelledby="mds-detail-1">
+        <div>
+          <h2 id="mds-detail-1"><span class="mm-line">Web</span><span class="mm-line mm-line-pink">Development</span></h2>
+          <p class="mds-body">Websites shaped around your brand and your customers: fast, responsive, and built to turn visitors into enquiries.</p>
+          <ul class="mds-points"><li>Custom website design</li><li>Mobile-first, responsive build</li><li>Conversion-focused page structure</li><li>SEO-ready technical setup</li><li>Page speed and performance</li><li>A CMS for easy content updates</li><li>Analytics, CRM and marketing integrations</li></ul>
+          <p class="mds-stat"><b>75%</b> of people judge a company’s credibility from its website design.</p>
+          <a class="mds-btn" href="/get-in-touch/">Get in Touch</a>
+        </div>
+        <div class="mds-detail-photo">
+          <img src="/media/mm-digital-web-development.webp" alt="Web Development" width="2560" height="1280" loading="lazy">
+        </div>
+      </article>
 
-<div style="height:150px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
+      <article class="mds-detail mds-detail-2" aria-labelledby="mds-detail-2">
+        <div>
+          <h2 id="mds-detail-2"><span class="mm-line">Social</span><span class="mm-line mm-line-pink">Media</span></h2>
+          <p class="mds-body">Social treated as a growth channel, with the content, consistency and reporting to turn attention into enquiries.</p>
+          <ul class="mds-points"><li>Strategy and planning</li><li>Content and visual design</li><li>Audience growth and engagement</li><li>Platform setup and optimisation</li><li>Community management</li><li>Performance reporting</li><li>Paid social campaigns</li></ul>
+          <p class="mds-stat"><b>76%</b> of consumers have bought something they first found on social media.</p>
+          <a class="mds-btn" href="/get-in-touch/">Get in Touch</a>
+        </div>
+        <div class="mds-detail-photo">
+          <img src="/media/mm-digital-social.webp" alt="Social Media" width="2560" height="1280" loading="lazy">
+        </div>
+      </article>
 
-<figure class="wp-block-image alignfull size-large ext-animate--on" id="digital-strategy"><img width="2560" height="1280" src="/media/mm-digital-digital-strategy.webp" alt="Digital Strategy"/></figure>
+      <article class="mds-detail mds-detail-3" aria-labelledby="mds-detail-3">
+        <div>
+          <h2 id="mds-detail-3"><span class="mm-line">AI &amp; Marketing</span><span class="mm-line mm-line-pink">Automation</span></h2>
+          <p class="mds-body">Practical AI and automation that take repetitive work off the team and keep marketing moving in the background.</p>
+          <ul class="mds-points"><li>Marketing automation</li><li>Chatbots and conversational AI</li><li>Customer journey mapping</li><li>Automated email and lead nurturing</li><li>AI-assisted content and campaigns</li><li>Predictive analytics</li></ul>
+          <p class="mds-stat"><b>40%</b> productivity lift for companies using AI-driven marketing.</p>
+          <a class="mds-btn" href="/get-in-touch/">Get in Touch</a>
+        </div>
+        <div class="mds-detail-photo">
+          <img src="/media/mm-digital-digital-services-image-4e4e2ae.webp" alt="AI &amp; Marketing Automation" width="2560" height="1280" loading="lazy">
+        </div>
+      </article>
 
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
+      <article class="mds-detail mds-detail-4" aria-labelledby="mds-detail-4">
+        <div>
+          <h2 id="mds-detail-4"><span class="mm-line">UX &amp;</span><span class="mm-line mm-line-pink">UI</span></h2>
+          <p class="mds-body">Interfaces people can follow easily, designed to carry visitors through to an enquiry.</p>
+          <ul class="mds-points"><li>User journey mapping</li><li>Wireframes and prototypes</li><li>Conversion-focused layouts</li><li>Mobile-first design</li><li>Usability testing</li><li>Interface design matched to the brand</li></ul>
+          <p class="mds-stat"><b>200%</b> higher conversion rates when the website experience is improved.</p>
+          <a class="mds-btn" href="/get-in-touch/">Get in Touch</a>
+        </div>
+        <div class="mds-detail-photo">
+          <img src="/media/mm-digital-digital-services-image-de720b3.webp" alt="UX &amp; UI" width="2560" height="1280" loading="lazy">
+        </div>
+      </article>
 
-<div class="wp-block-group alignwide ext-animate--on">
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Successful digital marketing requires a clear plan, defined goals and a structured approach. At MM Digital, we develop tailored strategies that align your website, marketing and content to work together, helping your business grow online with clarity and purpose. <strong>A typical digital strategy engagement may include:</strong> • Market and competitor analysis • Audience and customer journey mapping • Brand positioning and messaging development • Website and digital presence evaluation • Content and social media strategy planning • SEO and visibility planning • Paid media and lead generation strategy • Performance tracking and analytics framework</p>
+      <article class="mds-detail mds-detail-5" aria-labelledby="mds-detail-5">
+        <div>
+          <h2 id="mds-detail-5"><span class="mm-line">Paid</span><span class="mm-line mm-line-pink">Media</span></h2>
+          <p class="mds-body">Campaigns aimed at the people already looking, managed and refined so the spend earns its place.</p>
+          <ul class="mds-points"><li>Google Ads management</li><li>Social advertising</li><li>Audience targeting</li><li>Conversion tracking</li><li>Landing page optimisation</li><li>Ongoing testing</li></ul>
+          <p class="mds-stat"><b>£2</b> back, on average, for every £1 spent on Google Ads.</p>
+          <a class="mds-btn" href="/get-in-touch/">Get in Touch</a>
+        </div>
+        <div class="mds-detail-photo">
+          <img src="/media/mm-digital-digital-services-image-6bad0ae.webp" alt="Paid Media" width="2560" height="1280" loading="lazy">
+        </div>
+      </article>
 
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">By establishing a strong strategic foundation, we ensure that your marketing activity is guided by insight rather than guesswork. This allows businesses to make smarter decisions, allocate resources effectively and achieve measurable digital growth. Our digital strategies are designed not only to support immediate marketing initiatives but also to create a long-term roadmap that evolves alongside your business.</p>
+      <article class="mds-detail mds-detail-6" aria-labelledby="mds-detail-6">
+        <div>
+          <h2 id="mds-detail-6"><span class="mm-line">Analytics &amp;</span><span class="mm-line mm-line-pink">Reporting</span></h2>
+          <p class="mds-body">Measurement set up properly, then read as decisions: what to keep, what to change, and where to invest.</p>
+          <ul class="mds-points"><li>Google Analytics and tracking setup</li><li>Conversion tracking and attribution</li><li>Dashboards and reporting</li><li>Customer behaviour analysis</li><li>Campaign performance insight</li><li>Data-led optimisation</li></ul>
+          <p class="mds-stat"><b>6×</b> more likely to grow profitably when marketing decisions are data-led.</p>
+          <a class="mds-btn" href="/get-in-touch/">Get in Touch</a>
+        </div>
+        <div class="mds-detail-photo">
+          <img src="/media/mm-digital-digital-services-image-e911af5.webp" alt="Analytics &amp; Reporting" width="2560" height="1280" loading="lazy">
+        </div>
+      </article>
 
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
+      <article class="mds-detail mds-detail-7" aria-labelledby="mds-detail-7">
+        <div>
+          <h2 id="mds-detail-7"><span class="mm-line">SEO &amp;</span><span class="mm-line mm-line-pink">CRO</span></h2>
+          <p class="mds-body">Search visibility and page journeys working together, so the right people arrive and more of them enquire.</p>
+          <ul class="mds-points"><li>Technical SEO</li><li>Keyword research and content strategy</li><li>On-page SEO</li><li>Site performance and structure</li><li>Conversion rate optimisation</li><li>Landing page improvements</li><li>Ongoing search monitoring</li></ul>
+          <p class="mds-stat"><b>70%</b> of search traffic stays on the first page of Google.</p>
+          <a class="mds-btn" href="/get-in-touch/">Get in Touch</a>
+        </div>
+        <div class="mds-detail-photo">
+          <img src="/media/mm-digital-seo-and-cro.webp" alt="SEO &amp; CRO" width="2560" height="1280" loading="lazy">
+        </div>
+      </article>
 
-<div class="wp-block-group ext-animate--on">
-<div class="wp-block-stackable-image alignfull stk-block-image stk-block stk-7714e34 ext-animate--on" data-block-id="7714e34"><style>.stk-7714e34 .stk-img-wrapper{width:100% !important;height:420px !important;}.stk-7714e34 .stk-img-wrapper img{transform:scale(1.4) !important;object-fit:contain !important;}</style><figure><span class="stk-img-wrapper stk-image--shape-stretch"><img class="stk-img wp-image-6641" src="/media/mm-digital-digital-services-image-87bf09a.webp" width="2560" height="1280" alt="Arrow graphic symbolising forward progress"/></span></figure></div>
+      <article class="mds-detail mds-detail-8" aria-labelledby="mds-detail-8">
+        <div>
+          <h2 id="mds-detail-8"><span class="mm-line">Graphic</span><span class="mm-line mm-line-pink">Design</span></h2>
+          <p class="mds-body">Visuals that stay on brand across campaigns, social, ads and print.</p>
+          <ul class="mds-points"><li>Campaign graphics</li><li>Social visuals</li><li>Ad creatives</li><li>Presentations and pitch decks</li><li>Print and marketing collateral</li><li>Infographics</li><li>Brand assets</li></ul>
+          <p class="mds-stat"><b>650%</b> higher engagement from posts with strong visuals than from text alone.</p>
+          <a class="mds-btn" href="/get-in-touch/">Get in Touch</a>
+        </div>
+        <div class="mds-detail-photo">
+          <img src="/media/mm-digital-graphic-design.webp" alt="Graphic Design" width="2560" height="1280" loading="lazy">
+        </div>
+      </article>
+
+      <article class="mds-detail mds-detail-9" aria-labelledby="mds-detail-9">
+        <div>
+          <h2 id="mds-detail-9"><span class="mm-line mm-line-pink">Branding</span></h2>
+          <p class="mds-body">An identity, a message and a tone that stay recognisable wherever the business shows up.</p>
+          <ul class="mds-points"><li>Logo and visual identity</li><li>Brand strategy and positioning</li><li>Colour and typography</li><li>Brand guidelines</li><li>Messaging and tone of voice</li><li>Digital and print assets</li><li>Full identity packages</li></ul>
+          <p class="mds-stat"><b>77%</b> of consumers choose a business because they recognise the brand.</p>
+          <a class="mds-btn" href="/get-in-touch/">Get in Touch</a>
+        </div>
+        <div class="mds-detail-photo">
+          <img src="/media/mm-digital-branding.webp" alt="Branding" width="2560" height="1280" loading="lazy">
+        </div>
+      </article>
+
+      <article class="mds-detail mds-detail-10" aria-labelledby="mds-detail-10">
+        <div>
+          <h2 id="mds-detail-10"><span class="mm-line">Email</span><span class="mm-line mm-line-pink">Marketing</span></h2>
+          <p class="mds-body">Email you own, from newsletters to automated journeys, sent to people who already want to hear from you.</p>
+          <ul class="mds-points"><li>Strategy and campaign planning</li><li>List building and segmentation</li><li>Newsletter design and content</li><li>Automated sequences</li><li>A/B testing</li><li>Reporting</li><li>Mailchimp, Klaviyo and other platforms</li></ul>
+          <p class="mds-stat"><b>£36</b> back, on average, for every £1 spent.</p>
+          <a class="mds-btn" href="/get-in-touch/">Get in Touch</a>
+        </div>
+        <div class="mds-detail-photo">
+          <img src="/media/email-marketing.webp" alt="Email Marketing" width="2560" height="1280" loading="lazy">
+        </div>
+      </article>
+
+      <article class="mds-detail mds-detail-11" aria-labelledby="mds-detail-11">
+        <div>
+          <h2 id="mds-detail-11"><span class="mm-line">LinkedIn Outreach &amp;</span><span class="mm-line mm-line-pink">Lead Generation</span></h2>
+          <p class="mds-body">Personal outreach to the right decision makers, built around real conversations.</p>
+          <ul class="mds-points"><li>Company page management</li><li>Prospect research</li><li>Connection and messaging campaigns</li><li>Thought leadership content</li><li>Paid lead generation</li><li>Pipeline tracking</li><li>Profile optimisation</li></ul>
+          <p class="mds-stat"><b>80%</b> of B2B leads from social media come from LinkedIn.</p>
+          <a class="mds-btn" href="/get-in-touch/">Get in Touch</a>
+        </div>
+        <div class="mds-detail-photo">
+          <img src="/media/mm-digital-digital-services-image-6729a66.webp" alt="LinkedIn Outreach &amp; Lead Generation" width="2560" height="1280" loading="lazy">
+        </div>
+      </article>
+
+      <article class="mds-detail mds-detail-12" aria-labelledby="mds-detail-12">
+        <div>
+          <h2 id="mds-detail-12"><span class="mm-line">App Design &amp;</span><span class="mm-line mm-line-pink">App Store Optimisation</span></h2>
+          <p class="mds-body">An app people can find in the store, understand quickly, and keep using.</p>
+          <ul class="mds-points"><li>Custom app design</li><li>User journeys and wireframes</li><li>iOS and Android interfaces</li><li>App store listing optimisation</li><li>Onboarding flows</li><li>Performance and feedback review</li><li>Updates and feature planning</li></ul>
+          <p class="mds-stat"><b>90%</b> of time on mobile is spent inside apps, not the browser.</p>
+          <a class="mds-btn" href="/get-in-touch/">Get in Touch</a>
+        </div>
+        <div class="mds-detail-photo">
+          <img src="/media/app-design.webp" alt="App Design &amp; App Store Optimisation" width="2560" height="1280" loading="lazy">
+        </div>
+      </article>
+  </div>
 </div>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
-<p class="has-text-align-center ext-animate--on has-libre-baskerville-font-family has-large-font-size"><strong>Why Does It Matter?</strong></p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Digital marketing is most effective when it is guided by a clear, structured strategy. Without one, businesses often invest in isolated tactics, running ads, posting on social media, or redesigning a website, without a defined framework that connects these efforts to real commercial outcomes. A well-defined digital strategy ensures that every channel works together toward measurable objectives. It aligns brand positioning, audience targeting, messaging and performance tracking into a unified system designed to drive sustainable growth. Businesses that operate with a clear strategy consistently outperform those that approach marketing reactively.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="1-key-digital-strategy-insights-"><strong>Key Digital Strategy Insights</strong></h3>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Organisations with a documented digital marketing strategy are over twice as likely to achieve their marketing objectives compared to those operating without one. Companies with aligned marketing and sales strategies generate up to <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">208% </mark>more revenue from marketing activities, demonstrating the power of structured planning and integration. Businesses that use data-driven marketing strategies see up to <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">5–8× </mark>higher ROI compared to organisations that rely on intuition or disconnected campaigns.</p>
-
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-944b940 ext-animate--on" data-block-id="944b940"><div class="stk-row stk-inner-blocks has-text-align-center stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button ext-animate--on stk-block stk-d79f216" data-block-id="d79f216"><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="/get-in-touch/"><span class="stk-button__inner-text"><strong>Get in Touch</strong></span></a></div>
-</div></div>
 </div>
-
-<div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<figure class="wp-block-image alignfull size-large ext-animate--on" id="web-development"><img width="2560" height="1280" src="/media/mm-digital-web-development.webp" alt="Web Development"/></figure>
-
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<div class="wp-block-group alignwide ext-animate--on">
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">A website is more than an online presence, it’s often the first interaction customers have with your business. At MM Digital, we design and develop websites that combine strong visual identity, technical performance and user-focused design. Each site is tailored to your brand, audience and goals, with clear navigation, responsive layouts and search-friendly structure to help convert visitors into customers. Our process focuses not just on how a website looks, but how it performs. Every site we build is fast, fully responsive and designed to support search visibility, while remaining flexible enough to grow with your business and support future content, campaigns and functionality. <strong>Our web development services can include:</strong> • Custom website design tailored to your brand • Mobile-first and responsive development • Conversion-focused page structure and user journeys • SEO-ready technical architecture • Page speed and performance optimisation • CMS implementation for easy content management • Integration with analytics, CRM systems and marketing tools.</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">The result is a modern, professional website designed not only to represent your brand effectively but also to support measurable business growth.</p>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
-<div class="wp-block-stackable-image alignfull stk-block-image stk-block stk-9111c22 ext-animate--on" data-block-id="9111c22"><style>.stk-9111c22 {padding-top:var(--stk--preset--spacing--none, 0px) !important;padding-right:var(--stk--preset--spacing--none, 0px) !important;padding-bottom:var(--stk--preset--spacing--none, 0px) !important;padding-left:var(--stk--preset--spacing--none, 0px) !important;margin-right:var(--stk--preset--spacing--none, 0px) !important;margin-left:var(--stk--preset--spacing--none, 0px) !important;}.stk-9111c22 .stk-img-wrapper{width:100% !important;height:420px !important;}.stk-9111c22 .stk-img-wrapper img{transform:scale(2) !important;object-fit:contain !important;}</style><figure><span class="stk-img-wrapper stk-image--shape-stretch"><img class="stk-img wp-image-6643" src="/media/mm-digital-digital-services-image-c2caf23.webp" width="2560" height="1280" alt="MM Digital website design displayed on a laptop, tablet and desktop monitor"/></span></figure></div>
-
-<p class="has-text-align-center ext-animate--on has-libre-baskerville-font-family has-large-font-size"><strong>Why Does It Matter?</strong></p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Your website often forms the first impression potential customers have of your business. In a digital environment where users can compare multiple providers within seconds, a slow, outdated or poorly structured website can quickly damage credibility and reduce the likelihood of engagement. A professionally developed website ensures that visitors immediately understand your value, trust your brand and are guided toward taking action. By combining strong design with technical optimisation and clear user experience, businesses can significantly increase enquiries, conversions and overall digital performance.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="2-key-website-insights-"><strong>Key Website Insights</strong></h3>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">75%</mark> of users judge a company’s credibility based on its website design, highlighting how critical strong digital presentation is to building trust with potential customers. <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">53%</mark> of mobile users will leave a website if it takes longer than three seconds to load, making speed and performance essential factors in retaining visitors. Businesses that improve their website user experience can increase conversion rates by over <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">200%</mark>, demonstrating how effective design directly contributes to measurable business results.<br><br><br></p>
-
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-d0fabe3 ext-animate--on" data-block-id="d0fabe3"><div class="stk-row stk-inner-blocks has-text-align-center stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button ext-animate--on stk-block stk-a8f816a" data-block-id="a8f816a"><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="/get-in-touch/"><span class="stk-button__inner-text"><strong>Get in Touch</strong></span></a></div>
-</div></div>
-
-<div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-</div>
-
-<figure class="wp-block-image alignfull size-full ext-animate--on" id="social"><img width="2560" height="1280" src="/media/mm-digital-social.webp" alt="Social" class="wp-image-3504"/></figure>
-
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<div class="wp-block-group alignwide ext-animate--on">
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Social media has become one of the most powerful channels in modern marketing, allowing businesses to connect directly with their audience, build brand awareness and strengthen customer relationships. At MM Digital, we treat social media as a strategic growth channel rather than simply a place to post content. We develop structured strategies that align messaging, visual identity and platform best practices to drive engagement and business results. Our approach combines creative content with data-driven insights, continually refining performance while ensuring your channels remain optimised, consistent and aligned with your brand. <strong>Our social media services can include:</strong> • Social media strategy and planning • Content creation and visual design • Audience growth and engagement strategies • Platform optimisation and account setup • Community management and messaging • Performance monitoring and analytics reporting • Paid social campaign management</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">When managed correctly, social media becomes far more than a communication tool. It becomes a powerful engine for brand awareness, customer engagement and lead generation.<br></p>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
-<div class="wp-block-stackable-image alignfull stk-block-image stk-block stk-7bfe69c ext-animate--on" data-block-id="7bfe69c"><style>.stk-7bfe69c .stk-img-wrapper{width:100% !important;height:420px !important;}.stk-7bfe69c .stk-img-wrapper img{transform:scale(1) !important;object-fit:contain !important;}</style><figure><span class="stk-img-wrapper stk-image--shape-stretch"><img class="stk-img wp-image-6645" src="/media/mm-digital-digital-services-image-3040086.webp" width="2560" height="1280" alt="Facebook, Instagram, TikTok, LinkedIn, Pinterest and other social platform logos alongside an Instagram profile mockup"/></span></figure></div>
-
-<p class="has-text-align-center ext-animate--on has-libre-baskerville-font-family has-large-font-size"><strong>Why Does It Matter?</strong></p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Consumers increasingly use social media as part of their decision-making process when evaluating brands. A well-managed social presence demonstrates professionalism, credibility and activity within the market, while an inactive or inconsistent presence can quickly undermine trust.</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Strong social media management allows businesses to remain visible to their audience, build relationships with potential customers and reinforce their brand positioning through consistent messaging and high-quality content.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="3-key-social-media-insights-"><strong>Key Social Media Insights</strong></h3>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Over <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">5 billion</mark> people worldwide actively use social media, making it one of the most powerful communication platforms available to modern businesses. <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">76%</mark> of consumers have purchased a product after discovering it on social media, demonstrating the direct impact social channels have on buying behaviour. Brands that actively engage with customers on social media experience significantly higher levels of customer loyalty and brand trust, strengthening long-term relationships with their audience.<br><br><br></p>
-
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-bfa5e2b ext-animate--on" data-block-id="bfa5e2b"><div class="stk-row stk-inner-blocks has-text-align-center stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button ext-animate--on stk-block stk-8cfc5d6" data-block-id="8cfc5d6"><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="/get-in-touch/"><span class="stk-button__inner-text"><strong>Get in Touch</strong></span></a></div>
-</div></div>
-</div>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<figure class="wp-block-image alignfull size-large ext-animate--on" id="ai"><img width="1024" height="512" src="/media/mm-digital-digital-services-image-4e4e2ae.webp" alt="AI" class="wp-image-6646"/></figure>
-
-<div class="wp-block-group alignwide ext-animate--on">
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Artificial Intelligence is transforming how businesses operate, communicate with customers and scale their marketing. At MM Digital, we integrate AI-powered tools and automation systems that improve efficiency, enhance marketing performance and support business growth. From automated lead nurturing and intelligent chat systems to AI-assisted content and predictive insights, we implement practical solutions that align with your wider marketing strategy and deliver measurable results. <strong>Our AI services can include:</strong> • AI-powered marketing automation • Chatbot and conversational AI integration • Intelligent customer journey mapping • Automated email and lead nurturing systems • AI-assisted content and campaign optimisation • Predictive analytics and customer behaviour insights</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">By combining automation with strategic oversight, businesses can reduce manual workload, improve efficiency and create marketing systems that operate continuously in the background.</p>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-</div>
-
-<div class="wp-block-stackable-image alignfull stk-block-image stk-block stk-b1725c8 ext-animate--on" data-block-id="b1725c8"><style>.stk-b1725c8 .stk-img-wrapper{width:100% !important;height:420px !important;}.stk-b1725c8 .stk-img-wrapper img{transform:scale(2.1) !important;object-fit:contain !important;}</style><figure><span class="stk-img-wrapper stk-image--shape-stretch"><img class="stk-img wp-image-6647" src="/media/mm-digital-digital-services-image-19288bb.webp" width="2560" height="1280" alt="Abstract pink network graphic representing AI-powered connections"/></span></figure></div>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="4-why-does-it-matter-"><strong>Why Does it Matter?</strong></h3>
-
-<div class="wp-block-group alignwide ext-animate--on">
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Businesses are increasingly expected to deliver faster responses, more personalised experiences and consistent engagement across multiple channels. AI and automation allow companies to meet these expectations without significantly increasing operational costs.</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">When implemented effectively, AI can enhance productivity, improve customer engagement and support scalable growth.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="5-key-social-media-insights-"><strong>Key Social Media Insights</strong></h3>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Over <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">80%</mark> of businesses are expected to use AI-powered tools within their marketing operations by 2026, highlighting the growing role of intelligent automation in modern marketing. Companies that adopt AI-driven marketing see up to a <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">40% increase</mark> in productivity, allowing teams to focus on strategic work rather than repetitive tasks. AI-powered personalisation can increase customer engagement rates by <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">more than 30%</mark>, significantly improving marketing performance.<br><br><br></p>
-</div>
-
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-b31c045 ext-animate--on" data-block-id="b31c045"><div class="stk-row stk-inner-blocks has-text-align-center stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button ext-animate--on stk-block stk-0859a63" data-block-id="0859a63"><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="/get-in-touch/"><span class="stk-button__inner-text"><strong>Get in Touch</strong></span></a></div>
-</div></div>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<figure class="wp-block-image alignfull size-full ext-animate--on" id="ux-and-ui"><img width="2560" height="1280" src="/media/mm-digital-digital-services-image-de720b3.webp" alt="UX & UI" class="wp-image-6648"/></figure>
-
-<div class="wp-block-group alignwide ext-animate--on">
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">User experience and interface design are critical to how visitors interact with your digital platforms. At MM Digital, we design digital experiences that prioritise clarity, usability and engagement. By combining user research, behavioural insights and modern design principles, we create intuitive interfaces that guide visitors naturally through your website and encourage meaningful actions. <strong>Our UX and UI design services can include:</strong> • User journey mapping and experience planning • Wireframing and interface prototyping • Conversion-focused layout design • Mobile-first design optimisation • Usability testing and performance improvements • Interface design aligned with brand identity</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">The result is a digital experience that is not only visually refined but also strategically structured to improve engagement and conversion performance.<br></p>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
-<div class="wp-block-stackable-image alignfull stk-block-image stk-block stk-b29d16b ext-animate--on" data-block-id="b29d16b"><style>.stk-b29d16b .stk-img-wrapper{width:100% !important;height:420px !important;}.stk-b29d16b .stk-img-wrapper img{transform:scale(1.9) !important;object-fit:contain !important;}</style><figure><span class="stk-img-wrapper stk-image--shape-stretch"><img class="stk-img wp-image-6649" src="/media/mm-digital-digital-services-image.webp" width="100" height="420" alt="UX/UI design symbol"/></span></figure></div>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="6-why-does-it-matter-"><strong>Why Does it Matter?</strong></h3>
-
-<div class="wp-block-group alignwide ext-animate--on">
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">User experience has a direct impact on how customers perceive your brand and how effectively your digital platforms convert visitors into enquiries or sales.</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">When implemented effectively, AI Poor design can lead to frustration, reduced engagement and lost opportunities. In contrast, intuitive UX and UI design increases user satisfaction and encourages deeper interaction with your business.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="7-key-social-media-insights-"><strong>Key Social Media Insights</strong></h3>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Over <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">80%</mark> of businesses are expected to use AI-powered tools within their marketing operations by 2026, highlighting the growing role of intelligent automation in modern marketing. Companies that adopt AI-driven marketing see up to a <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">40% increase</mark> in productivity, allowing teams to focus on strategic work rather than repetitive tasks. AI-powered personalisation can increase customer engagement rates by <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">more than 30%</mark>, significantly improving marketing performance.<br><br><br></p>
-
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-459c84b ext-animate--on" data-block-id="459c84b"><div class="stk-row stk-inner-blocks has-text-align-center stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button ext-animate--on stk-block stk-fcc7840" data-block-id="fcc7840"><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="/get-in-touch/"><span class="stk-button__inner-text"><strong>Get in Touch</strong></span></a></div>
-</div></div>
-</div>
-</div>
-
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<figure class="wp-block-image alignfull size-full ext-animate--on" id="paid-media"><img width="6912" height="3456" src="/media/mm-digital-digital-services-image-6bad0ae.webp" alt="Paid Media" class="wp-image-6650"/></figure>
-
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<div class="wp-block-group alignwide ext-animate--on">
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Paid media is one of the most effective ways to generate visibility, drive traffic and deliver measurable results. At MM Digital, we design and manage targeted advertising campaigns aligned with your marketing objectives. Through detailed audience research, strategic campaign structure and ongoing optimisation, we ensure your ads reach the right audience and deliver a strong return on investment. <strong>Our paid media services can include:</strong> • Google Ads campaign management • Social media advertising campaigns • Audience targeting and segmentation• Conversion tracking and analytics integration • Landing page optimisation • Ongoing campaign testing and performance optimisation</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">When managed strategically, paid media can generate high-quality leads, increase brand visibility and support scalable business growth.</p>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
-<div class="wp-block-stackable-image alignfull stk-block-image stk-block stk-4bc8a42 ext-animate--on" data-block-id="4bc8a42"><style>.stk-4bc8a42 .stk-img-wrapper{width:100% !important;height:420px !important;}.stk-4bc8a42 .stk-img-wrapper img{transform:scale(0.9) !important;object-fit:contain !important;}</style><figure><span class="stk-img-wrapper stk-image--shape-stretch"><img class="stk-img wp-image-6651" src="/media/mm-digital-digital-services-image-6bfd4f3.webp" width="2560" height="1280" alt="Paid media performance statistics including leads generated, ROAS and click-through rate"/></span></figure></div>
-
-<p class="has-text-align-center ext-animate--on has-libre-baskerville-font-family has-large-font-size"><strong>Why Does It Matter?</strong></p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Paid advertising allows businesses to reach potential customers precisely when they are searching for products or services. Unlike many other marketing channels, paid media provides immediate visibility and measurable results.</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">A well-structured campaign ensures advertising budgets are invested efficiently while delivering consistent lead generation.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="8-key-paid-media-insights-"><strong>Key Paid Media Insights</strong></h3>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Businesses earn an average of £2 for every £1 spent on Google Ads, demonstrating the strong return potential of well-managed campaigns. Paid search visitors are <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">50% more</mark> likely to convert than organic visitors, highlighting the power of targeted advertising. <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">Over 65%</mark> of high-intent searches result in an ad click, making paid media one of the most effective ways to capture active demand.<br><br><br></p>
-
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-f3a14f5 ext-animate--on" data-block-id="f3a14f5"><div class="stk-row stk-inner-blocks has-text-align-center stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button ext-animate--on stk-block stk-2474ad9" data-block-id="2474ad9"><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="/get-in-touch/"><span class="stk-button__inner-text"><strong>Get in Touch</strong></span></a></div>
-</div></div>
-</div>
-
-<div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<figure class="wp-block-image alignfull size-full ext-animate--on" id="analytics"><img width="6912" height="3456" src="/media/mm-digital-digital-services-image-e911af5.webp" alt="Analytics" class="wp-image-6652"/></figure>
-
-<div class="wp-block-group alignwide ext-animate--on">
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Data is at the heart of effective digital marketing. At MM Digital, we implement advanced analytics systems that track and analyse performance across your digital channels. Rather than simply collecting metrics, we translate data into clear insights that help you understand what’s working, identify opportunities and make smarter marketing decisions. <strong>Our analytics services can include:</strong> • Google Analytics and tracking setup • Conversion tracking and attribution modelling • Performance dashboards and reporting • Customer behaviour analysis • Campaign performance insights • Data-driven optimisation strategies</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">By understanding how users interact with your digital platforms, businesses can refine their marketing strategies and achieve significantly better outcomes.</p>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
-<div class="wp-block-stackable-image alignfull stk-block-image stk-block stk-4eb85d4 ext-animate--on" data-block-id="4eb85d4"><style>.stk-4eb85d4 .stk-img-wrapper{width:100% !important;height:420px !important;}.stk-4eb85d4 .stk-img-wrapper img{transform:scale(1.2) !important;object-fit:contain !important;}</style><figure><span class="stk-img-wrapper stk-image--shape-stretch"><img class="stk-img wp-image-5913" src="/media/mm-digital-analytics-pink.webp" width="100" height="420" alt="Upward trending line graph representing analytics growth"/></span></figure></div>
-
-<p class="has-text-align-center ext-animate--on has-libre-baskerville-font-family has-large-font-size"><strong>Why Does It Matter?</strong></p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Many businesses invest heavily in marketing but lack the systems needed to properly measure performance. Without reliable data, decisions are often based on assumptions rather than evidence.</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Strong analytics frameworks allow organisations to identify what is generating results and focus investment on the strategies that deliver the greatest impact.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="9-key-paid-media-insights-"><strong>Key Paid Media Insights</strong></h3>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Companies that use data-driven marketing strategies are six times more likely to achieve profitable growth. Businesses that actively analyse marketing data can improve campaign performance by <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">over 20%</mark>. <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">Over 60%</mark> of organisations say data analytics significantly improves decision-making and strategic planning.<br><br><br></p>
-
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-bb4eeac ext-animate--on" data-block-id="bb4eeac"><div class="stk-row stk-inner-blocks has-text-align-center stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button ext-animate--on stk-block stk-fc3f760" data-block-id="fc3f760"><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="/get-in-touch/"><span class="stk-button__inner-text"><strong>Get in Touch</strong></span></a></div>
-</div></div>
-</div>
-
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<figure class="wp-block-image alignfull size-full ext-animate--on" id="seo-and-cro"><img width="2560" height="1280" src="/media/mm-digital-seo-and-cro.webp" alt="SEO & CRO" class="wp-image-3573"/></figure>
-
-<div class="wp-block-group alignwide ext-animate--on">
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Search engines remain one of the most important channels for attracting high-quality traffic. At MM Digital, our SEO and CRO services focus on increasing your visibility in search results while ensuring that website visitors convert into enquiries and customers. By improving your site’s technical structure, content relevance and user journey, we help your business attract the right audience and turn traffic into measurable results. <strong>Our SEO and CRO services include:</strong> • Technical SEO optimisation • Keyword research and content strategy • On-page SEO improvements • Website performance and structure optimisation • Conversion rate optimisation • Landing page performance improvements • Ongoing search performance monitoring</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">The result is increased visibility, stronger website engagement and higher conversion rates.</p>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
-<div class="wp-block-stackable-image alignfull stk-block-image stk-block stk-4e6152c ext-animate--on" data-block-id="4e6152c"><style>.stk-4e6152c .stk-img-wrapper{width:100% !important;height:420px !important;}.stk-4e6152c .stk-img-wrapper img{transform:scale(2.2) !important;object-fit:contain !important;}</style><figure><span class="stk-img-wrapper stk-image--shape-stretch"><img class="stk-img wp-image-3575" src="/media/mm-digital-link.webp" width="2560" height="1280" alt="Search and hyperlink icon representing SEO backlinks"/></span></figure></div>
-
-<p class="has-text-align-center ext-animate--on has-libre-baskerville-font-family has-large-font-size"><strong>Why Does It Matter?</strong></p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Search engines are often the primary way potential customers discover businesses online. If your website is not visible in search results, valuable opportunities are lost to competitors.</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">At the same time, attracting traffic is only part of the equation. Converting that traffic into enquiries or sales is equally important.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="10-key-seo-insights-"><strong>Key SEO and CRO Insights</strong></h3>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Over <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">90%</mark> of online experiences begin with a search engine, making search visibility critical for business discovery. The first page of Google captures over <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">70%</mark> of all search traffic, meaning ranking position significantly impacts website performance. Businesses that optimise their websites for conversion can increase leads by over <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">200%</mark>, demonstrating the value of CRO alongside SEO.<br><br><br></p>
-
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-8be2011 ext-animate--on" data-block-id="8be2011"><div class="stk-row stk-inner-blocks has-text-align-center stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button ext-animate--on stk-block stk-b420da1" data-block-id="b420da1"><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="/get-in-touch/"><span class="stk-button__inner-text"><strong>Get in Touch</strong></span></a></div>
-</div></div>
-</div>
-
-<div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<figure class="wp-block-image alignfull size-full ext-animate--on" id="graphic-design"><img width="2560" height="1280" src="/media/mm-digital-graphic-design.webp" alt="Graphic Design" class="wp-image-3578"/></figure>
-
-<div class="wp-block-group alignwide ext-animate--on">
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Graphic design plays a key role in how your brand communicates visually with its audience. At MM Digital, we create clear, impactful designs that strengthen brand identity and support your marketing objectives. By understanding your brand, audience and messaging, we produce visual assets that remain consistent, professional and aligned with your wider marketing strategy. <strong>Our graphic design services may include:</strong> • Marketing and campaign graphics • Social media visual content • Digital advertising creatives • Presentation and pitch deck design • Print materials and marketing collateral • Infographics and visual storytelling • Brand asset creation and visual systems</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">By combining creativity with strategic thinking, we ensure that your visual communication strengthens your brand and enhances the effectiveness of your marketing activity.</p>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
-<div class="wp-block-stackable-image alignfull stk-block-image stk-block stk-e09f952 ext-animate--on" data-block-id="e09f952"><style>.stk-e09f952 .stk-img-wrapper{width:100% !important;height:420px !important;}.stk-e09f952 .stk-img-wrapper img{transform:scale(1.2) !important;object-fit:contain !important;}</style><figure><span class="stk-img-wrapper stk-image--shape-stretch"><img class="stk-img wp-image-6657" src="/media/mm-digital-digital-services-image-113bbe4.webp" width="2560" height="1280" alt="Colourful paint splatter graphic representing creative design"/></span></figure></div>
-
-<p class="has-text-align-center ext-animate--on has-libre-baskerville-font-family has-large-font-size"><strong>Why Does It Matter?</strong></p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">In a digital world where audiences are constantly exposed to content, strong visual communication is essential for capturing attention and conveying your message effectively.</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Professional graphic design allows businesses to present themselves with clarity and consistency, ensuring that their brand stands out in competitive markets while reinforcing credibility and professionalism.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="11-key-seo-insights-"><strong>Key SEO Insights</strong></h3>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Visual content is processed by the brain <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">60,000</mark> times faster than text, making strong visual communication critical for engagement. Brands that maintain consistent visual presentation across channels can increase revenue by up to <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">23%</mark>. Businesses that optimPosts with high-quality visuals generate up to <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">650%</mark> higher engagement than text-only content, highlighting the importance of strong design within digital marketing.<br><br><br></p>
-
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-6dd195b ext-animate--on" data-block-id="6dd195b"><div class="stk-row stk-inner-blocks has-text-align-center stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button ext-animate--on stk-block stk-205bdbd" data-block-id="205bdbd"><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="/get-in-touch/"><span class="stk-button__inner-text"><strong>Get in Touch</strong></span></a></div>
-</div></div>
-</div>
-
-<div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<figure class="wp-block-image alignfull size-full ext-animate--on" id="branding"><img width="2560" height="1280" src="/media/mm-digital-branding.webp" alt="Branding" class="wp-image-3580"/></figure>
-
-<div class="wp-block-group alignwide ext-animate--on">
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">A strong brand is one of the most valuable assets a business can have. At MM Digital, we create distinctive brand identities that communicate professionalism, credibility and clarity. Our branding process defines the visual identity, messaging and tone of your business, ensuring every element works together to create a consistent and recognisable presence across all platforms. <strong>Our branding services may include:</strong> • Logo design and visual identity development • Brand strategy and positioning • Colour palettes and typography systems • Brand guidelines and visual standards • Messaging and tone of voice development • Brand asset creation for digital and print • Full brand identity packages</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">The result is a clear and professional brand identity that strengthens recognition, builds trust and supports long-term marketing success.</p>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
-<div class="wp-block-stackable-image alignfull stk-block-image stk-block stk-8537863 ext-animate--on" data-block-id="8537863"><style>.stk-8537863 .stk-img-wrapper{width:100% !important;height:420px !important;}.stk-8537863 .stk-img-wrapper img{transform:scale(1.2) !important;object-fit:contain !important;}</style><figure><span class="stk-img-wrapper stk-image--shape-stretch"><img class="stk-img wp-image-6662" src="/media/branding.webp" width="100" height="420" alt="Logos of MM Digital client brands including Waldrons Patisserie, Aspects of Oak, Oriels, Jimbo's Assumption, Vaala and SDR"/></span></figure></div>
-
-<p class="has-text-align-center ext-animate--on has-libre-baskerville-font-family has-large-font-size"><strong>Why Does It Matter?</strong></p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">A well-defined brand helps customers understand who you are, what you offer and why they should choose your business over competitors. Strong branding builds familiarity and trust, which are critical factors in customer decision-making.</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Without a clear brand identity, businesses risk appearing inconsistent or unprofessional, making it harder to establish credibility and stand out in competitive markets.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="12-key-seo-insights-"><strong>Key Branding Insights</strong></h3>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Consistent branding across all platforms can increase revenue by up to <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">23%</mark>, highlighting the commercial value of strong brand identity. <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">77%</mark> of consumers make purchasing decisions based on brand recognition, demonstrating how powerful strong branding can be. Businesses with clearly defined brands are significantly more likely to build long-term customer loyalty and trust.<br><br><br></p>
-
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-9f0c1ce ext-animate--on" data-block-id="9f0c1ce"><div class="stk-row stk-inner-blocks has-text-align-center stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button ext-animate--on stk-block stk-a70a7c7" data-block-id="a70a7c7"><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="/get-in-touch/"><span class="stk-button__inner-text"><strong>Get in Touch</strong></span></a></div>
-</div></div>
-</div>
-
-<figure class="wp-block-image alignfull size-full ext-animate--on" id="email-marketing"><img width="6912" height="3456" src="/media/email-marketing.webp" alt="Email Marketing" class="wp-image-6664"/></figure>
-
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<div class="wp-block-group alignwide ext-animate--on">
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Email marketing remains one of the most direct and cost effective ways to reach your audience, nurture leads and drive repeat business. At MM Digital, we design and manage email campaigns that combine strong creative with strategic sending, ensuring every message reaches the right inbox at the right time. Our approach goes beyond simply sending newsletters, we build structured campaigns that guide subscribers through a clear journey from first contact to conversion. <strong>Our email marketing services can include:</strong> • Email strategy and campaign planning • List building and audience segmentation • Newsletter design and content creation • Automated email sequences and nurture flows • A/B testing and subject line optimisation • Performance tracking and reporting • Platform setup and management (Mailchimp, Klaviyo and others)</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">When managed strategically, email marketing becomes one of the highest return channels available, keeping your business front of mind and turning subscribers into customers.</p>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
-<div class="wp-block-group ext-animate--on">
-<div class="wp-block-stackable-image alignfull stk-block-image stk-block stk-7714e34 ext-animate--on" data-block-id="7714e34"><style>.stk-7714e34 .stk-img-wrapper{width:100% !important;height:420px !important;}.stk-7714e34 .stk-img-wrapper img{transform:scale(1.4) !important;object-fit:contain !important;}</style><figure><span class="stk-img-wrapper stk-image--shape-stretch"><img class="stk-img wp-image-6663" src="/media/email-marketing-2.webp" width="100" height="420" alt="Colourful envelope icons representing email marketing campaigns"/></span></figure></div>
-</div>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
-<p class="has-text-align-center ext-animate--on has-libre-baskerville-font-family has-large-font-size"><strong>Why Does It Matter?</strong></p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Email remains one of the few channels where businesses own their audience outright rather than relying on a platform algorithm. A well managed list is a direct line to customers and prospects who have already shown interest in your business. Consistent, well crafted email marketing builds trust over time, keeps your brand visible between purchases and gives businesses a reliable way to drive repeat revenue without ongoing ad spend.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="1-key-digital-strategy-insights-"><strong>Key Email Marketing Insights</strong></h3>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Email marketing delivers an average return of <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">£36</mark> for every <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">£1</mark> spent, making it one of the most cost effective channels available. Segmented email campaigns generate over <strong>760%</strong> more revenue than non segmented campaigns, highlighting the value of targeted messaging. <strong>Over <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">60%</mark></strong> of consumers say they have made a purchase as a direct result of a marketing email, demonstrating its continued influence on buying decisions.</p>
-
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-944b940 ext-animate--on" data-block-id="944b940"><div class="stk-row stk-inner-blocks has-text-align-center stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button ext-animate--on stk-block stk-d79f216" data-block-id="d79f216"><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="/get-in-touch/"><span class="stk-button__inner-text"><strong>Get in Touch</strong></span></a></div>
-</div></div>
-</div>
-
-<figure class="wp-block-image alignfull size-full ext-animate--on" id="linkedin-outreach"><img width="6912" height="3456" src="/media/mm-digital-digital-services-image-6729a66.webp" alt="LinkedIn Outreach & Lead Generation" class="wp-image-6669"/></figure>
-
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<div class="wp-block-group alignwide ext-animate--on">
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">LinkedIn has become one of the most valuable platforms for reaching decision makers, generating qualified leads and building genuine business relationships. At MM Digital, we run structured outreach campaigns that combine targeted prospecting with personal, human led messaging, connecting your business directly with the people most likely to become customers or referral partners. Our approach prioritises real conversations over automated spam, ensuring every connection made supports long term relationship building. <strong>Our LinkedIn outreach and lead generation services can include:</strong> • LinkedIn company page management and optimisation • Targeted prospect research by job title, sector and location • Manual connection and messaging campaigns • Thought leadership content and positioning • LinkedIn paid lead generation campaigns • Pipeline tracking and reporting • Profile optimisation for key decision makers</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">When managed correctly, LinkedIn becomes a consistent source of qualified leads, opening doors to conversations that would be far harder to start through any other channel.</p>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
-<div class="wp-block-group ext-animate--on">
-<div class="wp-block-stackable-image alignfull stk-block-image stk-block stk-7714e34 ext-animate--on" data-block-id="7714e34"><style>.stk-7714e34 .stk-img-wrapper{width:100% !important;height:420px !important;}.stk-7714e34 .stk-img-wrapper img{transform:scale(1.4) !important;object-fit:contain !important;}</style><figure><span class="stk-img-wrapper stk-image--shape-stretch"><img class="stk-img wp-image-6666" src="/media/mm-digital-digital-services-image-2a3f1bd.webp" width="100" height="420" alt="Network graphic connecting people icons, representing LinkedIn outreach"/></span></figure></div>
-</div>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
-<p class="has-text-align-center ext-animate--on has-libre-baskerville-font-family has-large-font-size"><strong>Why Does It Matter?</strong></p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">LinkedIn is where business decisions are made and where professionals actively look for partners, suppliers and solutions. Unlike cold outreach through other channels, LinkedIn allows businesses to engage prospects in a professional context where trust is easier to establish. A consistent, well managed LinkedIn presence positions a business as credible and active within its sector, while targeted outreach ensures marketing effort is spent reaching the people who matter most.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="1-key-digital-strategy-insights-"><strong>Key LinkedIn Insights</strong></h3>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size"><strong><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">Over 80%</mark></strong> of B2B leads generated through social media come from LinkedIn, making it the dominant platform for business focused outreach. LinkedIn users have <strong>two times</strong> the buying power of the average web audience, highlighting the quality of the platform's user base. Businesses that post consistently on LinkedIn see <strong><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">5 times</mark></strong> more profile views, significantly increasing visibility among target decision makers.</p>
-
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-944b940 ext-animate--on" data-block-id="944b940"><div class="stk-row stk-inner-blocks has-text-align-center stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button ext-animate--on stk-block stk-d79f216" data-block-id="d79f216"><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="/get-in-touch/"><span class="stk-button__inner-text"><strong>Get in Touch</strong></span></a></div>
-</div></div>
-</div>
-
-<figure class="wp-block-image alignfull size-large ext-animate--on" id="app-design"><img width="1024" height="512" src="/media/app-design.webp" alt="App Design & App Store Optimisation" class="wp-image-6673"/></figure>
-
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<div class="wp-block-group alignwide ext-animate--on">
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">A well designed app can transform how customers interact with your business, offering convenience, engagement and a direct line of communication that a website alone cannot provide. At MM Digital, we design and optimise mobile apps that combine strong user experience with technical performance, ensuring every screen serves a clear purpose. Alongside design, we manage app store optimisation to ensure your app is found by the right audience and converts downloads into active users. <strong>Our app design and ASO services can include:</strong> • Custom app design tailored to your brand • User journey mapping and wireframing • iOS and Android interface design • App store listing optimisation (keywords, screenshots, descriptions) • Conversion focused onboarding flows • Performance monitoring and user feedback analysis • Ongoing updates and feature planning</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">The result is an app that not only looks professional but is built to be discovered, downloaded and used.</p>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
-<div class="wp-block-group ext-animate--on">
-<div class="wp-block-stackable-image alignfull stk-block-image stk-block stk-7714e34 ext-animate--on" data-block-id="7714e34"><style>.stk-7714e34 .stk-img-wrapper{width:100% !important;height:420px !important;}.stk-7714e34 .stk-img-wrapper img{transform:scale(1.4) !important;object-fit:contain !important;}</style><figure><span class="stk-img-wrapper stk-image--shape-stretch"><img class="stk-img wp-image-6668" src="/media/mm-digital-digital-services-image-3845a84.webp" width="2560" height="1280" alt="App design wireframe icons alongside the App Store logo"/></span></figure></div>
-</div>
-
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
-<p class="has-text-align-center ext-animate--on has-libre-baskerville-font-family has-large-font-size"><strong>Why Does It Matter?</strong></p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">With millions of apps competing for attention, strong design and visibility are equally important. A poorly designed app leads to uninstalls and lost trust, while a poorly optimised listing means even a great app may never be found. Combining thoughtful design with strategic app store optimisation ensures businesses capture downloads, retain users and turn their app into a genuine growth channel rather than a forgotten download.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="1-key-digital-strategy-insights-"><strong>Key App Design &amp; ASO Insights</strong></h3>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size"><strong><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">Over 90%</mark></strong> of time spent on mobile devices is within apps rather than mobile browsers, highlighting the importance of a strong app presence. Apps with optimised store listings see up to <strong><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">30% more</mark></strong> organic downloads compared to unoptimised listings. <strong><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color">Over 70%</mark></strong> of users abandon an app permanently after a single negative experience, demonstrating why strong UX design is critical to retention.</p>
-
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-944b940 ext-animate--on" data-block-id="944b940"><div class="stk-row stk-inner-blocks has-text-align-center stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button ext-animate--on stk-block stk-d79f216" data-block-id="d79f216"><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="/get-in-touch/"><span class="stk-button__inner-text"><strong>Get in Touch</strong></span></a></div>
-</div></div>
-</div>
-
-<p class="ext-animate--on"></p>

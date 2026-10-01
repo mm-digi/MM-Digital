@@ -468,52 +468,63 @@ export default function WpChrome({
       });
     });
 
-    // Digital Services: the slim service bar slides in once the tile grid has
-    // scrolled away, lights up the service currently being read, and tucks
-    // itself away again when the services end.
+    // Digital Services: choosing a service swaps the card. The slim bar
+    // slides in once the permanent row has scrolled away.
     document.querySelectorAll(".mds-bar").forEach((bar) => {
-      const tiles = document.querySelector(".mds-tiles");
+      const switcher = document.querySelector(".mds-switch") as HTMLElement | null;
+      const row = document.querySelector(".mds-switch-inner") as HTMLElement | null;
       const inner = bar.querySelector(".mds-bar-inner") as HTMLElement | null;
-      const chips = [...bar.querySelectorAll(".mds-chip")] as HTMLAnchorElement[];
-      const targets = chips.map((chip) => document.querySelector(chip.hash));
+      const chips = [...bar.querySelectorAll(".mds-chip")] as HTMLElement[];
+      const radios = [...document.querySelectorAll('input[name="mds-svc"]')] as HTMLInputElement[];
+      const nodes = [...document.querySelectorAll(".mds-node")];
       const footer = document.querySelector("footer");
-      let active = -1;
       let frame = 0;
+      const selected = () => radios.findIndex((radio) => radio.checked);
+      const center = (scroller: HTMLElement | null, chip: HTMLElement | undefined) => {
+        if (!scroller || !chip) return;
+        scroller.scrollTo({
+          left: chip.offsetLeft - (scroller.clientWidth - chip.offsetWidth) / 2,
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        });
+      };
+      const mark = () => {
+        const index = selected();
+        nodes.forEach((node, i) => node.classList.toggle("is-selected", i === index));
+        center(inner, chips[index]);
+        center(row, row?.querySelector(`label[for="mds-s-${index}"]`) as HTMLElement | null);
+      };
       const update = () => {
         frame = 0;
-        const pastTiles = !tiles || tiles.getBoundingClientRect().bottom < 0;
+        const pastSwitcher = !switcher || switcher.getBoundingClientRect().bottom < 8;
         const beforeEnd = !footer || footer.getBoundingClientRect().top > window.innerHeight * 0.6;
-        bar.classList.toggle("is-on", pastTiles && beforeEnd);
-        // The service whose banner most recently passed the upper third of the screen
-        let current = -1;
-        let best = -Infinity;
-        targets.forEach((el, i) => {
-          const top = el ? el.getBoundingClientRect().top : Infinity;
-          if (top < window.innerHeight * 0.35 && top > best) {
-            best = top;
-            current = i;
-          }
-        });
-        if (current !== active) {
-          chips[active]?.classList.remove("is-active");
-          active = current;
-          const chip = chips[active];
-          if (chip && inner) {
-            chip.classList.add("is-active");
-            inner.scrollTo({
-              left: chip.offsetLeft - (inner.clientWidth - chip.offsetWidth) / 2,
-              behavior: "smooth",
-            });
-          }
+        const on = pastSwitcher && beforeEnd;
+        const was = bar.classList.contains("is-on");
+        bar.classList.toggle("is-on", on);
+        if (on && !was) mark();
+      };
+      const onPick = (event: Event) => {
+        const radio = event.target as HTMLInputElement;
+        if (!radio.checked) return;
+        mark();
+        if (!switcher) return;
+        const rect = switcher.getBoundingClientRect();
+        if (rect.top < 72 || rect.bottom > window.innerHeight * 0.45) {
+          switcher.scrollIntoView({
+            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+            block: "start",
+          });
         }
       };
+      radios.forEach((radio) => radio.addEventListener("change", onPick));
       const onScroll = () => {
         if (!frame) frame = requestAnimationFrame(update);
       };
       window.addEventListener("scroll", onScroll, { passive: true });
       window.addEventListener("resize", onScroll);
+      mark();
       update();
       sliders.push(() => {
+        radios.forEach((radio) => radio.removeEventListener("change", onPick));
         window.removeEventListener("scroll", onScroll);
         window.removeEventListener("resize", onScroll);
         if (frame) cancelAnimationFrame(frame);
