@@ -990,3 +990,9 @@ iframe.mm-live-report-frame,
 .stk-7a717f7 .stk-button .stk--svg-wrapper svg {
   margin: 0 !important;
 }
+
+/* Brand body font everywhere. The WordPress theme default (Inter) and an old login plugin rule
+   (Montserrat) both named fonts that are never loaded, so text was falling back to Arial. */
+body {
+  font-family: "Glacial Indifference", Arial, Helvetica, sans-serif;
+}

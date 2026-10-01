@@ -1611,12 +1611,7 @@ h1,
 }
 
 .tml,
-.tml *,
-p,
-label,
-input,
-button,
-a {
+.tml * {
   font-family: 'Montserrat', sans-serif !important;
 }
 
