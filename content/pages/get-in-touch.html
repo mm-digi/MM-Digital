@@ -170,7 +170,7 @@
 
 <div class="mm-contact-columns wp-block-columns alignwide ext-animate--on has-foreground-color has-background-background-color has-text-color has-background has-link-color wp-elements-1 is-layout-flex wp-container-core-columns-is-layout-933f8d37 wp-block-columns-is-layout-flex" style="border-style:none;border-width:0px;padding-right:var(--wp--preset--spacing--55);padding-left:var(--wp--preset--spacing--55)">
 <div class="wp-block-column ext-animate--on is-layout-flow wp-block-column-is-layout-flow" style="padding-right:var(--wp--preset--spacing--40);padding-left:var(--wp--preset--spacing--40)">
-<h1 class="wp-block-heading has-text-align-center ext-animate--on has-foreground-color has-text-color has-link-color has-libre-baskerville-font-family wp-elements-2" id="contact-us">Get in Touch</h1>
+<h2 class="wp-block-heading has-text-align-center ext-animate--on has-foreground-color has-text-color has-link-color has-libre-baskerville-font-family wp-elements-2" id="contact-us">Get in Touch</h2>
 
 
 
@@ -433,179 +433,118 @@
 
 
 <div style="height:40px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-
-
-<div class="wp-block-group alignfull ext-animate--on has-global-padding is-layout-constrained wp-container-core-group-is-layout-feb115e8 wp-block-group-is-layout-constrained">
-<section class="mm-faq-intro-section">
-  <div class="mm-faq-intro-wrap">
-
-    <div class="mm-faq-intro">
-      <span class="mm-faq-eyebrow">Contact Us</span>
-
-      <h1>FAQs and Not So FAQs</h1>
-
-      <p class="mm-faq-subtitle">Any Questions?</p>
+<style>
+.mmf { --mm-pink: #ff808b; padding: 90px 0; color: #fff; }
+.mmf * { box-sizing: border-box; }
+.mmf-wrap { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+.mmf-head { max-width: 760px; margin: 0 auto 52px; text-align: center; }
+.mmf-eyebrow { display: block; margin-bottom: 14px; font-family: "Glacial Indifference", Arial, sans-serif; font-size: .85rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--mm-pink); }
+.mmf h2 { margin: 0 0 12px; font-family: "Libre Baskerville", Georgia, serif; font-size: clamp(1.9rem, 3.6vw, 3.4rem); line-height: 1.1; color: #fff; }
+.mmf h2 .mm-line { display: block; }
+.mmf h2 .mm-line-pink { color: #ff808b !important; }
+.mmf-sub { margin: 0; font-family: "Glacial Indifference", Arial, sans-serif; font-size: 1.15rem; color: #cfcfcf; }
+.mmf-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.mmf-col-title { margin: 0 0 16px; font-family: "Libre Baskerville", Georgia, serif; font-size: 1.5rem; color: #fff; }
+.mmf-list { display: grid; gap: 12px; }
+.mmf-item { border: 1px solid rgba(255,255,255,.12); border-radius: 20px; background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)); transition: border-color .25s ease, background .25s ease; }
+.mmf-item:hover { border-color: rgba(255,128,139,.45); }
+.mmf-item[open] { border-color: rgba(255,128,139,.6); background: linear-gradient(180deg, rgba(255,128,139,.08), rgba(255,255,255,.015)); }
+.mmf-item summary { position: relative; display: block; padding: 20px 64px 20px 24px; cursor: pointer; list-style: none; font-family: "Libre Baskerville", Georgia, serif; font-size: 1.08rem; line-height: 1.4; color: #fff; }
+.mmf-item summary::-webkit-details-marker { display: none; }
+.mmf-item summary:focus:not(:focus-visible) { outline: none; }
+.mmf-item summary::before, .mmf-item summary::after { content: ""; position: absolute; right: 26px; top: 50%; width: 14px; height: 2px; border-radius: 2px; background: var(--mm-pink); transition: transform .25s ease; }
+.mmf-item summary::after { transform: rotate(90deg); }
+.mmf-item[open] summary::after { transform: rotate(0deg); }
+.mmf-answer { padding: 0 24px 22px; font-family: "Glacial Indifference", Arial, sans-serif; font-size: 1rem; line-height: 1.65; color: #d6d6d6; }
+.mmf-answer p { margin: 0 0 10px; }
+.mmf-answer p:last-child { margin-bottom: 0; }
+.mmf-fun { position: sticky; top: 24px; padding: 28px; border: 1px solid rgba(255,128,139,.35); border-radius: 28px; background: radial-gradient(ellipse 80% 60% at 100% 0%, rgba(255,128,139,.22), transparent 70%), rgba(255,255,255,.02); }
+.mmf-fun .mmf-col-title { margin-bottom: 6px; }
+.mmf-fun-note { margin: 0 0 18px; font-family: "Glacial Indifference", Arial, sans-serif; color: #cfcfcf; }
+.mmf-fun .mmf-item { background: rgba(0,0,0,.35); }
+@media (max-width: 960px) { .mmf-grid { grid-template-columns: minmax(0, 1fr); } .mmf-fun { position: static; } }
+@media (max-width: 640px) { .mmf { padding: 60px 0; } .mmf-wrap { padding: 0 18px; } .mmf-item summary { padding: 18px 54px 18px 18px; font-size: 1rem; } .mmf-answer { padding: 0 18px 18px; } .mmf-item summary::before, .mmf-item summary::after { right: 20px; } }
+</style>
+<section class="mmf" aria-labelledby="mmf-title">
+  <div class="mmf-wrap">
+    <div class="mmf-head">
+      <span class="mmf-eyebrow">Contact Us</span>
+      <h2 id="mmf-title"><span class="mm-line">FAQs and</span><span class="mm-line mm-line-pink">Not So FAQs</span></h2>
+      <p class="mmf-sub">Any Questions?</p>
     </div>
-
+    <div class="mmf-grid">
+      <div>
+      <h3 class="mmf-col-title">FAQs</h3>
+      <div class="mmf-list">
+        <details class="mmf-item">
+          <summary>What services does MM Digital offer?</summary>
+          <div class="mmf-answer"><p>We provide a full suite of digital marketing and creative services designed to deliver structured, measurable growth.<br> <br>Our services include:<br>Website design &amp; development<br>Branding &amp; brand strategy<br>SEO<br>Social media management<br>Content creation<br>PPC advertising<br>Email marketing<br>Full marketing retainers<br> <br>We build end-to-end solutions, not isolated tactics, ensuring every channel works together to support your commercial objectives.</p></div>
+        </details>
+        <details class="mmf-item">
+          <summary>What industries do you work with?</summary>
+          <div class="mmf-answer"><p>We work across a wide range of industries, including retail, hospitality, property, tech, manufacturing, professional services and more.<br> <br>Our approach is adaptable and strategy-led, meaning we tailor campaigns to your specific audience, market position and growth targets.<br> <br>However, we do not work with businesses in the gambling, adult entertainment or industries that conflict with our ethical standards and values.</p></div>
+        </details>
+        <details class="mmf-item">
+          <summary>How do you approach a new project?</summary>
+          <div class="mmf-answer"><p>Every project begins with clarity.<br> <br>We take time to understand:<br>Your goals<br>Your audience<br>Your current performance<br>Your positioning within the market<br> <br>From there, we build a tailored strategy and roadmap. You remain involved at every key stage, from concept and design through to launch, optimisation and performance tracking.<br> <br>Our focus is not just on delivery, it’s on long-term impact.</p></div>
+        </details>
+        <details class="mmf-item">
+          <summary>Do you offer one-off projects or ongoing retainers?</summary>
+          <div class="mmf-answer"><p>Both.<br> <br>We deliver standalone projects such as branding and website builds.<br> <br>However, the strongest and most consistent results come from ongoing retainers, where strategy, execution and optimisation work together long-term.<br> <br>Marketing is not a short-term exercise, it is a structured growth system.</p></div>
+        </details>
+        <details class="mmf-item">
+          <summary>Do you offer ongoing support after a project is complete?</summary>
+          <div class="mmf-answer"><p>Yes.<br> <br>We offer ongoing website maintenance, marketing support and strategic retainers to ensure performance remains strong over time.<br> <br>Retainer clients benefit from continuous optimisation, proactive adjustments and uninterrupted campaign management, ensuring their digital presence remains competitive and effective.</p></div>
+        </details>
+        <details class="mmf-item">
+          <summary>Can you redesign my existing website?</summary>
+          <div class="mmf-answer"><p>Absolutely.<br> <br>We can refresh your existing website to improve design, user experience, conversion performance and technical structure, while maintaining or refining your existing brand identity.<br> <br>Our goal is not just to modernise appearance, but to improve performance.</p></div>
+        </details>
+        <details class="mmf-item">
+          <summary>Do you work with small businesses as well as large companies?</summary>
+          <div class="mmf-answer"><p>Yes.<br> <br>We work with ambitious businesses of all sizes, from start-ups building strong foundations to established brands looking to scale.<br> <br>What matters most is not company size, but clarity of intent and commitment to growth.</p></div>
+        </details>
+        <details class="mmf-item">
+          <summary>How much do your services cost?</summary>
+          <div class="mmf-answer"><p>Pricing depends on scope, objectives and scale.<br> <br>We provide transparent proposals with no hidden fees. During our discovery process, we outline what level of investment is required to realistically achieve your goals.<br> <br>We focus on value and return, not simply cost.</p></div>
+        </details>
+        <details class="mmf-item">
+          <summary>How quickly will we see results?</summary>
+          <div class="mmf-answer"><p>Results depend on the strategy and channel mix.<br> <br>Paid advertising can generate traction quickly when structured properly.<br>SEO, branding and authority-building are longer-term drivers.<br> <br>We set clear milestones and expectations from the outset, ensuring performance is measurable and aligned with commercial outcomes.</p></div>
+        </details>
+        <details class="mmf-item">
+          <summary>What makes MM Digital different from other agencies?</summary>
+          <div class="mmf-answer"><p>We combine creativity with data-driven strategy.<br> <br>Every campaign is built around:<br> <br>Clear commercial objectives<br>Measurable performance tracking<br>Intelligent use of AI<br>Structured growth systems<br>Strong brand positioning<br> <br>We are known for our personal approach, clear communication and commitment to quality, but ultimately, what sets us apart is structure and accountability.</p></div>
+        </details>
+      </div>
+      </div>
+      <aside class="mmf-fun">
+      <h3 class="mmf-col-title">Not So FAQs</h3>
+      <div class="mmf-list">
+        <details class="mmf-item">
+          <summary>If MM Digital were a dog breed, what would we be?</summary>
+          <div class="mmf-answer"><p>Border Collie energy.<br> <br>Focused. Strategic. Slightly obsessed with results.<br>High stamina. Very good at rounding up moving parts and turning chaos into structure.</p></div>
+        </details>
+        <details class="mmf-item">
+          <summary>What sport would MM Digital play?</summary>
+          <div class="mmf-answer"><p>Tennis.<br> <br>Fast-paced. Strategic. Requires positioning, timing and partnership.<br>It looks effortless when done well, but it’s all about smart decisions under pressure.<br> <br>Very similar to running campaigns, actually.</p></div>
+        </details>
+        <details class="mmf-item">
+          <summary>What do you do outside of marketing?</summary>
+          <div class="mmf-answer"><p>We switch off properly, which probably explains why we perform properly.<br> <br>Sport. Travel. Good food. Strong coffee.<br>And yes, probably still analysing branding in a restaurant without meaning to.</p></div>
+        </details>
+      </div>
+      </aside>
+    </div>
   </div>
 </section>
-
-<style>
-.mm-faq-intro-section {
-  padding: 90px 24px;
-  background: transparent;
-}
-
-.mm-faq-intro-wrap {
-  max-width: 1600px;
-  margin: auto;
-}
-
-/* LEFT STYLE MATCHING YOUR OTHER SECTIONS */
-.mm-faq-intro {
-  max-width: 580px;
-  padding-left: 28px;
-  border-left: 2px solid #ff808b;
-}
-
-.mm-faq-eyebrow {
-  font-size: 0.85rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #ff808b;
-  margin-bottom: 10px;
-  font-weight: 700;
-  display: block;
-  font-family: 'Glacial Indifference', Arial, sans-serif;
-}
-
-.mm-faq-intro h1 {
-  font-family: 'Libre Baskerville', Georgia, serif;
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
-  line-height: 1.05;
-  margin: 0 0 12px 0;
-  color: #ffffff;
-}
-
-.mm-faq-subtitle {
-  color: #cfcfcf;
-  font-size: 1.08rem;
-  line-height: 1.6;
-  font-family: 'Glacial Indifference', Arial, sans-serif;
-}
-
-/* MOBILE */
-@media (max-width: 640px) {
-  .mm-faq-intro-section {
-    padding: 70px 18px;
-  }
-}
-</style>
-</div>
-
-
-
-<h2 class="wp-block-heading alignwide has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="faqs">FAQs</h2>
-
-
-<div class="wp-block-uagb-faq uagb-faq__outer-wrap uagb-block-d8bec181 uagb-faq-icon-row uagb-faq-layout-accordion uagb-faq-expand-first-false uagb-faq-inactive-other-true uagb-faq__wrap uagb-buttons-layout-wrap uagb-faq-equal-height     ext-animate--on" data-faqtoggle="true" role="tablist"><div class="wp-block-uagb-faq-child uagb-faq-child__outer-wrap uagb-faq-item uagb-block-65702016 " role="tab" tabindex="0"><div class="uagb-faq-questions-button uagb-faq-questions">			<span class="uagb-icon uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
-							</span>
-						<span class="uagb-icon-active uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"></path></svg>
-							</span>
-			<span class="uagb-question"><strong>What services does MM Digital offer?</strong></span></div><div class="uagb-faq-content"><p>We provide a full suite of digital marketing and creative services designed to deliver structured, measurable growth.<br> <br>Our services include:<br>Website design &amp; development<br>Branding &amp; brand strategy<br>SEO<br>Social media management<br>Content creation<br>PPC advertising<br>Email marketing<br>Full marketing retainers<br> <br>We build end-to-end solutions, not isolated tactics, ensuring every channel works together to support your commercial objectives.</p></div></div><div class="wp-block-uagb-faq-child uagb-faq-child__outer-wrap uagb-faq-item uagb-block-7ef951be " role="tab" tabindex="0"><div class="uagb-faq-questions-button uagb-faq-questions">			<span class="uagb-icon uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
-							</span>
-						<span class="uagb-icon-active uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"></path></svg>
-							</span>
-			<span class="uagb-question"><strong>What industries do you work with?</strong></span></div><div class="uagb-faq-content"><p>We work across a wide range of industries, including retail, hospitality, property, tech, manufacturing, professional services and more.<br> <br>Our approach is adaptable and strategy-led, meaning we tailor campaigns to your specific audience, market position and growth targets.<br> <br>However, we do not work with businesses in the gambling, adult entertainment or industries that conflict with our ethical standards and values.</p></div></div><div class="wp-block-uagb-faq-child uagb-faq-child__outer-wrap uagb-faq-item uagb-block-c1c4a121 ext-animate--on" role="tab" tabindex="0"><div class="uagb-faq-questions-button uagb-faq-questions">			<span class="uagb-icon uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
-							</span>
-						<span class="uagb-icon-active uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"></path></svg>
-							</span>
-			<span class="uagb-question"><strong>How do you approach a new project?</strong></span></div><div class="uagb-faq-content"><p>Every project begins with clarity.<br> <br>We take time to understand:<br>Your goals<br>Your audience<br>Your current performance<br>Your positioning within the market<br> <br>From there, we build a tailored strategy and roadmap. You remain involved at every key stage, from concept and design through to launch, optimisation and performance tracking.<br> <br>Our focus is not just on delivery, it’s on long-term impact.</p></div></div><div class="wp-block-uagb-faq-child uagb-faq-child__outer-wrap uagb-faq-item uagb-block-80269363 ext-animate--on" role="tab" tabindex="0"><div class="uagb-faq-questions-button uagb-faq-questions">			<span class="uagb-icon uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
-							</span>
-						<span class="uagb-icon-active uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"></path></svg>
-							</span>
-			<span class="uagb-question"><strong><strong>Do you offer one-off projects or ongoing retainers?</strong></strong></span></div><div class="uagb-faq-content"><p>Both.<br> <br>We deliver standalone projects such as branding and website builds.<br> <br>However, the strongest and most consistent results come from ongoing retainers, where strategy, execution and optimisation work together long-term.<br> <br>Marketing is not a short-term exercise, it is a structured growth system.</p></div></div><div class="wp-block-uagb-faq-child uagb-faq-child__outer-wrap uagb-faq-item uagb-block-c069297a ext-animate--on" role="tab" tabindex="0"><div class="uagb-faq-questions-button uagb-faq-questions">			<span class="uagb-icon uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
-							</span>
-						<span class="uagb-icon-active uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"></path></svg>
-							</span>
-			<span class="uagb-question"><strong><strong><strong>Do you offer ongoing support after a project is complete?</strong></strong></strong></span></div><div class="uagb-faq-content"><p>Yes.<br> <br>We offer ongoing website maintenance, marketing support and strategic retainers to ensure performance remains strong over time.<br> <br>Retainer clients benefit from continuous optimisation, proactive adjustments and uninterrupted campaign management, ensuring their digital presence remains competitive and effective.</p></div></div><div class="wp-block-uagb-faq-child uagb-faq-child__outer-wrap uagb-faq-item uagb-block-3e3fe9c7 ext-animate--on" role="tab" tabindex="0"><div class="uagb-faq-questions-button uagb-faq-questions">			<span class="uagb-icon uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
-							</span>
-						<span class="uagb-icon-active uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"></path></svg>
-							</span>
-			<span class="uagb-question"><strong><strong><strong><strong>Can you redesign my existing website?</strong></strong></strong></strong></span></div><div class="uagb-faq-content"><p>Absolutely.<br> <br>We can refresh your existing website to improve design, user experience, conversion performance and technical structure, while maintaining or refining your existing brand identity.<br> <br>Our goal is not just to modernise appearance, but to improve performance.</p></div></div><div class="wp-block-uagb-faq-child uagb-faq-child__outer-wrap uagb-faq-item uagb-block-4a3d09f8 ext-animate--on" role="tab" tabindex="0"><div class="uagb-faq-questions-button uagb-faq-questions">			<span class="uagb-icon uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
-							</span>
-						<span class="uagb-icon-active uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"></path></svg>
-							</span>
-			<span class="uagb-question"><strong><strong><strong><strong><strong>Do you work with small businesses as well as large companies?</strong></strong></strong></strong></strong></span></div><div class="uagb-faq-content"><p>Yes.<br> <br>We work with ambitious businesses of all sizes, from start-ups building strong foundations to established brands looking to scale.<br> <br>What matters most is not company size, but clarity of intent and commitment to growth.</p></div></div><div class="wp-block-uagb-faq-child uagb-faq-child__outer-wrap uagb-faq-item uagb-block-be7d277e ext-animate--on" role="tab" tabindex="0"><div class="uagb-faq-questions-button uagb-faq-questions">			<span class="uagb-icon uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
-							</span>
-						<span class="uagb-icon-active uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"></path></svg>
-							</span>
-			<span class="uagb-question"><strong><strong><strong><strong><strong><strong>How much do your services cost?</strong></strong></strong></strong></strong></strong></span></div><div class="uagb-faq-content"><p>Pricing depends on scope, objectives and scale.<br> <br>We provide transparent proposals with no hidden fees. During our discovery process, we outline what level of investment is required to realistically achieve your goals.<br> <br>We focus on value and return, not simply cost.</p></div></div><div class="wp-block-uagb-faq-child uagb-faq-child__outer-wrap uagb-faq-item uagb-block-eef035e8 ext-animate--on" role="tab" tabindex="0"><div class="uagb-faq-questions-button uagb-faq-questions">			<span class="uagb-icon uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
-							</span>
-						<span class="uagb-icon-active uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"></path></svg>
-							</span>
-			<span class="uagb-question"><strong><strong><strong><strong><strong><strong><strong>How quickly will we see results?</strong></strong></strong></strong></strong></strong></strong></span></div><div class="uagb-faq-content"><p>Results depend on the strategy and channel mix.<br> <br>Paid advertising can generate traction quickly when structured properly.<br>SEO, branding and authority-building are longer-term drivers.<br> <br>We set clear milestones and expectations from the outset, ensuring performance is measurable and aligned with commercial outcomes.</p></div></div><div class="wp-block-uagb-faq-child uagb-faq-child__outer-wrap uagb-faq-item uagb-block-9de43ac3 ext-animate--on" role="tab" tabindex="0"><div class="uagb-faq-questions-button uagb-faq-questions">			<span class="uagb-icon uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
-							</span>
-						<span class="uagb-icon-active uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"></path></svg>
-							</span>
-			<span class="uagb-question"><strong><strong><strong><strong><strong><strong><strong><strong>What makes MM Digital different from other agencies?</strong></strong></strong></strong></strong></strong></strong></strong></span></div><div class="uagb-faq-content"><p>We combine creativity with data-driven strategy.<br> <br>Every campaign is built around:<br> <br>Clear commercial objectives<br>Measurable performance tracking<br>Intelligent use of AI<br>Structured growth systems<br>Strong brand positioning<br> <br>We are known for our personal approach, clear communication and commitment to quality, but ultimately, what sets us apart is structure and accountability.</p></div></div></div>
-
-
-<div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
-
-
-
-<h2 class="wp-block-heading alignwide has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="faqs">Not so FAQs</h2>
-
-
-<div class="wp-block-uagb-faq uagb-faq__outer-wrap uagb-block-5525ce67 uagb-faq-icon-row uagb-faq-layout-accordion uagb-faq-expand-first-false uagb-faq-inactive-other-true uagb-faq__wrap uagb-buttons-layout-wrap uagb-faq-equal-height     ext-animate--on" data-faqtoggle="true" role="tablist"><div class="wp-block-uagb-faq-child uagb-faq-child__outer-wrap uagb-faq-item uagb-block-59daf359 ext-animate--on" role="tab" tabindex="0"><div class="uagb-faq-questions-button uagb-faq-questions">			<span class="uagb-icon uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
-							</span>
-						<span class="uagb-icon-active uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"></path></svg>
-							</span>
-			<span class="uagb-question"><strong>If MM Digital were a dog breed, what would we be?</strong></span></div><div class="uagb-faq-content"><p>Border Collie energy.<br> <br>Focused. Strategic. Slightly obsessed with results.<br>High stamina. Very good at rounding up moving parts and turning chaos into structure.</p></div></div><div class="wp-block-uagb-faq-child uagb-faq-child__outer-wrap uagb-faq-item uagb-block-58541ba5 ext-animate--on" role="tab" tabindex="0"><div class="uagb-faq-questions-button uagb-faq-questions">			<span class="uagb-icon uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
-							</span>
-						<span class="uagb-icon-active uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"></path></svg>
-							</span>
-			<span class="uagb-question"><strong>What sport would MM Digital play?</strong></span></div><div class="uagb-faq-content"><p>Tennis.<br> <br>Fast-paced. Strategic. Requires positioning, timing and partnership.<br>It looks effortless when done well, but it’s all about smart decisions under pressure.<br> <br>Very similar to running campaigns, actually.</p></div></div><div class="wp-block-uagb-faq-child uagb-faq-child__outer-wrap uagb-faq-item uagb-block-7e63446c ext-animate--on" role="tab" tabindex="0"><div class="uagb-faq-questions-button uagb-faq-questions">			<span class="uagb-icon uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"></path></svg>
-							</span>
-						<span class="uagb-icon-active uagb-faq-icon-wrap">
-								<svg xmlns="https://www.w3.org/2000/svg" viewBox= "0 0 448 512"><path d="M400 288h-352c-17.69 0-32-14.32-32-32.01s14.31-31.99 32-31.99h352c17.69 0 32 14.3 32 31.99S417.7 288 400 288z"></path></svg>
-							</span>
-			<span class="uagb-question"><strong>What do you do outside of marketing?</strong></span></div><div class="uagb-faq-content"><p>We switch off properly, which probably explains why we perform properly.<br> <br>Sport. Travel. Good food. Strong coffee.<br>And yes, probably still analysing branding in a restaurant without meaning to.</p></div></div></div>
-
 
 <div class="wp-block-group alignfull is-style-ext-preset--group--natural-1--section has-foreground-alt-background-color has-background has-global-padding is-layout-constrained wp-container-core-group-is-layout-91535b9a wp-block-group-is-layout-constrained" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-right:0;padding-bottom:var(--wp--preset--spacing--70);padding-left:0">
 <div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
 
 
 
-<h1 class="wp-block-heading alignwide has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="get-in-touch-and-see-how-we-can-drive-results-for-you">Get in touch and see how <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color"><strong>we</strong></mark> can drive results for <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color"><strong>you</strong></mark></h1>
+<h2 class="wp-block-heading alignwide has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="get-in-touch-and-see-how-we-can-drive-results-for-you">Get in touch and see how <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color"><strong>we</strong></mark> can drive results for <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-primary-color"><strong>you</strong></mark></h2>
 </div>
 
 
@@ -809,50 +748,7 @@
   </div>
 </section>
 
-<a href="https://g.page/r/CcaNjoJHpXTzEAE"
-target="_blank" 
-rel="nofollow"
-class="google-review-btn">
-⭐ Read our Google Reviews
-</a>
 
-<style>
-.google-review-btn {
-  display: inline-flex; /* keep natural size */
-  align-items: center;
-  justify-content: center;
-  margin: 18px auto 0; /* center horizontally */
-  padding: 12px 22px;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  background: transparent;
-  color: #ffffff;
-  border: 1px solid rgba(255,255,255,0.2);
-  text-decoration: none;
-  transition: 0.25s ease;
-  font-family: 'Glacial Indifference', Arial, Helvetica, sans-serif;
-}
-
-/* THIS is what actually centers inline-flex */
-.google-review-btn {
-  display: inline-flex;
-}
-
-.google-review-btn {
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  width: fit-content;
-}
-
-.google-review-btn:hover {
-  background: rgba(255,255,255,0.08);
-  border-color: #ff808b;
-  color: #ff808b;
-  transform: translateY(-1px);
-}
-</style>
 
 
 

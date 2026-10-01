@@ -229,6 +229,23 @@ details.mmp-more .mmp-details { padding: 0 18px 10px; }
 @media (max-width: 640px) {
   .mmp-card-wide .mmp-list { columns: 1; }
 }
+/* Package FAQs */
+.mmp-faq { margin-top: 72px; display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 48px; align-items: start; }
+.mmp-faq-head { position: sticky; top: 24px; }
+.mmp-faq-head .mmp-btn { margin-top: 8px; }
+.mmp-faq-list { display: grid; gap: 12px; }
+.mmp-faq-item { border: 1px solid rgba(255,255,255,.12); border-radius: 20px; background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)); transition: border-color .25s ease, background .25s ease; }
+.mmp-faq-item:hover { border-color: rgba(255,128,139,.45); }
+.mmp-faq-item[open] { border-color: rgba(255,128,139,.6); background: linear-gradient(180deg, rgba(255,128,139,.08), rgba(255,255,255,.015)); }
+.mmp-faq-item summary { position: relative; display: block; padding: 20px 64px 20px 24px; cursor: pointer; list-style: none; font-family: "Libre Baskerville", Georgia, serif; font-size: 1.08rem; line-height: 1.4; color: #fff; }
+.mmp-faq-item summary::-webkit-details-marker { display: none; }
+.mmp-faq-item summary:focus:not(:focus-visible) { outline: none; }
+.mmp-faq-item summary::before, .mmp-faq-item summary::after { content: ""; position: absolute; right: 26px; top: 50%; width: 14px; height: 2px; border-radius: 2px; background: var(--mm-pink); transition: transform .25s ease; }
+.mmp-faq-item summary::after { transform: rotate(90deg); }
+.mmp-faq-item[open] summary::after { transform: rotate(0deg); }
+.mmp-faq-item p { margin: 0; padding: 0 24px 22px; font-family: "Glacial Indifference", Arial, sans-serif; font-size: 1rem; line-height: 1.65; color: #d6d6d6; }
+@media (max-width: 1100px) { .mmp-faq { grid-template-columns: minmax(0, 1fr); gap: 28px; } .mmp-faq-head { position: static; } }
+@media (max-width: 640px) { .mmp-faq-item summary { padding: 18px 54px 18px 18px; font-size: 1rem; } .mmp-faq-item p { padding: 0 18px 18px; } .mmp-faq-item summary::before, .mmp-faq-item summary::after { right: 20px; } }
 @media (prefers-reduced-motion: reduce) {
   .mmp-wall-track { animation: none; }
   .mmp-btn { transition: none; }
@@ -449,10 +466,10 @@ details.mmp-more .mmp-details { padding: 0 18px 10px; }
             </tr>
             <tr>
               <td>Support</td>
-              <td>Daily support</td>
-              <td>Daily support</td>
-              <td>Daily support</td>
-              <td>Daily support</td>
+              <td>24/7 support</td>
+              <td>24/7 support</td>
+              <td>24/7 support</td>
+              <td>24/7 support</td>
             </tr>
             <tr>
               <td>Best for</td>
@@ -463,6 +480,49 @@ details.mmp-more .mmp-details { padding: 0 18px 10px; }
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <div class="mmp-faq" aria-labelledby="mmp-faq-title">
+      <div class="mmp-faq-head">
+        <span class="mmp-eyebrow">Package FAQs</span>
+        <h2 id="mmp-faq-title"><span class="mm-line">Questions About</span><span class="mm-line mm-line-pink">Our Packages</span></h2>
+        <p class="mmp-lead">Everything you need to know before choosing a package. Can’t find your answer? We’re always happy to talk it through.</p>
+        <a href="/get-in-touch/" class="mmp-btn">Ask Us A Question</a>
+      </div>
+      <div class="mmp-faq-list">
+        <details class="mmp-faq-item">
+          <summary>Which package is right for my business?</summary>
+          <p>Starter suits new businesses, Growth is built for growing brands, and Supercharged is for scale-focused businesses that want everything covered. If you need something different, a Custom package is built around you. Not sure? Book a free strategy call and we’ll recommend the right fit.</p>
+        </details>
+        <details class="mmp-faq-item">
+          <summary>Are there any setup or onboarding costs?</summary>
+          <p>Starter has a one-off £50 onboarding fee and Growth has a £30 onboarding fee. Onboarding is included with Supercharged, and Custom packages are priced to your requirements.</p>
+        </details>
+        <details class="mmp-faq-item">
+          <summary>Is website design and maintenance included?</summary>
+          <p>Website design, support and maintenance are not included in Starter. They are included in Growth, and Supercharged includes unlimited web design support and maintenance. New website builds and redesigns can also be scoped as a Custom project.</p>
+        </details>
+        <details class="mmp-faq-item">
+          <summary>What happens when I sign up?</summary>
+          <p>Every package starts with customised onboarding: an initial strategy call, an audit of your website and social media, and a roadmap for what we’ll deliver. From there, our team gets to work.</p>
+        </details>
+        <details class="mmp-faq-item">
+          <summary>How will I know how my marketing is performing?</summary>
+          <p>You get monthly reporting on every package, cross-platform on Growth and in depth on Supercharged, plus weekly update and support meetings. Every client also has their own secure dashboard showing live performance across their channels.</p>
+        </details>
+        <details class="mmp-faq-item">
+          <summary>When can I reach the team?</summary>
+          <p>Any time. Support is available 24/7, 7 days a week, on every package.</p>
+        </details>
+        <details class="mmp-faq-item">
+          <summary>Can I have something that isn’t in a package?</summary>
+          <p>Yes. Many of our clients work with us on fully customised retainers, and we also take on one-off projects such as a new website, branding or a campaign launch. Tell us what you need and we’ll build a plan around it.</p>
+        </details>
+        <details class="mmp-faq-item">
+          <summary>Can I change package as my business grows?</summary>
+          <p>Yes. Our packages are designed to scale with you, so as your business grows we can move you to a bigger package or build a bespoke retainer around what you need.</p>
+        </details>
       </div>
     </div>
 
