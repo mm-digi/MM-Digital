@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata(
-  "Blogs",
+  "Marketing Blog & Insights",
   "Practical marketing advice from MM Digital: local SEO, AI search, high-converting websites, lead generation and getting more from your ad spend.",
   "/blogs/",
 );
