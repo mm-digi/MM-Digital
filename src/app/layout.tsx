@@ -11,7 +11,6 @@ export const metadata: Metadata = {
   },
   description:
     "We help businesses grow with SEO, web design and digital marketing. Based in Exeter, UK. Get a free consultation today.",
-  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_GB",
@@ -30,6 +29,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" />
         <link rel="stylesheet" href="/wp-assets/wordpress.css" />
         <link rel="stylesheet" href="/wp-assets/extendable.css" />
         <link rel="stylesheet" href="/wp-assets/uag.css" />
@@ -40,7 +42,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <link rel="stylesheet" href="/wp-assets/kadence-row.css" />
         <link rel="stylesheet" href="/wp-assets/navigation.css" />
         <link rel="stylesheet" href="/wp-assets/mm-fixes.css" />
-        <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js" async></script>
       </head>
       <body>
         <WpChrome headerHtml={headerHtml} footerHtml={footerHtml}>

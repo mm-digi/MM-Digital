@@ -14,6 +14,8 @@ type Props = { params: Promise<{ slug: string }> };
 // auto-extracted title from that h1 comes out too long for search results.
 const TITLE_OVERRIDES: Record<string, string> = {
   "oriels-case-study": "Case Study: Oriels Cocktail Bar",
+  "why-your-business-needs-to-be-found-on-ai-search-not-just-google": "Get Found on AI Search, Not Just Google",
+  "why-most-businesses-waste-their-ad-spend-and-what-to-do-instead": "Why Businesses Waste Ad Spend & How to Fix It",
 };
 
 // Hand-written meta descriptions, used instead of the first paragraph.
@@ -33,6 +35,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     alternates: { canonical: `/${slug}/` },
     ...(description ? { description } : {}),
+    // Own link preview, rather than the homepage's inherited from the layout
+    openGraph: {
+      type: dashboard ? "website" : "article",
+      locale: "en_GB",
+      siteName: "MM Digital",
+      url: `/${slug}/`,
+      title: `${title} | MM Digital`,
+      ...(description ? { description } : {}),
+    },
     ...(dashboard ? { robots: { index: false, follow: false } } : {}),
   };
 }

@@ -136,6 +136,15 @@ export default function WpChrome({
       ts.load("particles-bg", particleOpts);
       return true;
     };
+    // The particle library (~170KB) is only fetched on pages with a particle background.
+    if (document.getElementById("particles-bg") && !document.getElementById("tsparticles-lib")) {
+      const lib = document.createElement("script");
+      lib.id = "tsparticles-lib";
+      lib.src = "https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js";
+      lib.async = true;
+      lib.onload = () => startParticles();
+      document.head.appendChild(lib);
+    }
     let particleTimer: number | undefined;
     if (!startParticles()) {
       particleTimer = window.setInterval(() => {
