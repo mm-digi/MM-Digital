@@ -173,6 +173,7 @@
 .mmw-card {
   position: relative;
   display: flex;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 28px;
@@ -191,7 +192,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.82) 70%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.2) 34%, rgba(0, 0, 0, 0.12) 62%, rgba(0, 0, 0, 0.72) 100%);
 }
 
 .mmw-card-body {
@@ -217,18 +218,9 @@
   position: relative;
   display: grid;
   align-items: end;
+  margin-top: auto;
   transform: scale(1);
   transform-origin: center center;
-}
-
-.mmw-devices .mmw-art {
-  grid-area: 1 / 1;
-  width: 86%;
-  justify-self: start;
-  align-self: end;
-  height: auto;
-  border-radius: 18px;
-  background: #000;
 }
 
 .mmw-phone {
@@ -359,7 +351,7 @@
   }
 
   .mmw-card:hover .mmw-card-bg { transform: scale(1.06); }
-  .mmw-card:hover .mmw-devices { transform: scale(0.84); }
+  .mmw-card:hover .mmw-devices { transform: translateY(-10px); }
   .mmw-card:hover .mmw-card-stats { transform: translateY(-26px); }
 }
 
@@ -383,7 +375,7 @@
 
 @keyframes mmwShots {
   0%, 100% { transform: scale(1); }
-  42% { transform: scale(0.84); }
+  42% { transform: translateY(-10px); }
 }
 
 @keyframes mmwStats {
@@ -398,6 +390,35 @@
   line-height: 1.4;
   color: #cfcfcf;
 }
+
+/* Link to the live site: it covers the whole card, and its label sits bottom left */
+.mmw-visit {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  text-decoration: none !important;
+}
+.mmw-visit > span {
+  position: absolute;
+  left: 28px;
+  bottom: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  font-family: "Glacial Indifference", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+.mmw-card:hover .mmw-visit > span,
+.mmw-visit:focus-visible > span { background: #ff808b; border-color: #ff808b; }
+.mmw-visit:focus-visible { outline: 2px solid #ff808b; outline-offset: -2px; border-radius: 28px; }
 
 .mmw-card .mmw-btn { margin-top: auto; align-self: flex-start; }
 
@@ -454,6 +475,8 @@
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
 }
 
+.mmw-impact-visual video { aspect-ratio: 1 / 1; object-fit: cover; }
+
 .mmw-frame img,
 .mmw-frame video {
   display: block;
@@ -461,6 +484,24 @@
   height: auto;
   background: #000;
 }
+
+/* Three short stories, side by side: 3D image on top, copy underneath */
+.mmw-trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-bottom: 56px; }
+.mmw-trio-card {
+  display: flex; flex-direction: column; overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.mmw-trio-card:hover { transform: translateY(-6px); border-color: rgba(255, 128, 139, 0.45); }
+.mmw-trio-art { aspect-ratio: 4 / 3; overflow: hidden; background: #000; }
+.mmw-trio-art img { display: block; width: 100%; height: 100%; object-fit: contain; padding: 16px; transition: transform 0.6s ease; }
+.mmw-trio-card:hover .mmw-trio-art img { transform: scale(1.05); }
+.mmw-trio-copy { padding: 28px 30px 34px; }
+.mmw-trio-copy h2 { font-size: clamp(1.35rem, 1.8vw, 1.75rem); line-height: 1.2; margin: 0 0 14px; }
+.mmw-trio-copy .mmw-body { margin: 0; }
+@media (max-width: 1100px) { .mmw-trio { grid-template-columns: 1fr; max-width: 560px; margin-left: auto; margin-right: auto; } }
 
 .mmw-showcase-cta { text-align: center; }
 
@@ -599,7 +640,6 @@
   .mmw-wall-track img { width: 260px; }
   .mmw-card-body { padding: 22px; }
   .mmw-phone { width: 36%; }
-  .mmw-devices .mmw-art { width: 82%; }
   .mmw-card-stats,
   .mmw-metrics { grid-template-columns: 1fr; }
 }
@@ -653,15 +693,15 @@
     </div>
     <div class="mmw-studies-grid">
       <article class="mmw-card">
-        <div class="mmw-card-bg" style="background-image:url('/media/work/aspects-oak.webp')"></div>
+        <div class="mmw-card-bg" style="background-image:url('/media/work/aspects-oak.webp');background-position:right center"></div>
         <div class="mmw-card-body">
           <h3>Strengthening Aspects of Oak’s Online Presence For High-End Carpentry &amp; Construction</h3>
           <div class="mmw-devices">
-            <img class="mmw-art" src="/media/work/aspects-oak.webp" alt="Aspects of Oak carpentry and construction" width="1600" height="898">
             <div class="mmw-phone">
-              <img src="/media/work/aspects-oak-phone.webp" alt="The Aspects of Oak website on a phone" width="900" height="1955">
+              <img src="/media/work/aspects-oak-phone-480.webp" srcset="/media/work/aspects-oak-phone-480.webp 480w, /media/work/aspects-oak-phone-840.webp 840w" sizes="(max-width: 1100px) 32vw, 210px" alt="The Aspects of Oak website on a phone" width="480" height="1043">
             </div>
           </div>
+          <a class="mmw-visit" href="https://aspectsofoak.co.uk/" target="_blank" rel="noopener" aria-label="Visit the Aspects of Oak website (opens in a new tab)"><span>Visit site <span aria-hidden="true">&#8599;</span></span></a>
         </div>
       </article>
 
@@ -670,11 +710,11 @@
         <div class="mmw-card-body">
           <h3>Creating Auric Performance’s Brand And Digital Presence From Scratch</h3>
           <div class="mmw-devices">
-            <img class="mmw-art" src="/media/work/auric.webp" alt="Auric Performance physical performance coaching" width="1600" height="898">
             <div class="mmw-phone">
-              <img src="/media/work/auric-phone.webp" alt="The Auric Performance website on a phone" width="900" height="1955">
+              <img src="/media/work/auric-phone-480.webp" srcset="/media/work/auric-phone-480.webp 480w, /media/work/auric-phone-840.webp 840w" sizes="(max-width: 1100px) 32vw, 210px" alt="The Auric Performance website on a phone" width="480" height="1043">
             </div>
           </div>
+          <a class="mmw-visit" href="https://auricperformance.co.uk/" target="_blank" rel="noopener" aria-label="Visit the Auric Performance website (opens in a new tab)"><span>Visit site <span aria-hidden="true">&#8599;</span></span></a>
         </div>
       </article>
 
@@ -683,24 +723,24 @@
         <div class="mmw-card-body">
           <h3>From Brand Concept To A Thriving Presence For Lost In Hound</h3>
           <div class="mmw-devices">
-            <img class="mmw-art" src="/media/work/lost-in-hound.webp" alt="Lost in Hound collars and leads" width="1600" height="898">
             <div class="mmw-phone">
-              <img src="/media/work/lost-in-hound-phone.webp" alt="The Lost in Hound website on a phone" width="900" height="1955">
+              <img src="/media/work/lost-in-hound-phone-480.webp" srcset="/media/work/lost-in-hound-phone-480.webp 480w, /media/work/lost-in-hound-phone-840.webp 840w" sizes="(max-width: 1100px) 32vw, 210px" alt="The Lost in Hound website on a phone" width="480" height="1043">
             </div>
           </div>
+          <a class="mmw-visit" href="https://lostinhound.co.uk/" target="_blank" rel="noopener" aria-label="Visit the Lost In Hound website (opens in a new tab)"><span>Visit site <span aria-hidden="true">&#8599;</span></span></a>
         </div>
       </article>
 
       <article class="mmw-card">
-        <div class="mmw-card-bg" style="background-image:url('/media/work/oriels.webp')"></div>
+        <div class="mmw-card-bg" style="background-image:url('/media/work/oriels.webp');background-size:auto 122%;background-position:50% 100%"></div>
         <div class="mmw-card-body">
           <h3>Launching Oriels Exeter Into One Of The City’s Most In-Demand Venues</h3>
           <div class="mmw-devices">
-            <img class="mmw-art" src="/media/work/oriels.webp" alt="Oriels events across the week" width="1600" height="898">
             <div class="mmw-phone">
-              <img src="/media/work/oriels-phone.webp" alt="The Oriels website on a phone" width="900" height="1955">
+              <img src="/media/work/oriels-phone-480.webp" srcset="/media/work/oriels-phone-480.webp 480w, /media/work/oriels-phone-840.webp 840w" sizes="(max-width: 1100px) 32vw, 210px" alt="The Oriels website on a phone" width="480" height="1043">
             </div>
           </div>
+          <a class="mmw-visit" href="https://orielsexeter.co.uk/" target="_blank" rel="noopener" aria-label="Visit the Oriels website (opens in a new tab)"><span>Visit site <span aria-hidden="true">&#8599;</span></span></a>
         </div>
       </article>
 
@@ -709,24 +749,24 @@
         <div class="mmw-card-body">
           <h3>SDR, The Car Buying Service</h3>
           <div class="mmw-devices">
-            <img class="mmw-art" src="/media/work/sdr.webp" alt="SDR, the car buying service" width="1600" height="898">
             <div class="mmw-phone">
-              <img src="/media/work/sdr-phone.webp" alt="The SDR website on a phone" width="900" height="1955">
+              <img src="/media/work/sdr-phone-480.webp" srcset="/media/work/sdr-phone-480.webp 480w, /media/work/sdr-phone-840.webp 840w" sizes="(max-width: 1100px) 32vw, 210px" alt="The SDR website on a phone" width="480" height="1043">
             </div>
           </div>
+          <a class="mmw-visit" href="https://www.sdrthecarbuyingservice.co.uk/" target="_blank" rel="noopener" aria-label="Visit the SDR website (opens in a new tab)"><span>Visit site <span aria-hidden="true">&#8599;</span></span></a>
         </div>
       </article>
 
       <article class="mmw-card">
-        <div class="mmw-card-bg" style="background-image:url('/media/work/waldrons.webp')"></div>
+        <div class="mmw-card-bg" style="background-image:url('/media/work/waldrons.webp');background-position:left center"></div>
         <div class="mmw-card-body">
           <h3>Expanding Waldrons Patisserie’s Digital Reach Across The UK Foodservice Industry</h3>
           <div class="mmw-devices">
-            <img class="mmw-art" src="/media/work/waldrons.webp" alt="Waldrons Patisserie cheesecake" width="1600" height="898">
             <div class="mmw-phone">
-              <img src="/media/work/waldrons-phone.webp" alt="The Waldrons Patisserie website on a phone" width="900" height="1955">
+              <img src="/media/work/waldrons-phone-480.webp" srcset="/media/work/waldrons-phone-480.webp 480w, /media/work/waldrons-phone-840.webp 840w" sizes="(max-width: 1100px) 32vw, 210px" alt="The Waldrons Patisserie website on a phone" width="480" height="1043">
             </div>
           </div>
+          <a class="mmw-visit" href="https://waldrons.com/" target="_blank" rel="noopener" aria-label="Visit the Waldrons Patisserie website (opens in a new tab)"><span>Visit site <span aria-hidden="true">&#8599;</span></span></a>
         </div>
       </article>
     </div>
@@ -762,37 +802,33 @@
 
 <section class="mmw-section" aria-label="More of our work">
   <div class="mmw-wrap mmw-showcase">
-    <div class="mmw-showcase-row">
-      <div class="mmw-intro mmw-showcase-copy">
-        <span class="mmw-eyebrow">Our Work</span>
-        <h2><span class="mm-line">Driving Exceptional</span><span class="mm-line">Growth Through</span><span class="mm-line mm-line-pink">Strategic Insight</span></h2>
-        <p class="mmw-body">See how a brand revitalized its presence and boosted performance by embracing our tailored digital strategies.</p>
-      </div>
-      <div class="mmw-frame">
-        <img src="/media/our-work-growth.webp" alt="Rising chart for strategic growth" width="1600" height="1600">
-      </div>
-    </div>
+    <div class="mmw-trio">
+      <article class="mmw-trio-card">
+        <div class="mmw-trio-art"><img loading="lazy" src="/media/our-work-growth.webp" alt="Rising chart for strategic growth" width="1600" height="1600"></div>
+        <div class="mmw-trio-copy">
+          <span class="mmw-eyebrow">Our Work</span>
+          <h2><span class="mm-line">Driving Exceptional</span><span class="mm-line">Growth Through</span><span class="mm-line mm-line-pink">Strategic Insight</span></h2>
+          <p class="mmw-body">See how a brand revitalised its presence and boosted performance by embracing our tailored digital strategies.</p>
+        </div>
+      </article>
 
-    <div class="mmw-showcase-row is-flip">
-      <div class="mmw-intro mmw-showcase-copy">
-        <span class="mmw-eyebrow">Our Work</span>
-        <h2><span class="mm-line">Building Sustainable</span><span class="mm-line">Success With</span><span class="mm-line mm-line-pink">Innovative Approaches</span></h2>
-        <p class="mmw-body">Learn how a forward-thinking company navigated challenges and unlocked growth with our strategic digital expertise.</p>
-      </div>
-      <div class="mmw-frame">
-        <img src="/media/our-work-approaches.webp" alt="A rising path of glass steps" width="1600" height="1600">
-      </div>
-    </div>
+      <article class="mmw-trio-card">
+        <div class="mmw-trio-art"><img loading="lazy" src="/media/our-work-approaches-pink.webp" alt="A rising path of glass steps" width="1600" height="1600"></div>
+        <div class="mmw-trio-copy">
+          <span class="mmw-eyebrow">Our Work</span>
+          <h2><span class="mm-line">Building Sustainable</span><span class="mm-line">Success With</span><span class="mm-line mm-line-pink">Innovative Approaches</span></h2>
+          <p class="mmw-body">Learn how a forward-thinking company navigated challenges and unlocked growth with our strategic digital expertise.</p>
+        </div>
+      </article>
 
-    <div class="mmw-showcase-row">
-      <div class="mmw-intro mmw-showcase-copy">
-        <span class="mmw-eyebrow">Our Work</span>
-        <h2><span class="mm-line">Elevating Business</span><span class="mm-line">Performance Through</span><span class="mm-line mm-line-pink">Digital Innovation</span></h2>
-        <p class="mmw-body">Discover how leveraging our solutions helped a client enhance efficiency, cut costs, and expand their reach.</p>
-      </div>
-      <div class="mmw-frame">
-        <img src="/media/our-work-innovation.webp" alt="Lightbulb for digital innovation" width="1600" height="1600">
-      </div>
+      <article class="mmw-trio-card">
+        <div class="mmw-trio-art"><img loading="lazy" src="/media/our-work-innovation.webp" alt="Lightbulb for digital innovation" width="1600" height="1600"></div>
+        <div class="mmw-trio-copy">
+          <span class="mmw-eyebrow">Our Work</span>
+          <h2><span class="mm-line">Elevating Business</span><span class="mm-line">Performance Through</span><span class="mm-line mm-line-pink">Digital Innovation</span></h2>
+          <p class="mmw-body">Discover how leveraging our solutions helped a client enhance efficiency, cut costs, and expand their reach.</p>
+        </div>
+      </article>
     </div>
 
     <div class="mmw-showcase-cta">
@@ -804,8 +840,8 @@
 <section class="mmw-section" aria-labelledby="mmw-impact-title">
   <div class="mmw-wrap mmw-impact">
     <div class="mmw-impact-visual mmw-frame">
-      <video autoplay muted loop playsinline preload="metadata" aria-label="Key metrics animation">
-        <source src="/media/our-work-key-metrics.mp4" type="video/mp4">
+      <video autoplay muted loop playsinline preload="metadata" poster="/media/our-work-key-metrics-2-poster.webp" width="1200" height="1200" aria-label="Key metrics animation">
+        <source src="/media/our-work-key-metrics-2.mp4" type="video/mp4">
       </video>
     </div>
     <div>
@@ -852,12 +888,12 @@
       <article class="mmw-glass mmw-lift">
         <span class="mmw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v3"/><path d="M12 18v3"/><path d="M3 12h3"/><path d="M18 12h3"/><path d="m5.6 5.6 2.1 2.1"/><path d="m16.3 16.3 2.1 2.1"/><path d="m18.4 5.6-2.1 2.1"/><path d="m7.7 16.3-2.1 2.1"/></svg></span>
         <h3>Strategic Brand Refreshes</h3>
-        <p>Revitalize your brand identity to stand out in the digital landscape and connect deeply with your audience.</p>
+        <p>Revitalise your brand identity to stand out in the digital landscape and connect deeply with your audience.</p>
       </article>
       <article class="mmw-glass mmw-lift">
         <span class="mmw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 14 4-4 3 3 6-6"/></svg></span>
         <h3>Comprehensive Digital Campaigns</h3>
-        <p>Leverage data-driven campaigns designed to maximize reach, engagement, and measurable growth.</p>
+        <p>Leverage data-driven campaigns designed to maximise reach, engagement, and measurable growth.</p>
       </article>
       <article class="mmw-glass mmw-lift">
         <span class="mmw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 18v3"/></svg></span>
