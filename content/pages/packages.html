@@ -98,7 +98,7 @@
     radial-gradient(ellipse 50% 80% at 100% 0%, rgba(255,128,139,.16), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
 }
-.mmp-custom { margin-bottom: 48px; }
+.mmp-custom { margin: 64px 0 0; }
 .mmp-custom p:last-of-type { margin-bottom: 28px; }
 
 .mmp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -184,6 +184,51 @@
   .mmp-card { padding: 28px 20px; }
   .mmp-badge { position: static; display: inline-block; margin-bottom: 14px; }
 }
+/* Three packages side by side, Growth lifted; Custom runs full width underneath */
+.mmp-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; }
+.mmp-card.featured { transform: translateY(-14px); }
+.mmp-card-wide { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 40px; align-items: start; }
+.mmp-card-wide .mmp-sub { min-height: 0; }
+.mmp-card-wide .mmp-btn { margin-bottom: 0; }
+.mmp-card-wide .mmp-list { columns: 2; column-gap: 32px; }
+.mmp-card-wide .mmp-list li { break-inside: avoid; }
+
+/* Pink ticks for what is included, a muted cross for what is not */
+.mmp-list li { padding-left: 26px; }
+.mmp-list li::before {
+  top: 0.2em; width: 16px; height: 16px; border-radius: 50%;
+  background: rgba(255,128,139,.16) url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Cpath d=%27M4.5 8.3l2.2 2.2 4.8-5%27 fill=%27none%27 stroke=%27%23ff808b%27 stroke-width=%271.8%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E") center / 16px no-repeat;
+}
+.mmp-list li.is-no { color: rgba(255,255,255,.5); }
+.mmp-list li.is-no::before {
+  background: rgba(255,255,255,.08) url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Cpath d=%27M5.5 5.5l5 5M10.5 5.5l-5 5%27 fill=%27none%27 stroke=%27%23999%27 stroke-width=%271.6%27 stroke-linecap=%27round%27/%3E%3C/svg%3E") center / 16px no-repeat;
+}
+
+/* Further details: folded away until asked for */
+details.mmp-more { padding: 0; }
+details.mmp-more > summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin: 0; padding: 16px 18px; cursor: pointer; list-style: none;
+}
+details.mmp-more > summary::-webkit-details-marker { display: none; }
+details.mmp-more > summary::after {
+  content: ""; flex: 0 0 auto; width: 9px; height: 9px; margin-right: 4px;
+  border-right: 2px solid var(--mm-pink); border-bottom: 2px solid var(--mm-pink);
+  transform: translateY(-3px) rotate(45deg); transition: transform .25s ease;
+}
+details.mmp-more[open] > summary::after { transform: translateY(2px) rotate(-135deg); }
+details.mmp-more > summary:hover { color: #fff; }
+details.mmp-more > summary:focus:not(:focus-visible) { outline: none; }
+details.mmp-more .mmp-details { padding: 0 18px 10px; }
+
+@media (max-width: 1100px) {
+  .mmp-grid { grid-template-columns: minmax(0, 1fr); }
+  .mmp-card.featured { transform: none; }
+  .mmp-card-wide { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+}
+@media (max-width: 640px) {
+  .mmp-card-wide .mmp-list { columns: 1; }
+}
 @media (prefers-reduced-motion: reduce) {
   .mmp-wall-track { animation: none; }
   .mmp-btn { transition: none; }
@@ -234,16 +279,6 @@
       <p class="mmp-lead">From structured packages to completely bespoke retainers, our services are designed to adapt to your business. Whether you’re just starting out or looking to expand your marketing activity, we build solutions that grow with you.</p>
     </div>
 
-    <div class="mmp-glass mmp-custom">
-      <span class="mmp-eyebrow">Tailored Support</span>
-      <h3><span class="mm-line">Flexible Pricing</span><span class="mm-line mm-line-pink">That Works For You</span></h3>
-      <p>Every business is different, and so is every marketing strategy. While our packages provide a clear starting point, many of our clients work with us on fully customised retainers designed around their specific goals, industry, and stage of growth.</p>
-      <p>At MM Digital, we believe marketing should be strategic, adaptable, and tailored, not forced into a one-size-fits-all package. Some businesses require a focused service such as social media management or website support, while others need a broader digital strategy covering multiple platforms and channels.</p>
-      <p>That’s why we offer the flexibility to build a bespoke retainer that aligns with exactly what your business needs. Whether you’re launching something new, scaling your marketing activity, or simply looking for ongoing support, we can structure a package that works for you.</p>
-      <p>If you’re unsure which option is right for your business, we’re always happy to discuss your goals and create a plan that delivers the best results. Every business is different, which is why we’re always happy to create a bespoke marketing solution that fits exactly what you need.</p>
-      <a href="/get-in-touch/" class="mmp-btn">Discuss a Bespoke Retainer</a>
-    </div>
-
     <div class="mmp-grid">
       <article class="mmp-card" id="mmp-starter">
         <h3>Starter</h3>
@@ -259,11 +294,11 @@
           <li>Monthly reporting</li>
           <li>Basic access to powerful internal systems</li>
           <li>Foundation level paid advertising</li>
-          <li>Website design, support &amp; maintenance not included</li>
+          <li class="is-no">Website design, support &amp; maintenance not included</li>
           <li>Weekly update and support meetings as standard</li>
         </ul>
-        <div class="mmp-more">
-          <div class="mmp-label">Further details</div>
+        <details class="mmp-more">
+          <summary class="mmp-label">Further details</summary>
           <ul class="mmp-details">
             <li>Initial strategy call, onboarding &amp; roadmap</li>
             <li>Basic website and social media audit</li>
@@ -271,7 +306,7 @@
             <li>Full scale digital support</li>
             <li>Service &amp; support availability 24/7<br>7 days a week</li>
           </ul>
-        </div>
+        </details>
       </article>
 
       <article class="mmp-card featured" id="mmp-growth">
@@ -292,16 +327,16 @@
           <li>Website design support and maintenance included</li>
           <li>Weekly update and support meetings as standard</li>
         </ul>
-        <div class="mmp-more">
-          <div class="mmp-label">Further details</div>
+        <details class="mmp-more">
+          <summary class="mmp-label">Further details</summary>
           <ul class="mmp-details">
             <li>Initial strategy call, business &amp; team support, onboarding, road maps &amp; strategy</li>
             <li>Unlimited website and social media audits</li>
-            <li>Continous delivery from our team of experts</li>
+            <li>Continuous delivery from our team of experts</li>
             <li>Full scale digital support, graphics, web design &amp; maintenance</li>
             <li>Service &amp; support availability 24/7<br>7 days a week</li>
           </ul>
-        </div>
+        </details>
       </article>
 
       <article class="mmp-card" id="mmp-supercharged">
@@ -321,8 +356,8 @@
           <li>Unlimited web design support and maintenance included</li>
           <li>Weekly update and support meetings for multiple individuals and teams as standard</li>
         </ul>
-        <div class="mmp-more">
-          <div class="mmp-label">Further details</div>
+        <details class="mmp-more">
+          <summary class="mmp-label">Further details</summary>
           <ul class="mmp-details">
             <li>Unlimited strategy calls, non stop business and team support covering entire departments or businesses, large scale in depth onboarding with continuous support, custom build roadmaps, digital strategies &amp; insights</li>
             <li>Unlimited social media audits covering unlimited platforms &amp; clear strategic deliveries</li>
@@ -330,15 +365,18 @@
             <li>Unlimited digital support encompassing your entire digital sphere</li>
             <li>Service &amp; support availability 24/7<br>7 days a week</li>
           </ul>
-        </div>
+        </details>
       </article>
 
-      <article class="mmp-card" id="mmp-custom">
+      <article class="mmp-card mmp-card-wide" id="mmp-custom">
+        <div class="mmp-wide-head">
         <h3>Custom</h3>
         <p class="mmp-sub">A tailored package built around you</p>
         <div class="mmp-price">Bespoke</div>
         <div class="mmp-meta">Pricing tailored to your requirements</div>
         <a href="/get-in-touch/" class="mmp-btn">Enquire Now</a>
+        </div>
+        <div class="mmp-wide-body">
         <div class="mmp-label">Includes</div>
         <ul class="mmp-list">
           <li>Fully tailored marketing packages built around your business goals</li>
@@ -347,8 +385,8 @@
           <li>Branding, strategy, and digital audits delivered on demand</li>
           <li>One-off or short-term marketing support when you need it</li>
         </ul>
-        <div class="mmp-more">
-          <div class="mmp-label">Further details</div>
+        <details class="mmp-more">
+          <summary class="mmp-label">Further details</summary>
           <ul class="mmp-details">
             <li>Custom packages are ideal for businesses that need something outside our standard plans</li>
             <li>This could include a new website build, branding project, campaign launch, technical improvements, or specialist marketing support</li>
@@ -356,8 +394,19 @@
             <li>We build a clear plan, timeline, and deliverables tailored specifically to your requirements</li>
             <li>Service &amp; support availability 24/7<br>7 days a week</li>
           </ul>
+        </details>
         </div>
       </article>
+    </div>
+
+    <div class="mmp-glass mmp-custom">
+      <span class="mmp-eyebrow">Tailored Support</span>
+      <h3><span class="mm-line">Flexible Pricing</span><span class="mm-line mm-line-pink">That Works For You</span></h3>
+      <p>Every business is different, and so is every marketing strategy. While our packages provide a clear starting point, many of our clients work with us on fully customised retainers designed around their specific goals, industry, and stage of growth.</p>
+      <p>At MM Digital, we believe marketing should be strategic, adaptable, and tailored, not forced into a one-size-fits-all package. Some businesses require a focused service such as social media management or website support, while others need a broader digital strategy covering multiple platforms and channels.</p>
+      <p>That’s why we offer the flexibility to build a bespoke retainer that aligns with exactly what your business needs. Whether you’re launching something new, scaling your marketing activity, or simply looking for ongoing support, we can structure a package that works for you.</p>
+      <p>If you’re unsure which option is right for your business, we’re always happy to discuss your goals and create a plan that delivers the best results.</p>
+      <a href="/get-in-touch/" class="mmp-btn">Discuss a Bespoke Retainer</a>
     </div>
 
     <div class="mmp-compare">
