@@ -1,512 +1,330 @@
 
-<div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on uag-hide-tab uag-hide-mob"></div>
-
 <div class="wp-block-group alignfull ext-animate--on">
+<style>
+.mds-hero, .mds-services, .mds-bar { --mm-pink: #ff808b; color: #fff; }
+.mds-hero *, .mds-services *, .mds-bar * { box-sizing: border-box; }
+.mds-wrap { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
+.mds-eyebrow {
+  display: block; margin-bottom: 14px;
+  font-family: "Glacial Indifference", Arial, sans-serif; font-size: 0.85rem; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--mm-pink);
+}
+.mds-hero h1, .mds-services h2 {
+  margin: 0 0 20px; font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(1.9rem, 3.6vw, 3.6rem); line-height: 1.1; letter-spacing: -0.02em; color: #fff;
+}
+.mds-lead, .mds-copy p, .mds-body {
+  margin: 0 0 18px; font-family: "Glacial Indifference", Arial, sans-serif;
+  font-size: 1.15rem; line-height: 1.65; color: #cfcfcf;
+}
+.mds-copy p:last-child { margin-bottom: 0; }
+.mds-hero .mm-line, .mds-services .mm-line { display: block; white-space: nowrap; }
+.mds-hero .mm-line-pink, .mds-services .mm-line-pink { color: #ff808b !important; }
+.mds-btns { display: flex; flex-wrap: wrap; gap: 14px; }
+.mds-btn {
+  display: inline-flex; align-items: center; min-height: 50px; padding: 0 28px; border-radius: 999px;
+  background: var(--mm-pink); font-family: "Glacial Indifference", Arial, sans-serif; font-size: 16px; font-weight: 700;
+  color: #fff !important; text-decoration: none !important; transition: background .25s ease, transform .25s ease;
+}
+.mds-btn:hover { background: #ff6d79; transform: translateY(-2px); }
+.mds-btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,.35); }
+.mds-btn-ghost:hover { background: rgba(255,128,139,.14); border-color: var(--mm-pink); }
 
-<section class="digital-services-section">
-  <div class="digital-services-wrap">
-    <div class="digital-services-hero">
+/* ---------- Hero: drifting wall of our work behind the copy ---------- */
+.mds-hero { position: relative; overflow: hidden; padding: 150px 0 140px; }
+.mds-wall {
+  position: absolute; inset: -40px 0; display: grid; gap: 18px; align-content: center;
+  transform: rotate(-4deg) scale(1.08);
+}
+.mds-wall-row { overflow: hidden; }
+.mds-wall-track { display: flex; gap: 18px; width: max-content; animation: mdsDrift 80s linear infinite; }
+.mds-wall-row-2 .mds-wall-track { animation-direction: reverse; animation-duration: 95s; }
+.mds-wall-row-3 .mds-wall-track { animation-duration: 70s; }
+.mds-wall-track img { width: 440px; height: auto; aspect-ratio: 2 / 1; object-fit: cover; border-radius: 16px; }
+@keyframes mdsDrift { to { transform: translateX(-50%); } }
+.mds-hero-shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.9) 0%, rgba(0,0,0,.66) 45%, rgba(0,0,0,.45) 100%),
+    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(255,128,139,.22), transparent 70%);
+}
+.mds-split {
+  position: relative; z-index: 1; display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; align-items: center;
+}
+.mds-intro { padding-left: 32px; border-left: 2px solid var(--mm-pink); }
+.mds-lead { margin-bottom: 22px; }
+.mds-copy {
+  padding: 36px; border: 1px solid rgba(255,255,255,.12); border-radius: 28px;
+  background: rgba(10,6,8,.72); backdrop-filter: blur(6px); box-shadow: 0 30px 70px rgba(0,0,0,.4);
+}
 
-      <div class="digital-services-intro">
-        <span class="digital-services-eyebrow">Digital Services</span>
+/* Typing line: each service types in, holds, then rubs out before the next */
+.mds-typed {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin: 0 0 30px;
+  font-family: "Libre Baskerville", Georgia, serif; font-size: clamp(1.15rem, 1.6vw, 1.45rem); color: #fff;
+}
+.mds-typed-words { display: inline-grid; color: var(--mm-pink); }
+.mds-typed-words span {
+  grid-area: 1 / 1; white-space: nowrap; clip-path: inset(0 100% 0 0);
+  animation: mdsType 21s infinite both;
+}
+.mds-typed-words span:nth-child(1){animation-delay:0s}
+.mds-typed-words span:nth-child(2){animation-delay:3s}
+.mds-typed-words span:nth-child(3){animation-delay:6s}
+.mds-typed-words span:nth-child(4){animation-delay:9s}
+.mds-typed-words span:nth-child(5){animation-delay:12s}
+.mds-typed-words span:nth-child(6){animation-delay:15s}
+.mds-typed-words span:nth-child(7){animation-delay:18s}
+@keyframes mdsType {
+  0% { clip-path: inset(0 100% 0 0); animation-timing-function: steps(14, end); }
+  4.286% { clip-path: inset(0 0 0 0); animation-timing-function: linear; }
+  11.429% { clip-path: inset(0 0 0 0); animation-timing-function: steps(10, end); }
+  14.286%, 100% { clip-path: inset(0 100% 0 0); }
+}
 
-<h1>Explore Our Digital Services</h1>
+/* ---------- Services intro: every service feeds into the growth hub ---------- */
+.mds-services { padding: 40px 0 90px; }
+.mds-services-panel {
+  display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 48px; align-items: center;
+  padding: 64px 56px; border: 1px solid rgba(255,255,255,.12); border-radius: 36px;
+  background:
+    radial-gradient(ellipse 55% 70% at 75% 50%, rgba(255,128,139,.16), transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.012));
+}
+.mds-services .mds-body { margin-bottom: 30px; }
+.mds-hub { position: relative; width: 100%; aspect-ratio: 1000 / 900; }
+.mds-hub-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.mds-ring { fill: none; stroke: rgba(255,255,255,.12); stroke-width: 1; }
+.mds-ring-pink {
+  stroke: rgba(255,128,139,.45); stroke-dasharray: 2 10;
+  transform-origin: 500px 450px; animation: mdsSpin 60s linear infinite;
+}
+.mds-link { fill: none; stroke: rgba(255,255,255,.28); stroke-width: 1.2; transition: stroke .25s ease, stroke-width .25s ease; }
+.mds-hub:has(.mds-node-0:hover, .mds-node-0:focus-visible) .mds-link-0,
+.mds-hub:has(.mds-node-1:hover, .mds-node-1:focus-visible) .mds-link-1,
+.mds-hub:has(.mds-node-2:hover, .mds-node-2:focus-visible) .mds-link-2,
+.mds-hub:has(.mds-node-3:hover, .mds-node-3:focus-visible) .mds-link-3,
+.mds-hub:has(.mds-node-4:hover, .mds-node-4:focus-visible) .mds-link-4,
+.mds-hub:has(.mds-node-5:hover, .mds-node-5:focus-visible) .mds-link-5,
+.mds-hub:has(.mds-node-6:hover, .mds-node-6:focus-visible) .mds-link-6,
+.mds-hub:has(.mds-node-7:hover, .mds-node-7:focus-visible) .mds-link-7,
+.mds-hub:has(.mds-node-8:hover, .mds-node-8:focus-visible) .mds-link-8,
+.mds-hub:has(.mds-node-9:hover, .mds-node-9:focus-visible) .mds-link-9,
+.mds-hub:has(.mds-node-10:hover, .mds-node-10:focus-visible) .mds-link-10,
+.mds-hub:has(.mds-node-11:hover, .mds-node-11:focus-visible) .mds-link-11,
+.mds-hub:has(.mds-node-12:hover, .mds-node-12:focus-visible) .mds-link-12 { stroke: var(--mm-pink); stroke-width: 2.4; }
+.mds-pulse { fill: var(--mm-pink); filter: drop-shadow(0 0 6px var(--mm-pink)); }
+.mds-hub-diamond {
+  fill: rgba(255,128,139,.06); stroke: var(--mm-pink); stroke-width: 1.4;
+  transform-origin: 500px 450px; animation: mdsBreathe 4s ease-in-out infinite;
+}
+.mds-hub-core { fill: #000; stroke: var(--mm-pink); stroke-width: 1.6; filter: drop-shadow(0 0 10px rgba(255,128,139,.8)); }
+.mds-hub-bars rect { fill: var(--mm-pink); transform-box: fill-box; transform-origin: bottom; animation: mdsBar 3s ease-in-out infinite; }
+.mds-hub-bars rect:nth-child(2) { animation-delay: .4s; }
+.mds-hub-bars rect:nth-child(3) { animation-delay: .8s; }
+.mds-hub-label {
+  font-family: "Glacial Indifference", Arial, sans-serif; font-size: 20px; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase; fill: rgba(255,255,255,.8);
+}
+@keyframes mdsSpin { to { transform: rotate(360deg); } }
+@keyframes mdsBreathe { 0%, 100% { transform: rotate(45deg) scale(1); } 50% { transform: rotate(45deg) scale(1.06); } }
+@keyframes mdsBar { 0%, 100% { transform: scaleY(.55); } 50% { transform: scaleY(1); } }
 
-        <p class="digital-services-subtitle">
-          Discover the tools and strategies we use to help businesses grow online, improve visibility, and connect with their audience.
-        </p>
+/* Each service: an icon disc on the ring, clickable, with its name underneath */
+.mds-node {
+  position: absolute; z-index: 1; width: 13%; aspect-ratio: 1; transform: translate(-50%, -50%);
+  text-decoration: none !important; color: #fff !important;
+}
+.mds-node-icon {
+  display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;
+  border: 1px solid rgba(255,255,255,.14); border-radius: 50%; background: #0b0809;
+  box-shadow: 0 10px 26px rgba(0,0,0,.5); transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.mds-node-icon img { width: 66%; height: 66%; object-fit: contain; }
+.mds-node-label {
+  position: absolute; top: calc(100% + 6px); left: 50%; width: 150px; transform: translateX(-50%);
+  font-family: "Glacial Indifference", Arial, sans-serif; font-size: 14px; font-weight: 700; line-height: 1.2;
+  text-align: center; color: #e6e6e6; transition: color .25s ease; pointer-events: none;
+}
+.mds-node:hover .mds-node-icon, .mds-node:focus-visible .mds-node-icon {
+  transform: scale(1.12); border-color: var(--mm-pink); box-shadow: 0 0 0 4px rgba(255,128,139,.18), 0 0 30px rgba(255,128,139,.45);
+}
+.mds-node:hover .mds-node-label, .mds-node:focus-visible .mds-node-label { color: var(--mm-pink); }
+.mds-node:focus-visible { outline: none; }
 
-        <a href="/get-in-touch/" class="digital-services-btn">
-          Contact Us
-        </a>
-      </div>
+/* Lines draw themselves in as the hub scrolls into view */
+@supports (animation-timeline: view()) {
+  .mds-link {
+    stroke-dasharray: 600; animation: mdsDraw linear both;
+    animation-timeline: view(); animation-range: entry 10% cover 45%;
+  }
+  @keyframes mdsDraw { from { stroke-dashoffset: 600; } to { stroke-dashoffset: 0; } }
+}
 
-      <div class="digital-services-copy">
-        <p>
-          At MM Digital, we deliver strategic digital solutions designed to help businesses grow, scale and strengthen their presence online. Our services combine creativity, technology and data driven thinking to ensure every campaign, website and brand we develop is built with clear commercial objectives in mind.
-        </p>
+/* ---------- Sticky service bar (shown once the tiles scroll away) ---------- */
+.mds-bar { position: sticky; top: 0; z-index: 60; height: 0; }
+.mds-bar-inner {
+  position: absolute; top: 12px; left: 50%; width: min(1500px, calc(100% - 32px));
+  display: flex; gap: 6px; padding: 6px; overflow-x: auto; scrollbar-width: none;
+  border: 1px solid rgba(255,255,255,.12); border-radius: 999px;
+  background: rgba(8,6,8,.82); backdrop-filter: blur(12px); box-shadow: 0 16px 40px rgba(0,0,0,.45);
+  opacity: 0; transform: translate(-50%, -16px); pointer-events: none; transition: opacity .3s ease, transform .3s ease;
+}
+.mds-bar-inner::-webkit-scrollbar { display: none; }
+.mds-bar.is-on .mds-bar-inner { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+.mds-chip {
+  display: inline-flex; align-items: center; gap: 8px; flex: 0 0 auto; padding: 7px 14px 7px 8px; border-radius: 999px;
+  font-family: "Glacial Indifference", Arial, sans-serif; font-size: 14px; font-weight: 700; white-space: nowrap;
+  color: #cfcfcf !important; text-decoration: none !important; transition: background .2s ease, color .2s ease;
+}
+.mds-chip img { width: 26px; height: 26px; object-fit: contain; }
+.mds-chip:hover { color: #fff !important; background: rgba(255,255,255,.08); }
+.mds-chip.is-active { color: #fff !important; background: var(--mm-pink); }
 
-        <p>
-          From brand development and website design to social media management, search optimisation and performance marketing, we create integrated digital strategies that deliver measurable results. Whether you are launching a new brand, refining your digital presence or scaling an established business, our team provides the expertise, creativity and structure needed to turn marketing activity into sustainable growth.
-        </p>
-      </div>
+@media (max-width: 1100px) {
+  .mds-services-panel { grid-template-columns: 1fr; gap: 44px; }
+  .mds-hub { max-width: 760px; margin: 0 auto; }
+}
+@media (max-width: 700px) {
+  .mds-hub { aspect-ratio: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 10px; }
+  .mds-hub-lines { display: none; }
+  .mds-node { position: relative; left: auto !important; top: auto !important; width: 64px; margin: 0 auto 30px; transform: none; }
+  .mds-node-label { width: 104px; font-size: 13px; }
+  .mds-node:last-child { grid-column: 2; }
+}
+@media (max-width: 900px) {
+  .mds-split { grid-template-columns: 1fr; gap: 40px; }
+  .mds-hero { padding: 90px 0 80px; }
+}
+@media (max-width: 640px) {
+  .mds-wrap { padding: 0 16px; }
+  .mds-intro { padding-left: 20px; }
+  .mds-copy { padding: 24px; }
+  .mds-services-panel { padding: 40px 20px; border-radius: 26px; }
+  .mds-wall-track img { width: 300px; }
+  .mds-chip span { font-size: 13px; }
+}
+/* Room for the sticky bar when a service link jumps down the page */
+#digital-strategy, #web-development, #social, #ai, #ux-and-ui, #paid-media, #analytics, #seo-and-cro, #graphic-design, #branding, #email-marketing, #linkedin-outreach, #app-design { scroll-margin-top: 80px; }
+@media (prefers-reduced-motion: reduce) {
+  .mds-wall-track { animation: none; }
+  .mds-typed-words span { animation: none; clip-path: inset(0 100% 0 0); }
+  .mds-typed-words span:first-child { clip-path: none; }
+}
+</style>
 
+<section class="mds-hero" aria-labelledby="mds-hero-title">
+  <div class="mds-wall" aria-hidden="true">
+    <div class="mds-wall-row mds-wall-row-1"><div class="mds-wall-track"><img src="/media/services/banners/digital-strategy.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/social.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/paid-media.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/graphic-design.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/email-marketing.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/digital-strategy.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/social.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/paid-media.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/graphic-design.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/email-marketing.webp" alt="" width="800" height="400" loading="eager"></div></div>
+    <div class="mds-wall-row mds-wall-row-2"><div class="mds-wall-track"><img src="/media/services/banners/web-development.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/ai.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/analytics.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/branding.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/linkedin-outreach.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/web-development.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/ai.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/analytics.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/branding.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/linkedin-outreach.webp" alt="" width="800" height="400" loading="eager"></div></div>
+    <div class="mds-wall-row mds-wall-row-3"><div class="mds-wall-track"><img src="/media/services/banners/ux-and-ui.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/seo-and-cro.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/app-design.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/digital-strategy.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/graphic-design.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/ux-and-ui.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/seo-and-cro.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/app-design.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/digital-strategy.webp" alt="" width="800" height="400" loading="eager"><img src="/media/services/banners/graphic-design.webp" alt="" width="800" height="400" loading="eager"></div></div>
+  </div>
+  <div class="mds-hero-shade" aria-hidden="true"></div>
+  <div class="mds-wrap mds-split">
+    <div class="mds-intro">
+      <span class="mds-eyebrow">Digital Services</span>
+      <h1 id="mds-hero-title"><span class="mm-line">Explore Our</span><span class="mm-line mm-line-pink">Digital Services</span></h1>
+      <p class="mds-lead">Discover the tools and strategies we use to help businesses grow online, improve visibility, and connect with their audience.</p>
+      <p class="mds-typed" aria-label="Specialists in digital strategy, web development, social media, SEO, paid media, branding and AI automation"><span aria-hidden="true">Specialists in</span><span class="mds-typed-words" aria-hidden="true"><span>Digital Strategy</span><span>Web Development</span><span>Social Media</span><span>SEO &amp; CRO</span><span>Paid Media</span><span>Branding</span><span>AI &amp; Automation</span></span></p>
+      <a href="/get-in-touch/" class="mds-btn">Contact Us</a>
+    </div>
+    <div class="mds-copy">
+      <p>At MM Digital, we deliver strategic digital solutions designed to help businesses grow, scale and strengthen their presence online. Our services combine creativity, technology and data driven thinking to ensure every campaign, website and brand we develop is built with clear commercial objectives in mind.</p>
+      <p>From brand development and website design to social media management, search optimisation and performance marketing, we create integrated digital strategies that deliver measurable results. Whether you are launching a new brand, refining your digital presence or scaling an established business, our team provides the expertise, creativity and structure needed to turn marketing activity into sustainable growth.</p>
     </div>
   </div>
 </section>
 
-<style>
-  .digital-services-section {
-    padding: 90px 24px;
-    background: transparent;
-  }
-
-  .digital-services-wrap {
-    max-width: 1600px;
-    margin: auto;
-  }
-
-  .digital-services-hero {
-    max-width: 1600px;
-    margin-left: auto;
-    margin-right: auto;
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 48px;
-    align-items: center;
-  }
-
-  .digital-services-intro {
-    padding-left: 28px;
-    border-left: 2px solid #ff808b;
-  }
-
-  .digital-services-eyebrow {
-    font-size: 0.85rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #ff808b;
-    margin-bottom: 8px;
-    font-weight: 700;
-    display: block;
-    font-family: 'Glacial Indifference', Arial, Helvetica, sans-serif;
-  }
-
-  .digital-services-intro h1 {
-    font-family: 'Libre Baskerville', Georgia, "Times New Roman", serif;
-    font-size: clamp(2.4rem, 5vw, 4.2rem);
-    line-height: 1.05;
-    margin: 0 0 14px 0;
-    color: #ffffff;
-    max-width: 580px;
-  }
-
-  .digital-services-subtitle {
-    color: #cfcfcf;
-    font-size: 1.08rem;
-    margin: 0 0 28px 0;
-    line-height: 1.6;
-    font-family: 'Glacial Indifference', Arial, Helvetica, sans-serif;
-    max-width: 560px;
-  }
-
-  .digital-services-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 52px;
-    padding: 0 26px;
-    border-radius: 999px;
-    font-weight: 700;
-    background: #ff808b;
-    color: #fff;
-    transition: .25s;
-    box-shadow: 0 20px 50px rgba(0,0,0,.35);
-    text-decoration: none;
-    font-family: 'Glacial Indifference', Arial, Helvetica, sans-serif;
-  }
-
-  .digital-services-btn:hover {
-    background: #ff6d79;
-    transform: translateY(-2px);
-    text-decoration: none;
-  }
-
-  .digital-services-copy {
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 28px;
-    padding: 34px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
-  }
-
-  .digital-services-copy p {
-    color: #cfcfcf;
-    font-size: 1.04rem;
-    margin: 0 0 18px 0;
-    line-height: 1.6;
-    font-family: 'Glacial Indifference', Arial, Helvetica, sans-serif;
-  }
-
-  .digital-services-copy p:last-child {
-    margin-bottom: 0;
-  }
-
-  @media (max-width: 900px) {
-    .digital-services-hero {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .digital-services-section {
-      padding: 70px 18px;
-    }
-  }
-</style>
-</div>
-
-<div class="wp-block-group alignfull ext-animate--on">
-<section class="mm-services-hero">
-  <div class="mm-services-hero__inner">
-
-    <div class="mm-services-hero__content">
-      <span class="mm-services-hero__eyebrow">Digital Services</span>
-
-      <h1>Driving Growth Through Digital</h1>
-
-      <p>
-       At MM Digital, we help businesses grow through clear strategy, strong creative and measurable marketing. From social media and paid advertising to SEO, branding and analytics, our services are designed to build visibility, attract the right audience and turn attention into results. We combine creative thinking with data driven decision making to ensure every campaign, website and piece of content supports real, sustainable business growth.
-      </p>
-
-      <div class="mm-services-hero__buttons">
-        <a href="#digital-strategy" class="mm-btn mm-btn--primary">Explore Services</a>
-        <a href="/get-in-touch/" class="mm-btn mm-btn--secondary">Get in Touch</a>
+<section class="mds-services" aria-labelledby="mds-services-title">
+  <div class="mds-wrap">
+    <div class="mds-services-panel">
+      <div>
+        <span class="mds-eyebrow">Digital Services</span>
+        <h2 id="mds-services-title"><span class="mm-line">Driving Growth</span><span class="mm-line mm-line-pink">Through Digital</span></h2>
+        <p class="mds-body">At MM Digital, we help businesses grow through clear strategy, strong creative and measurable marketing. From social media and paid advertising to SEO, branding and analytics, our services are designed to build visibility, attract the right audience and turn attention into results. We combine creative thinking with data driven decision making to ensure every campaign, website and piece of content supports real, sustainable business growth.</p>
+        <div class="mds-btns">
+          <a href="#digital-strategy" class="mds-btn">Explore Services</a>
+          <a href="/get-in-touch/" class="mds-btn mds-btn-ghost">Get in Touch</a>
+        </div>
       </div>
-    </div>
-
-    <div class="mm-services-hero__visual">
-      <div class="mm-services-glow"></div>
-
-      <div class="mm-services-cards">
-        <a href="#digital-strategy" class="mm-service-card">Digital Strategy</a>
-        <a href="#web-development" class="mm-service-card mm-service-card--pink">Web Development</a>
-        <a href="#social" class="mm-service-card">Social Media</a>
-        <a href="#seo-and-cro" class="mm-service-card">SEO &amp; CRO</a>
-        <a href="#paid-media" class="mm-service-card">Paid Media</a>
-        <a href="#branding" class="mm-service-card">Branding</a>
-        <a href="#analytics" class="mm-service-card">Analytics &amp; Reporting</a>
-        <a href="#ai" class="mm-service-card">AI &amp; Marketing Automation</a>
-        <a href="#ux-and-ui" class="mm-service-card">UX &amp; UI</a>
-        <a href="#graphic-design" class="mm-service-card mm-service-card--pink">Graphic Design</a>
-        <a href="#email-marketing" class="mm-service-card">Email Marketing</a>
-        <a href="#linkedin-outreach" class="mm-service-card">LinkedIn Outreach &amp; Lead Generation</a>
-        <a href="#app-design" class="mm-service-card">App Design &amp; App Store Optimisation</a>
+      <nav class="mds-tiles" aria-label="Our services">
+      <div class="mds-hub">
+      <svg class="mds-hub-lines" viewBox="0 0 1000 900" aria-hidden="true">
+        <circle class="mds-ring" cx="500" cy="450" r="150" />
+        <circle class="mds-ring mds-ring-pink" cx="500" cy="450" r="240" />
+        <path id="mds-l-0" class="mds-link mds-link-0" d="M 500 95 L 500 450" />
+        <path id="mds-l-1" class="mds-link mds-link-1" d="M 684 136 L 500 450" />
+        <path id="mds-l-2" class="mds-link mds-link-2" d="M 825 248 L 500 450" />
+        <path id="mds-l-3" class="mds-link mds-link-3" d="M 892 407 L 500 450" />
+        <path id="mds-l-4" class="mds-link mds-link-4" d="M 869 576 L 500 450" />
+        <path id="mds-l-5" class="mds-link mds-link-5" d="M 762 716 L 500 450" />
+        <path id="mds-l-6" class="mds-link mds-link-6" d="M 595 795 L 500 450" />
+        <path id="mds-l-7" class="mds-link mds-link-7" d="M 405 795 L 500 450" />
+        <path id="mds-l-8" class="mds-link mds-link-8" d="M 238 716 L 500 450" />
+        <path id="mds-l-9" class="mds-link mds-link-9" d="M 131 576 L 500 450" />
+        <path id="mds-l-10" class="mds-link mds-link-10" d="M 108 407 L 500 450" />
+        <path id="mds-l-11" class="mds-link mds-link-11" d="M 175 248 L 500 450" />
+        <path id="mds-l-12" class="mds-link mds-link-12" d="M 316 136 L 500 450" />
+        <circle class="mds-pulse" r="4"><animateMotion dur="2.40s" begin="0.00s" repeatCount="indefinite"><mpath href="#mds-l-0" /></animateMotion></circle>
+        <circle class="mds-pulse" r="4"><animateMotion dur="2.75s" begin="0.37s" repeatCount="indefinite"><mpath href="#mds-l-1" /></animateMotion></circle>
+        <circle class="mds-pulse" r="4"><animateMotion dur="3.10s" begin="0.74s" repeatCount="indefinite"><mpath href="#mds-l-2" /></animateMotion></circle>
+        <circle class="mds-pulse" r="4"><animateMotion dur="3.45s" begin="1.11s" repeatCount="indefinite"><mpath href="#mds-l-3" /></animateMotion></circle>
+        <circle class="mds-pulse" r="4"><animateMotion dur="3.80s" begin="1.48s" repeatCount="indefinite"><mpath href="#mds-l-4" /></animateMotion></circle>
+        <circle class="mds-pulse" r="4"><animateMotion dur="2.40s" begin="1.85s" repeatCount="indefinite"><mpath href="#mds-l-5" /></animateMotion></circle>
+        <circle class="mds-pulse" r="4"><animateMotion dur="2.75s" begin="0.22s" repeatCount="indefinite"><mpath href="#mds-l-6" /></animateMotion></circle>
+        <circle class="mds-pulse" r="4"><animateMotion dur="3.10s" begin="0.59s" repeatCount="indefinite"><mpath href="#mds-l-7" /></animateMotion></circle>
+        <circle class="mds-pulse" r="4"><animateMotion dur="3.45s" begin="0.96s" repeatCount="indefinite"><mpath href="#mds-l-8" /></animateMotion></circle>
+        <circle class="mds-pulse" r="4"><animateMotion dur="3.80s" begin="1.33s" repeatCount="indefinite"><mpath href="#mds-l-9" /></animateMotion></circle>
+        <circle class="mds-pulse" r="4"><animateMotion dur="2.40s" begin="1.70s" repeatCount="indefinite"><mpath href="#mds-l-10" /></animateMotion></circle>
+        <circle class="mds-pulse" r="4"><animateMotion dur="2.75s" begin="0.07s" repeatCount="indefinite"><mpath href="#mds-l-11" /></animateMotion></circle>
+        <circle class="mds-pulse" r="4"><animateMotion dur="3.10s" begin="0.44s" repeatCount="indefinite"><mpath href="#mds-l-12" /></animateMotion></circle>
+        <rect class="mds-hub-diamond" x="425" y="375" width="150" height="150" rx="6" />
+        <rect class="mds-hub-core" x="472" y="422" width="56" height="56" rx="8" />
+        <g class="mds-hub-bars">
+          <rect x="484" y="448" width="8" height="18" rx="2" />
+          <rect x="496" y="440" width="8" height="26" rx="2" />
+          <rect x="508" y="432" width="8" height="34" rx="2" />
+        </g>
+        <text class="mds-hub-label" x="500" y="600" text-anchor="middle">Your Growth</text>
+      </svg>
+      <a href="#digital-strategy" class="mds-node mds-node-0" style="left:50%;top:10.556%" aria-label="Digital Strategy"><span class="mds-node-icon"><img src="/media/services/strategy.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Digital Strategy</span></a>
+      <a href="#web-development" class="mds-node mds-node-1" style="left:68.4%;top:15.111%" aria-label="Web Development"><span class="mds-node-icon"><img src="/media/services/web.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Web Development</span></a>
+      <a href="#social" class="mds-node mds-node-2" style="left:82.5%;top:27.556%" aria-label="Social Media"><span class="mds-node-icon"><img src="/media/services/social.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Social Media</span></a>
+      <a href="#ai" class="mds-node mds-node-3" style="left:89.2%;top:45.222%" aria-label="AI &amp; Marketing Automation"><span class="mds-node-icon"><img src="/media/services/ai-chip.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">AI &amp; Automation</span></a>
+      <a href="#ux-and-ui" class="mds-node mds-node-4" style="left:86.9%;top:64.000%" aria-label="UX &amp; UI"><span class="mds-node-icon"><img src="/media/services/ux.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">UX &amp; UI</span></a>
+      <a href="#paid-media" class="mds-node mds-node-5" style="left:76.2%;top:79.556%" aria-label="Paid Media"><span class="mds-node-icon"><img src="/media/services/paid.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Paid Media</span></a>
+      <a href="#analytics" class="mds-node mds-node-6" style="left:59.5%;top:88.333%" aria-label="Analytics &amp; Reporting"><span class="mds-node-icon"><img src="/media/services/analytics.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Analytics</span></a>
+      <a href="#seo-and-cro" class="mds-node mds-node-7" style="left:40.5%;top:88.333%" aria-label="SEO &amp; CRO"><span class="mds-node-icon"><img src="/media/services/seo.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">SEO &amp; CRO</span></a>
+      <a href="#graphic-design" class="mds-node mds-node-8" style="left:23.799999999999997%;top:79.556%" aria-label="Graphic Design"><span class="mds-node-icon"><img src="/media/services/graphic.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Graphic Design</span></a>
+      <a href="#branding" class="mds-node mds-node-9" style="left:13.100000000000001%;top:64.000%" aria-label="Branding"><span class="mds-node-icon"><img src="/media/services/branding.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Branding</span></a>
+      <a href="#email-marketing" class="mds-node mds-node-10" style="left:10.8%;top:45.222%" aria-label="Email Marketing"><span class="mds-node-icon"><img src="/media/services/email-loop.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">Email Marketing</span></a>
+      <a href="#linkedin-outreach" class="mds-node mds-node-11" style="left:17.5%;top:27.556%" aria-label="LinkedIn Outreach &amp; Lead Generation"><span class="mds-node-icon"><img src="/media/services/linkedin-loop.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">LinkedIn Outreach</span></a>
+      <a href="#app-design" class="mds-node mds-node-12" style="left:31.6%;top:15.111%" aria-label="App Design &amp; App Store Optimisation"><span class="mds-node-icon"><img src="/media/services/app.webp" alt="" width="192" height="192" loading="lazy"></span><span class="mds-node-label">App Design</span></a>
       </div>
+      </nav>
     </div>
-
   </div>
 </section>
-
-<style>
-
-.mm-services-hero,
-.mm-services-hero * {
-  box-sizing: border-box;
-}
-
-.mm-services-hero {
-  width: 100%;
-  padding: 40px 20px;
-  background: transparent;
-  font-family: "Glacial Indifference", sans-serif;
-}
-
-.mm-services-hero__inner {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 48px;
-  min-height: 780px;
-  padding: 70px 60px;
-  border-radius: 28px;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 78% 52%, rgba(255, 128, 139, 0.22) 0%, rgba(255, 128, 139, 0.08) 24%, rgba(255, 128, 139, 0.00) 48%),
-    linear-gradient(135deg, #050505 0%, #0c0c10 55%, #121218 100%);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
-}
-
-.mm-services-hero__content {
-  width: 43%;
-  position: relative;
-  z-index: 2;
-}
-
-.mm-services-hero__eyebrow {
-  display: inline-block;
-  margin-bottom: 18px;
-  color: #ff808b;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-.mm-services-hero__content h1 {
-  margin: 0 0 24px;
-  color: #ffffff;
-  font-family: "Libre Baskerville", serif;
-  font-size: 58px;
-  line-height: 1.08;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-  max-width: 620px;
-}
-
-.mm-services-hero__content p {
-  margin: 0;
-  color: rgba(255,255,255,0.86);
-  font-size: 23px;
-  line-height: 1.75;
-  max-width: 620px;
-}
-
-.mm-services-hero__buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 34px;
-}
-
-.mm-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 200px;
-  min-height: 58px;
-  padding: 16px 24px;
-  border-radius: 14px;
-  text-decoration: none !important;
-  font-size: 20px;
-  font-weight: 700;
-  transition: all .25s ease;
-}
-
-.mm-services-hero .mm-btn--primary,
-.mm-services-hero .mm-btn--secondary,
-.mm-services-hero a.mm-btn--primary,
-.mm-services-hero a.mm-btn--secondary {
-  background: linear-gradient(135deg,#ff6d8a 0%,#ff808b 100%) !important;
-  background-color: #ff808b !important;
-  color: #ffffff !important;
-  border: none !important;
-  box-shadow: 0 16px 30px rgba(255,128,139,0.28) !important;
-}
-
-.mm-services-hero .mm-btn:hover {
-  background: linear-gradient(135deg,#ff5d86 0%,#ff808b 100%) !important;
-  background-color: #ff808b !important;
-  color: #ffffff !important;
-  transform: translateY(-3px);
-  box-shadow: 0 20px 36px rgba(255,128,139,0.34) !important;
-}
-
-.mm-services-hero__visual {
-  position: relative;
-  width: 57%;
-  min-height: 690px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.mm-services-glow {
-  position:absolute;
-  right:-14%;
-  top:50%;
-  transform:translateY(-50%);
-  width:760px;
-  height:760px;
-  border-radius:50%;
-  background:
-  radial-gradient(circle, rgba(255,84,127,0.90) 0%, rgba(255,128,139,0.62) 34%, rgba(255,128,139,0.16) 58%, rgba(255,128,139,0) 74%);
-  filter:blur(8px);
-}
-
-.mm-services-cards {
-  position: relative;
-  width: 100%;
-  max-width: 760px;
-  height: 690px;
-}
-
-.mm-service-card {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 86px;
-  min-width: 180px;
-  padding: 20px 18px;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.94);
-  color: #1d2238 !important;
-  text-align: center;
-  text-decoration: none !important;
-  font-family: "Glacial Indifference", sans-serif;
-  font-size: 19px;
-  font-weight: 700;
-  line-height: 1.25;
-  box-shadow: 0 18px 35px rgba(0, 0, 0, 0.18);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-  animation: floatCard 6s ease-in-out infinite;
-}
-
-.mm-service-card:hover {
-  transform: translateY(-8px) scale(1.05);
-  box-shadow: 0 24px 40px rgba(0, 0, 0, 0.24);
-  background: #ff808b;
-  color: #ffffff !important;
-}
-
-.mm-service-card--dark:hover,
-.mm-service-card--pink:hover {
-  background: inherit;
-  color: inherit !important;
-}
-
-/* card positions */
-
-.mm-service-card:nth-child(1){top:18px;left:45px;}
-.mm-service-card:nth-child(2){top:0;right:75px;}
-.mm-service-card:nth-child(3){top:125px;left:0;}
-.mm-service-card:nth-child(4){top:105px;left:245px;}
-.mm-service-card:nth-child(5){top:145px;right:10px;}
-.mm-service-card:nth-child(6){top:250px;left:70px;}
-.mm-service-card:nth-child(7){top:385px;right:70px;min-width:230px;}
-.mm-service-card:nth-child(8){top:365px;left:0;min-width:275px;}
-.mm-service-card:nth-child(9){top:620px;right:0;}
-.mm-service-card:nth-child(10){top:495px;left:55px;}
-.mm-service-card:nth-child(11){top:505px;right:100px;}
-.mm-service-card:nth-child(12){top:600px;left:0;min-width:330px;}
-.mm-service-card:nth-child(13){top:255px;right:0;min-width:365px;}
-
-@keyframes floatCard{
-0%{transform:translateY(0)}
-50%{transform:translateY(-8px)}
-100%{transform:translateY(0)}
-}
-
-.mm-service-card--dark{
-background:linear-gradient(135deg,#34384c,#22263a);
-color:#fff!important;
-}
-
-.mm-service-card--pink{
-background:linear-gradient(135deg,#ff5d86,#ff808b);
-color:#fff!important;
-}
-
-.mm-service-card--pink{
-background:linear-gradient(135deg,#ff5d86,#ff808b);
-color:#fff!important;
-}
-
-@media (max-width:900px){
-
-  .mm-services-hero__inner{
-    flex-direction:column;
-    min-height:auto;
-    padding:44px 22px 34px;
-    border-radius:0;
-    gap:34px;
-  }
-
-  .mm-services-hero__content,
-  .mm-services-hero__visual{
-    width:100%;
-  }
-
-  .mm-services-hero__content h1{
-    font-size:38px;
-    max-width:100%;
-  }
-
-  .mm-services-hero__content p{
-    font-size:18px;
-    max-width:100%;
-  }
-
-  .mm-services-hero__buttons{
-    gap:12px;
-    margin-bottom:32px;
-  }
-
-  .mm-btn{
-    width:100%;
-    min-width:0;
-    font-size:18px;
-  }
-
-  .mm-services-hero__visual{
-    min-height:auto;
-  }
-
-  .mm-services-glow{
-    width:420px;
-    height:420px;
-    right:50%;
-    top:35%;
-    transform:translate(50%,-10%);
-  }
-
-  .mm-services-cards{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:14px;
-    position:relative;
-    height:auto;
-    max-width:100%;
-  }
-
-  .mm-service-card,
-  .mm-service-card:nth-child(1),
-  .mm-service-card:nth-child(2),
-  .mm-service-card:nth-child(3),
-  .mm-service-card:nth-child(4),
-  .mm-service-card:nth-child(5),
-  .mm-service-card:nth-child(6),
-  .mm-service-card:nth-child(7),
-  .mm-service-card:nth-child(8),
-  .mm-service-card:nth-child(9),
-  .mm-service-card:nth-child(10),
-  .mm-service-card:nth-child(11),
-  .mm-service-card:nth-child(12),
-  .mm-service-card:nth-child(13){
-    position:static;
-    transform:none;
-    min-width:0;
-  }
-
-  .mm-service-card{
-    min-height:78px;
-    padding:18px 14px;
-    font-size:16px;
-    border-radius:18px;
-    animation:none;
-  }
-
-  .mm-service-card:hover{
-    transform:translateY(-4px);
-  }
-
-  .mm-service-card--dark,
-  .mm-service-card--pink{
-    background:rgba(255,255,255,0.94);
-    color:#1d2238!important;
-    box-shadow:0 18px 35px rgba(0,0,0,0.18);
-  }
-}
-
-@media (max-width:560px){
-
-  .mm-services-hero__content h1{
-    font-size:32px;
-  }
-
-  .mm-services-cards{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .mm-service-card{
-    min-height:72px;
-    font-size:16px;
-  }
-}
-
-</style>
 </div>
+
+<nav class="mds-bar" aria-label="Jump to a service">
+  <div class="mds-bar-inner">
+      <a href="#digital-strategy" class="mds-chip"><img src="/media/services/strategy.webp" alt="" width="192" height="192" loading="lazy"><span>Digital Strategy</span></a>
+      <a href="#web-development" class="mds-chip"><img src="/media/services/web.webp" alt="" width="192" height="192" loading="lazy"><span>Web Development</span></a>
+      <a href="#social" class="mds-chip"><img src="/media/services/social.webp" alt="" width="192" height="192" loading="lazy"><span>Social Media</span></a>
+      <a href="#ai" class="mds-chip"><img src="/media/services/ai-chip.webp" alt="" width="192" height="192" loading="lazy"><span>AI &amp; Marketing Automation</span></a>
+      <a href="#ux-and-ui" class="mds-chip"><img src="/media/services/ux.webp" alt="" width="192" height="192" loading="lazy"><span>UX &amp; UI</span></a>
+      <a href="#paid-media" class="mds-chip"><img src="/media/services/paid.webp" alt="" width="192" height="192" loading="lazy"><span>Paid Media</span></a>
+      <a href="#analytics" class="mds-chip"><img src="/media/services/analytics.webp" alt="" width="192" height="192" loading="lazy"><span>Analytics &amp; Reporting</span></a>
+      <a href="#seo-and-cro" class="mds-chip"><img src="/media/services/seo.webp" alt="" width="192" height="192" loading="lazy"><span>SEO &amp; CRO</span></a>
+      <a href="#graphic-design" class="mds-chip"><img src="/media/services/graphic.webp" alt="" width="192" height="192" loading="lazy"><span>Graphic Design</span></a>
+      <a href="#branding" class="mds-chip"><img src="/media/services/branding.webp" alt="" width="192" height="192" loading="lazy"><span>Branding</span></a>
+      <a href="#email-marketing" class="mds-chip"><img src="/media/services/email-loop.webp" alt="" width="192" height="192" loading="lazy"><span>Email Marketing</span></a>
+      <a href="#linkedin-outreach" class="mds-chip"><img src="/media/services/linkedin-loop.webp" alt="" width="192" height="192" loading="lazy"><span>LinkedIn Outreach &amp; Lead Generation</span></a>
+      <a href="#app-design" class="mds-chip"><img src="/media/services/app.webp" alt="" width="192" height="192" loading="lazy"><span>App Design &amp; App Store Optimisation</span></a>
+  </div>
+</nav>
 
 <div style="height:50px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
 

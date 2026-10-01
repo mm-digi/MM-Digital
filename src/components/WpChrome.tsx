@@ -468,6 +468,58 @@ export default function WpChrome({
       });
     });
 
+    // Digital Services: the slim service bar slides in once the tile grid has
+    // scrolled away, lights up the service currently being read, and tucks
+    // itself away again when the services end.
+    document.querySelectorAll(".mds-bar").forEach((bar) => {
+      const tiles = document.querySelector(".mds-tiles");
+      const inner = bar.querySelector(".mds-bar-inner") as HTMLElement | null;
+      const chips = [...bar.querySelectorAll(".mds-chip")] as HTMLAnchorElement[];
+      const targets = chips.map((chip) => document.querySelector(chip.hash));
+      const footer = document.querySelector("footer");
+      let active = -1;
+      let frame = 0;
+      const update = () => {
+        frame = 0;
+        const pastTiles = !tiles || tiles.getBoundingClientRect().bottom < 0;
+        const beforeEnd = !footer || footer.getBoundingClientRect().top > window.innerHeight * 0.6;
+        bar.classList.toggle("is-on", pastTiles && beforeEnd);
+        // The service whose banner most recently passed the upper third of the screen
+        let current = -1;
+        let best = -Infinity;
+        targets.forEach((el, i) => {
+          const top = el ? el.getBoundingClientRect().top : Infinity;
+          if (top < window.innerHeight * 0.35 && top > best) {
+            best = top;
+            current = i;
+          }
+        });
+        if (current !== active) {
+          chips[active]?.classList.remove("is-active");
+          active = current;
+          const chip = chips[active];
+          if (chip && inner) {
+            chip.classList.add("is-active");
+            inner.scrollTo({
+              left: chip.offsetLeft - (inner.clientWidth - chip.offsetWidth) / 2,
+              behavior: "smooth",
+            });
+          }
+        }
+      };
+      const onScroll = () => {
+        if (!frame) frame = requestAnimationFrame(update);
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+      update();
+      sliders.push(() => {
+        window.removeEventListener("scroll", onScroll);
+        window.removeEventListener("resize", onScroll);
+        if (frame) cancelAnimationFrame(frame);
+      });
+    });
+
     return () => {
       opens.forEach((el) => el.removeEventListener("click", openMenu));
       closes.forEach((el) => el.removeEventListener("click", closeMenu));
