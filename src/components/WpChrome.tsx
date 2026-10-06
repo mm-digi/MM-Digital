@@ -2,6 +2,14 @@
 
 import { useEffect, useLayoutEffect } from "react";
 
+// Runs while the page is still loading, straight after the header is parsed, so
+// the homepage hero is laid out under the header from the first paint. Without
+// it the hero only moved up once React ran, and that jump was most of the
+// homepage's layout shift (CLS). The effect below keeps it updated on resize.
+// Only the homepage hero rules read --mm-header-h, so setting it elsewhere is
+// harmless.
+const MEASURE_HEADER = `<script>(function(){var h=document.querySelector("header.wp-block-template-part");if(h)document.documentElement.style.setProperty("--mm-header-h",h.getBoundingClientRect().height+"px")})()</script>`;
+
 export default function WpChrome({
   headerHtml,
   footerHtml,
@@ -554,7 +562,7 @@ export default function WpChrome({
 
   return (
     <>
-      <div dangerouslySetInnerHTML={{ __html: headerHtml }} />
+      <div dangerouslySetInnerHTML={{ __html: headerHtml + MEASURE_HEADER }} />
       {children}
       <div dangerouslySetInnerHTML={{ __html: footerHtml }} />
     </>
