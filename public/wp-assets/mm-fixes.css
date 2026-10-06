@@ -1088,3 +1088,32 @@ header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigat
     box-sizing: border-box;
   }
 }
+
+/* Blog card scrollers (About, Blogs and every post). On phones each card was the full width of
+   the scroller plus its border, so it was wider than the scroller. Browsers don't snap to a card
+   that is wider than the scroller, so a swipe could stop with two cards half showing. Make the
+   cards fit, with side margins and a peek of the next card. The Blogs page lays the same cards
+   out as a grid inside .blog-wrap, so it is left alone. */
+@media (max-width: 700px) {
+  :not(.blog-wrap) > .blog-slider-wrap .blog-slider {
+    gap: 14px;
+    padding-left: 20px;
+    padding-right: 20px;
+    scroll-padding-inline: 20px;
+  }
+  :not(.blog-wrap) > .blog-slider-wrap .blog-card {
+    flex: 0 0 86%;
+    min-width: 0;
+    box-sizing: border-box;
+    scroll-snap-stop: always;
+  }
+  :not(.blog-wrap) > .blog-slider-wrap .blog-card img {
+    height: 220px;
+  }
+}
+
+/* Contact page WhatsApp button: it had no colour set, so it showed Stackable's default blue.
+   Match the phone button next to it. */
+.stk-75f549c .stk-button {
+  background: #ff808b !important;
+}
