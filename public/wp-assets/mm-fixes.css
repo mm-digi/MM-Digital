@@ -1061,3 +1061,30 @@ header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigat
     font-size: max(16px, 1em);
   }
 }
+
+/* Inner page heroes keep their tablet top padding (90-120px) on phones, which left a tall empty
+   band under the header. The homepage hero slides under the header instead, so it is unaffected. */
+@media (max-width: 640px) {
+  .mma-hero,
+  .mds-hero,
+  .mmw-hero,
+  .mmp-hero,
+  .blog-hero,
+  .mmc-hero {
+    padding-top: 40px !important;
+  }
+  .wp-block-group.alignfull:has(> .mmc-hero),
+  .mmc-hero.alignfull {
+    margin-top: 0 !important;
+  }
+}
+
+/* Blog posts are capped at 820px with no side padding, so below that the text ran right to the
+   screen edges. */
+@media (max-width: 860px) {
+  .mm-blog {
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+  }
+}
