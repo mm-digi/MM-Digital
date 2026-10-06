@@ -84,7 +84,7 @@ function LoginForm() {
   }
 
   return (
-    <div className="px-5 py-24">
+    <div className="px-5 py-10 sm:py-24">
       <div className="mx-auto max-w-md mm-card p-8">
         <span className="eyebrow">Client Access</span>
         <h1 className="mt-3 font-serif text-4xl">Login</h1>
