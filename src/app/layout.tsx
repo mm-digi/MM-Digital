@@ -11,7 +11,7 @@ const description =
 export const metadata: Metadata = {
   metadataBase: new URL("https://mm-digi.co.uk"),
   title: {
-    default: "MM Digital | Digital Marketing Agency Exeter",
+    default: "Digital Marketing Agency in Exeter | MM Digital",
     template: "%s | MM Digital",
   },
   description,
@@ -24,14 +24,14 @@ export const metadata: Metadata = {
     locale: "en_GB",
     url: "https://mm-digi.co.uk",
     siteName: "MM Digital",
-    title: "MM Digital | Digital Marketing Agency Exeter",
+    title: "Digital Marketing Agency in Exeter | MM Digital",
     description:
       "We help businesses grow with SEO, web design and digital marketing. Based in Exeter, UK.",
     images: [shareImage()],
   },
   twitter: {
     card: "summary",
-    title: "MM Digital | Digital Marketing Agency Exeter",
+    title: "Digital Marketing Agency in Exeter | MM Digital",
     description:
       "We help businesses grow with SEO, web design and digital marketing. Based in Exeter, UK.",
     images: [shareImage().url],
@@ -46,7 +46,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   const footerHtml = readWpFile("footer.html");
 
   return (
-    <html lang="en">
+    <html lang="en-GB">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

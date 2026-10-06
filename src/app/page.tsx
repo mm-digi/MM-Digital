@@ -11,7 +11,7 @@ export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default function Home() {
   const page = webPageNode({
-    name: "MM Digital | Digital Marketing Agency Exeter",
+    name: "Digital Marketing Agency in Exeter | MM Digital",
     path: "/",
     description,
   });

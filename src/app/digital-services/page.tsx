@@ -7,7 +7,7 @@ import { breadcrumbNode, pageMetadata, serviceListNode, webPageNode } from "@/li
 const description =
   "Digital strategy, web development, social media, SEO, paid ads, branding, AI automation and more: 13 services from our Exeter digital marketing team.";
 
-export const metadata: Metadata = pageMetadata("Digital Services", description, "/digital-services/");
+export const metadata: Metadata = pageMetadata("SEO, Web Design & Digital Marketing Services", description, "/digital-services/");
 
 export default function ServicesPage() {
   const html = readWpPage("digital-services") || "";
@@ -18,7 +18,7 @@ export default function ServicesPage() {
         data={{
           "@context": "https://schema.org",
           "@graph": [
-            webPageNode({ name: "Digital Services | MM Digital", path: "/digital-services/", description }),
+            webPageNode({ name: "SEO, Web Design & Digital Marketing Services | MM Digital", path: "/digital-services/", description }),
             breadcrumbNode([
               { name: "Home", path: "/" },
               { name: "Digital Services", path: "/digital-services/" },
