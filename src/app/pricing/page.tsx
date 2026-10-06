@@ -7,7 +7,7 @@ import { breadcrumbNode, faqNode, pageMetadata, webPageNode } from "@/lib/seo";
 const description =
   "Monthly retainers from £400 excluding VAT. Starter, Growth and Supercharged, or a fully bespoke plan. Social, paid ads and support, available 24/7.";
 
-export const metadata: Metadata = pageMetadata("Pricing", description, "/pricing/");
+export const metadata: Metadata = pageMetadata("Digital Marketing Packages & Pricing", description, "/pricing/");
 
 export default function PricingPage() {
   const html = readWpPage("pricing") || "";
@@ -18,7 +18,7 @@ export default function PricingPage() {
         data={{
           "@context": "https://schema.org",
           "@graph": [
-            webPageNode({ name: "Pricing | MM Digital", path: "/pricing/", description }),
+            webPageNode({ name: "Digital Marketing Packages & Pricing | MM Digital", path: "/pricing/", description }),
             breadcrumbNode([
               { name: "Home", path: "/" },
               { name: "Pricing", path: "/pricing/" },

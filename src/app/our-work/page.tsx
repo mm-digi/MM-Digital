@@ -8,7 +8,7 @@ import { breadcrumbNode, pageMetadata, webPageNode } from "@/lib/seo";
 const description =
   "See the brands we have helped grow, from Oriels Exeter and Waldrons Patisserie to Auric Performance, Lost in Hound and SDR. Websites, branding and social.";
 
-export const metadata: Metadata = pageMetadata("Our Work", description, "/our-work/");
+export const metadata: Metadata = pageMetadata("Client Results & Case Studies", description, "/our-work/");
 
 export default function WorkPage() {
   return (
@@ -19,7 +19,7 @@ export default function WorkPage() {
           "@graph": [
             webPageNode({
               type: "CollectionPage",
-              name: "Our Work | MM Digital",
+              name: "Client Results & Case Studies | MM Digital",
               path: "/our-work/",
               description,
             }),

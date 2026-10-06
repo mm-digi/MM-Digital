@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { breadcrumbNode, pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata(
-  "Get In Touch",
+  "Contact Our Exeter Marketing Agency",
   "Got a project or need assistance? Contact MM Digital in Exeter or book a free 30-minute strategy call to talk through your goals.",
   "/get-in-touch/",
 );
