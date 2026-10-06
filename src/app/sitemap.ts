@@ -8,20 +8,35 @@ import { isUnpublished } from "@/lib/schedule";
 export const revalidate = 900;
 
 const SITE_URL = "https://mm-digi.co.uk";
+const COMMERCIAL = new Set(["blogs", "digital-services", "our-work", "pricing", "about-us", "get-in-touch"]);
+const LOW = new Set(["cookie-policy", "privacy-policy"]);
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const dir = path.join(process.cwd(), "content", "pages");
   const pages = fs
-    .readdirSync(path.join(process.cwd(), "content", "pages"))
+    .readdirSync(dir)
     .filter((name) => name.endsWith(".html"))
     .map((name) => name.replace(/\.html$/, ""))
     .filter((slug) => slug !== "home" && !DASHBOARD_SLUGS.has(slug) && !isUnpublished(slug));
 
   return [
-    { url: SITE_URL, changeFrequency: "weekly", priority: 1 },
-    ...pages.map((slug) => ({
-      url: `${SITE_URL}/${slug}/`,
-      changeFrequency: "monthly" as const,
-      priority: slug === "blogs" || slug === "digital-services" || slug === "our-work" ? 0.8 : 0.6,
-    })),
+    {
+      url: `${SITE_URL}/`,
+      lastModified: fs.statSync(path.join(dir, "home.html")).mtime,
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+    ...pages.map((slug) => {
+      const file = path.join(dir, `${slug}.html`);
+      const html = fs.readFileSync(file, "utf8");
+      const isPost = html.includes('class="mm-blog"');
+      const priority = COMMERCIAL.has(slug) ? 0.8 : LOW.has(slug) ? 0.3 : isPost ? 0.7 : 0.6;
+      return {
+        url: `${SITE_URL}/${slug}/`,
+        lastModified: fs.statSync(file).mtime,
+        changeFrequency: slug === "blogs" ? ("weekly" as const) : ("monthly" as const),
+        priority,
+      };
+    }),
   ];
 }

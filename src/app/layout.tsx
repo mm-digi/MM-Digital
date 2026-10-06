@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import JsonLd from "@/components/JsonLd";
 import WpChrome from "@/components/WpChrome";
+import { organizationNode, shareImage, websiteNode } from "@/lib/seo";
 import { readWpFile } from "@/lib/wp";
+
+const description =
+  "We help businesses grow with SEO, web design and digital marketing. Based in Exeter, UK. Get a free consultation today.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mm-digi.co.uk"),
@@ -9,8 +14,11 @@ export const metadata: Metadata = {
     default: "MM Digital | Digital Marketing Agency Exeter",
     template: "%s | MM Digital",
   },
-  description:
-    "We help businesses grow with SEO, web design and digital marketing. Based in Exeter, UK. Get a free consultation today.",
+  description,
+  applicationName: "MM Digital",
+  authors: [{ name: "MM Digital", url: "https://mm-digi.co.uk/" }],
+  creator: "MM Digital",
+  publisher: "MM Digital",
   openGraph: {
     type: "website",
     locale: "en_GB",
@@ -19,6 +27,14 @@ export const metadata: Metadata = {
     title: "MM Digital | Digital Marketing Agency Exeter",
     description:
       "We help businesses grow with SEO, web design and digital marketing. Based in Exeter, UK.",
+    images: [shareImage()],
+  },
+  twitter: {
+    card: "summary",
+    title: "MM Digital | Digital Marketing Agency Exeter",
+    description:
+      "We help businesses grow with SEO, web design and digital marketing. Based in Exeter, UK.",
+    images: [shareImage().url],
   },
   verification: {
     google: "-f4ycF8FU-e2eUhIsLQBSaFCvH8tY-4a2r7w6yilRtc",
@@ -47,6 +63,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <link rel="stylesheet" href="/wp-assets/mm-fixes.css" />
       </head>
       <body>
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@graph": [organizationNode(), websiteNode()],
+          }}
+        />
         <WpChrome headerHtml={headerHtml} footerHtml={footerHtml}>
           {children}
         </WpChrome>

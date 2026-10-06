@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/login/", "/*-dashboard/"],
+      disallow: ["/api/", "/login/", "/*-dashboard/", "/evolution-padel-2/"],
     },
     sitemap: "https://mm-digi.co.uk/sitemap.xml",
   };

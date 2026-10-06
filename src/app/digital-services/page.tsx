@@ -1,14 +1,33 @@
+import JsonLd from "@/components/JsonLd";
 import WpHtml from "@/components/WpHtml";
 import { readWpPage } from "@/lib/wp";
 import type { Metadata } from "next";
-import { pageMetadata } from "@/lib/seo";
+import { breadcrumbNode, pageMetadata, serviceListNode, webPageNode } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadata(
-  "Digital Services",
-  "Digital strategy, web development, social media, SEO, paid ads, branding, AI automation and more: 13 services from our Exeter digital marketing team.",
-  "/digital-services/",
-);
+const description =
+  "Digital strategy, web development, social media, SEO, paid ads, branding, AI automation and more: 13 services from our Exeter digital marketing team.";
+
+export const metadata: Metadata = pageMetadata("Digital Services", description, "/digital-services/");
 
 export default function ServicesPage() {
-  return <WpHtml html={readWpPage("digital-services") || ""} />;
+  const html = readWpPage("digital-services") || "";
+  const services = serviceListNode(html);
+  return (
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@graph": [
+            webPageNode({ name: "Digital Services | MM Digital", path: "/digital-services/", description }),
+            breadcrumbNode([
+              { name: "Home", path: "/" },
+              { name: "Digital Services", path: "/digital-services/" },
+            ]),
+            ...(services ? [services] : []),
+          ],
+        }}
+      />
+      <WpHtml html={html} />
+    </>
+  );
 }

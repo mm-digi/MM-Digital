@@ -1,7 +1,8 @@
+import JsonLd from "@/components/JsonLd";
 import WpHtml from "@/components/WpHtml";
 import { readWpPage } from "@/lib/wp";
 import type { Metadata } from "next";
-import { pageMetadata } from "@/lib/seo";
+import { breadcrumbNode, pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata(
   "Get In Touch",
@@ -10,5 +11,20 @@ export const metadata: Metadata = pageMetadata(
 );
 
 export default function ContactPage() {
-  return <WpHtml html={readWpPage("get-in-touch") || ""} />;
+  return (
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@graph": [
+            breadcrumbNode([
+              { name: "Home", path: "/" },
+              { name: "Get In Touch", path: "/get-in-touch/" },
+            ]),
+          ],
+        }}
+      />
+      <WpHtml html={readWpPage("get-in-touch") || ""} />
+    </>
+  );
 }

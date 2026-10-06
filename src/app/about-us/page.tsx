@@ -1,18 +1,34 @@
+import JsonLd from "@/components/JsonLd";
 import WpHtml from "@/components/WpHtml";
 import { readWpPage } from "@/lib/wp";
 import type { Metadata } from "next";
-import { pageMetadata } from "@/lib/seo";
+import { breadcrumbNode, pageMetadata, webPageNode } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadata(
-  "About Us",
-  "Meet MM Digital, an Exeter digital marketing agency. Our team of strategists, creatives and specialists helps businesses across the UK and Europe grow.",
-  "/about-us/",
-);
+const description =
+  "Meet MM Digital, an Exeter digital marketing agency. Our team of strategists, creatives and specialists helps businesses across the UK and Europe grow.";
+
+export const metadata: Metadata = pageMetadata("About Us", description, "/about-us/");
 
 // Pre-built page with a blog slider: rebuild every 15 minutes so a scheduled
 // post's card appears soon after it goes live.
 export const revalidate = 900;
 
 export default function AboutPage() {
-  return <WpHtml html={readWpPage("about-us") || ""} />;
+  return (
+    <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@graph": [
+            webPageNode({ type: "AboutPage", name: "About Us | MM Digital", path: "/about-us/", description }),
+            breadcrumbNode([
+              { name: "Home", path: "/" },
+              { name: "About Us", path: "/about-us/" },
+            ]),
+          ],
+        }}
+      />
+      <WpHtml html={readWpPage("about-us") || ""} />
+    </>
+  );
 }
