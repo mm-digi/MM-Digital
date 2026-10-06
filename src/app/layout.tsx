@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     description:
       "We help businesses grow with SEO, web design and digital marketing. Based in Exeter, UK.",
   },
+  verification: {
+    google: "-f4ycF8FU-e2eUhIsLQBSaFCvH8tY-4a2r7w6yilRtc",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
