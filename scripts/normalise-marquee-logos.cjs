@@ -17,6 +17,7 @@ const logos = {
   bfb: "media/bfb.webp",
   brs: "media/brs.webp",
   captrad: "logos/Captrad.png",
+  "jazz-beauty": "logos/Jazz Beauty.png",
   "evolution-padel": "media/ep.webp",
   "lost-in-hound": "media/lost-in-hound-2.webp",
   mtd: "media/mtd-white.webp",
