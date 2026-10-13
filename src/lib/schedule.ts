@@ -13,7 +13,6 @@ export const HIDDEN_PAGES = new Set<string>([
   // Old case studies, to be redone
   "aspects-of-oaks-case-study",
   "ashmore-building-companys-case-study",
-  "oriels-case-study",
   "the-100-day-plan-companys-case-study",
   "waldrons-patisseries-case-study",
   "yvonne-coombers-case-study",
