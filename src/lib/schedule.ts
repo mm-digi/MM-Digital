@@ -15,7 +15,6 @@ export const HIDDEN_PAGES = new Set<string>([
   "ashmore-building-companys-case-study",
   "the-100-day-plan-companys-case-study",
   "waldrons-patisseries-case-study",
-  "yvonne-coombers-case-study",
 ]);
 
 export function isUnpublished(slug: string, now = new Date()): boolean {

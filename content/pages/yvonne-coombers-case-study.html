@@ -1,56 +1,277 @@
+<div class="wp-block-group alignfull yvc-page">
+<style>
+.yvc-page { --mm-pink: #ff808b; color: #fff; background: #000; }
+.yvc-page * { box-sizing: border-box; }
+.yvc-page h1,
+.yvc-page h2 {
+  margin: 0 0 20px;
+  font-family: "Libre Baskerville", Georgia, serif !important;
+  font-weight: 400;
+  font-size: clamp(1.9rem, 3.6vw, 3.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.yvc-hero h1 { font-size: clamp(1.7rem, 2.7vw, 3rem) !important; }
+.yvc-page .mm-line { display: block; }
+.yvc-page .mm-line-pink { color: var(--mm-pink) !important; font-style: normal; }
+.yvc-page p,
+.yvc-page a,
+.yvc-page dt,
+.yvc-page dd,
+.yvc-kicker,
+.yvc-label,
+.yvc-num {
+  font-family: "Glacial Indifference", Arial, sans-serif !important;
+}
+.yvc-wrap { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
+.yvc-page figure { margin: 0; }
+.yvc-hero { position: relative; overflow: hidden; padding: 150px 0 88px; }
+.yvc-wall {
+  position: absolute; inset: -40px 0; display: grid; gap: 18px; align-content: center;
+  transform: rotate(-4deg) scale(1.08);
+}
+.yvc-wall-row { overflow: hidden; }
+.yvc-wall-track { display: flex; gap: 18px; width: max-content; animation: yvcDrift 80s linear infinite; }
+.yvc-wall-row-2 .yvc-wall-track { animation-direction: reverse; animation-duration: 95s; }
+.yvc-wall-row-3 .yvc-wall-track { animation-duration: 70s; }
+.yvc-wall-track img { width: 380px; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; }
+@keyframes yvcDrift { to { transform: translateX(-50%); } }
+.yvc-hero-shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.82) 45%, rgba(0, 0, 0, 0.7) 100%),
+    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(255, 128, 139, 0.22), transparent 70%);
+}
+.yvc-hero .yvc-wrap { position: relative; z-index: 1; }
+.yvc-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; align-items: center; }
+.yvc-intro { padding-left: 32px; border-left: 2px solid var(--mm-pink); }
+.yvc-eyebrow {
+  display: block; margin-bottom: 14px; font-size: 0.85rem !important; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--mm-pink) !important;
+}
+.yvc-lead, .yvc-copy p { margin: 0 0 18px; font-size: 1.15rem !important; line-height: 1.65; color: #cfcfcf !important; }
+.yvc-lead { margin-bottom: 30px; }
+.yvc-copy p:last-child { margin-bottom: 0; }
+.yvc-btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 28px;
+  border-radius: 999px; background: var(--mm-pink); font-size: 16px !important; font-weight: 700;
+  color: #fff !important; text-decoration: none !important; transition: background 0.25s ease, transform 0.25s ease;
+}
+.yvc-btn:hover { background: #ff6d79; transform: translateY(-2px); }
+.yvc-glass {
+  padding: 36px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 28px;
+  background: rgba(10, 6, 8, 0.72); backdrop-filter: blur(6px); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+}
+.yvc-logo { display: block; margin: 0 0 22px; line-height: 0; }
+.yvc-logo img { display: block; width: auto !important; height: 64px !important; border-radius: 0 !important; }
+.yvc-full img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center center; background: #000; }
+.yvc-results { background: #101010; padding: 72px 0 64px; }
+.yvc-kicker { margin: 0 0 8px; text-align: center; font-size: 0.95rem !important; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.72) !important; }
+.yvc-stats, .yvc-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 1180px; margin: 0 auto; }
+.yvc-meta { margin-top: 8px; text-align: center; }
+.yvc-stat { position: relative; }
+.yvc-rings { display: block; width: 100%; height: auto; }
+.yvc-stat-copy {
+  position: absolute; inset: 18% 16% 20%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; gap: 10px;
+}
+.yvc-num {
+  font-size: clamp(2.4rem, 4.2vw, 4.4rem) !important; font-weight: 500; line-height: 0.95;
+  letter-spacing: -0.03em; -webkit-text-fill-color: #ff808b; color: #ff808b !important;
+}
+.yvc-num-words { font-size: clamp(1.7rem, 2.5vw, 2.45rem) !important; line-height: 1.05; letter-spacing: -0.02em; }
+.yvc-label { max-width: 16ch; font-size: 1.15rem !important; line-height: 1.25; color: #fff !important; }
+.yvc-meta dt { margin: 0; font-size: 0.78rem !important; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55) !important; }
+.yvc-keep { white-space: nowrap; }
+.yvc-meta dd { max-width: 280px; margin: 8px auto 0; font-size: 1.05rem !important; font-weight: 700; line-height: 1.35; color: #fff !important; }
+.yvc-section { padding: 96px 0 28px; }
+.yvc-section .yvc-split { align-items: start; }
+.yvc-points { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 10px; }
+.yvc-points li {
+  margin: 0; padding: 14px 18px; font-family: "Glacial Indifference", Arial, sans-serif !important;
+  border-left: 2px solid var(--mm-pink); border-radius: 0 16px 16px 0; background: rgba(255, 255, 255, 0.04);
+  font-size: 1.05rem !important; line-height: 1.4; color: #fff !important;
+}
+.yvc-pair, .yvc-trio, .yvc-more { display: grid; gap: 16px; }
+.yvc-band { padding: 12px 0 20px; }
+.yvc-pair { grid-template-columns: 1fr 1fr; }
+.yvc-trio { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.yvc-more-row { grid-template-columns: 1fr 1fr; }
+.yvc-page .yvc-pair img, .yvc-page .yvc-trio img, .yvc-page .yvc-trio video, .yvc-page .yvc-more img {
+  display: block; width: 100%; height: auto; object-fit: cover; border: 0; border-radius: 22px; background: #111;
+}
+.yvc-pair img { aspect-ratio: 4 / 3; }
+.yvc-trio img, .yvc-trio video { aspect-ratio: 16 / 10; object-fit: cover; object-position: center top; }
+.yvc-more-row img { aspect-ratio: 16 / 9; object-fit: contain; background: #161616; }
+.yvc-cta {
+  position: relative; overflow: hidden; padding: 128px 0 148px;
+  background: radial-gradient(ellipse 720px 380px at 32% 48%, rgba(255, 128, 139, 0.42), rgba(255, 179, 161, 0.1) 50%, transparent 74%);
+}
+.yvc-cta h2 { margin: 0 0 18px; font-size: clamp(3.2rem, 6.4vw, 6rem) !important; line-height: 1.02; letter-spacing: -0.03em; }
+.yvc-cta-line {
+  margin: 0 0 42px; font-family: "Libre Baskerville", Georgia, serif !important;
+  font-size: clamp(1.7rem, 3.3vw, 3rem) !important; line-height: 1.25; color: #fff !important;
+}
+.yvc-cta-btn {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.75); border-radius: 999px; background: transparent;
+  font-size: 1rem !important; font-weight: 500; color: #fff !important; text-decoration: none !important;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.yvc-cta-btn:hover { border-color: var(--mm-pink); background: rgba(255, 128, 139, 0.12); color: #fff !important; }
+@media (max-width: 1024px) {
+  .yvc-wrap { padding: 0 22px; }
+  .yvc-split { grid-template-columns: 1fr; gap: 36px; }
+  .yvc-hero { padding: 120px 0 64px; }
+  .yvc-cta { padding: 88px 0 72px; }
+  .yvc-hero h1 { font-size: 1.55rem !important; }
+}
+@media (max-width: 800px) {
+  .yvc-stats, .yvc-meta { grid-template-columns: 1fr; }
+  .yvc-stat { max-width: 420px; margin: 0 auto; }
+  .yvc-pair, .yvc-trio, .yvc-more-row { grid-template-columns: 1fr; }
+  .yvc-trio img, .yvc-trio video { aspect-ratio: 16 / 9; }
+  .yvc-section { padding-top: 64px; }
+  .yvc-cta { padding: 72px 0 64px; background: radial-gradient(ellipse 260px 180px at 28% 46%, rgba(255, 128, 139, 0.4), transparent 72%); }
+  .yvc-logo img { height: 52px !important; }
+}
+@media (prefers-reduced-motion: reduce) { .yvc-wall-track { animation: none; } }
+</style>
 
-<div class="wp-block-columns alignfull ext-animate--on has-background-background-color has-background" style="border-style:none;border-width:0px;padding-right:var(--wp--preset--spacing--55);padding-left:var(--wp--preset--spacing--55)">
-<div class="wp-block-column ext-animate--on" style="flex-basis:30px"></div>
+<section class="yvc-hero" aria-labelledby="yvc-hero-title">
+  <div class="yvc-wall" aria-hidden="true">
+    <div class="yvc-wall-row yvc-wall-row-1"><div class="yvc-wall-track"><img src="/media/case-studies/yvonne/meadow.webp" alt="" width="1800" height="585"><img src="/media/case-studies/yvonne/wildflowers.webp" alt="" width="1500" height="1549"><img src="/media/case-studies/yvonne/pink.webp" alt="" width="1772" height="3607"><img src="/media/case-studies/yvonne/garden.webp" alt="" width="1518" height="1500"><img src="/media/case-studies/yvonne/joy.webp" alt="" width="1500" height="1560"><img src="/media/case-studies/yvonne/meadow.webp" alt="" width="1800" height="585"><img src="/media/case-studies/yvonne/wildflowers.webp" alt="" width="1500" height="1549"><img src="/media/case-studies/yvonne/pink.webp" alt="" width="1772" height="3607"><img src="/media/case-studies/yvonne/garden.webp" alt="" width="1518" height="1500"><img src="/media/case-studies/yvonne/joy.webp" alt="" width="1500" height="1560"></div></div>
+    <div class="yvc-wall-row yvc-wall-row-2"><div class="yvc-wall-track"><img src="/media/case-studies/yvonne/joy.webp" alt="" width="1500" height="1560"><img src="/media/case-studies/yvonne/garden.webp" alt="" width="1518" height="1500"><img src="/media/case-studies/yvonne/meadow.webp" alt="" width="1800" height="585"><img src="/media/case-studies/yvonne/pink.webp" alt="" width="1772" height="3607"><img src="/media/case-studies/yvonne/wildflowers.webp" alt="" width="1500" height="1549"><img src="/media/case-studies/yvonne/joy.webp" alt="" width="1500" height="1560"><img src="/media/case-studies/yvonne/garden.webp" alt="" width="1518" height="1500"><img src="/media/case-studies/yvonne/meadow.webp" alt="" width="1800" height="585"><img src="/media/case-studies/yvonne/pink.webp" alt="" width="1772" height="3607"><img src="/media/case-studies/yvonne/wildflowers.webp" alt="" width="1500" height="1549"></div></div>
+    <div class="yvc-wall-row yvc-wall-row-3"><div class="yvc-wall-track"><img src="/media/case-studies/yvonne/garden.webp" alt="" width="1518" height="1500"><img src="/media/case-studies/yvonne/meadow.webp" alt="" width="1800" height="585"><img src="/media/case-studies/yvonne/joy.webp" alt="" width="1500" height="1560"><img src="/media/case-studies/yvonne/wildflowers.webp" alt="" width="1500" height="1549"><img src="/media/case-studies/yvonne/pink.webp" alt="" width="1772" height="3607"><img src="/media/case-studies/yvonne/garden.webp" alt="" width="1518" height="1500"><img src="/media/case-studies/yvonne/meadow.webp" alt="" width="1800" height="585"><img src="/media/case-studies/yvonne/joy.webp" alt="" width="1500" height="1560"><img src="/media/case-studies/yvonne/wildflowers.webp" alt="" width="1500" height="1549"><img src="/media/case-studies/yvonne/pink.webp" alt="" width="1772" height="3607"></div></div>
+  </div>
+  <div class="yvc-hero-shade" aria-hidden="true"></div>
+  <div class="yvc-wrap yvc-split">
+    <div class="yvc-intro">
+      <span class="yvc-eyebrow">Case study</span>
+      <h1 id="yvc-hero-title"><span class="mm-line">Growing Artist</span> <span class="mm-line">Yvonne Coomber’s</span> <span class="mm-line">Online Presence</span> <span class="mm-line mm-line-pink">And Reach</span></h1>
+      <p class="yvc-lead">A Devon contemporary artist, with a gallery in Totnes and a shop online.</p>
+      <a class="yvc-btn" href="https://yvonnecoomber.com/" target="_blank" rel="noopener">Visit the website</a>
+    </div>
+    <div class="yvc-glass">
+      <a class="yvc-logo" href="https://yvonnecoomber.com/" target="_blank" rel="noopener" aria-label="Yvonne Coomber website (opens in a new tab)">
+        <img src="/media/case-studies/yvonne/logo-mark.webp" alt="Yvonne Coomber" width="328" height="79">
+      </a>
+      <p>Yvonne Coomber paints wildflower meadows, moorland and the sea. Originals, prints and canvases are sold from her gallery in Totnes and from her website.</p>
+    </div>
+  </div>
+</section>
 
-<div class="wp-block-column ext-animate--on">
-<h1 id="discover-how-we-ve-helped-brands-thrive-1" class="wp-block-heading ext-animate--on has-foreground-color has-text-color has-link-color has-libre-baskerville-font-family">Case Study:<br>Yvonne Coomber</h1>
+<figure class="yvc-full">
+  <picture>
+    <source media="(max-width: 800px)" srcset="/media/case-studies/yvonne/hero-mobile.webp">
+    <img src="/media/case-studies/yvonne/hero.webp" alt="The Yvonne Coomber homepage, with her signature and a film of flowers against one of her paintings" width="2880" height="1800">
+  </picture>
+</figure>
 
-<div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
+<section class="yvc-results" aria-label="Results">
+  <p class="yvc-kicker">Results</p>
+  <div class="yvc-stats">
+    <div class="yvc-stat">
+      <svg class="yvc-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
+      <div class="yvc-stat-copy"><div class="yvc-num">4.9M+</div><div class="yvc-label">art lovers reached</div></div>
+    </div>
+    <div class="yvc-stat">
+      <svg class="yvc-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
+      <div class="yvc-stat-copy"><div class="yvc-num">57%+</div><div class="yvc-label">audience engagement</div></div>
+    </div>
+    <div class="yvc-stat">
+      <svg class="yvc-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
+      <div class="yvc-stat-copy"><div class="yvc-num yvc-num-words">Totnes</div><div class="yvc-label">Gallery and shop</div></div>
+    </div>
+  </div>
+  <dl class="yvc-meta">
+    <div><dt>Client</dt><dd>Yvonne Coomber</dd></div>
+    <div><dt>Channels</dt><dd>Facebook, Instagram, Pinterest, LinkedIn, <span class="yvc-keep">YouTube and X</span></dd></div>
+    <div><dt>Services</dt><dd>Content, social and the online shop</dd></div>
+  </dl>
+</section>
 
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-116ae40 ext-animate--on" data-block-id="116ae40"><div class="stk-row stk-inner-blocks has-text-align-left stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button has-text-align-right ext-animate--on stk-block stk-4b1830f" data-block-id="4b1830f"><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="https://yvonnecoomber.com/"><span class="stk-button__inner-text"><strong>Discover More</strong></span></a></div>
-</div></div>
-</div>
+<section class="yvc-section" aria-labelledby="yvc-background-title">
+  <div class="yvc-wrap yvc-split">
+    <div class="yvc-intro">
+      <h2 id="yvc-background-title"><span class="mm-line">Client</span> <span class="mm-line mm-line-pink">Background</span></h2>
+    </div>
+    <div class="yvc-copy">
+      <p>Yvonne Coomber is a Devon-based contemporary artist. Her paintings are full of wildflowers, colour and light, and they are collected as originals and prints.</p>
+      <p>She shows the work from her gallery in Totnes, and through exhibitions, and sells it from her website. The online presence had to feel as considered as the paintings.</p>
+    </div>
+  </div>
+</section>
 
-<div class="wp-block-column ext-animate--on">
-<figure class="wp-block-image aligncenter size-full is-resized ext-animate--on"><img src="/media/mm-digital-yvonne-coomber.webp" alt="Yvonne Coomber signature logo" class="wp-image-4081" style="object-fit:cover;width:400px;height:400px"/></figure>
-</div>
-</div>
+<section class="yvc-band" aria-label="Yvonne in the studio and a wildflower painting">
+  <div class="yvc-wrap yvc-pair">
+    <img src="/media/case-studies/yvonne/studio.webp" alt="Yvonne Coomber in her Devon studio garden, with a canvas and brushes on the table" width="1251" height="1012">
+    <img src="/media/case-studies/yvonne/wildflowers.webp" alt="All The Wild Flowers of My Heart Are Yours Forever, a turquoise wildflower painting" width="1500" height="1549">
+  </div>
+</section>
 
-<div class="wp-block-group alignwide ext-animate--on has-glacial-indifference-font-family has-medium-font-size">
-<p class="has-text-align-center ext-animate--on has-primary-color has-text-color has-link-color"><strong><strong>Expanding Yvonne Coomber’s Digital Presence</strong></strong></p>
+<section class="yvc-section" aria-labelledby="yvc-challenge-title">
+  <div class="yvc-wrap yvc-split">
+    <div class="yvc-intro">
+      <h2 id="yvc-challenge-title"><span class="mm-line">The</span> <span class="mm-line mm-line-pink">Challenge</span></h2>
+    </div>
+    <div class="yvc-copy">
+      <p>Interest in the paintings was already there. What the brand needed was a steadier digital presence, so new collectors could find the work and the people who already loved it stayed close.</p>
+      <p>The channels had to keep Yvonne’s voice, and the website had to turn that attention into visits to the shop for originals, prints and canvases.</p>
+    </div>
+  </div>
+</section>
 
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="introduction"><strong>Introduction</strong></h3>
+<section class="yvc-band" aria-label="Paintings and the website">
+  <div class="yvc-wrap yvc-trio">
+    <img src="/media/case-studies/yvonne/joy.webp" alt="This Is Where Joy Lives, a wildflower painting by Yvonne Coomber" width="1500" height="1560">
+    <video class="yvc-scroll" autoplay muted loop playsinline preload="metadata" poster="/media/case-studies/yvonne/hero.webp" aria-label="The Yvonne Coomber website scrolling from the homepage through the paintings and shop">
+      <source src="/media/case-studies/yvonne/scroll.mp4" type="video/mp4">
+      <track kind="captions" label="English captions" src="/media/case-studies/yvonne/scroll.vtt" srclang="en">
+    </video>
+    <img src="/media/case-studies/yvonne/garden.webp" alt="Enchanted Garden, a wildflower painting by Yvonne Coomber" width="1518" height="1500">
+  </div>
+</section>
 
-<p class="has-text-align-center ext-animate--on">Yvonne Coomber is a renowned British contemporary artist whose colourful and uplifting paintings have gained international recognition. As demand for her artwork continued to grow, MM Digital partnered with Yvonne to strengthen her online presence and connect her work with a wider global audience through strategic digital marketing and social media growth.</p>
+<section class="yvc-section" aria-labelledby="yvc-approach-title">
+  <div class="yvc-wrap yvc-split">
+    <div>
+      <div class="yvc-intro">
+        <h2 id="yvc-approach-title"><span class="mm-line">Our</span> <span class="mm-line mm-line-pink">Approach</span></h2>
+      </div>
+      <ul class="yvc-points">
+        <li>Social media strategy</li>
+        <li>Content and storytelling</li>
+        <li>Audience growth</li>
+        <li>Website and print shop</li>
+      </ul>
+    </div>
+    <div class="yvc-copy">
+      <p>We put a clear plan behind the channels. Content follows the paintings, the studio and the stories around them, across Facebook, Instagram, Pinterest, LinkedIn, YouTube and X.</p>
+      <p>The website brings those people on to the shop. Originals, prints and canvases sit at the end of the same path as the social posts, so looking at the work can become a visit.</p>
+      <p>That work has widened the reach of the paintings. The channels have reached more than 4.9 million art lovers, and audience engagement is up by more than 57%.</p>
+      <p>A body of work, taken further into the world while keeping its heart. That is exactly what we do.</p>
+    </div>
+  </div>
+</section>
 
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="client-overview"><strong>Client Overview</strong></h3>
+<section class="yvc-band" aria-label="Social channels">
+  <div class="yvc-wrap yvc-more yvc-more-row">
+    <img src="/media/case-studies/yvonne/facebook.webp" alt="The Yvonne Coomber Facebook page" width="1535" height="734">
+    <img src="/media/case-studies/yvonne/instagram.webp" alt="The Yvonne Coomber Instagram profile and painting grid" width="1600" height="714">
+    <img src="/media/case-studies/yvonne/pinterest.webp" alt="The Yvonne Coomber Pinterest profile and painting boards" width="1600" height="762">
+    <img src="/media/case-studies/yvonne/linkedin.webp" alt="The Yvonne Coomber LinkedIn profile" width="786" height="510">
+    <img src="/media/case-studies/yvonne/x.webp" alt="The Yvonne Coomber profile on X" width="597" height="936">
+    <img src="/media/case-studies/yvonne/youtube.webp" alt="The Yvonne Coomber Art YouTube channel" width="1451" height="876">
+  </div>
+</section>
 
-<p class="has-text-align-center ext-animate--on">Yvonne Coomber’s artwork is celebrated for its vibrant colour, emotional depth, and connection to nature. Her pieces are collected worldwide, with prints and original artworks sold through galleries, exhibitions, and her online store. As the brand expanded digitally, the objective was to ensure her online presence matched the quality and reach of her artistic reputation.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="challenges-and-objectives"><strong>Challenges and Objectives</strong></h3>
-
-<p class="has-text-align-center ext-animate--on">Before working with MM Digital, Yvonne’s digital presence needed further structure and consistency to support growing international interest. Key challenges included:</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family has-medium-font-size">• Creating a cohesive digital strategy across platforms. • Increasing engagement with a highly visual audience. • Reaching new art collectors beyond existing gallery audiences. • Strengthening her social media presence while maintaining authenticity. • Supporting online traffic to her website and print store.</p>
-
-<p class="has-text-align-center ext-animate--on">The objective was to expand her digital footprint while maintaining the integrity and emotion behind the brand.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="mm-digital-s-approach"><strong>MM Digital’s Approach</strong></h3>
-
-<p class="has-text-align-center ext-animate--on">MM Digital developed a strategy focused on storytelling, audience engagement, and consistent digital growth.</p>
-
-<p class="has-text-align-center ext-animate--on"><strong>Social Media Strategy</strong>: Developed a structured posting and engagement plan across social platforms to showcase artwork, studio insights, and creative inspiration.<br><strong>Content Development</strong>: Created engaging visual content that highlighted Yvonne’s artistic process and storytelling behind each piece.<br><strong>Audience Growth</strong>: Implemented audience growth strategies targeting art collectors and enthusiasts.<br><strong>Website Traffic Support</strong>: Directed engaged social audiences towards her website and shop, supporting print and artwork sales.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="results-and-impact"><strong>Results and Impact</strong></h3>
-
-<p class="has-text-align-center ext-animate--on">The strategy successfully expanded Yvonne’s reach and engagement online.</p>
-
-<p class="has-text-align-center ext-animate--on">Key results include:</p>
-
-<p class="has-text-align-center ext-animate--on">• 282,000+ art lovers reached across social media • 40%+ increase in audience engagement • Significant growth in online interaction and brand visibility • A stronger digital presence supporting exhibitions, launches, and artwork releases</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="conclusion"><strong>Conclusion</strong></h3>
-
-<p class="has-text-align-center ext-animate--on">Through a carefully structured digital strategy, MM Digital helped amplify Yvonne Coomber’s artistic presence online, connecting her work with a wider global audience while maintaining the authenticity and emotion at the heart of her brand.</p>
+<section class="yvc-cta" aria-labelledby="yvc-cta-title">
+  <div class="yvc-wrap">
+    <h2 id="yvc-cta-title">Get in touch</h2>
+    <p class="yvc-cta-line">And see how we'd drive results for you</p>
+    <a class="yvc-cta-btn" href="/get-in-touch/">Get In touch <span aria-hidden="true">→</span></a>
+  </div>
+</section>
 </div>
