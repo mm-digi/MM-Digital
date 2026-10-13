@@ -196,9 +196,9 @@
 .lih-meta {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 28px;
-  max-width: 980px;
-  margin: 28px auto 0;
+  gap: 8px;
+  max-width: 1180px;
+  margin: 8px auto 0;
   text-align: center;
 }
 .lih-meta dt {
@@ -209,6 +209,7 @@
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.55) !important;
 }
+.lih-keep { white-space: nowrap; }
 .lih-meta dd {
   max-width: 280px;
   margin: 8px auto 0;
@@ -221,16 +222,9 @@
 /* Story blocks and galleries */
 .lih-section { padding: 96px 0 28px; }
 .lih-section .lih-split { align-items: start; }
-.lih-approach .lih-copy { grid-column: 2; grid-row: 1 / span 2; }
-.lih-approach-side {
-  display: grid;
-  gap: 18px;
-  align-content: start;
-  margin-top: 8px;
-}
 .lih-points {
   list-style: none;
-  margin: 12px 0 0;
+  margin: 28px 0 0;
   padding: 0;
   display: grid;
   gap: 10px;
@@ -245,12 +239,6 @@
   font-size: 1.05rem !important;
   line-height: 1.4;
   color: #fff !important;
-}
-.lih-approach-side img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  border-radius: 22px;
 }
 .lih-pair,
 .lih-trio,
@@ -286,134 +274,52 @@
 }
 .lih-trio video { object-fit: cover; object-position: center top; }
 
-/* Closing panel, same pattern as the homepage call to action */
-.lih-cta { padding: 72px 0 40px; }
-.lih-cta-panel {
+.lih-cta {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: 64px;
-  align-items: center;
-  padding: 64px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 36px;
-  background:
-    radial-gradient(ellipse 55% 70% at 0% 100%, rgba(255, 128, 139, 0.18), transparent 70%),
-    radial-gradient(ellipse 45% 60% at 100% 0%, rgba(255, 128, 139, 0.12), transparent 70%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012));
-  box-shadow: 0 50px 120px rgba(0, 0, 0, 0.55);
   overflow: hidden;
-}
-.lih-cta-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  margin: 0;
-  padding: 48px;
-  border-radius: 26px;
+  padding: 128px 0 148px;
   background:
-    radial-gradient(ellipse 70% 60% at 50% 42%, rgba(255, 128, 139, 0.2), transparent 68%),
-    #000;
-  box-shadow: 0 0 0 1px rgba(255, 128, 139, 0.35), 0 30px 80px rgba(255, 128, 139, 0.18);
-  animation: lihFloat 6s ease-in-out infinite;
+    radial-gradient(ellipse 720px 380px at 32% 48%, rgba(255, 128, 139, 0.42), rgba(255, 179, 161, 0.1) 50%, transparent 74%);
 }
-.lih-cta-mark img {
-  display: block;
-  width: min(280px, 72%);
-  height: auto;
-  mix-blend-mode: screen;
+.lih-cta h2 {
+  margin: 0 0 18px;
+  font-size: clamp(3.2rem, 6.4vw, 6rem) !important;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
 }
-.lih-cta-quick { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
-.lih-cta-quick a {
+.lih-cta-line {
+  margin: 0 0 42px;
+  font-family: "Libre Baskerville", Georgia, serif !important;
+  font-size: clamp(1.7rem, 3.3vw, 3rem) !important;
+  line-height: 1.25;
+  color: #fff !important;
+}
+.lih-cta-btn {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 20px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
   border-radius: 999px;
+  background: transparent;
   font-size: 1rem !important;
+  font-weight: 500;
   color: #fff !important;
   text-decoration: none !important;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
-.lih-cta-quick a:hover { border-color: var(--mm-pink); background: rgba(255, 128, 139, 0.08); color: var(--mm-pink) !important; }
-.lih-cta-quick svg { width: 16px; height: 16px; fill: var(--mm-pink); }
-.lih-cta h2 { margin-bottom: 16px; }
-.lih-cta-copy {
-  margin: 0 0 30px;
-  font-size: 1.15rem !important;
-  line-height: 1.65;
-  color: #cfcfcf !important;
-}
-.lih-cta-form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.lih-cta-field { display: grid; gap: 8px; }
-.lih-cta-field--full { grid-column: 1 / -1; }
-.lih-cta-field label { font-size: 0.9rem !important; color: rgba(255, 255, 255, 0.75) !important; }
-.lih-cta-field input,
-.lih-cta-field textarea {
-  width: 100%;
-  padding: 15px 18px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 14px;
-  background: rgba(0, 0, 0, 0.35);
-  font-family: "Glacial Indifference", Arial, sans-serif;
-  font-size: 1rem;
-  color: #fff;
-}
-.lih-cta-field textarea { min-height: 130px; resize: vertical; }
-.lih-cta-field input::placeholder,
-.lih-cta-field textarea::placeholder { color: rgba(255, 255, 255, 0.35); }
-.lih-cta-field input:focus,
-.lih-cta-field textarea:focus {
-  outline: none;
+.lih-cta-btn:hover {
   border-color: var(--mm-pink);
-  box-shadow: 0 0 0 4px rgba(255, 128, 139, 0.15);
-}
-.lih-cta-actions {
-  grid-column: 1 / -1;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 18px 24px;
-  margin-top: 6px;
-}
-.lih-cta-submit {
-  min-height: 54px;
-  padding: 0 34px;
-  border: 0;
-  border-radius: 999px;
-  background: var(--mm-pink);
-  font-size: 16px !important;
-  font-weight: 700;
+  background: rgba(255, 128, 139, 0.12);
   color: #fff !important;
-  cursor: pointer;
-}
-.lih-cta-submit:hover { background: #ff6d79; }
-.lih-cta-link {
-  font-size: 1rem !important;
-  font-weight: 700;
-  color: #fff !important;
-  text-decoration: none !important;
-}
-.lih-cta-link:hover { color: var(--mm-pink) !important; }
-.lih-page .mm-form-status { grid-column: 1 / -1; margin: 0; font-size: 1rem !important; color: #cfcfcf !important; }
-.lih-page .mm-form-status:empty { display: none; }
-.lih-page .mm-form-status.is-success { color: #8fe3b0 !important; }
-.lih-page .mm-form-status.is-error { color: var(--mm-pink) !important; }
-@keyframes lihFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
 }
 
 @media (max-width: 1024px) {
   .lih-wrap { padding: 0 22px; }
-  .lih-split,
-  .lih-cta-panel { grid-template-columns: 1fr; gap: 36px; }
-  .lih-approach .lih-copy,
-  .lih-approach-side { grid-column: 1; grid-row: auto; }
-  .lih-cta-panel { padding: 40px 28px; }
+  .lih-split { grid-template-columns: 1fr; gap: 36px; }
   .lih-hero { padding: 120px 0 64px; }
+  .lih-cta { padding: 88px 0 72px; }
   .lih-hero h1 { font-size: 1.55rem !important; }
 }
 @media (max-width: 800px) {
@@ -426,13 +332,20 @@
   .lih-trio img,
   .lih-trio video { aspect-ratio: 16 / 9; }
   .lih-section { padding-top: 64px; }
-  .lih-cta-form { grid-template-columns: 1fr; }
-  .lih-cta-panel { padding: 28px 20px; border-radius: 26px; }
+  .lih-cta {
+    padding: 72px 0 64px;
+    background: radial-gradient(ellipse 260px 180px at 28% 46%, rgba(255, 128, 139, 0.4), transparent 72%);
+  }
   .lih-logo img { height: 52px !important; }
+  .lih-full img {
+    height: auto;
+    aspect-ratio: 479 / 764;
+    object-fit: cover;
+    object-position: center top;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .lih-wall-track,
-  .lih-cta-mark { animation: none; }
+  .lih-wall-track { animation: none; }
 }
 </style>
 
@@ -461,7 +374,10 @@
 </section>
 
 <figure class="lih-full">
-  <img src="/media/case-studies/lost-in-hound/hero.webp" alt="The Lost In Hound homepage, with two dogs wearing reflective collars and leads" width="1898" height="864">
+  <picture>
+    <source media="(max-width: 800px)" srcset="/media/case-studies/lost-in-hound/hero-mobile.webp">
+    <img src="/media/case-studies/lost-in-hound/hero-hq.webp" alt="The Lost In Hound homepage, with two dogs wearing reflective collars and leads" width="3840" height="1808">
+  </picture>
 </figure>
 
 <section class="lih-results" aria-labelledby="lih-results-title">
@@ -497,7 +413,7 @@
       </div>
       <div>
         <dt>Channels</dt>
-        <dd>Facebook, Instagram, LinkedIn and TikTok</dd>
+        <dd>Facebook, Instagram, <span class="lih-keep">LinkedIn and TikTok</span></dd>
       </div>
       <div>
         <dt>Services</dt>
@@ -552,8 +468,17 @@
 
 <section class="lih-section" aria-labelledby="lih-approach-title">
   <div class="lih-wrap lih-split lih-approach">
-    <div class="lih-intro">
-      <h2 id="lih-approach-title"><span class="mm-line">Our</span> <span class="mm-line mm-line-pink">Approach</span></h2>
+    <div>
+      <div class="lih-intro">
+        <h2 id="lih-approach-title"><span class="mm-line">Our</span> <span class="mm-line mm-line-pink">Approach</span></h2>
+      </div>
+      <ul class="lih-points">
+        <li>Brand identity and kit</li>
+        <li>Shopify store and ongoing support</li>
+        <li>Facebook and Instagram shops</li>
+        <li>Content, paid ads and community</li>
+        <li>Amazon and TikTok</li>
+      </ul>
     </div>
     <div class="lih-copy">
       <p>We did not rush to launch. For months beforehand we worked hand in hand with the founders to put real foundations in place, the kind most brands only wish they had built later.</p>
@@ -562,16 +487,6 @@
       <p>From there, the work turned to momentum. Through consistent content, paid advertising, hands on social media management and a genuine focus on community, we grew the brand from nothing into real numbers, over 1.5 million content views and more than 4,600 engaged new followers, while expanding onto both Amazon and TikTok as the brand gathered pace. The aim in those early months was a solid baseline of growth, a real foundation of attention and audience to build sales on top of.</p>
       <p>That baseline came together faster than we expected. The visibility and following we had built began to convert, and the brand moved from growing an audience to generating genuine sales. Since then we have stayed hands on, optimising as real customer behaviour comes in, and what began as a startup idea is now a healthy, scaling e-commerce brand with real customers and real room to grow.</p>
       <p>A brand with potential, taken from idea to powerhouse. That is exactly what we do.</p>
-    </div>
-    <div class="lih-approach-side">
-      <ul class="lih-points">
-        <li>Brand identity and kit</li>
-        <li>Shopify store and ongoing support</li>
-        <li>Facebook and Instagram shops</li>
-        <li>Content, paid ads and community</li>
-        <li>Amazon and TikTok</li>
-      </ul>
-      <img src="/media/case-studies/lost-in-hound/pack.webp" alt="A dog sitting on a mossy stump in a Lost In Hound collar" width="1600" height="1067">
     </div>
   </div>
 </section>
@@ -588,55 +503,15 @@
         <img src="/media/case-studies/lost-in-hound/instagram.webp" alt="The Lost In Hound Instagram grid of product details and dogs wearing the collars" width="1505" height="842">
         <img src="/media/case-studies/lost-in-hound/tiktok.webp" alt="The Lost In Hound TikTok profile and videos" width="1600" height="919">
       </div>
-      <div class="lih-more lih-more-row">
-        <img src="/media/case-studies/lost-in-hound/collar.webp" alt="Close-up of a Lost In Hound collar with reflective stitching and the brand label" width="1600" height="1067">
-        <img src="/media/case-studies/lost-in-hound/woods.webp" alt="Hands clipping a Lost In Hound lead to a collar, with the brand patch on the strap" width="1600" height="1067">
-      </div>
     </div>
   </div>
 </section>
 
 <section class="lih-cta" aria-labelledby="lih-cta-title">
   <div class="lih-wrap">
-    <div class="lih-cta-panel">
-      <div>
-        <a class="lih-cta-mark" href="/" aria-label="MM Digital">
-          <img src="/media/mm-digital-footer-image-1090df6.webp" width="598" height="452" alt="MM Digital">
-        </a>
-        <div class="lih-cta-quick">
-          <a href="tel:07880601123"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>07880 601123</a>
-          <a href="mailto:info@mm-digi.co.uk"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 7.2L20 6H4l8 5.2zM4 8.3V18h16V8.3l-7.46 4.85a1 1 0 0 1-1.08 0z"/></svg><span>info<span style="font-family:Arial,Helvetica,sans-serif">@</span>mm-digi.co.uk</span></a>
-        </div>
-      </div>
-      <div>
-        <span class="lih-eyebrow">Get in Touch</span>
-        <h2 id="lih-cta-title"><span class="mm-line">See How We'd Drive</span> <span class="mm-line mm-line-pink">Results For You</span></h2>
-        <p class="lih-cta-copy">Discover how MM Digital's expert strategies can elevate your online presence. Join us now to start transforming your brand with data-driven creativity and personalised marketing solutions.</p>
-        <form class="lih-cta-form mm-home-contact-form" novalidate>
-          <div class="lih-cta-field">
-            <label for="lih-cta-first">First name</label>
-            <input id="lih-cta-first" name="firstName" type="text" placeholder="John" autocomplete="given-name" required>
-          </div>
-          <div class="lih-cta-field">
-            <label for="lih-cta-last">Last name</label>
-            <input id="lih-cta-last" name="lastName" type="text" placeholder="Doe" autocomplete="family-name" required>
-          </div>
-          <div class="lih-cta-field lih-cta-field--full">
-            <label for="lih-cta-email">Email</label>
-            <input id="lih-cta-email" name="email" type="email" placeholder="example@mail.com" autocomplete="email" required>
-          </div>
-          <div class="lih-cta-field lih-cta-field--full">
-            <label for="lih-cta-message">Message</label>
-            <textarea id="lih-cta-message" name="message" placeholder="Tell us about your brand and goals" required></textarea>
-          </div>
-          <p class="mm-form-status" role="status" aria-live="polite"></p>
-          <div class="lih-cta-actions">
-            <button class="lih-cta-submit" type="submit">Send Message</button>
-            <a class="lih-cta-link" href="/digital-services/">Discover Our Services &rarr;</a>
-          </div>
-        </form>
-      </div>
-    </div>
+    <h2 id="lih-cta-title">Get in touch</h2>
+    <p class="lih-cta-line">And see how we'd drive results for you</p>
+    <a class="lih-cta-btn" href="/get-in-touch/">Get In touch <span aria-hidden="true">→</span></a>
   </div>
 </section>
 </div>

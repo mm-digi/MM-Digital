@@ -418,6 +418,53 @@
 .mmw-visit:focus-visible > span { background: #ff808b; border-color: #ff808b; }
 .mmw-visit:focus-visible { outline: 2px solid #ff808b; outline-offset: -2px; border-radius: 28px; }
 
+.mmw-actions {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 22px;
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.mmw-actions .mmw-visit {
+  position: static;
+  inset: auto;
+  width: auto;
+  height: auto;
+}
+.mmw-actions .mmw-visit > span,
+.mmw-actions .mmw-study > span {
+  position: static;
+  padding: 8px 14px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.mmw-study { text-decoration: none !important; }
+.mmw-study > span {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #ff808b;
+  border-radius: 999px;
+  background: #ff808b;
+  font-family: "Glacial Indifference", Arial, sans-serif;
+  font-weight: 700;
+  color: #fff;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+.mmw-card:hover .mmw-study > span,
+.mmw-study:focus-visible > span { background: #ff6d79; border-color: #ff6d79; }
+.mmw-study:focus-visible { outline: 2px solid #ff808b; outline-offset: 3px; border-radius: 999px; }
+@media (max-width: 700px) {
+  .mmw-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    right: auto;
+    max-width: 60%;
+  }
+}
+
 .mmw-card .mmw-btn { margin-top: auto; align-self: flex-start; }
 
 /* Why us */
@@ -699,7 +746,10 @@
               <img src="/media/work/lost-in-hound-phone-480.webp" srcset="/media/work/lost-in-hound-phone-480.webp 480w, /media/work/lost-in-hound-phone-840.webp 840w" sizes="(max-width: 1100px) 32vw, 210px" alt="The Lost in Hound website on a phone" width="480" height="1043">
             </div>
           </div>
-          <a class="mmw-visit" href="https://lostinhound.co.uk/" target="_blank" rel="noopener" aria-label="Visit the Lost In Hound website (opens in a new tab)"><span>Visit site <span aria-hidden="true">&#8599;</span></span></a>
+          <div class="mmw-actions">
+            <a class="mmw-visit" href="https://lostinhound.co.uk/" target="_blank" rel="noopener" aria-label="Visit the Lost In Hound website (opens in a new tab)"><span>Visit site <span aria-hidden="true">&#8599;</span></span></a>
+            <a class="mmw-study" href="/lost-in-hound-case-study/"><span>Read the case study</span></a>
+          </div>
         </div>
       </article>
 
