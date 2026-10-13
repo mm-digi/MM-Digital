@@ -1,0 +1,263 @@
+<div class="wp-block-group alignfull trz-page">
+<style>
+.trz-page { --mm-pink: #ff808b; color: #fff; background: #000; }
+.trz-page * { box-sizing: border-box; }
+.trz-page h1,
+.trz-page h2 {
+  margin: 0 0 20px;
+  font-family: "Libre Baskerville", Georgia, serif !important;
+  font-weight: 400;
+  font-size: clamp(1.9rem, 3.6vw, 3.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.trz-hero h1 { font-size: clamp(1.7rem, 2.7vw, 3rem) !important; }
+.trz-page .mm-line { display: block; }
+.trz-page .mm-line-pink { color: var(--mm-pink) !important; font-style: normal; }
+.trz-page p,
+.trz-page a,
+.trz-page dt,
+.trz-page dd,
+.trz-kicker,
+.trz-label,
+.trz-num {
+  font-family: "Glacial Indifference", Arial, sans-serif !important;
+}
+.trz-wrap { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
+.trz-page figure { margin: 0; }
+.trz-hero { position: relative; overflow: hidden; padding: 150px 0 88px; }
+.trz-wall {
+  position: absolute; inset: -40px 0; display: grid; gap: 18px; align-content: center;
+  transform: rotate(-4deg) scale(1.08);
+}
+.trz-wall-row { overflow: hidden; }
+.trz-wall-track { display: flex; gap: 18px; width: max-content; animation: trzDrift 80s linear infinite; }
+.trz-wall-row-2 .trz-wall-track { animation-direction: reverse; animation-duration: 95s; }
+.trz-wall-row-3 .trz-wall-track { animation-duration: 70s; }
+.trz-wall-track img { width: 380px; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; }
+@keyframes trzDrift { to { transform: translateX(-50%); } }
+.trz-hero-shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.82) 45%, rgba(0, 0, 0, 0.7) 100%),
+    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(255, 128, 139, 0.22), transparent 70%);
+}
+.trz-hero .trz-wrap { position: relative; z-index: 1; }
+.trz-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; align-items: center; }
+.trz-intro { padding-left: 32px; border-left: 2px solid var(--mm-pink); }
+.trz-eyebrow {
+  display: block; margin-bottom: 14px; font-size: 0.85rem !important; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--mm-pink) !important;
+}
+.trz-lead, .trz-copy p { margin: 0 0 18px; font-size: 1.15rem !important; line-height: 1.65; color: #cfcfcf !important; }
+.trz-lead { margin-bottom: 30px; }
+.trz-copy p:last-child { margin-bottom: 0; }
+.trz-btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 28px;
+  border-radius: 999px; background: var(--mm-pink); font-size: 16px !important; font-weight: 700;
+  color: #fff !important; text-decoration: none !important; transition: background 0.25s ease, transform 0.25s ease;
+}
+.trz-btn:hover { background: #ff6d79; transform: translateY(-2px); }
+.trz-glass {
+  padding: 36px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 28px;
+  background: rgba(10, 6, 8, 0.72); backdrop-filter: blur(6px); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+}
+.trz-logo { display: block; margin: 0 0 22px; line-height: 0; }
+.trz-logo img { display: block; width: auto !important; height: 84px !important; border-radius: 0 !important; }
+.trz-full img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center center; background: #000; }
+.trz-results { background: #101010; padding: 72px 0 64px; }
+.trz-kicker { margin: 0 0 8px; text-align: center; font-size: 0.95rem !important; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.72) !important; }
+.trz-stats, .trz-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 1180px; margin: 0 auto; }
+.trz-meta { margin-top: 8px; text-align: center; }
+.trz-stat { position: relative; }
+.trz-rings { display: block; width: 100%; height: auto; }
+.trz-stat-copy {
+  position: absolute; inset: 18% 16% 20%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; gap: 10px;
+}
+.trz-num {
+  font-size: clamp(2.4rem, 4.2vw, 4.4rem) !important; font-weight: 500; line-height: 0.95;
+  letter-spacing: -0.03em; -webkit-text-fill-color: #ff808b; color: #ff808b !important;
+}
+.trz-num-words { font-size: clamp(1.55rem, 2.4vw, 2.3rem) !important; line-height: 1.05; letter-spacing: -0.02em; }
+.trz-label { max-width: 16ch; font-size: 1.15rem !important; line-height: 1.25; color: #fff !important; }
+.trz-meta dt { margin: 0; font-size: 0.78rem !important; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55) !important; }
+.trz-keep { white-space: nowrap; }
+.trz-meta dd { max-width: 280px; margin: 8px auto 0; font-size: 1.05rem !important; font-weight: 700; line-height: 1.35; color: #fff !important; }
+.trz-section { padding: 96px 0 28px; }
+.trz-section .trz-split { align-items: start; }
+.trz-points { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 10px; }
+.trz-points li {
+  margin: 0; padding: 14px 18px; font-family: "Glacial Indifference", Arial, sans-serif !important;
+  border-left: 2px solid var(--mm-pink); border-radius: 0 16px 16px 0; background: rgba(255, 255, 255, 0.04);
+  font-size: 1.05rem !important; line-height: 1.4; color: #fff !important;
+}
+.trz-pair, .trz-trio { display: grid; gap: 16px; }
+.trz-band { padding: 12px 0 20px; }
+.trz-pair { grid-template-columns: 1fr 1fr; }
+.trz-trio { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.trz-page .trz-pair img, .trz-page .trz-trio img, .trz-page .trz-trio video {
+  display: block; width: 100%; height: auto; object-fit: cover; border: 0; border-radius: 22px; background: #111;
+}
+.trz-pair img { aspect-ratio: 16 / 9; }
+.trz-trio img, .trz-trio video { aspect-ratio: 16 / 10; object-fit: cover; object-position: center center; }
+.trz-cta {
+  position: relative; overflow: hidden; padding: 128px 0 148px;
+  background: radial-gradient(ellipse 720px 380px at 32% 48%, rgba(255, 128, 139, 0.42), rgba(255, 179, 161, 0.1) 50%, transparent 74%);
+}
+.trz-cta h2 { margin: 0 0 18px; font-size: clamp(3.2rem, 6.4vw, 6rem) !important; line-height: 1.02; letter-spacing: -0.03em; }
+.trz-cta-line {
+  margin: 0 0 42px; font-family: "Libre Baskerville", Georgia, serif !important;
+  font-size: clamp(1.7rem, 3.3vw, 3rem) !important; line-height: 1.25; color: #fff !important;
+}
+.trz-cta-btn {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.75); border-radius: 999px; background: transparent;
+  font-size: 1rem !important; font-weight: 500; color: #fff !important; text-decoration: none !important;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.trz-cta-btn:hover { border-color: var(--mm-pink); background: rgba(255, 128, 139, 0.12); color: #fff !important; }
+@media (max-width: 1024px) {
+  .trz-wrap { padding: 0 22px; }
+  .trz-split { grid-template-columns: 1fr; gap: 36px; }
+  .trz-hero { padding: 120px 0 64px; }
+  .trz-cta { padding: 88px 0 72px; }
+  .trz-hero h1 { font-size: 1.55rem !important; }
+}
+@media (max-width: 800px) {
+  .trz-stats, .trz-meta { grid-template-columns: 1fr; }
+  .trz-stat { max-width: 420px; margin: 0 auto; }
+  .trz-pair, .trz-trio { grid-template-columns: 1fr; }
+  .trz-trio img, .trz-trio video { aspect-ratio: 16 / 9; }
+  .trz-section { padding-top: 64px; }
+  .trz-cta { padding: 72px 0 64px; background: radial-gradient(ellipse 260px 180px at 28% 46%, rgba(255, 128, 139, 0.4), transparent 72%); }
+  .trz-logo img { height: 68px !important; }
+}
+@media (prefers-reduced-motion: reduce) { .trz-wall-track { animation: none; } }
+</style>
+
+<section class="trz-hero" aria-labelledby="trz-hero-title">
+  <div class="trz-wall" aria-hidden="true">
+    <div class="trz-wall-row trz-wall-row-1"><div class="trz-wall-track"><img src="/media/case-studies/trendz/platforms.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/signal.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/score.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/waitlist.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/platforms.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/signal.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/score.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/waitlist.webp" alt="" width="1280" height="720"></div></div>
+    <div class="trz-wall-row trz-wall-row-2"><div class="trz-wall-track"><img src="/media/case-studies/trendz/score.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/waitlist.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/platforms.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/signal.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/score.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/waitlist.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/platforms.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/signal.webp" alt="" width="1280" height="720"></div></div>
+    <div class="trz-wall-row trz-wall-row-3"><div class="trz-wall-track"><img src="/media/case-studies/trendz/signal.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/platforms.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/waitlist.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/score.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/signal.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/platforms.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/waitlist.webp" alt="" width="1280" height="720"><img src="/media/case-studies/trendz/score.webp" alt="" width="1280" height="720"></div></div>
+  </div>
+  <div class="trz-hero-shade" aria-hidden="true"></div>
+  <div class="trz-wrap trz-split">
+    <div class="trz-intro">
+      <span class="trz-eyebrow">Case study</span>
+      <h1 id="trz-hero-title"><span class="mm-line">Building Trendz’s</span> <span class="mm-line">Pre-Launch Hype</span> <span class="mm-line">Across Crypto</span> <span class="mm-line mm-line-pink">And Social</span></h1>
+      <p class="trz-lead">An early-access waitlist for a product that spots a viral trend and turns it into a token launch.</p>
+      <a class="trz-btn" href="https://degentrendz.fun/welcome" target="_blank" rel="noopener">Visit the website</a>
+    </div>
+    <div class="trz-glass">
+      <a class="trz-logo" href="https://degentrendz.fun/welcome" target="_blank" rel="noopener" aria-label="Trendz website (opens in a new tab)">
+        <img src="/media/case-studies/trendz/logo-mark.webp" alt="Trendz" width="175" height="148">
+      </a>
+      <p>Trendz scores viral signals across TikTok, YouTube, X, Reddit and Google, then sends a winning idea to a one-click launch. The public site asks people to join before the doors open.</p>
+    </div>
+  </div>
+</section>
+
+<figure class="trz-full">
+  <picture>
+    <source media="(max-width: 800px)" srcset="/media/case-studies/trendz/hero-mobile.webp">
+    <img src="/media/case-studies/trendz/hero.webp" alt="The Trendz early-access homepage, with the waitlist and the line The next meme coin before it pops" width="2880" height="1800">
+  </picture>
+</figure>
+
+<section class="trz-results" aria-label="Results">
+  <p class="trz-kicker">Results</p>
+  <div class="trz-stats">
+    <div class="trz-stat">
+      <svg class="trz-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
+      <div class="trz-stat-copy"><div class="trz-num trz-num-words">Pre-launch</div><div class="trz-label">Early access</div></div>
+    </div>
+    <div class="trz-stat">
+      <svg class="trz-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
+      <div class="trz-stat-copy"><div class="trz-num trz-num-words">Waitlist</div><div class="trz-label">Live on the site</div></div>
+    </div>
+    <div class="trz-stat">
+      <svg class="trz-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
+      <div class="trz-stat-copy"><div class="trz-num trz-num-words">Crypto</div><div class="trz-label">And social</div></div>
+    </div>
+  </div>
+  <dl class="trz-meta">
+    <div><dt>Client</dt><dd>Trendz</dd></div>
+    <div><dt>Channels</dt><dd><span class="trz-keep">Facebook and X</span></dd></div>
+    <div><dt>Services</dt><dd>Website, social and the waitlist</dd></div>
+  </dl>
+</section>
+
+<section class="trz-section" aria-labelledby="trz-background-title">
+  <div class="trz-wrap trz-split">
+    <div class="trz-intro">
+      <h2 id="trz-background-title"><span class="mm-line">Client</span> <span class="mm-line mm-line-pink">Background</span></h2>
+    </div>
+    <div class="trz-copy">
+      <p>Trendz is a pre-launch product for people who watch crypto and social trends. It scores a viral clip or post, then turns a winning idea into a Solana token launch.</p>
+      <p>Before the product opened, it needed a public face. One site, one story, and a list of people ready for the first day.</p>
+    </div>
+  </div>
+</section>
+
+<section class="trz-band" aria-label="The scoring screen and the platforms">
+  <div class="trz-wrap trz-pair">
+    <img src="/media/case-studies/trendz/score.webp" alt="The Trendz Meme DNA scoring screen, with a sample rating marked viral" width="1280" height="720">
+    <img src="/media/case-studies/trendz/platforms.webp" alt="The Trendz platform row for TikTok, YouTube, X, Reddit and Google" width="1280" height="720">
+  </div>
+</section>
+
+<section class="trz-section" aria-labelledby="trz-challenge-title">
+  <div class="trz-wrap trz-split">
+    <div class="trz-intro">
+      <h2 id="trz-challenge-title"><span class="mm-line">The</span> <span class="mm-line mm-line-pink">Challenge</span></h2>
+    </div>
+    <div class="trz-copy">
+      <p>A product that is not open yet still has to be understood. The audience is already on X and across social platforms, and it moves quickly.</p>
+      <p>The site had to explain the idea on one screen, and give people a reason to join the waitlist before launch day.</p>
+    </div>
+  </div>
+</section>
+
+<section class="trz-band" aria-label="The website">
+  <div class="trz-wrap trz-trio">
+    <img src="/media/case-studies/trendz/signal.webp" alt="The Trendz live signal preview, with the feed locked until someone joins the waitlist" width="1280" height="720">
+    <video class="trz-scroll" autoplay muted loop playsinline preload="metadata" poster="/media/case-studies/trendz/hero.webp" aria-label="The Trendz website scrolling from the waitlist through the platforms and the launch story">
+      <source src="/media/case-studies/trendz/scroll.mp4" type="video/mp4">
+      <track kind="captions" label="English captions" src="/media/case-studies/trendz/scroll.vtt" srclang="en">
+    </video>
+    <img src="/media/case-studies/trendz/waitlist.webp" alt="The Trendz waitlist form, asking for an email and an X handle" width="1280" height="720">
+  </div>
+</section>
+
+<section class="trz-section" aria-labelledby="trz-approach-title">
+  <div class="trz-wrap trz-split">
+    <div>
+      <div class="trz-intro">
+        <h2 id="trz-approach-title"><span class="mm-line">Our</span> <span class="mm-line mm-line-pink">Approach</span></h2>
+      </div>
+      <ul class="trz-points">
+        <li>Waitlist website</li>
+        <li>Pre-launch story</li>
+        <li>Crypto and social</li>
+        <li>Early access list</li>
+      </ul>
+    </div>
+    <div class="trz-copy">
+      <p>We built the pre-launch site around one action: join the waitlist. The page shows the product, the platforms it watches, and the path from a viral signal to a launch.</p>
+      <p>Social carries the same story. The posts and the website point at the same early-access list, so the hype has somewhere to land.</p>
+      <p>The waitlist is live, and the launch story is in market. That is the work before the doors open.</p>
+    </div>
+  </div>
+</section>
+
+<section class="trz-cta" aria-labelledby="trz-cta-title">
+  <div class="trz-wrap">
+    <h2 id="trz-cta-title">Get in touch</h2>
+    <p class="trz-cta-line">And see how we'd drive results for you</p>
+    <a class="trz-cta-btn" href="/get-in-touch/">Get In touch <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+</div>
