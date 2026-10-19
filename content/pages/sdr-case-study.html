@@ -1,0 +1,278 @@
+<div class="wp-block-group alignfull sdr-page">
+<style>
+.sdr-page { --mm-pink: #ff808b; color: #fff; background: #000; }
+.sdr-page * { box-sizing: border-box; }
+.sdr-page h1,
+.sdr-page h2 {
+  margin: 0 0 20px;
+  font-family: "Libre Baskerville", Georgia, serif !important;
+  font-weight: 400;
+  font-size: clamp(1.9rem, 3.6vw, 3.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.sdr-hero h1 { font-size: clamp(1.7rem, 2.7vw, 3rem) !important; }
+.sdr-page .mm-line { display: block; }
+.sdr-page .mm-line-pink { color: var(--mm-pink) !important; font-style: normal; }
+.sdr-page p,
+.sdr-page a,
+.sdr-page dt,
+.sdr-page dd,
+.sdr-kicker,
+.sdr-label,
+.sdr-num {
+  font-family: "Glacial Indifference", Arial, sans-serif !important;
+}
+.sdr-wrap { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
+.sdr-page figure { margin: 0; }
+.sdr-hero { position: relative; overflow: hidden; padding: 150px 0 88px; }
+.sdr-wall {
+  position: absolute; inset: -40px 0; display: grid; gap: 18px; align-content: center;
+  transform: rotate(-4deg) scale(1.08);
+}
+.sdr-wall-row { overflow: hidden; }
+.sdr-wall-track { display: flex; gap: 18px; width: max-content; animation: sdrDrift 80s linear infinite; }
+.sdr-wall-row-2 .sdr-wall-track { animation-direction: reverse; animation-duration: 95s; }
+.sdr-wall-row-3 .sdr-wall-track { animation-duration: 70s; }
+.sdr-wall-track img { width: 380px; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; }
+@keyframes sdrDrift { to { transform: translateX(-50%); } }
+.sdr-hero-shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.82) 45%, rgba(0, 0, 0, 0.7) 100%),
+    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(255, 128, 139, 0.22), transparent 70%);
+}
+.sdr-hero .sdr-wrap { position: relative; z-index: 1; }
+.sdr-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; align-items: center; }
+.sdr-intro { padding-left: 32px; border-left: 2px solid var(--mm-pink); }
+.sdr-eyebrow {
+  display: block; margin-bottom: 14px; font-size: 0.85rem !important; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--mm-pink) !important;
+}
+.sdr-lead, .sdr-copy p { margin: 0 0 18px; font-size: 1.15rem !important; line-height: 1.65; color: #cfcfcf !important; }
+.sdr-lead { margin-bottom: 30px; }
+.sdr-copy p:last-child { margin-bottom: 0; }
+.sdr-btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 28px;
+  border-radius: 999px; background: var(--mm-pink); font-size: 16px !important; font-weight: 700;
+  color: #fff !important; text-decoration: none !important; transition: background 0.25s ease, transform 0.25s ease;
+}
+.sdr-btn:hover { background: #ff6d79; transform: translateY(-2px); }
+.sdr-glass {
+  padding: 36px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 28px;
+  background: rgba(10, 6, 8, 0.72); backdrop-filter: blur(6px); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+}
+.sdr-logo { display: block; margin: 0 0 22px; line-height: 0; }
+.sdr-logo img { display: block; width: auto !important; height: 64px !important; border-radius: 0 !important; }
+.sdr-full img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center center; background: #000; }
+.sdr-results { background: #101010; padding: 72px 0 64px; }
+.sdr-kicker { margin: 0 0 8px; text-align: center; font-size: 0.95rem !important; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.72) !important; }
+.sdr-stats, .sdr-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 1180px; margin: 0 auto; }
+.sdr-meta { margin-top: 8px; text-align: center; }
+.sdr-stat { position: relative; }
+.sdr-rings { display: block; width: 100%; height: auto; }
+.sdr-stat-copy {
+  position: absolute; inset: 18% 16% 20%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; gap: 10px;
+}
+.sdr-num {
+  font-size: clamp(2.4rem, 4.2vw, 4.4rem) !important; font-weight: 500; line-height: 0.95;
+  letter-spacing: -0.03em; -webkit-text-fill-color: #ff808b; color: #ff808b !important;
+}
+.sdr-num-words { font-size: clamp(1.7rem, 2.5vw, 2.45rem) !important; line-height: 1.05; letter-spacing: -0.02em; }
+.sdr-label { max-width: 16ch; font-size: 1.15rem !important; line-height: 1.25; color: #fff !important; }
+.sdr-meta dt { margin: 0; font-size: 0.78rem !important; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55) !important; }
+.sdr-keep { white-space: nowrap; }
+.sdr-meta dd { max-width: 280px; margin: 8px auto 0; font-size: 1.05rem !important; font-weight: 700; line-height: 1.35; color: #fff !important; }
+.sdr-section { padding: 96px 0 28px; }
+.sdr-section .sdr-split { align-items: start; }
+.sdr-points { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 10px; }
+.sdr-points li {
+  margin: 0; padding: 14px 18px; font-family: "Glacial Indifference", Arial, sans-serif !important;
+  border-left: 2px solid var(--mm-pink); border-radius: 0 16px 16px 0; background: rgba(255, 255, 255, 0.04);
+  font-size: 1.05rem !important; line-height: 1.4; color: #fff !important;
+}
+.sdr-pair, .sdr-trio, .sdr-more { display: grid; gap: 16px; }
+.sdr-band { padding: 12px 0 20px; }
+.sdr-pair { grid-template-columns: 1fr 1fr; }
+.sdr-trio { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.sdr-more-row { grid-template-columns: 1fr 1fr; }
+.sdr-page .sdr-pair img, .sdr-page .sdr-trio img, .sdr-page .sdr-trio video, .sdr-page .sdr-more img {
+  display: block; width: 100%; height: auto; object-fit: cover; border: 0; border-radius: 22px; background: #111;
+}
+.sdr-pair img { aspect-ratio: 4 / 3; }
+.sdr-trio img, .sdr-trio video { aspect-ratio: 16 / 10; object-fit: cover; object-position: center top; }
+.sdr-more-row img { aspect-ratio: 16 / 9; object-fit: contain; background: #161616; }
+.sdr-cta {
+  position: relative; overflow: hidden; padding: 128px 0 148px;
+  background: radial-gradient(ellipse 720px 380px at 32% 48%, rgba(255, 128, 139, 0.42), rgba(255, 179, 161, 0.1) 50%, transparent 74%);
+}
+.sdr-cta h2 { margin: 0 0 18px; font-size: clamp(3.2rem, 6.4vw, 6rem) !important; line-height: 1.02; letter-spacing: -0.03em; }
+.sdr-cta-line {
+  margin: 0 0 42px; font-family: "Libre Baskerville", Georgia, serif !important;
+  font-size: clamp(1.7rem, 3.3vw, 3rem) !important; line-height: 1.25; color: #fff !important;
+}
+.sdr-cta-btn {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.75); border-radius: 999px; background: transparent;
+  font-size: 1rem !important; font-weight: 500; color: #fff !important; text-decoration: none !important;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.sdr-cta-btn:hover { border-color: var(--mm-pink); background: rgba(255, 128, 139, 0.12); color: #fff !important; }
+@media (max-width: 1024px) {
+  .sdr-wrap { padding: 0 22px; }
+  .sdr-split { grid-template-columns: 1fr; gap: 36px; }
+  .sdr-hero { padding: 120px 0 64px; }
+  .sdr-cta { padding: 88px 0 72px; }
+  .sdr-hero h1 { font-size: 1.55rem !important; }
+}
+@media (max-width: 800px) {
+  .sdr-stats, .sdr-meta { grid-template-columns: 1fr; }
+  .sdr-stat { max-width: 420px; margin: 0 auto; }
+  .sdr-pair, .sdr-trio, .sdr-more-row { grid-template-columns: 1fr; }
+  .sdr-trio img, .sdr-trio video { aspect-ratio: 16 / 9; }
+  .sdr-section { padding-top: 64px; }
+  .sdr-cta { padding: 72px 0 64px; background: radial-gradient(ellipse 260px 180px at 28% 46%, rgba(255, 128, 139, 0.4), transparent 72%); }
+  .sdr-logo img { height: 52px !important; }
+}
+@media (prefers-reduced-motion: reduce) { .sdr-wall-track { animation: none; } }
+</style>
+
+<section class="sdr-hero" aria-labelledby="sdr-hero-title">
+  <div class="sdr-wall" aria-hidden="true">
+    <div class="sdr-wall-row sdr-wall-row-1"><div class="sdr-wall-track"><img src="/media/case-studies/sdr/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/sdr/two.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/sdr/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/sdr/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/sdr/one.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/sdr/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/sdr/two.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/sdr/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/sdr/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/sdr/one.webp" alt="" width="1365" height="2048"></div></div>
+    <div class="sdr-wall-row sdr-wall-row-2"><div class="sdr-wall-track"><img src="/media/case-studies/sdr/one.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/sdr/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/sdr/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/sdr/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/sdr/two.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/sdr/one.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/sdr/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/sdr/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/sdr/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/sdr/two.webp" alt="" width="1365" height="2048"></div></div>
+    <div class="sdr-wall-row sdr-wall-row-3"><div class="sdr-wall-track"><img src="/media/case-studies/sdr/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/sdr/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/sdr/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/sdr/two.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/sdr/one.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/sdr/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/sdr/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/sdr/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/sdr/two.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/sdr/one.webp" alt="" width="1365" height="2048"></div></div>
+  </div>
+  <div class="sdr-hero-shade" aria-hidden="true"></div>
+  <div class="sdr-wrap sdr-split">
+    <div class="sdr-intro">
+      <span class="sdr-eyebrow">Case study</span>
+      <h1 id="sdr-hero-title"><span class="mm-line">Driving Leads And</span> <span class="mm-line">Conversions For</span> <span class="mm-line">SDR, The Car</span> <span class="mm-line mm-line-pink">Buying Service</span></h1>
+      <p class="sdr-lead">A car buying service given a custom sales engine built to convert.</p>
+      <a class="sdr-btn" href="https://www.sdrthecarbuyingservice.co.uk/" target="_blank" rel="noopener">Visit the website</a>
+    </div>
+    <div class="sdr-glass">
+      <a class="sdr-logo" href="https://www.sdrthecarbuyingservice.co.uk/" target="_blank" rel="noopener" aria-label="SDR website (opens in a new tab)">
+        <img src="/media/case-studies/sdr/logo-mark.webp" alt="SDR" width="247" height="105">
+      </a>
+      <p>SDR, The Car Buying Service, needed more than visibility, it needed a digital setup built to turn interest into genuine leads and sales. Our role was to develop a full custom sales channel, drive quality leads, and sharpen conversions across the board.</p>
+    </div>
+  </div>
+</section>
+
+<figure class="sdr-full">
+  <picture>
+    <source media="(max-width: 800px)" srcset="/media/case-studies/sdr/hero-mobile.webp">
+    <img src="/media/case-studies/sdr/hero.webp" alt="The SDR homepage, with the sell your car valuation" width="2880" height="1800">
+  </picture>
+</figure>
+
+<section class="sdr-results" aria-label="Results Overview">
+  <div class="sdr-wrap">
+    <p class="sdr-kicker">Results Overview</p>
+    <div class="sdr-stats">
+      <div class="sdr-stat">
+        <svg class="sdr-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
+        <div class="sdr-stat-copy"><div class="sdr-num">Full</div><div class="sdr-label">custom sales channel build</div></div>
+      </div>
+      <div class="sdr-stat">
+        <svg class="sdr-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
+        <div class="sdr-stat-copy"><div class="sdr-num">5K+</div><div class="sdr-label">leads generated</div></div>
+      </div>
+      <div class="sdr-stat">
+        <svg class="sdr-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
+        <div class="sdr-stat-copy"><div class="sdr-num">4%</div><div class="sdr-label">increase in conversions</div></div>
+      </div>
+    </div>
+    <dl class="sdr-meta">
+      <div><dt>Client</dt><dd>SDR, The Car Buying Service</dd></div>
+      <div><dt>Channels</dt><dd>Facebook, <span class="sdr-keep">Instagram and Google</span></dd></div>
+      <div><dt>Services</dt><dd>Custom sales channel build, paid advertising, social media, SEO and lead generation</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="sdr-section" aria-labelledby="sdr-background-title">
+  <div class="sdr-wrap sdr-split">
+    <div class="sdr-intro">
+      <h2 id="sdr-background-title"><span class="mm-line">Client</span> <span class="mm-line mm-line-pink">Background</span></h2>
+    </div>
+    <div class="sdr-copy">
+      <p>Picture a business that knows exactly what it does well, and needs a digital setup built to match, one designed not just to be seen, but to generate real leads and sales. That is the story of SDR, The Car Buying Service, and it is exactly the kind of results-focused brand we love to build for.</p>
+      <p>SDR is a car buying service built on trust and a straightforward promise to its customers. What it needed was a digital engine to match: a setup that could consistently attract the right people and turn that attention into genuine, qualified leads.</p>
+      <p>That is where we came in. Our brief was not simply to raise awareness, it was to build the machine behind the growth, a full custom sales channel designed to drive leads and conversions, and to keep improving it over time.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sdr-band" aria-label="SDR">
+  <div class="sdr-wrap sdr-pair">
+    <img src="/media/case-studies/sdr/one.webp" alt="An SDR introduction and the four steps to sell a car" width="2880" height="1800">
+    <img src="/media/case-studies/sdr/two.webp" alt="Customer feedback on the SDR website" width="2880" height="1800">
+  </div>
+</section>
+
+<section class="sdr-section" aria-labelledby="sdr-challenge-title">
+  <div class="sdr-wrap sdr-split">
+    <div class="sdr-intro">
+      <h2 id="sdr-challenge-title"><span class="mm-line">The</span> <span class="mm-line mm-line-pink">Challenge</span></h2>
+    </div>
+    <div class="sdr-copy">
+      <p>For a service business, visibility alone means nothing without conversion. SDR needed every bit of attention to work hard, to attract the right customers and move them smoothly from interest to enquiry to sale. Generic marketing would not cut it, this required a purpose-built sales channel designed around how SDR actually wins business.</p>
+      <p>The challenge was to build that channel from scratch, generate a steady flow of quality leads, and continually sharpen conversions, so that growth was not just about reach, but about real, trackable results.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sdr-band" aria-label="The SDR website">
+  <div class="sdr-wrap sdr-trio">
+    <img src="/media/case-studies/sdr/three.webp" alt="The SDR valuation form" width="2880" height="1800">
+    <video class="sdr-scroll" autoplay muted loop playsinline preload="metadata" poster="/media/case-studies/sdr/hero.webp" aria-label="The SDR website scrolling from the homepage">
+      <source src="/media/case-studies/sdr/scroll.mp4?v=2" type="video/mp4">
+      <track kind="captions" label="English captions" src="/media/case-studies/sdr/scroll.vtt" srclang="en">
+    </video>
+    <img src="/media/case-studies/sdr/four.webp" alt="The SDR blog" width="2880" height="1800">
+  </div>
+</section>
+
+<section class="sdr-section" aria-labelledby="sdr-approach-title">
+  <div class="sdr-wrap sdr-split">
+    <div>
+      <div class="sdr-intro">
+        <h2 id="sdr-approach-title"><span class="mm-line">Our</span> <span class="mm-line mm-line-pink">Approach</span></h2>
+      </div>
+      <ul class="sdr-points">
+        <li>Full custom sales channel build</li>
+        <li>Paid advertising</li>
+        <li>Social media and content</li>
+        <li>SEO and local findability</li>
+        <li>Lead generation and conversion optimisation</li>
+      </ul>
+    </div>
+    <div class="sdr-copy">
+      <p>We treated SDR as a conversion-first partnership, building the sales engine and then optimising it relentlessly.</p>
+      <p>At the core, we developed a full custom sales channel, built specifically around how SDR attracts and converts customers. Rather than a generic funnel, this was a purpose-built system designed to capture interest and turn it into genuine enquiries.</p>
+      <p>Around that, we drove quality traffic through paid advertising, social media and SEO, and focused hard on conversion. The results tell the story: over 5,000 leads generated, and a 4% increase in conversions, meaning more of that traffic turned into real business. This was not about vanity reach, it was about building a channel that genuinely performs.</p>
+      <p>The result is a car buying service with a custom-built sales engine that consistently delivers leads and conversions, and we continue to refine and grow it.</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="sdr-band" aria-label="Facebook and Instagram">
+  <div class="sdr-wrap sdr-more sdr-more-row">
+    <img src="/media/case-studies/sdr/facebook.webp" alt="The SDR Facebook page" width="1290" height="749">
+    <img src="/media/case-studies/sdr/instagram.webp" alt="The SDR Instagram page" width="1546" height="839">
+  </div>
+</section>
+
+<section class="sdr-cta" aria-labelledby="sdr-cta-title">
+  <div class="sdr-wrap">
+    <h2 id="sdr-cta-title">Get in touch</h2>
+    <p class="sdr-cta-line">And see how we'd drive results for you</p>
+    <a class="sdr-cta-btn" href="/get-in-touch/">Get In touch <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+</div>

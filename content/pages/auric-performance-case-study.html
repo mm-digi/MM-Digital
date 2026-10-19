@@ -1,0 +1,278 @@
+<div class="wp-block-group alignfull aur-page">
+<style>
+.aur-page { --mm-pink: #ff808b; color: #fff; background: #000; }
+.aur-page * { box-sizing: border-box; }
+.aur-page h1,
+.aur-page h2 {
+  margin: 0 0 20px;
+  font-family: "Libre Baskerville", Georgia, serif !important;
+  font-weight: 400;
+  font-size: clamp(1.9rem, 3.6vw, 3.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.aur-hero h1 { font-size: clamp(1.7rem, 2.7vw, 3rem) !important; }
+.aur-page .mm-line { display: block; }
+.aur-page .mm-line-pink { color: var(--mm-pink) !important; font-style: normal; }
+.aur-page p,
+.aur-page a,
+.aur-page dt,
+.aur-page dd,
+.aur-kicker,
+.aur-label,
+.aur-num {
+  font-family: "Glacial Indifference", Arial, sans-serif !important;
+}
+.aur-wrap { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
+.aur-page figure { margin: 0; }
+.aur-hero { position: relative; overflow: hidden; padding: 150px 0 88px; }
+.aur-wall {
+  position: absolute; inset: -40px 0; display: grid; gap: 18px; align-content: center;
+  transform: rotate(-4deg) scale(1.08);
+}
+.aur-wall-row { overflow: hidden; }
+.aur-wall-track { display: flex; gap: 18px; width: max-content; animation: aurDrift 80s linear infinite; }
+.aur-wall-row-2 .aur-wall-track { animation-direction: reverse; animation-duration: 95s; }
+.aur-wall-row-3 .aur-wall-track { animation-duration: 70s; }
+.aur-wall-track img { width: 380px; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; }
+@keyframes aurDrift { to { transform: translateX(-50%); } }
+.aur-hero-shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.82) 45%, rgba(0, 0, 0, 0.7) 100%),
+    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(255, 128, 139, 0.22), transparent 70%);
+}
+.aur-hero .aur-wrap { position: relative; z-index: 1; }
+.aur-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; align-items: center; }
+.aur-intro { padding-left: 32px; border-left: 2px solid var(--mm-pink); }
+.aur-eyebrow {
+  display: block; margin-bottom: 14px; font-size: 0.85rem !important; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--mm-pink) !important;
+}
+.aur-lead, .aur-copy p { margin: 0 0 18px; font-size: 1.15rem !important; line-height: 1.65; color: #cfcfcf !important; }
+.aur-lead { margin-bottom: 30px; }
+.aur-copy p:last-child { margin-bottom: 0; }
+.aur-btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 28px;
+  border-radius: 999px; background: var(--mm-pink); font-size: 16px !important; font-weight: 700;
+  color: #fff !important; text-decoration: none !important; transition: background 0.25s ease, transform 0.25s ease;
+}
+.aur-btn:hover { background: #ff6d79; transform: translateY(-2px); }
+.aur-glass {
+  padding: 36px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 28px;
+  background: rgba(10, 6, 8, 0.72); backdrop-filter: blur(6px); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+}
+.aur-logo { display: block; margin: 0 0 22px; line-height: 0; }
+.aur-logo img { display: block; width: auto !important; height: 64px !important; border-radius: 0 !important; }
+.aur-full img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center center; background: #000; }
+.aur-results { background: #101010; padding: 72px 0 64px; }
+.aur-kicker { margin: 0 0 8px; text-align: center; font-size: 0.95rem !important; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.72) !important; }
+.aur-stats, .aur-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 1180px; margin: 0 auto; }
+.aur-meta { margin-top: 8px; text-align: center; }
+.aur-stat { position: relative; }
+.aur-rings { display: block; width: 100%; height: auto; }
+.aur-stat-copy {
+  position: absolute; inset: 18% 16% 20%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; gap: 10px;
+}
+.aur-num {
+  font-size: clamp(2.4rem, 4.2vw, 4.4rem) !important; font-weight: 500; line-height: 0.95;
+  letter-spacing: -0.03em; -webkit-text-fill-color: #ff808b; color: #ff808b !important;
+}
+.aur-num-words { font-size: clamp(1.7rem, 2.5vw, 2.45rem) !important; line-height: 1.05; letter-spacing: -0.02em; }
+.aur-label { max-width: 16ch; font-size: 1.15rem !important; line-height: 1.25; color: #fff !important; }
+.aur-meta dt { margin: 0; font-size: 0.78rem !important; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55) !important; }
+.aur-keep { white-space: nowrap; }
+.aur-meta dd { max-width: 280px; margin: 8px auto 0; font-size: 1.05rem !important; font-weight: 700; line-height: 1.35; color: #fff !important; }
+.aur-section { padding: 96px 0 28px; }
+.aur-section .aur-split { align-items: start; }
+.aur-points { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 10px; }
+.aur-points li {
+  margin: 0; padding: 14px 18px; font-family: "Glacial Indifference", Arial, sans-serif !important;
+  border-left: 2px solid var(--mm-pink); border-radius: 0 16px 16px 0; background: rgba(255, 255, 255, 0.04);
+  font-size: 1.05rem !important; line-height: 1.4; color: #fff !important;
+}
+.aur-pair, .aur-trio, .aur-more { display: grid; gap: 16px; }
+.aur-band { padding: 12px 0 20px; }
+.aur-pair { grid-template-columns: 1fr 1fr; }
+.aur-trio { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.aur-more-row { grid-template-columns: 1fr 1fr; }
+.aur-page .aur-pair img, .aur-page .aur-trio img, .aur-page .aur-trio video, .aur-page .aur-more img {
+  display: block; width: 100%; height: auto; object-fit: cover; border: 0; border-radius: 22px; background: #111;
+}
+.aur-pair img { aspect-ratio: 4 / 3; }
+.aur-trio img, .aur-trio video { aspect-ratio: 16 / 10; object-fit: cover; object-position: center top; }
+.aur-more-row img { aspect-ratio: 16 / 9; object-fit: contain; background: #161616; }
+.aur-cta {
+  position: relative; overflow: hidden; padding: 128px 0 148px;
+  background: radial-gradient(ellipse 720px 380px at 32% 48%, rgba(255, 128, 139, 0.42), rgba(255, 179, 161, 0.1) 50%, transparent 74%);
+}
+.aur-cta h2 { margin: 0 0 18px; font-size: clamp(3.2rem, 6.4vw, 6rem) !important; line-height: 1.02; letter-spacing: -0.03em; }
+.aur-cta-line {
+  margin: 0 0 42px; font-family: "Libre Baskerville", Georgia, serif !important;
+  font-size: clamp(1.7rem, 3.3vw, 3rem) !important; line-height: 1.25; color: #fff !important;
+}
+.aur-cta-btn {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.75); border-radius: 999px; background: transparent;
+  font-size: 1rem !important; font-weight: 500; color: #fff !important; text-decoration: none !important;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.aur-cta-btn:hover { border-color: var(--mm-pink); background: rgba(255, 128, 139, 0.12); color: #fff !important; }
+@media (max-width: 1024px) {
+  .aur-wrap { padding: 0 22px; }
+  .aur-split { grid-template-columns: 1fr; gap: 36px; }
+  .aur-hero { padding: 120px 0 64px; }
+  .aur-cta { padding: 88px 0 72px; }
+  .aur-hero h1 { font-size: 1.55rem !important; }
+}
+@media (max-width: 800px) {
+  .aur-stats, .aur-meta { grid-template-columns: 1fr; }
+  .aur-stat { max-width: 420px; margin: 0 auto; }
+  .aur-pair, .aur-trio, .aur-more-row { grid-template-columns: 1fr; }
+  .aur-trio img, .aur-trio video { aspect-ratio: 16 / 9; }
+  .aur-section { padding-top: 64px; }
+  .aur-cta { padding: 72px 0 64px; background: radial-gradient(ellipse 260px 180px at 28% 46%, rgba(255, 128, 139, 0.4), transparent 72%); }
+  .aur-logo img { height: 52px !important; }
+}
+@media (prefers-reduced-motion: reduce) { .aur-wall-track { animation: none; } }
+</style>
+
+<section class="aur-hero" aria-labelledby="aur-hero-title">
+  <div class="aur-wall" aria-hidden="true">
+    <div class="aur-wall-row aur-wall-row-1"><div class="aur-wall-track"><img src="/media/case-studies/auric/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/auric/two.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/auric/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/auric/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/auric/one.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/auric/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/auric/two.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/auric/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/auric/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/auric/one.webp" alt="" width="1365" height="2048"></div></div>
+    <div class="aur-wall-row aur-wall-row-2"><div class="aur-wall-track"><img src="/media/case-studies/auric/one.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/auric/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/auric/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/auric/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/auric/two.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/auric/one.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/auric/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/auric/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/auric/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/auric/two.webp" alt="" width="1365" height="2048"></div></div>
+    <div class="aur-wall-row aur-wall-row-3"><div class="aur-wall-track"><img src="/media/case-studies/auric/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/auric/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/auric/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/auric/two.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/auric/one.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/auric/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/auric/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/auric/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/auric/two.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/auric/one.webp" alt="" width="1365" height="2048"></div></div>
+  </div>
+  <div class="aur-hero-shade" aria-hidden="true"></div>
+  <div class="aur-wrap aur-split">
+    <div class="aur-intro">
+      <span class="aur-eyebrow">Case study</span>
+      <h1 id="aur-hero-title"><span class="mm-line">Building Auric</span> <span class="mm-line">Performance’s Brand</span> <span class="mm-line">And Digital Presence</span> <span class="mm-line mm-line-pink">From Scratch</span></h1>
+      <p class="aur-lead">A brand taken from the ground up, built, launched and brought to life in full.</p>
+      <a class="aur-btn" href="https://www.auricperformance.co.uk/" target="_blank" rel="noopener">Visit the website</a>
+    </div>
+    <div class="aur-glass">
+      <a class="aur-logo" href="https://www.auricperformance.co.uk/" target="_blank" rel="noopener" aria-label="Auric Performance website (opens in a new tab)">
+        <img src="/media/case-studies/auric/logo-mark.webp?v=2" alt="Auric Performance" width="1865" height="510">
+      </a>
+      <p>Auric Performance came to us as a blank canvas, an ambition and a name, with everything still to build. Our role was to create the entire brand from scratch, develop the full website, and launch Auric Performance into the world as a complete, credible and fully operational brand.</p>
+    </div>
+  </div>
+</section>
+
+<figure class="aur-full">
+  <picture>
+    <source media="(max-width: 800px)" srcset="/media/case-studies/auric/hero-mobile.webp">
+    <img src="/media/case-studies/auric/hero.webp" alt="The Auric Performance homepage" width="2880" height="1800">
+  </picture>
+</figure>
+
+<section class="aur-results" aria-label="Results Overview">
+  <div class="aur-wrap">
+    <p class="aur-kicker">Results Overview</p>
+    <div class="aur-stats">
+      <div class="aur-stat">
+        <svg class="aur-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
+        <div class="aur-stat-copy"><div class="aur-num">Full</div><div class="aur-label">brand launch from scratch</div></div>
+      </div>
+      <div class="aur-stat">
+        <svg class="aur-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
+        <div class="aur-stat-copy"><div class="aur-num">Complete</div><div class="aur-label">website development</div></div>
+      </div>
+      <div class="aur-stat">
+        <svg class="aur-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
+        <div class="aur-stat-copy"><div class="aur-num">500K+</div><div class="aur-label">website visits</div></div>
+      </div>
+    </div>
+    <dl class="aur-meta">
+      <div><dt>Client</dt><dd>Auric Performance</dd></div>
+      <div><dt>Channels</dt><dd>Facebook, <span class="aur-keep">Instagram and LinkedIn</span></dd></div>
+      <div><dt>Services</dt><dd>Brand identity, full website development, social media, content and ongoing support</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="aur-section" aria-labelledby="aur-background-title">
+  <div class="aur-wrap aur-split">
+    <div class="aur-intro">
+      <h2 id="aur-background-title"><span class="mm-line">Client</span> <span class="mm-line mm-line-pink">Background</span></h2>
+    </div>
+    <div class="aur-copy">
+      <p>Picture a brand with real ambition and a clear vision, but nothing yet built, no identity, no website, no presence. That is the story of Auric Performance, and it is exactly the kind of brand we love to build from the ground up.</p>
+      <p>Auric Performance arrived with drive and a clear sense of where it wanted to go, and a need for everything that sits beneath a successful brand. There was no identity out in the world, no website, no digital presence, just a name and an ambition waiting to be brought to life.</p>
+      <p>That is where we came in. Our brief was not to tweak or refine an existing brand, it was to create Auric Performance from scratch: the identity, the website and the digital presence, and to launch it as a complete, credible business ready to compete.</p>
+    </div>
+  </div>
+</section>
+
+<section class="aur-band" aria-label="Auric Performance">
+  <div class="aur-wrap aur-pair">
+    <img src="/media/case-studies/auric/one.webp" alt="1:1 coaching on the Auric Performance website" width="2880" height="1800">
+    <img src="/media/case-studies/auric/two.webp" alt="The Outrun programme on the Auric Performance website" width="2880" height="1800">
+  </div>
+</section>
+
+<section class="aur-section" aria-labelledby="aur-challenge-title">
+  <div class="aur-wrap aur-split">
+    <div class="aur-intro">
+      <h2 id="aur-challenge-title"><span class="mm-line">The</span> <span class="mm-line mm-line-pink">Challenge</span></h2>
+    </div>
+    <div class="aur-copy">
+      <p>Building a brand from nothing means getting everything right at once. A new brand has to look established before anyone has heard of it, earn trust before it has a track record, and present itself with the confidence of a business that has been around for years, all from a standing start.</p>
+      <p>The challenge was to build the entire foundation: a strong, distinctive brand identity, a full website developed from the ground up, and a digital presence credible enough to launch with impact. Everything had to work together, so that the moment Auric Performance went live, it arrived as a finished, professional brand rather than a work in progress.</p>
+    </div>
+  </div>
+</section>
+
+<section class="aur-band" aria-label="The Auric Performance website">
+  <div class="aur-wrap aur-trio">
+    <img src="/media/case-studies/auric/three.webp" alt="The Complete Package on the Auric Performance website" width="2880" height="1800">
+    <video class="aur-scroll" autoplay muted loop playsinline preload="metadata" poster="/media/case-studies/auric/hero.webp" aria-label="The Auric Performance website scrolling from the homepage">
+      <source src="/media/case-studies/auric/scroll.mp4?v=2" type="video/mp4">
+      <track kind="captions" label="English captions" src="/media/case-studies/auric/scroll.vtt" srclang="en">
+    </video>
+    <img src="/media/case-studies/auric/four.webp" alt="Alex and Courtney, the Auric Performance coaches" width="2880" height="1800">
+  </div>
+</section>
+
+<section class="aur-section" aria-labelledby="aur-approach-title">
+  <div class="aur-wrap aur-split">
+    <div>
+      <div class="aur-intro">
+        <h2 id="aur-approach-title"><span class="mm-line">Our</span> <span class="mm-line mm-line-pink">Approach</span></h2>
+      </div>
+      <ul class="aur-points">
+        <li>Full brand identity and launch</li>
+        <li>Complete website development</li>
+        <li>Social media and content</li>
+        <li>Digital presence setup</li>
+        <li>Ongoing support and growth</li>
+      </ul>
+    </div>
+    <div class="aur-copy">
+      <p>We treated Auric Performance as a complete brand build, creating everything from the ground up and launching it properly.</p>
+      <p>We started with the brand itself, developing a full identity from scratch: the look, the feel and the personality that would set Auric Performance apart. Around that, we built the complete website, developed from the ground up to present the brand professionally and give it a strong, credible home online.</p>
+      <p>With the foundations in place, we launched Auric Performance into the world as a finished, fully operational brand, and built its digital presence across social. The response speaks for itself: the website has driven over 500,000 visits, a level of traffic that reflects a brand that arrived with real impact and continues to attract genuine attention.</p>
+      <p>The result is a brand built entirely from scratch, launched with credibility and already proving its reach, and we continue to support and grow it.</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="aur-band" aria-label="Facebook and Instagram">
+  <div class="aur-wrap aur-more aur-more-row">
+    <img src="/media/case-studies/auric/facebook.webp" alt="The Auric Performance Facebook page" width="1275" height="816">
+    <img src="/media/case-studies/auric/instagram.webp" alt="The Auric Performance Instagram page" width="1554" height="836">
+  </div>
+</section>
+
+<section class="aur-cta" aria-labelledby="aur-cta-title">
+  <div class="aur-wrap">
+    <h2 id="aur-cta-title">Get in touch</h2>
+    <p class="aur-cta-line">And see how we'd drive results for you</p>
+    <a class="aur-cta-btn" href="/get-in-touch/">Get In touch <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+</div>

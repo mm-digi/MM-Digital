@@ -1,54 +1,280 @@
+<div class="wp-block-group alignfull aok-page">
+<style>
+.aok-page { --mm-pink: #ff808b; color: #fff; background: #000; }
+.aok-page * { box-sizing: border-box; }
+.aok-page h1,
+.aok-page h2 {
+  margin: 0 0 20px;
+  font-family: "Libre Baskerville", Georgia, serif !important;
+  font-weight: 400;
+  font-size: clamp(1.9rem, 3.6vw, 3.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.aok-hero h1 { font-size: clamp(1.7rem, 2.7vw, 3rem) !important; }
+.aok-page .mm-line { display: block; }
+.aok-page .mm-line-pink { color: var(--mm-pink) !important; font-style: normal; }
+.aok-page p,
+.aok-page a,
+.aok-page dt,
+.aok-page dd,
+.aok-kicker,
+.aok-label,
+.aok-num {
+  font-family: "Glacial Indifference", Arial, sans-serif !important;
+}
+.aok-wrap { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
+.aok-page figure { margin: 0; }
+.aok-hero { position: relative; overflow: hidden; padding: 150px 0 88px; }
+.aok-wall {
+  position: absolute; inset: -40px 0; display: grid; gap: 18px; align-content: center;
+  transform: rotate(-4deg) scale(1.08);
+}
+.aok-wall-row { overflow: hidden; }
+.aok-wall-track { display: flex; gap: 18px; width: max-content; animation: aokDrift 80s linear infinite; }
+.aok-wall-row-2 .aok-wall-track { animation-direction: reverse; animation-duration: 95s; }
+.aok-wall-row-3 .aok-wall-track { animation-duration: 70s; }
+.aok-wall-track img { width: 380px; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; }
+@keyframes aokDrift { to { transform: translateX(-50%); } }
+.aok-hero-shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.82) 45%, rgba(0, 0, 0, 0.7) 100%),
+    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(255, 128, 139, 0.22), transparent 70%);
+}
+.aok-hero .aok-wrap { position: relative; z-index: 1; }
+.aok-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; align-items: center; }
+.aok-intro { padding-left: 32px; border-left: 2px solid var(--mm-pink); }
+.aok-eyebrow {
+  display: block; margin-bottom: 14px; font-size: 0.85rem !important; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--mm-pink) !important;
+}
+.aok-lead, .aok-copy p { margin: 0 0 18px; font-size: 1.15rem !important; line-height: 1.65; color: #cfcfcf !important; }
+.aok-lead { margin-bottom: 30px; }
+.aok-copy p:last-child { margin-bottom: 0; }
+.aok-btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 28px;
+  border-radius: 999px; background: var(--mm-pink); font-size: 16px !important; font-weight: 700;
+  color: #fff !important; text-decoration: none !important; transition: background 0.25s ease, transform 0.25s ease;
+}
+.aok-btn:hover { background: #ff6d79; transform: translateY(-2px); }
+.aok-glass {
+  padding: 36px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 28px;
+  background: rgba(10, 6, 8, 0.72); backdrop-filter: blur(6px); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+}
+.aok-logo { display: block; margin: 0 0 22px; line-height: 0; }
+.aok-logo img { display: block; width: auto !important; height: 64px !important; border-radius: 0 !important; }
+.aok-full img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center center; background: #000; }
+.aok-results { background: #101010; padding: 72px 0 64px; }
+.aok-kicker { margin: 0 0 8px; text-align: center; font-size: 0.95rem !important; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.72) !important; }
+.aok-stats, .aok-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 1180px; margin: 0 auto; }
+.aok-meta { margin-top: 8px; text-align: center; }
+.aok-stat { position: relative; }
+.aok-rings { display: block; width: 100%; height: auto; }
+.aok-stat-copy {
+  position: absolute; inset: 18% 16% 20%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; gap: 10px;
+}
+.aok-num {
+  font-size: clamp(2.4rem, 4.2vw, 4.4rem) !important; font-weight: 500; line-height: 0.95;
+  letter-spacing: -0.03em; -webkit-text-fill-color: #ff808b; color: #ff808b !important;
+}
+.aok-num-words { font-size: clamp(1.7rem, 2.5vw, 2.45rem) !important; line-height: 1.05; letter-spacing: -0.02em; }
+.aok-label { max-width: 16ch; font-size: 1.15rem !important; line-height: 1.25; color: #fff !important; }
+.aok-meta dt { margin: 0; font-size: 0.78rem !important; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55) !important; }
+.aok-keep { white-space: nowrap; }
+.aok-meta dd { max-width: 280px; margin: 8px auto 0; font-size: 1.05rem !important; font-weight: 700; line-height: 1.35; color: #fff !important; }
+.aok-section { padding: 96px 0 28px; }
+.aok-section .aok-split { align-items: start; }
+.aok-points { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 10px; }
+.aok-points li {
+  margin: 0; padding: 14px 18px; font-family: "Glacial Indifference", Arial, sans-serif !important;
+  border-left: 2px solid var(--mm-pink); border-radius: 0 16px 16px 0; background: rgba(255, 255, 255, 0.04);
+  font-size: 1.05rem !important; line-height: 1.4; color: #fff !important;
+}
+.aok-pair, .aok-trio, .aok-more { display: grid; gap: 16px; }
+.aok-band { padding: 12px 0 20px; }
+.aok-pair { grid-template-columns: 1fr 1fr; }
+.aok-trio { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.aok-more-row { grid-template-columns: 1fr 1fr; }
+.aok-more-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.aok-page .aok-pair img, .aok-page .aok-trio img, .aok-page .aok-trio video, .aok-page .aok-more img {
+  display: block; width: 100%; height: auto; object-fit: cover; border: 0; border-radius: 22px; background: #111;
+}
+.aok-pair img { aspect-ratio: 4 / 3; }
+.aok-trio img, .aok-trio video { aspect-ratio: 16 / 10; object-fit: cover; object-position: center top; }
+.aok-more-row img { aspect-ratio: 16 / 9; object-fit: contain; background: #161616; }
+.aok-cta {
+  position: relative; overflow: hidden; padding: 128px 0 148px;
+  background: radial-gradient(ellipse 720px 380px at 32% 48%, rgba(255, 128, 139, 0.42), rgba(255, 179, 161, 0.1) 50%, transparent 74%);
+}
+.aok-cta h2 { margin: 0 0 18px; font-size: clamp(3.2rem, 6.4vw, 6rem) !important; line-height: 1.02; letter-spacing: -0.03em; }
+.aok-cta-line {
+  margin: 0 0 42px; font-family: "Libre Baskerville", Georgia, serif !important;
+  font-size: clamp(1.7rem, 3.3vw, 3rem) !important; line-height: 1.25; color: #fff !important;
+}
+.aok-cta-btn {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.75); border-radius: 999px; background: transparent;
+  font-size: 1rem !important; font-weight: 500; color: #fff !important; text-decoration: none !important;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.aok-cta-btn:hover { border-color: var(--mm-pink); background: rgba(255, 128, 139, 0.12); color: #fff !important; }
+@media (max-width: 1024px) {
+  .aok-wrap { padding: 0 22px; }
+  .aok-split { grid-template-columns: 1fr; gap: 36px; }
+  .aok-hero { padding: 120px 0 64px; }
+  .aok-cta { padding: 88px 0 72px; }
+  .aok-hero h1 { font-size: 1.55rem !important; }
+}
+@media (max-width: 800px) {
+  .aok-stats, .aok-meta { grid-template-columns: 1fr; }
+  .aok-stat { max-width: 420px; margin: 0 auto; }
+  .aok-pair, .aok-trio, .aok-more-row, .aok-more-3 { grid-template-columns: 1fr; }
+  .aok-trio img, .aok-trio video { aspect-ratio: 16 / 9; }
+  .aok-section { padding-top: 64px; }
+  .aok-cta { padding: 72px 0 64px; background: radial-gradient(ellipse 260px 180px at 28% 46%, rgba(255, 128, 139, 0.4), transparent 72%); }
+  .aok-logo img { height: 52px !important; }
+}
+@media (prefers-reduced-motion: reduce) { .aok-wall-track { animation: none; } }
+</style>
 
-<div class="wp-block-columns alignfull ext-animate--on has-background-background-color has-background" style="border-style:none;border-width:0px;padding-right:var(--wp--preset--spacing--55);padding-left:var(--wp--preset--spacing--55)">
-<div class="wp-block-column ext-animate--on" style="flex-basis:30px"></div>
+<section class="aok-hero" aria-labelledby="aok-hero-title">
+  <div class="aok-wall" aria-hidden="true">
+    <div class="aok-wall-row aok-wall-row-1"><div class="aok-wall-track"><img src="/media/case-studies/aspects/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/aspects/two.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/aspects/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/aspects/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/aspects/one.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/aspects/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/aspects/two.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/aspects/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/aspects/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/aspects/one.webp" alt="" width="1365" height="2048"></div></div>
+    <div class="aok-wall-row aok-wall-row-2"><div class="aok-wall-track"><img src="/media/case-studies/aspects/one.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/aspects/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/aspects/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/aspects/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/aspects/two.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/aspects/one.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/aspects/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/aspects/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/aspects/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/aspects/two.webp" alt="" width="1365" height="2048"></div></div>
+    <div class="aok-wall-row aok-wall-row-3"><div class="aok-wall-track"><img src="/media/case-studies/aspects/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/aspects/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/aspects/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/aspects/two.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/aspects/one.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/aspects/three.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/aspects/one.webp" alt="" width="1800" height="1200"><img src="/media/case-studies/aspects/four.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/aspects/two.webp" alt="" width="1365" height="2048"><img src="/media/case-studies/aspects/one.webp" alt="" width="1365" height="2048"></div></div>
+  </div>
+  <div class="aok-hero-shade" aria-hidden="true"></div>
+  <div class="aok-wrap aok-split">
+    <div class="aok-intro">
+      <span class="aok-eyebrow">Case study</span>
+      <h1 id="aok-hero-title"><span class="mm-line">Growing Aspects</span> <span class="mm-line">Of Oak’s Reach,</span> <span class="mm-line">Enquiries</span> <span class="mm-line mm-line-pink">And Leads</span></h1>
+      <p class="aok-lead">A craftsmanship-led brand, given the reach and lead generation to match its quality.</p>
+      <a class="aok-btn" href="https://aspectsofoak.co.uk/" target="_blank" rel="noopener">Visit the website</a>
+    </div>
+    <div class="aok-glass">
+      <a class="aok-logo" href="https://aspectsofoak.co.uk/" target="_blank" rel="noopener" aria-label="Aspects of Oak website (opens in a new tab)">
+        <img src="/media/case-studies/aspects/logo-mark.webp" alt="Aspects of Oak" width="238" height="109">
+      </a>
+      <p>Aspects of Oak is built on genuine craft and quality, and needed a digital presence capable of reaching the right people and turning interest into real enquiries. Our role was to grow its reach, drive quality leads, and increase enquiries across the board.</p>
+    </div>
+  </div>
+</section>
 
-<div class="wp-block-column ext-animate--on">
-<h1 id="discover-how-we-ve-helped-brands-thrive-1" class="wp-block-heading ext-animate--on has-foreground-color has-text-color has-link-color has-libre-baskerville-font-family">Case Study:<br>Aspects of Oak</h1>
+<figure class="aok-full">
+  <picture>
+    <source media="(max-width: 800px)" srcset="/media/case-studies/aspects/hero-mobile.webp">
+    <img src="/media/case-studies/aspects/hero.webp" alt="The Aspects of Oak homepage" width="2880" height="1800">
+  </picture>
+</figure>
 
-<div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
+<section class="aok-results" aria-label="Results Overview">
+  <div class="aok-wrap">
+    <p class="aok-kicker">Results Overview</p>
+    <div class="aok-stats">
+      <div class="aok-stat">
+        <svg class="aok-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
+        <div class="aok-stat-copy"><div class="aok-num">1M+</div><div class="aok-label">total views</div></div>
+      </div>
+      <div class="aok-stat">
+        <svg class="aok-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
+        <div class="aok-stat-copy"><div class="aok-num">1.4K+</div><div class="aok-label">leads generated</div></div>
+      </div>
+      <div class="aok-stat">
+        <svg class="aok-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
+        <div class="aok-stat-copy"><div class="aok-num">16%</div><div class="aok-label">increase in enquiries</div></div>
+      </div>
+    </div>
+    <dl class="aok-meta">
+      <div><dt>Client</dt><dd>Aspects of Oak</dd></div>
+      <div><dt>Channels</dt><dd>Facebook, <span class="aok-keep">Instagram and Google</span></dd></div>
+      <div><dt>Services</dt><dd>Social media management, content, paid advertising, website support and lead generation</dd></div>
+    </dl>
+  </div>
+</section>
 
-<div class="wp-block-stackable-button-group stk-block-button-group stk-block stk-116ae40 ext-animate--on" data-block-id="116ae40"><div class="stk-row stk-inner-blocks has-text-align-left stk-block-content stk-button-group">
-<div class="wp-block-stackable-button stk-block-button has-text-align-right ext-animate--on stk-block stk-4b1830f" data-block-id="4b1830f"><a class="stk-link stk-button stk--hover-effect-lift-scale-more" href="https://aspectsofoak.co.uk/"><span class="stk-button__inner-text"><strong>Discover More</strong></span></a></div>
-</div></div>
-</div>
+<section class="aok-section" aria-labelledby="aok-background-title">
+  <div class="aok-wrap aok-split">
+    <div class="aok-intro">
+      <h2 id="aok-background-title"><span class="mm-line">Client</span> <span class="mm-line mm-line-pink">Background</span></h2>
+    </div>
+    <div class="aok-copy">
+      <p>Picture a brand rooted in real craftsmanship, with a quality product and a loyal reputation, and the ambition to reach more of the right people and turn that reputation into genuine enquiries. That is the story of Aspects of Oak, and it is exactly the kind of brand we love to grow.</p>
+      <p>Aspects of Oak is built on craft, quality and attention to detail. The product and the reputation were strong, but there was real opportunity to extend the brand’s reach, put it in front of more of the right audience, and convert that visibility into consistent enquiries and leads.</p>
+      <p>That is where we came in. Our brief was to grow Aspects of Oak’s digital presence, drive quality leads, and increase enquiries, turning genuine craftsmanship into genuine business growth.</p>
+    </div>
+  </div>
+</section>
 
-<div class="wp-block-column ext-animate--on">
-<figure class="wp-block-image aligncenter size-full is-resized ext-animate--on"><img src="/media/mm-digital-aspects-of-oak.webp" alt="Aspects of Oak Carpentry &amp; Construction logo" class="wp-image-4116" style="object-fit:cover;width:500px;height:500px"/></figure>
-</div>
-</div>
+<section class="aok-band" aria-label="Aspects of Oak">
+  <div class="aok-wrap aok-pair">
+    <img src="/media/case-studies/aspects/one.webp" alt="The Aspects of Oak website" width="2880" height="1800">
+    <img src="/media/case-studies/aspects/two.webp" alt="Aspects of Oak online" width="2880" height="1800">
+  </div>
+</section>
 
-<div class="wp-block-group alignwide ext-animate--on has-glacial-indifference-font-family has-medium-font-size">
-<p class="has-text-align-center ext-animate--on has-primary-color has-text-color has-link-color has-medium-font-size"><strong><strong><strong>Strengthening Aspects of Oak’s Online Presence for High-End Carpentry &amp; Construction</strong></strong></strong></p>
+<section class="aok-section" aria-labelledby="aok-challenge-title">
+  <div class="aok-wrap aok-split">
+    <div class="aok-intro">
+      <h2 id="aok-challenge-title"><span class="mm-line">The</span> <span class="mm-line mm-line-pink">Challenge</span></h2>
+    </div>
+    <div class="aok-copy">
+      <p>For a craftsmanship-led brand, the quality speaks for itself, but only once the right people see it. Aspects of Oak needed to reach a wider, well-targeted audience, showcase its work in a way that did it justice, and crucially, convert that attention into real enquiries rather than just views.</p>
+      <p>The challenge was to grow reach meaningfully while keeping it targeted, and to make sure that growth translated into genuine business, more leads, and more enquiries, not just bigger numbers.</p>
+    </div>
+  </div>
+</section>
 
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="introduction"><strong>Introduction</strong></h3>
+<section class="aok-band" aria-label="The Aspects of Oak website">
+  <div class="aok-wrap aok-trio">
+    <img src="/media/case-studies/aspects/three.webp" alt="Pages from the Aspects of Oak website" width="2880" height="1800">
+    <video class="aok-scroll" autoplay muted loop playsinline preload="metadata" poster="/media/case-studies/aspects/hero.webp" aria-label="The Aspects of Oak website scrolling from the homepage">
+      <source src="/media/case-studies/aspects/scroll.mp4?v=2" type="video/mp4">
+      <track kind="captions" label="English captions" src="/media/case-studies/aspects/scroll.vtt" srclang="en">
+    </video>
+    <img src="/media/case-studies/aspects/four.webp" alt="More of the Aspects of Oak website" width="2880" height="1800">
+  </div>
+</section>
 
-<p class="has-text-align-center ext-animate--on">Aspects of Oak is a carpentry and construction company specialising in high-quality bespoke projects across the South West. MM Digital partnered with the business to strengthen its digital presence and increase project enquiries.</p>
+<section class="aok-section" aria-labelledby="aok-approach-title">
+  <div class="aok-wrap aok-split">
+    <div>
+      <div class="aok-intro">
+        <h2 id="aok-approach-title"><span class="mm-line">Our</span> <span class="mm-line mm-line-pink">Approach</span></h2>
+      </div>
+      <ul class="aok-points">
+        <li>Social media management and content</li>
+        <li>Paid advertising</li>
+        <li>Website support</li>
+        <li>Lead generation</li>
+        <li>Enquiry growth and optimisation</li>
+      </ul>
+    </div>
+    <div class="aok-copy">
+      <p>We approached Aspects of Oak with a clear focus: grow reach, but make it count.</p>
+      <p>On content and social, we built a consistent presence that showcased the brand’s craftsmanship and quality, reaching far more of the right people. Through strong content and targeted paid advertising, we grew the brand to over 1 million total views, putting Aspects of Oak firmly in front of its ideal audience.</p>
+      <p>Crucially, we focused on turning that reach into results. The work generated over 1,400 leads and drove a 16% increase in enquiries, proof that the growth was not just about visibility, but about real, measurable business impact.</p>
+      <p>The result is a craftsmanship-led brand with the reach, the leads and the enquiries to match its quality, and we continue to grow it.</p>
+    </div>
+  </div>
+</section>
 
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="client-overview"><strong>Client Overview</strong></h3>
 
-<p class="has-text-align-center ext-animate--on">The company focuses on premium carpentry, renovations, and construction work, delivering craftsmanship-driven projects for residential clients. Building a stronger digital presence was key to reaching homeowners seeking high-end building services.</p>
+<section class="aok-band" aria-label="Facebook, Instagram and LinkedIn">
+  <div class="aok-wrap aok-more aok-more-row aok-more-3">
+    <img src="/media/case-studies/aspects/facebook.webp" alt="The Aspects of Oak Facebook page" width="1272" height="695">
+    <img src="/media/case-studies/aspects/instagram.webp" alt="The Aspects of Oak Instagram page" width="1508" height="838">
+    <img src="/media/case-studies/aspects/linkedin.webp" alt="The Aspects of Oak LinkedIn page" width="814" height="767">
+  </div>
+</section>
 
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="challenges-and-objectives"><strong>Challenges and Objectives</strong></h3>
-
-<p class="has-text-align-center ext-animate--on">Key challenges included:</p>
-
-<p class="has-text-align-center ext-animate--on">• Limited digital visibility within the local market • Generating consistent project enquiries • Showcasing high-quality craftsmanship through digital channels • Competing with other local construction businesses online</p>
-
-<p class="has-text-align-center ext-animate--on has-glacial-indifference-font-family">The objective was to increase visibility and attract high-value enquiries.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="mm-digital-s-approach"><strong>MM Digital’s Approach</strong></h3>
-
-<p class="has-text-align-center ext-animate--on">MM Digital implemented a focused digital strategy.</p>
-
-<p class="has-text-align-center ext-animate--on"><strong><strong><strong><strong>Website Development</strong></strong></strong></strong>: Built a professional website showcasing completed projects and services.<br><strong><strong><strong><strong>Social Media Strategy</strong></strong></strong></strong>: Developed content highlighting craftsmanship and project transformations.<br><strong><strong><strong><strong>Local Marketing</strong></strong></strong></strong>: Targeted homeowners within the South West region.<br><strong><strong><strong><strong>Brand Positioning</strong></strong></strong></strong>: Strengthened the company’s positioning as a premium carpentry provider.</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="results-and-impact"><strong>Results and Impact</strong></h3>
-
-<p class="has-text-align-center ext-animate--on">The strategy delivered strong results. Key outcomes include:</p>
-
-<p class="has-text-align-center ext-animate--on">• 3,000+ local leads generated • 22%+ increase in visibility • Improved brand visibility across thImproved online brand presence and engagement • Stronger awareness within the regional construction market</p>
-
-<h3 class="wp-block-heading has-text-align-center ext-animate--on has-libre-baskerville-font-family" id="conclusion"><strong>Conclusion</strong></h3>
-
-<p class="has-text-align-center ext-animate--on">Through strategic digital marketing and brand positioning, MM Digital helped Aspects of Oak strengthen its online presence and attract new project opportunities.</p>
+<section class="aok-cta" aria-labelledby="aok-cta-title">
+  <div class="aok-wrap">
+    <h2 id="aok-cta-title">Get in touch</h2>
+    <p class="aok-cta-line">And see how we'd drive results for you</p>
+    <a class="aok-cta-btn" href="/get-in-touch/">Get In touch <span aria-hidden="true">→</span></a>
+  </div>
+</section>
 </div>

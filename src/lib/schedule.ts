@@ -11,10 +11,8 @@ export const SCHEDULED_POSTS: Record<string, string> = {
 // from here to bring its page back.
 export const HIDDEN_PAGES = new Set<string>([
   // Old case studies, to be redone
-  "aspects-of-oaks-case-study",
   "ashmore-building-companys-case-study",
   "the-100-day-plan-companys-case-study",
-  "waldrons-patisseries-case-study",
 ]);
 
 export function isUnpublished(slug: string, now = new Date()): boolean {
