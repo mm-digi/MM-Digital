@@ -1070,7 +1070,15 @@ header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigat
   .mmw-hero,
   .mmp-hero,
   .blog-hero,
-  .mmc-hero {
+  .mmc-hero,
+  .lih-hero,
+  .orl-hero,
+  .yvc-hero,
+  .trz-hero,
+  .aur-hero,
+  .wal-hero,
+  .sdr-hero,
+  .aok-hero {
     padding-top: 40px !important;
   }
   .wp-block-group.alignfull:has(> .mmc-hero),
