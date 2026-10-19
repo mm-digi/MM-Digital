@@ -7,7 +7,7 @@ import CaseStudyVideo from "./video";
 
 const title = "Trendz Case Study";
 const description =
-  "How MM Digital built the pre-launch site and social presence for Trendz, an early-access waitlist for a crypto trend product.";
+  "How MM Digital built Trendz’s brand and digital foundations, with full social support, digital setup, and branding.";
 const path = "/trendz-case-study/";
 
 export const metadata: Metadata = pageMetadata(title, description, path);
