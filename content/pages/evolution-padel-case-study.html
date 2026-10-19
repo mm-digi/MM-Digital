@@ -1,0 +1,262 @@
+<div class="wp-block-group alignfull evo-page">
+<style>
+.evo-page { --mm-pink: #ff808b; color: #fff; background: #000; }
+.evo-page * { box-sizing: border-box; }
+.evo-page h1,
+.evo-page h2 {
+  margin: 0 0 20px;
+  font-family: "Libre Baskerville", Georgia, serif !important;
+  font-weight: 400;
+  font-size: clamp(1.9rem, 3.6vw, 3.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.evo-hero h1 { font-size: clamp(1.7rem, 2.7vw, 3rem) !important; }
+.evo-page .mm-line { display: block; }
+.evo-page .mm-line-pink { color: var(--mm-pink) !important; font-style: normal; }
+.evo-page p,
+.evo-page a,
+.evo-page dt,
+.evo-page dd,
+.evo-kicker,
+.evo-label,
+.evo-num {
+  font-family: "Glacial Indifference", Arial, sans-serif !important;
+}
+.evo-wrap { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
+.evo-page figure { margin: 0; }
+.evo-hero { position: relative; overflow: hidden; padding: 150px 0 88px; }
+.evo-wall {
+  position: absolute; inset: -40px 0; display: grid; gap: 18px; align-content: center;
+  transform: rotate(-4deg) scale(1.08);
+}
+.evo-wall-row { overflow: hidden; }
+.evo-wall-track { display: flex; gap: 18px; width: max-content; animation: evoDrift 80s linear infinite; }
+.evo-wall-row-2 .evo-wall-track { animation-direction: reverse; animation-duration: 95s; }
+.evo-wall-row-3 .evo-wall-track { animation-duration: 70s; }
+.evo-wall-track img { width: 380px; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; }
+@keyframes evoDrift { to { transform: translateX(-50%); } }
+.evo-hero-shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.82) 45%, rgba(0, 0, 0, 0.7) 100%),
+    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(255, 128, 139, 0.22), transparent 70%);
+}
+.evo-hero .evo-wrap { position: relative; z-index: 1; }
+.evo-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; align-items: center; }
+.evo-intro { padding-left: 32px; border-left: 2px solid var(--mm-pink); }
+.evo-eyebrow {
+  display: block; margin-bottom: 14px; font-size: 0.85rem !important; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--mm-pink) !important;
+}
+.evo-lead, .evo-copy p { margin: 0 0 18px; font-size: 1.15rem !important; line-height: 1.65; color: #cfcfcf !important; }
+.evo-lead { margin-bottom: 30px; }
+.evo-copy p:last-child { margin-bottom: 0; }
+.evo-btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 28px;
+  border-radius: 999px; background: var(--mm-pink); font-size: 16px !important; font-weight: 700;
+  color: #fff !important; text-decoration: none !important; transition: background 0.25s ease, transform 0.25s ease;
+}
+.evo-btn:hover { background: #ff6d79; transform: translateY(-2px); }
+.evo-glass {
+  padding: 36px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 28px;
+  background: rgba(10, 6, 8, 0.72); backdrop-filter: blur(6px); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+}
+.evo-logo { display: block; margin: 0 0 22px; line-height: 0; }
+.evo-logo img { display: block; width: auto !important; height: 112px !important; border-radius: 0 !important; }
+.evo-full img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center center; background: #000; }
+.evo-results { background: #101010; padding: 72px 0 64px; }
+.evo-kicker { margin: 0 0 8px; text-align: center; font-size: 0.95rem !important; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.72) !important; }
+.evo-stats, .evo-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 1180px; margin: 0 auto; }
+.evo-meta { margin-top: 8px; text-align: center; }
+.evo-stat { position: relative; }
+.evo-rings { display: block; width: 100%; height: auto; }
+.evo-stat-copy {
+  position: absolute; inset: 18% 16% 20%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; gap: 10px;
+}
+.evo-num {
+  font-size: clamp(2.4rem, 4.2vw, 4.4rem) !important; font-weight: 500; line-height: 0.95;
+  letter-spacing: -0.03em; -webkit-text-fill-color: #ff808b; color: #ff808b !important;
+}
+.evo-num-words { font-size: clamp(1.7rem, 2.5vw, 2.45rem) !important; line-height: 1.05; letter-spacing: -0.02em; }
+.evo-label { max-width: 16ch; font-size: 1.15rem !important; line-height: 1.25; color: #fff !important; }
+.evo-meta dt { margin: 0; font-size: 0.78rem !important; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55) !important; }
+.evo-keep { white-space: nowrap; }
+.evo-meta dd { max-width: 280px; margin: 8px auto 0; font-size: 1.05rem !important; font-weight: 700; line-height: 1.35; color: #fff !important; }
+.evo-section { padding: 96px 0 28px; }
+.evo-section .evo-split { align-items: start; }
+.evo-points { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 10px; }
+.evo-points li {
+  margin: 0; padding: 14px 18px; font-family: "Glacial Indifference", Arial, sans-serif !important;
+  border-left: 2px solid var(--mm-pink); border-radius: 0 16px 16px 0; background: rgba(255, 255, 255, 0.04);
+  font-size: 1.05rem !important; line-height: 1.4; color: #fff !important;
+}
+.evo-pair, .evo-trio, .evo-more { display: grid; gap: 16px; }
+.evo-band { padding: 12px 0 20px; }
+.evo-pair { grid-template-columns: 1fr 1fr; }
+.evo-trio { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.evo-more-row { grid-template-columns: 1fr 1fr; }
+.evo-page .evo-pair img, .evo-page .evo-trio img, .evo-page .evo-trio video, .evo-page .evo-more img {
+  display: block; width: 100%; height: auto; object-fit: cover; border: 0; border-radius: 22px; background: #111;
+}
+.evo-pair img { aspect-ratio: 4 / 3; }
+.evo-trio img, .evo-trio video { aspect-ratio: 16 / 10; object-fit: cover; object-position: center top; }
+.evo-more-row img { aspect-ratio: 16 / 9; object-fit: contain; background: #161616; }
+.evo-cta {
+  position: relative; overflow: hidden; padding: 128px 0 148px;
+  background: radial-gradient(ellipse 720px 380px at 32% 48%, rgba(255, 128, 139, 0.42), rgba(255, 179, 161, 0.1) 50%, transparent 74%);
+}
+.evo-cta h2 { margin: 0 0 18px; font-size: clamp(3.2rem, 6.4vw, 6rem) !important; line-height: 1.02; letter-spacing: -0.03em; }
+.evo-cta-line {
+  margin: 0 0 42px; font-family: "Libre Baskerville", Georgia, serif !important;
+  font-size: clamp(1.7rem, 3.3vw, 3rem) !important; line-height: 1.25; color: #fff !important;
+}
+.evo-cta-btn {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.75); border-radius: 999px; background: transparent;
+  font-size: 1rem !important; font-weight: 500; color: #fff !important; text-decoration: none !important;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.evo-cta-btn:hover { border-color: var(--mm-pink); background: rgba(255, 128, 139, 0.12); color: #fff !important; }
+@media (max-width: 1024px) {
+  .evo-wrap { padding: 0 22px; }
+  .evo-split { grid-template-columns: 1fr; gap: 36px; }
+  .evo-hero { padding: 120px 0 64px; }
+  .evo-cta { padding: 88px 0 72px; }
+  .evo-hero h1 { font-size: 1.55rem !important; }
+}
+@media (max-width: 800px) {
+  .evo-stats, .evo-meta { grid-template-columns: 1fr; }
+  .evo-stat { max-width: 420px; margin: 0 auto; }
+  .evo-pair, .evo-trio, .evo-more-row { grid-template-columns: 1fr; }
+  .evo-trio img, .evo-trio video { aspect-ratio: 16 / 9; }
+  .evo-section { padding-top: 64px; }
+  .evo-cta { padding: 72px 0 64px; background: radial-gradient(ellipse 260px 180px at 28% 46%, rgba(255, 128, 139, 0.4), transparent 72%); }
+  .evo-logo img { height: 92px !important; }
+}
+@media (prefers-reduced-motion: reduce) { .evo-wall-track { animation: none; } }
+</style>
+
+<section class="evo-hero" aria-labelledby="evo-hero-title">
+  <div class="evo-wall" aria-hidden="true">
+    <div class="evo-wall-row evo-wall-row-1"><div class="evo-wall-track"><img src="/media/case-studies/evolution/one.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/two.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/three.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/four.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/one.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/two.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/three.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/four.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/one.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/two.webp" alt="" width="2880" height="1800"></div></div>
+    <div class="evo-wall-row evo-wall-row-2"><div class="evo-wall-track"><img src="/media/case-studies/evolution/four.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/one.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/two.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/three.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/four.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/one.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/two.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/three.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/four.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/one.webp" alt="" width="2880" height="1800"></div></div>
+    <div class="evo-wall-row evo-wall-row-3"><div class="evo-wall-track"><img src="/media/case-studies/evolution/three.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/four.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/one.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/two.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/three.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/four.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/one.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/two.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/three.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/evolution/four.webp" alt="" width="2880" height="1800"></div></div>
+  </div>
+  <div class="evo-hero-shade" aria-hidden="true"></div>
+  <div class="evo-wrap evo-split">
+    <div class="evo-intro">
+      <span class="evo-eyebrow">Case study</span>
+      <h1 id="evo-hero-title"><span class="mm-line">Building Evolution</span> <span class="mm-line">Padel’s Brand</span> <span class="mm-line mm-line-pink">From The Ground Up</span></h1>
+      <p class="evo-lead">A new venture given a complete brand and a powerful pre-launch presence.</p>
+      <a class="evo-btn" href="https://www.evolutionpadel.uk/" target="_blank" rel="noopener">Visit the website</a>
+    </div>
+    <div class="evo-glass">
+      <a class="evo-logo" href="https://www.evolutionpadel.uk/" target="_blank" rel="noopener" aria-label="Evolution Padel website (opens in a new tab)">
+        <img src="/media/case-studies/evolution/logo-mark.webp" alt="Evolution Padel" width="472" height="414">
+      </a>
+      <p>Evolution Padel came to us ahead of launch, with a vision and a need for everything that brings a brand to life. Our role was to create the full brand and branding from scratch, and build genuine visibility and anticipation before the doors even opened.</p>
+    </div>
+  </div>
+</section>
+
+<figure class="evo-full">
+  <picture>
+    <source media="(max-width: 800px)" srcset="/media/case-studies/evolution/hero-mobile.webp">
+    <img src="/media/case-studies/evolution/hero.webp" alt="The Evolution Padel homepage" width="2880" height="1800">
+  </picture>
+</figure>
+
+<section class="evo-results" aria-label="Results Overview">
+  <div class="evo-wrap">
+    <p class="evo-kicker">Results Overview</p>
+    <div class="evo-stats">
+      <div class="evo-stat"><svg class="evo-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg><div class="evo-stat-copy"><div class="evo-num">Full</div><div class="evo-label">brand setup and build</div></div></div>
+      <div class="evo-stat"><svg class="evo-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg><div class="evo-stat-copy"><div class="evo-num">Complete</div><div class="evo-label">branding from scratch</div></div></div>
+      <div class="evo-stat"><svg class="evo-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg><div class="evo-stat-copy"><div class="evo-num">32%+</div><div class="evo-label">pre-launch visibility increase</div></div></div>
+    </div>
+    <dl class="evo-meta">
+      <div><dt>Client</dt><dd>Evolution Padel</dd></div>
+      <div><dt>Channels</dt><dd>Facebook, <span class="evo-keep">Instagram and TikTok</span></dd></div>
+      <div><dt>Services</dt><dd>Brand identity, full branding, social media, content and pre-launch marketing</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="evo-section" aria-labelledby="evo-background-title">
+  <div class="evo-wrap evo-split">
+    <div class="evo-intro">
+      <h2 id="evo-background-title"><span class="mm-line">Client</span> <span class="mm-line mm-line-pink">Background</span></h2>
+    </div>
+    <div class="evo-copy">
+      <p>Picture an exciting new venture, full of ambition and potential, that needs everything building from the ground up before it can open its doors. That is the story of Evolution Padel, and it is exactly the kind of brand we love to bring to life.</p>
+      <p>Evolution Padel arrived ahead of launch with a clear vision and real drive, and a need for the complete foundations of a brand: the identity, the branding, and the presence to build anticipation before launch. There was no established brand yet, just the opportunity to create one properly, from scratch.</p>
+      <p>That is where we came in. Our brief was to develop the full brand and branding, and to build genuine visibility and momentum in the crucial pre-launch period, so that Evolution Padel would open to a warm, engaged audience rather than a standing start.</p>
+    </div>
+  </div>
+</section>
+
+<section class="evo-band" aria-label="Evolution Padel">
+  <div class="evo-wrap evo-pair">
+    <img src="/media/case-studies/evolution/one.webp" alt="Find Your Game on the Evolution Padel website" width="2880" height="1800">
+    <img src="/media/case-studies/evolution/two.webp" alt="Court bookings coming soon on the Evolution Padel website" width="2880" height="1800">
+  </div>
+</section>
+
+<section class="evo-section" aria-labelledby="evo-challenge-title">
+  <div class="evo-wrap evo-split">
+    <div class="evo-intro">
+      <h2 id="evo-challenge-title"><span class="mm-line">The</span> <span class="mm-line mm-line-pink">Challenge</span></h2>
+    </div>
+    <div class="evo-copy">
+      <p>Launching a new brand is one of the hardest things to get right. Everything has to be built at once, the identity, the look, the voice, and it all has to be in place before a single customer walks through the door. Get the pre-launch wrong, and you open to silence. Get it right, and you open to an audience already excited to be there.</p>
+      <p>The challenge was to create the entire brand from scratch and, at the same time, build real visibility and anticipation ahead of launch, so that Evolution Padel arrived with momentum, not from zero.</p>
+    </div>
+  </div>
+</section>
+
+<section class="evo-band" aria-label="The Evolution Padel website">
+  <div class="evo-wrap evo-trio">
+    <img src="/media/case-studies/evolution/three.webp" alt="More than a court booking on the Evolution Padel website" width="2880" height="1800">
+    <video class="evo-scroll" autoplay muted loop playsinline preload="metadata" poster="/media/case-studies/evolution/hero.webp" aria-label="The Evolution Padel website scrolling from the homepage">
+      <source src="/media/case-studies/evolution/scroll.mp4" type="video/mp4">
+      <track kind="captions" label="English captions" src="/media/case-studies/evolution/scroll.vtt" srclang="en">
+    </video>
+    <img src="/media/case-studies/evolution/four.webp" alt="The Evolution Padel venue in Renfrew" width="2880" height="1800">
+  </div>
+</section>
+
+<section class="evo-section" aria-labelledby="evo-approach-title">
+  <div class="evo-wrap evo-split">
+    <div>
+      <div class="evo-intro">
+        <h2 id="evo-approach-title"><span class="mm-line">Our</span> <span class="mm-line mm-line-pink">Approach</span></h2>
+      </div>
+      <ul class="evo-points">
+        <li>Full brand setup and identity</li>
+        <li>Complete branding from scratch</li>
+        <li>Social media and content</li>
+        <li>Pre-launch marketing</li>
+        <li>Visibility and anticipation building</li>
+      </ul>
+    </div>
+    <div class="evo-copy">
+      <p>We treated Evolution Padel as a complete brand build paired with a focused pre-launch strategy.</p>
+      <p>We started with the brand itself, creating the full identity and branding from the ground up: the look, the feel and the personality that would define Evolution Padel. Everything was built to be distinctive, consistent and ready to carry the brand from launch and beyond.</p>
+      <p>With the brand in place, we turned to building anticipation. Through consistent content and a focused pre-launch presence across social, we grew the brand’s visibility ahead of opening, delivering a 32% increase in pre-launch visibility. Rather than opening to an empty room, Evolution Padel built a genuine, engaged audience before day one, exactly the foundation a new venture needs.</p>
+      <p>The result is a brand built entirely from scratch and launched with real momentum behind it, and we continue to grow it.</p>
+    </div>
+  </div>
+</section>
+
+
+<section class="evo-cta" aria-labelledby="evo-cta-title">
+  <div class="evo-wrap">
+    <h2 id="evo-cta-title">Get in touch</h2>
+    <p class="evo-cta-line">And see how we'd drive results for you</p>
+    <a class="evo-cta-btn" href="/get-in-touch/">Get In touch <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+</div>

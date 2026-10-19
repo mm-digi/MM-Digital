@@ -1,0 +1,268 @@
+<div class="wp-block-group alignfull vaa-page">
+<style>
+.vaa-page { --mm-pink: #ff808b; color: #fff; background: #000; }
+.vaa-page * { box-sizing: border-box; }
+.vaa-page h1,
+.vaa-page h2 {
+  margin: 0 0 20px;
+  font-family: "Libre Baskerville", Georgia, serif !important;
+  font-weight: 400;
+  font-size: clamp(1.9rem, 3.6vw, 3.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.vaa-hero h1 { font-size: clamp(1.7rem, 2.7vw, 3rem) !important; }
+.vaa-page .mm-line { display: block; }
+.vaa-page .mm-line-pink { color: var(--mm-pink) !important; font-style: normal; }
+.vaa-page p,
+.vaa-page a,
+.vaa-page dt,
+.vaa-page dd,
+.vaa-kicker,
+.vaa-label,
+.vaa-num {
+  font-family: "Glacial Indifference", Arial, sans-serif !important;
+}
+.vaa-wrap { max-width: 1600px; margin: 0 auto; padding: 0 48px; }
+.vaa-page figure { margin: 0; }
+.vaa-hero { position: relative; overflow: hidden; padding: 150px 0 88px; }
+.vaa-wall {
+  position: absolute; inset: -40px 0; display: grid; gap: 18px; align-content: center;
+  transform: rotate(-4deg) scale(1.08);
+}
+.vaa-wall-row { overflow: hidden; }
+.vaa-wall-track { display: flex; gap: 18px; width: max-content; animation: vaaDrift 80s linear infinite; }
+.vaa-wall-row-2 .vaa-wall-track { animation-direction: reverse; animation-duration: 95s; }
+.vaa-wall-row-3 .vaa-wall-track { animation-duration: 70s; }
+.vaa-wall-track img { width: 380px; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 16px; }
+@keyframes vaaDrift { to { transform: translateX(-50%); } }
+.vaa-hero-shade {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.82) 45%, rgba(0, 0, 0, 0.7) 100%),
+    radial-gradient(ellipse 60% 80% at 80% 50%, rgba(255, 128, 139, 0.22), transparent 70%);
+}
+.vaa-hero .vaa-wrap { position: relative; z-index: 1; }
+.vaa-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; align-items: center; }
+.vaa-intro { padding-left: 32px; border-left: 2px solid var(--mm-pink); }
+.vaa-eyebrow {
+  display: block; margin-bottom: 14px; font-size: 0.85rem !important; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase; color: var(--mm-pink) !important;
+}
+.vaa-lead, .vaa-copy p { margin: 0 0 18px; font-size: 1.15rem !important; line-height: 1.65; color: #cfcfcf !important; }
+.vaa-lead { margin-bottom: 30px; }
+.vaa-copy p:last-child { margin-bottom: 0; }
+.vaa-btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 28px;
+  border-radius: 999px; background: var(--mm-pink); font-size: 16px !important; font-weight: 700;
+  color: #fff !important; text-decoration: none !important; transition: background 0.25s ease, transform 0.25s ease;
+}
+.vaa-btn:hover { background: #ff6d79; transform: translateY(-2px); }
+.vaa-glass {
+  padding: 36px; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 28px;
+  background: rgba(10, 6, 8, 0.72); backdrop-filter: blur(6px); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4);
+}
+.vaa-logo { display: block; margin: 0 0 22px; line-height: 0; }
+.vaa-logo img { display: block; width: auto !important; height: 64px !important; border-radius: 0 !important; }
+.vaa-full img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center center; background: #000; }
+.vaa-results { background: #101010; padding: 72px 0 64px; }
+.vaa-kicker { margin: 0 0 8px; text-align: center; font-size: 0.95rem !important; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.72) !important; }
+.vaa-stats, .vaa-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 1180px; margin: 0 auto; }
+.vaa-meta { margin-top: 8px; text-align: center; }
+.vaa-stat { position: relative; }
+.vaa-rings { display: block; width: 100%; height: auto; }
+.vaa-stat-copy {
+  position: absolute; inset: 18% 16% 20%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center; gap: 10px;
+}
+.vaa-num {
+  font-size: clamp(2.4rem, 4.2vw, 4.4rem) !important; font-weight: 500; line-height: 0.95;
+  letter-spacing: -0.03em; -webkit-text-fill-color: #ff808b; color: #ff808b !important;
+}
+.vaa-num-words { font-size: clamp(1.7rem, 2.5vw, 2.45rem) !important; line-height: 1.05; letter-spacing: -0.02em; }
+.vaa-label { max-width: 16ch; font-size: 1.15rem !important; line-height: 1.25; color: #fff !important; }
+.vaa-meta dt { margin: 0; font-size: 0.78rem !important; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55) !important; }
+.vaa-keep { white-space: nowrap; }
+.vaa-meta dd { max-width: 280px; margin: 8px auto 0; font-size: 1.05rem !important; font-weight: 700; line-height: 1.35; color: #fff !important; }
+.vaa-section { padding: 96px 0 28px; }
+.vaa-section .vaa-split { align-items: start; }
+.vaa-points { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 10px; }
+.vaa-points li {
+  margin: 0; padding: 14px 18px; font-family: "Glacial Indifference", Arial, sans-serif !important;
+  border-left: 2px solid var(--mm-pink); border-radius: 0 16px 16px 0; background: rgba(255, 255, 255, 0.04);
+  font-size: 1.05rem !important; line-height: 1.4; color: #fff !important;
+}
+.vaa-pair, .vaa-trio, .vaa-more { display: grid; gap: 16px; }
+.vaa-band { padding: 12px 0 20px; }
+.vaa-pair { grid-template-columns: 1fr 1fr; }
+.vaa-trio { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.vaa-more-row { grid-template-columns: 1fr 1fr; }
+.vaa-page .vaa-pair img, .vaa-page .vaa-trio img, .vaa-page .vaa-trio video, .vaa-page .vaa-more img {
+  display: block; width: 100%; height: auto; object-fit: cover; border: 0; border-radius: 22px; background: #111;
+}
+.vaa-pair img { aspect-ratio: 4 / 3; }
+.vaa-trio img, .vaa-trio video { aspect-ratio: 16 / 10; object-fit: cover; object-position: center top; }
+.vaa-more-row img { aspect-ratio: 16 / 9; object-fit: contain; background: #161616; }
+.vaa-cta {
+  position: relative; overflow: hidden; padding: 128px 0 148px;
+  background: radial-gradient(ellipse 720px 380px at 32% 48%, rgba(255, 128, 139, 0.42), rgba(255, 179, 161, 0.1) 50%, transparent 74%);
+}
+.vaa-cta h2 { margin: 0 0 18px; font-size: clamp(3.2rem, 6.4vw, 6rem) !important; line-height: 1.02; letter-spacing: -0.03em; }
+.vaa-cta-line {
+  margin: 0 0 42px; font-family: "Libre Baskerville", Georgia, serif !important;
+  font-size: clamp(1.7rem, 3.3vw, 3rem) !important; line-height: 1.25; color: #fff !important;
+}
+.vaa-cta-btn {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.75); border-radius: 999px; background: transparent;
+  font-size: 1rem !important; font-weight: 500; color: #fff !important; text-decoration: none !important;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.vaa-cta-btn:hover { border-color: var(--mm-pink); background: rgba(255, 128, 139, 0.12); color: #fff !important; }
+@media (max-width: 1024px) {
+  .vaa-wrap { padding: 0 22px; }
+  .vaa-split { grid-template-columns: 1fr; gap: 36px; }
+  .vaa-hero { padding: 120px 0 64px; }
+  .vaa-cta { padding: 88px 0 72px; }
+  .vaa-hero h1 { font-size: 1.55rem !important; }
+}
+@media (max-width: 800px) {
+  .vaa-stats, .vaa-meta { grid-template-columns: 1fr; }
+  .vaa-stat { max-width: 420px; margin: 0 auto; }
+  .vaa-pair, .vaa-trio, .vaa-more-row { grid-template-columns: 1fr; }
+  .vaa-trio img, .vaa-trio video { aspect-ratio: 16 / 9; }
+  .vaa-section { padding-top: 64px; }
+  .vaa-cta { padding: 72px 0 64px; background: radial-gradient(ellipse 260px 180px at 28% 46%, rgba(255, 128, 139, 0.4), transparent 72%); }
+  .vaa-logo img { height: 52px !important; }
+}
+@media (prefers-reduced-motion: reduce) { .vaa-wall-track { animation: none; } }
+</style>
+
+<section class="vaa-hero" aria-labelledby="vaa-hero-title">
+  <div class="vaa-wall" aria-hidden="true">
+    <div class="vaa-wall-row vaa-wall-row-1"><div class="vaa-wall-track"><img src="/media/case-studies/vaala/one.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/two.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/three.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/four.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/one.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/two.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/three.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/four.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/one.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/two.webp" alt="" width="2880" height="1800"></div></div>
+    <div class="vaa-wall-row vaa-wall-row-2"><div class="vaa-wall-track"><img src="/media/case-studies/vaala/four.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/one.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/two.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/three.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/four.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/one.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/two.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/three.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/four.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/one.webp" alt="" width="2880" height="1800"></div></div>
+    <div class="vaa-wall-row vaa-wall-row-3"><div class="vaa-wall-track"><img src="/media/case-studies/vaala/three.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/four.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/one.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/two.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/three.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/four.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/one.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/two.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/three.webp" alt="" width="2880" height="1800"><img src="/media/case-studies/vaala/four.webp" alt="" width="2880" height="1800"></div></div>
+  </div>
+  <div class="vaa-hero-shade" aria-hidden="true"></div>
+  <div class="vaa-wrap vaa-split">
+    <div class="vaa-intro">
+      <span class="vaa-eyebrow">Case study</span>
+      <h1 id="vaa-hero-title"><span class="mm-line">Driving Vaala’s</span> <span class="mm-line">Growth Through Targeted</span> <span class="mm-line mm-line-pink">Lead Generation</span></h1>
+      <p class="vaa-lead">A brand given sharper reach, stronger traffic and a steady flow of enquiries.</p>
+      <a class="vaa-btn" href="https://vaala.co.uk/" target="_blank" rel="noopener">Visit the website</a>
+    </div>
+    <div class="vaa-glass">
+      <a class="vaa-logo" href="https://vaala.co.uk/" target="_blank" rel="noopener" aria-label="Vaala website (opens in a new tab)">
+        <img src="/media/case-studies/vaala/logo-mark.webp" alt="Vaala" width="165" height="110">
+      </a>
+      <p>Vaala needed its marketing to work harder, not just to be seen, but to drive real traffic and genuine enquiries. Our role was to grow its reach, increase website traffic, and turn that attention into consistent leads and enquiries.</p>
+    </div>
+  </div>
+</section>
+
+<figure class="vaa-full">
+  <picture>
+    <source media="(max-width: 800px)" srcset="/media/case-studies/vaala/hero-mobile.webp">
+    <img src="/media/case-studies/vaala/hero.webp" alt="The Vaala homepage" width="2880" height="1800">
+  </picture>
+</figure>
+
+<section class="vaa-results" aria-label="Results Overview">
+  <div class="vaa-wrap">
+    <p class="vaa-kicker">Results Overview</p>
+    <div class="vaa-stats">
+      <div class="vaa-stat"><svg class="vaa-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg><div class="vaa-stat-copy"><div class="vaa-num">1M+</div><div class="vaa-label">total social media views</div></div></div>
+      <div class="vaa-stat"><svg class="vaa-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg><div class="vaa-stat-copy"><div class="vaa-num">12%</div><div class="vaa-label">increase in web traffic</div></div></div>
+      <div class="vaa-stat"><svg class="vaa-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg><div class="vaa-stat-copy"><div class="vaa-num">8%</div><div class="vaa-label">increase in enquiries</div></div></div>
+    </div>
+    <dl class="vaa-meta">
+      <div><dt>Client</dt><dd>Vaala</dd></div>
+      <div><dt>Channels</dt><dd><span class="vaa-keep">Facebook and Instagram</span></dd></div>
+      <div><dt>Services</dt><dd>Social media management, content, paid advertising and lead generation</dd></div>
+    </dl>
+  </div>
+</section>
+
+<section class="vaa-section" aria-labelledby="vaa-background-title">
+  <div class="vaa-wrap vaa-split">
+    <div class="vaa-intro">
+      <h2 id="vaa-background-title"><span class="mm-line">Client</span> <span class="mm-line mm-line-pink">Background</span></h2>
+    </div>
+    <div class="vaa-copy">
+      <p>Picture a brand with real potential and a clear ambition, that needed its marketing to deliver more than visibility, it needed genuine results. That is the story of Vaala, and it is exactly the kind of brand we love to grow.</p>
+      <p>Vaala came to us looking to build its presence and, more importantly, to turn that presence into real business, more traffic, more enquiries, more growth. The ambition was there, and what it needed was a focused, results-driven approach to make it happen.</p>
+      <p>That is where we came in. Our brief was to grow Vaala’s reach, drive quality traffic to the website, and convert that attention into a steady stream of enquiries.</p>
+    </div>
+  </div>
+</section>
+
+<section class="vaa-band" aria-label="Vaala">
+  <div class="vaa-wrap vaa-pair">
+    <img src="/media/case-studies/vaala/one.webp" alt="Design, Build and Aftercare on the Vaala website" width="2880" height="1800">
+    <img src="/media/case-studies/vaala/two.webp" alt="A kitchen project on the Vaala website" width="2880" height="1800">
+  </div>
+</section>
+
+<section class="vaa-section" aria-labelledby="vaa-challenge-title">
+  <div class="vaa-wrap vaa-split">
+    <div class="vaa-intro">
+      <h2 id="vaa-challenge-title"><span class="mm-line">The</span> <span class="mm-line mm-line-pink">Challenge</span></h2>
+    </div>
+    <div class="vaa-copy">
+      <p>Reach on its own is easy to chase and easy to waste. Vaala needed marketing that did more than rack up views, it needed to bring the right people to the website and turn them into genuine enquiries. That meant being targeted, consistent, and focused on the metrics that actually matter to the business.</p>
+      <p>The challenge was to grow social reach meaningfully, convert that into real website traffic, and make sure it translated into enquiries, building momentum that compounds rather than a short-lived spike.</p>
+    </div>
+  </div>
+</section>
+
+<section class="vaa-band" aria-label="The Vaala website">
+  <div class="vaa-wrap vaa-trio">
+    <img src="/media/case-studies/vaala/three.webp" alt="Milestones on the Vaala website" width="2880" height="1800">
+    <video class="vaa-scroll" autoplay muted loop playsinline preload="metadata" poster="/media/case-studies/vaala/hero.webp" aria-label="The Vaala website scrolling from the homepage">
+      <source src="/media/case-studies/vaala/scroll.mp4" type="video/mp4">
+      <track kind="captions" label="English captions" src="/media/case-studies/vaala/scroll.vtt" srclang="en">
+    </video>
+    <img src="/media/case-studies/vaala/four.webp" alt="The Vaala contact form" width="2880" height="1800">
+  </div>
+</section>
+
+<section class="vaa-section" aria-labelledby="vaa-approach-title">
+  <div class="vaa-wrap vaa-split">
+    <div>
+      <div class="vaa-intro">
+        <h2 id="vaa-approach-title"><span class="mm-line">Our</span> <span class="mm-line mm-line-pink">Approach</span></h2>
+      </div>
+      <ul class="vaa-points">
+        <li>Social media management and content</li>
+        <li>Paid advertising</li>
+        <li>Lead generation</li>
+        <li>Website traffic growth</li>
+        <li>Ongoing optimisation</li>
+      </ul>
+    </div>
+    <div class="vaa-copy">
+      <p>We approached Vaala with a clear, results-first focus: reach the right people, bring them to the website, and turn them into enquiries.</p>
+      <p>On social, we built a consistent, engaging presence and grew Vaala’s reach to over 1 million total social media views, putting the brand in front of a far wider, well-targeted audience. Rather than chasing vanity reach, we focused that growth on driving genuine action.</p>
+      <p>The results followed. We delivered a 12% increase in website traffic and an 8% increase in enquiries, clear proof that the reach we built was translating into real business. We continue to refine the approach, sharpening the targeting and building on that momentum.</p>
+      <p>The result is a brand growing with purpose, more reach, more traffic and more enquiries, and we continue to drive it forward.</p>
+    </div>
+  </div>
+</section>
+
+<section class="vaa-band" aria-label="Facebook and Instagram">
+  <div class="vaa-wrap vaa-more vaa-more-row">
+    <img src="/media/case-studies/vaala/facebook.webp" alt="The Vaala Facebook page" width="1272" height="781">
+    <img src="/media/case-studies/vaala/instagram.webp" alt="The Vaala Instagram page" width="1570" height="839">
+  </div>
+</section>
+
+<section class="vaa-cta" aria-labelledby="vaa-cta-title">
+  <div class="vaa-wrap">
+    <h2 id="vaa-cta-title">Get in touch</h2>
+    <p class="vaa-cta-line">And see how we'd drive results for you</p>
+    <a class="vaa-cta-btn" href="/get-in-touch/">Get In touch <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+</div>

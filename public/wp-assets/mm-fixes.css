@@ -1078,7 +1078,9 @@ header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigat
   .aur-hero,
   .wal-hero,
   .sdr-hero,
-  .aok-hero {
+  .aok-hero,
+  .vaa-hero,
+  .evo-hero {
     padding-top: 40px !important;
   }
   .wp-block-group.alignfull:has(> .mmc-hero),
