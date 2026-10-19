@@ -7,7 +7,7 @@ import CaseStudyVideo from "./video";
 
 const title = "Yvonne Coomber Case Study";
 const description =
-  "How MM Digital grew Yvonne Coomber’s online presence to 4.9 million art lovers reached and a 57% rise in audience engagement.";
+  "How MM Digital keeps expanding Yvonne Coomber’s digital presence, with 10 million social views and 18% higher website traffic year on year.";
 const path = "/yvonne-coombers-case-study/";
 
 export const metadata: Metadata = pageMetadata(title, description, path);
