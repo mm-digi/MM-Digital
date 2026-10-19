@@ -7,7 +7,7 @@ import CaseStudyVideo from "./video";
 
 const title = "Oriels Case Study";
 const description =
-  "How MM Digital launched Oriels Exeter, a proudly independent cocktail bar, and grew it to 6.8 million social views and 350,000 website visits.";
+  "How MM Digital grew Oriels into one of Exeter’s most in-demand venues, with 7.2 million social views, 300,000 website visits, and a full digital booking system.";
 const path = "/oriels-case-study/";
 
 export const metadata: Metadata = pageMetadata(title, description, path);
