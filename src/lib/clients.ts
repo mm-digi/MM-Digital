@@ -179,7 +179,7 @@ export const CLIENT_DASHBOARDS: ClientDashboard[] = [
     slug: "jazz-beauty-clinic-dashboard",
     name: "Jazz Beauty Clinic",
     heading: "Jazz Beauty Clinic's Analytics Dashboard",
-    reportTitle: "Website Analytics",
+    reportTitle: "Website, Facebook & Instagram Analytics",
     embedUrl: "",
   },
 ];

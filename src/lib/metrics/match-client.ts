@@ -25,6 +25,8 @@ const ALIASES: Record<string, string> = {
   orielscomedyclub: "orielsexeter",
   auricperfomance: "auricperformance",
   designwithbloomcouk: "designwithbloom",
+  jazzaestheticsandtrainingacademy: "jazzbeautyclinic",
+  jazzbeautyclinicandtraining: "jazzbeautyclinic",
 };
 
 export function matchClient(accountName: string, clients: ClientRow[]) {
