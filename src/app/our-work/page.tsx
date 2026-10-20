@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import { breadcrumbNode, pageMetadata, webPageNode } from "@/lib/seo";
 
 const description =
-  "See the brands we have helped grow, from Oriels Exeter and Waldrons Patisserie to Auric Performance, Lost in Hound and SDR. Websites, branding and social.";
+  "See the brands we have helped grow, from Oriels Exeter and Waldron’s Patisserie to Auric Performance, Lost in Hound and SDR. Websites, branding and social.";
 
 export const metadata: Metadata = pageMetadata("Client Results & Case Studies", description, "/our-work/");
 
