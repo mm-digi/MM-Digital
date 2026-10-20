@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
+import { fieldsToEmail, sendEmail } from "@/lib/email";
 
 // Adds newsletter sign-ups to the Mailchimp audience. Needs MAILCHIMP_API_KEY
 // (ends in the data centre, e.g. "-us21") and MAILCHIMP_AUDIENCE_ID in Vercel.
@@ -44,12 +45,8 @@ async function addToMailchimp(email: string) {
 }
 
 async function emailFallback(email: string) {
-  const res = await fetch("https://formsubmit.co/ajax/info@mm-digi.co.uk", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify({ email, _subject: "New newsletter sign-up from mm-digi.co.uk" }),
-  });
-  return res.ok;
+  const { html, text } = fieldsToEmail("New newsletter sign-up (not added to Mailchimp)", [["Email", email]]);
+  return sendEmail({ subject: "New newsletter sign-up from mm-digi.co.uk", html, text, replyTo: email });
 }
 
 export async function POST(request: Request) {

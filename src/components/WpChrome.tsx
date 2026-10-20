@@ -84,7 +84,13 @@ export default function WpChrome({
       const isNewsletter = form.matches("form.kb-advanced-form, form.mm-newsletter-form");
       const data = isNewsletter
         ? { email: (form.querySelector('input[type="email"]') as HTMLInputElement | null)?.value ?? "" }
-        : Object.fromEntries(new FormData(form).entries());
+        : [...new FormData(form).entries()].reduce<Record<string, string | string[]>>((acc, [k, v]) => {
+            // Ticked checkboxes share a name ("your-services[]"), so collect them all
+            const key = k.replace(/\[\]$/, "");
+            const prev = acc[key];
+            acc[key] = prev === undefined ? String(v) : [...[prev].flat(), String(v)];
+            return acc;
+          }, {});
       const label = button?.textContent;
       if (button) {
         button.disabled = true;
