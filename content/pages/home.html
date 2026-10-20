@@ -102,6 +102,13 @@
       margin-bottom: 14px;
     }
 
+    /* Even out the line lengths so the closing words don't sit alone on desktop */
+    @media (min-width: 1025px) {
+      .mm-dash-copy--balance {
+        text-wrap: balance;
+      }
+    }
+
     .mm-dash-buttons {
       display: flex;
       flex-wrap: wrap;
@@ -198,6 +205,11 @@
       letter-spacing: 0.16em;
       text-transform: uppercase;
       fill: rgba(255, 255, 255, 0.75);
+      /* dark halo so the Grok data line passes behind the label */
+      stroke: #150c10;
+      stroke-width: 8px;
+      stroke-linejoin: round;
+      paint-order: stroke;
     }
 
     .mm-dash-star {
@@ -984,8 +996,8 @@
     <div class="mm-dash-text">
       <span class="mm-dash-eyebrow">Client Dashboards</span>
       <h2 id="mm-dash-title"><span class="mm-line">All Your Data,</span> <span class="mm-line mm-line-pink">In One Place</span></h2>
-      <p class="mm-dash-copy">
-        Every one of our clients and partners receives full insight into exactly how their campaigns are performing, through their own secure, encrypted dashboard, included with their retainer and reachable any time.
+      <p class="mm-dash-copy mm-dash-copy--balance">
+        Every one of our clients and partners receives full insight into exactly how their campaigns are performing, through their own secure, encrypted dashboard, included with their retainer and reachable&nbsp;any&nbsp;time.
       </p>
       <p class="mm-dash-copy">
         We bring together your Google Analytics, Meta, Instagram, LinkedIn and every other channel we run for you into a single live view, refreshed daily and powered by our team and MM AI to show you exactly what's driving your growth.
@@ -1021,6 +1033,7 @@
         <path id="mm-l-li" class="mm-dash-link" d="M 760 120 L 520 330" />
         <path id="mm-l-windsor" class="mm-dash-link" d="M 520 116 L 520 330" />
         <path id="mm-l-claude" class="mm-dash-link" d="M 730 330 L 520 330" />
+        <path id="mm-l-grok" class="mm-dash-link" d="M 440 555 L 520 330" />
         <path id="mm-l-openai" class="mm-dash-link" d="M 696 500 L 520 330" />
 
         <circle class="mm-dash-pulse" r="4">
@@ -1044,6 +1057,9 @@
         <circle class="mm-dash-pulse" r="4">
           <animateMotion dur="3.1s" begin="0.2s" repeatCount="indefinite"><mpath href="#mm-l-openai" /></animateMotion>
         </circle>
+        <circle class="mm-dash-pulse" r="4">
+          <animateMotion dur="2.8s" begin="1.7s" repeatCount="indefinite"><mpath href="#mm-l-grok" /></animateMotion>
+        </circle>
 
         <!-- platform logos -->
         <image class="mm-dash-logo" href="/media/dashboard/google-analytics.webp" x="60" y="70" width="120" height="87" />
@@ -1053,6 +1069,8 @@
         <image class="mm-dash-logo" href="/media/ai/windsor.webp" x="482" y="38" width="76" height="76" />
         <image class="mm-dash-logo" href="/media/ai/claude.webp" x="738" y="307" width="46" height="46" />
         <text class="mm-dash-logo-text" x="794" y="341">Claude</text>
+        <image class="mm-dash-logo" href="/media/dashboard/grok.webp" x="400" y="560" width="44" height="44" />
+        <text class="mm-dash-logo-text" x="454" y="593">Grok</text>
         <image class="mm-dash-logo" href="/media/ai/chatgpt.webp" x="704" y="480" width="44" height="44" />
         <text class="mm-dash-logo-text" x="756" y="513">OpenAI</text>
 
@@ -1078,10 +1096,10 @@
         <span class="mm-dash-eyebrow">Introducing MM AI</span>
         <h2><span class="mm-line">Ask The Question</span> <span class="mm-line">Get The Answer</span> <span class="mm-line mm-line-pink">From Your Data</span></h2>
         <p class="mm-dash-copy">
-          Introducing MM AI, our brand-new marketing intelligence, now being rolled out across all of our clients.
+          Introducing MM AI, our brand-new marketing intelligence, now being rolled out across all of our clients and general&nbsp;projects.
         </p>
         <p class="mm-dash-copy">
-          MM AI combines the industry's top AI tools with our own, applying them to your live marketing data to form the best possible output for your brand. Behind the scenes, our team uses it to answer the questions that matter in seconds, what's working, what isn't, and where your budget should go next, so every decision we make for your campaigns is sharper, faster and backed by real data.
+          MM AI combines the industry's top AI tools with our own, applying them to your live marketing data to form the best possible output for your brand. Behind the scenes, our team uses it to answer the questions that matter in seconds, what's working, what isn't, and where your budget should go next, so every decision we make for your campaigns is sharper, faster and backed by real&nbsp;data.
         </p>
         <p class="mm-dash-copy">
           This is just the beginning. MM AI will continue rolling out and evolving throughout 2026 and beyond.
@@ -1372,7 +1390,7 @@
 
   <ul class="mm-brands-grid">
       <li class="mm-brands-item"><img src="/logos/grid/aspects-of-oak.webp" width="238" height="109" style="width:84.1%" alt="Aspects of Oak"></li>
-      <li class="mm-brands-item"><img src="/logos/grid/auric-performance.webp" width="161" height="161" style="width:56.9%" alt="Auric Performance"></li>
+      <li class="mm-brands-item"><img src="/logos/grid/auric-performance-2026.webp" width="340" height="300" style="width:58%" alt="Auric Performance"></li>
       <li class="mm-brands-item"><img src="/logos/grid/bastion.webp" width="338" height="77" style="width:86%" alt="Bastion"></li>
       <li class="mm-brands-item"><img src="/logos/grid/bfb.webp" width="247" height="105" style="width:86%" alt="BFB"></li>
       <li class="mm-brands-item"><img src="/logos/grid/brs.webp" width="172" height="151" style="width:60.8%" alt="BRS"></li>
@@ -1530,11 +1548,6 @@
       align-items: center;
     }
 
-    .mm-meet-intro {
-      padding-left: 32px;
-      border-left: 2px solid var(--mm-pink);
-    }
-
     .mm-meet-eyebrow {
       display: block;
       margin-bottom: 14px;
@@ -1619,18 +1632,13 @@
       }
     }
 
-    @media (max-width: 640px) {
-      .mm-meet-intro {
-        padding-left: 20px;
-      }
-    }
   </style>
 
   <div class="mm-meet-grid">
     <div class="mm-meet-intro">
       <span class="mm-meet-eyebrow">Meet MM Digital</span>
       <h2 id="mm-meet-title"><span class="mm-line">Measurable Growth</span> <span class="mm-line mm-line-pink">For Ambitious Brands</span></h2>
-      <p class="mm-meet-sub">We're a digital marketing agency based in Exeter, working with ambitious businesses across the UK and Europe.</p>
+      <p class="mm-meet-sub">We're a digital marketing agency based in Exeter, working with ambitious businesses across the UK and&nbsp;Europe.</p>
       <a href="/get-in-touch/" class="mm-meet-btn">Get In Touch</a>
     </div>
 
@@ -2516,17 +2524,17 @@
       <p>Google, Meta and LinkedIn ads built to deliver the best return.</p>
     </a>
     <a href="/digital-services/#seo-and-cro" class="mm-wwd-item">
-      <div class="mm-wwd-art"><img class="mm-wwd-new" src="/media/what-we-do/seo-icon.webp" alt="SEO and CRO icon" aria-hidden="true"></div>
+      <div class="mm-wwd-art"><img class="mm-wwd-new" src="/media/what-we-do/seo-cro-icon.webp" alt="SEO and CRO icon" aria-hidden="true"></div>
       <h3>SEO &amp; CRO</h3>
       <p>Get found by the right people, and turn more of them into leads.</p>
     </a>
     <a href="/digital-services/#email-marketing" class="mm-wwd-item">
-      <div class="mm-wwd-art"><img class="mm-wwd-new" src="/media/what-we-do/email-loop-icon.webp" alt="Email marketing icon" aria-hidden="true"></div>
+      <div class="mm-wwd-art"><img class="mm-wwd-new" src="/media/what-we-do/email-icon.webp" alt="Email marketing icon" aria-hidden="true"></div>
       <h3>Email Marketing</h3>
       <p>Automated emails that nurture leads and drive repeat business.</p>
     </a>
     <a href="/digital-services/#linkedin-outreach" class="mm-wwd-item">
-      <div class="mm-wwd-art"><img class="mm-wwd-new" src="/media/what-we-do/linkedin-loop-icon.webp" alt="LinkedIn outreach icon" aria-hidden="true"></div>
+      <div class="mm-wwd-art"><img class="mm-wwd-new" src="/media/what-we-do/linkedin-icon.webp" alt="LinkedIn outreach icon" aria-hidden="true"></div>
       <h3>LinkedIn Outreach</h3>
       <p>Targeted outreach that reaches the right decision makers.</p>
     </a>
@@ -2546,7 +2554,7 @@
       <p>Apps designed to engage users, and optimised so they get found.</p>
     </a>
     <a href="/digital-services/#analytics" class="mm-wwd-item">
-      <div class="mm-wwd-art"><img class="mm-wwd-new" src="/media/what-we-do/analytics-icon.webp" alt="Analytics and reporting icon" aria-hidden="true"></div>
+      <div class="mm-wwd-art"><img class="mm-wwd-new" src="/media/what-we-do/analytics-report-icon.webp" alt="Analytics and reporting icon" aria-hidden="true"></div>
       <h3>Analytics &amp; Reporting</h3>
       <p>Clear reporting and a live dashboard, so you know what's working.</p>
     </a>
