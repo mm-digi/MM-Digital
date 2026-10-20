@@ -15,6 +15,11 @@
 .yvc-hero h1 { font-size: clamp(1.7rem, 2.7vw, 3rem) !important; }
 .yvc-page .mm-line { display: block; }
 .yvc-page .mm-line-pink { color: var(--mm-pink) !important; font-style: normal; }
+.yvc-lead-b::before { content: " "; }
+@media (min-width: 1025px) {
+  .yvc-lead-a, .yvc-lead-b { display: block; }
+  .yvc-lead-b::before { content: none; }
+}
 .yvc-page p,
 .yvc-page a,
 .yvc-page dt,
@@ -156,7 +161,7 @@
     <div class="yvc-intro">
       <span class="yvc-eyebrow">Case study</span>
       <h1 id="yvc-hero-title"><span class="mm-line">Continuously Expanding</span> <span class="mm-line">Yvonne Coomber’s</span> <span class="mm-line mm-line-pink">Digital&nbsp;Presence</span></h1>
-      <p class="yvc-lead">One of the UK’s most loved artists, with a digital presence growing as vibrantly as the work itself.</p>
+      <p class="yvc-lead"><span class="yvc-lead-a">One of the UK’s most loved artists, with a digital</span><span class="yvc-lead-b">presence growing as vibrantly as the work itself.</span></p>
       <a class="yvc-btn" href="https://yvonnecoomber.com/" target="_blank" rel="noopener">Visit the website</a>
     </div>
     <div class="yvc-glass">
@@ -194,7 +199,7 @@
   <dl class="yvc-meta">
     <div><dt>Client</dt><dd style="--mm-chars:14"><span class="mm-line">Yvonne Coomber</span></dd></div>
     <div><dt>Channels</dt><dd style="--mm-chars:22"><span class="mm-line">Facebook and Instagram</span></dd></div>
-    <div><dt>Services</dt><dd style="--mm-chars:51"><span class="mm-line">Social media management, content, paid advertising,</span><span class="mm-line">platform expansion and digital rework</span></dd></div>
+    <div><dt>Services</dt><dd style="--mm-chars:37"><span class="mm-line">Social media, content and ads,</span><span class="mm-line">platform expansion and digital rework</span></dd></div>
   </dl>
 </section>
 
