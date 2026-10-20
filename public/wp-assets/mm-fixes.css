@@ -276,6 +276,28 @@ footer.wp-block-template-part .wp-block-navigation-item__content {
 .wp-site-blocks h4 {
   text-wrap: balance;
 }
+/* Client logo at the top of each client dashboard header. Wide logos are
+   capped by width and tall ones by height so they read at a similar size. */
+.mm-dash-client-logo {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 190px;
+  max-height: 78px;
+  margin: 0 0 22px;
+  object-fit: contain;
+}
+@media (max-width: 640px) {
+  .mm-dash-client-logo {
+    max-width: 150px;
+    max-height: 62px;
+    margin-bottom: 16px;
+  }
+  /* the dashboard subtitle's forced line break leaves a short line on phones */
+  .mm-contact-subtitle br {
+    display: none;
+  }
+}
 /* Company name in the footer links home, styled like the footer links */
 footer.wp-block-template-part a.mm-footer-company {
   color: #fff;
