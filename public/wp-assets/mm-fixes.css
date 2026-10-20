@@ -269,6 +269,13 @@ footer.wp-block-template-part .wp-block-navigation-item__content {
 .wp-site-blocks blockquote {
   text-wrap: pretty;
 }
+/* Headings split into even lines instead of leaving one word behind */
+.wp-site-blocks h1,
+.wp-site-blocks h2,
+.wp-site-blocks h3,
+.wp-site-blocks h4 {
+  text-wrap: balance;
+}
 /* Company name in the footer links home, styled like the footer links */
 footer.wp-block-template-part a.mm-footer-company {
   color: #fff;

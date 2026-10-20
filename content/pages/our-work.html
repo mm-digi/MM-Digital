@@ -533,6 +533,14 @@
 }
 
 .mmw-impact-visual video { aspect-ratio: 1 / 1; object-fit: cover; }
+/* Smallest phones: keep two-word heading endings on one line */
+@media (max-width: 380px) { .mmw-trio-copy h2 { font-size: 1.22rem !important; } }
+/* Small phones: keep "Transformative Results" on one line */
+@media (max-width: 430px) { #mmw-features-title { font-size: min(30.4px, 7.3vw) !important; } }
+
+/* Border turns pink on hover, like the other cards */
+.mmw-impact-visual.mmw-frame { transition: border-color 0.3s ease, transform 0.3s ease; }
+.mmw-impact-visual.mmw-frame:hover { border-color: rgba(255, 128, 139, 0.5); transform: translateY(-4px); }
 
 .mmw-frame img,
 .mmw-frame video {
@@ -746,7 +754,7 @@
   <div class="mmw-wrap">
     <div class="mmw-center">
       <span class="mmw-eyebrow">Case Studies</span>
-      <h2 id="mmw-studies-title"><span class="mm-line">See The Work</span> <span class="mm-line mm-line-pink">And The Results</span></h2>
+      <h2 id="mmw-studies-title"><span class="mm-line">See The Work</span> <span class="mm-line mm-line-pink">And The&nbsp;Results</span></h2>
     </div>
     <div class="mmw-studies-grid">
       <article class="mmw-card">
@@ -766,7 +774,7 @@
       </article>
 
       <article class="mmw-card">
-        <div class="mmw-card-bg" style="background-image:url('/media/work/oriels.webp');background-size:100% auto;background-repeat:no-repeat;background-position:center bottom"></div>
+        <div class="mmw-card-bg" style="background-image:url('/media/work/oriels-photo.webp')"></div>
         <div class="mmw-card-body">
           <h3>Growing Oriels Exeter Into One Of The City’s Most In-Demand Venues</h3>
           <div class="mmw-devices">
@@ -916,7 +924,7 @@
   <div class="mmw-wrap">
     <div class="mmw-center">
       <span class="mmw-eyebrow">Our Work</span>
-      <h2 id="mmw-why-title"><span class="mm-line">What Makes Us</span> <span class="mm-line mm-line-pink">So Good At It</span></h2>
+      <h2 id="mmw-why-title"><span class="mm-line">What Makes Us</span> <span class="mm-line mm-line-pink">Sooo Good At It</span></h2>
     </div>
     <div class="mmw-why-grid">
       <article class="mmw-glass mmw-lift">
@@ -955,13 +963,13 @@
         <div class="mmw-trio-art"><img loading="lazy" src="/media/our-work-sustainable-success-pink.webp" alt="A pink thought cloud for sustainable success" width="1600" height="1600"></div>
         <div class="mmw-trio-copy">
           <span class="mmw-eyebrow">Our Work</span>
-          <h2><span class="mm-line">Building Sustainable</span> <span class="mm-line">Success With</span> <span class="mm-line mm-line-pink">Innovative Approaches</span></h2>
+          <h2><span class="mm-line">Building Sustainable</span> <span class="mm-line">Success With</span> <span class="mm-line mm-line-pink">Innovative&nbsp;Approaches</span></h2>
           <p class="mmw-body">Learn how a forward-thinking company navigated challenges and unlocked growth with our strategic digital expertise.</p>
         </div>
       </article>
 
       <article class="mmw-trio-card">
-        <div class="mmw-trio-art"><img loading="lazy" src="/media/our-work-digital-innovation-2.webp" alt="A glowing pink circuit chip for digital innovation" width="1000" height="1000"></div>
+        <div class="mmw-trio-art"><img loading="lazy" src="/media/what-we-do/ai-automation-icon.webp" alt="A pink AI robot working at a laptop, for digital innovation" width="640" height="602"></div>
         <div class="mmw-trio-copy">
           <span class="mmw-eyebrow">Our Work</span>
           <h2><span class="mm-line">Elevating Business</span> <span class="mm-line">Performance Through</span> <span class="mm-line mm-line-pink">Digital Innovation</span></h2>
@@ -1020,13 +1028,13 @@
 <section class="mmw-section" aria-labelledby="mmw-features-title">
   <div class="mmw-wrap">
     <div class="mmw-center">
-      <h2 id="mmw-features-title"><span class="mm-line">Discover Our Impact</span> <span class="mm-line mm-line-pink">And Transformative Results</span></h2>
+      <h2 id="mmw-features-title"><span class="mm-line">Discover Our Impact And</span> <span class="mm-line mm-line-pink">Transformative&nbsp;Results</span></h2>
       <p class="mmw-body">Dive into how our strategic digital solutions drive brand growth and elevate user&nbsp;engagement.</p>
     </div>
     <div class="mmw-features">
       <article class="mmw-glass mmw-lift">
         <span class="mmw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v3"/><path d="M12 18v3"/><path d="M3 12h3"/><path d="M18 12h3"/><path d="m5.6 5.6 2.1 2.1"/><path d="m16.3 16.3 2.1 2.1"/><path d="m18.4 5.6-2.1 2.1"/><path d="m7.7 16.3-2.1 2.1"/></svg></span>
-        <h3>Strategic Brand Refreshes</h3>
+        <h3>Strategic Brand&nbsp;Refreshes</h3>
         <p>Revitalise your brand identity to stand out in the digital landscape and connect deeply with your audience.</p>
       </article>
       <article class="mmw-glass mmw-lift">
@@ -1036,7 +1044,7 @@
       </article>
       <article class="mmw-glass mmw-lift">
         <span class="mmw-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 18v3"/></svg></span>
-        <h3>User Experience Optimisation</h3>
+        <h3>User Experience&nbsp;Optimisation</h3>
         <p>Enhance website and platform usability to ensure seamless interaction and improved customer&nbsp;satisfaction.</p>
       </article>
     </div>
@@ -1053,7 +1061,7 @@
         <img src="/media/our-work-brands.webp" alt="Brands MM Digital has worked with" width="1630" height="482">
       </div>
       <div class="mmw-intro">
-        <h2 id="mmw-close-title" class="mmw-close-title"><span class="mm-line">Discover How We</span> <span class="mm-line mm-line-pink">Grow Brands Online</span></h2>
+        <h2 id="mmw-close-title" class="mmw-close-title"><span class="mm-line">Discover How We</span> <span class="mm-line mm-line-pink">Grow Brands&nbsp;Online</span></h2>
         <p class="mmw-body">Dive into our portfolio and see how strategic digital solutions propel brands forward, inspiring you to connect with us for tailored growth strategies.</p>
         <a href="/digital-services/" class="mmw-btn">View Our Services</a>
       </div>
