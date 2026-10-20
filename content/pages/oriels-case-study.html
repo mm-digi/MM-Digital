@@ -15,6 +15,13 @@
 .orl-hero h1 { font-size: clamp(1.7rem, 2.7vw, 3rem) !important; }
 .orl-page .mm-line { display: block; }
 .orl-page .mm-line-pink { color: var(--mm-pink) !important; font-style: normal; }
+.orl-hero h1 .mm-line-pink { white-space: nowrap; }
+.orl-lead-b::before { content: " "; }
+@media (min-width: 1025px) {
+  .orl-lead-a, .orl-lead-b { display: block; }
+  .orl-lead-b::before { content: none; }
+  .orl-lead-a { letter-spacing: 0.0363em; } /* matches the second line in Glacial Indifference */
+}
 .orl-page p,
 .orl-page a,
 .orl-page dt,
@@ -155,8 +162,8 @@
   <div class="orl-wrap orl-split">
     <div class="orl-intro">
       <span class="orl-eyebrow">Case study</span>
-      <h1 id="orl-hero-title"><span class="mm-line">Growing Oriels Into</span> <span class="mm-line">One Of Exeter’s</span> <span class="mm-line">Most In-Demand</span> <span class="mm-line mm-line-pink">Venues</span></h1>
-      <p class="orl-lead">A standout Exeter venue, taken from strong local name to one of the city’s most in-demand nights out.</p>
+      <h1 id="orl-hero-title"><span class="mm-line">Growing Oriels Into</span> <span class="mm-line">One Of Exeter’s</span> <span class="mm-line mm-line-pink">Most In-Demand Venues</span></h1>
+      <p class="orl-lead"><span class="orl-lead-a">A standout Exeter venue, taken from strong local</span><span class="orl-lead-b">name to one of the city’s most in-demand nights out.</span></p>
       <a class="orl-btn" href="https://orielsexeter.co.uk/" target="_blank" rel="noopener">Visit the website</a>
     </div>
     <div class="orl-glass">
@@ -195,7 +202,7 @@
     <dl class="orl-meta">
       <div><dt>Client</dt><dd style="--mm-chars:6"><span class="mm-line">Oriels</span></dd></div>
       <div><dt>Channels</dt><dd style="--mm-chars:20"><span class="mm-line">Facebook,</span><span class="mm-line">Instagram and TikTok</span></dd></div>
-      <div><dt>Services</dt><dd style="--mm-chars:51"><span class="mm-line">Social media management, content, paid advertising,</span><span class="mm-line">website and booking system development</span></dd></div>
+      <div><dt>Services</dt><dd style="--mm-chars:30"><span class="mm-line">Social media, content and ads,</span><span class="mm-line">website and booking system</span></dd></div>
     </dl>
   </div>
 </section>
