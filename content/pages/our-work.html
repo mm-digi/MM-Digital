@@ -726,7 +726,8 @@
     max-width: none;
     margin-left: -20px;
     margin-right: -20px;
-    padding: 0 20px 6px;
+    padding: 10px 20px 8px;
+    margin-top: -10px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-padding-inline: 20px;
@@ -748,6 +749,8 @@
   }
 
   .mmw-metrics > * { flex-basis: 70%; }
+  /* "Discover How We Grow Brands Online" is desktop only */
+  .mmw-section[aria-labelledby="mmw-close-title"] { display: none; }
   /* let the metrics column shrink to the screen so its row can scroll */
   .mmw-impact > * { min-width: 0; }
 }
