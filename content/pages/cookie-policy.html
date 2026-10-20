@@ -1,48 +1,518 @@
+<style>
+    .mm-legal {
+      --mm-pink: #ff808b;
+      --mm-line: rgba(255, 255, 255, 0.12);
+      position: relative;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 48px 110px;
+      font-family: "Glacial Indifference", Arial, sans-serif;
+      color: #cfcfcf;
+    }
 
-<div class="wp-block-group alignwide ext-animate--on">
-<div class="wp-block-columns ext-animate--on">
-<div class="wp-block-column" style="flex-basis:66.66%">
-<h1 id="cookie-policy" class="wp-block-heading ext-animate--on has-libre-baskerville-font-family">Cookie Policy</h1>
+    .mm-legal a {
+      color: var(--mm-pink);
+      text-decoration: underline;
+      text-decoration-color: rgba(255, 128, 139, 0.4);
+      text-underline-offset: 3px;
+      transition: text-decoration-color 0.2s ease;
+    }
 
-<p class="ext-animate--on has-glacial-indifference-font-family has-medium-font-size">MM Digital Marketing Limited</p>
+    .mm-legal a:hover {
+      text-decoration-color: var(--mm-pink);
+    }
 
-<p class="ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Last updated: 2nd March 2026</p>
-</div>
+    .mm-legal a[href^="mailto:"],
+    .mm-legal a[href^="tel:"] {
+      white-space: nowrap;
+    }
 
-<div class="wp-block-column" style="flex-basis:33.33%"></div>
-</div>
+    .mm-legal-at {
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-<h2 id="complaints" class="wp-block-heading ext-animate--on has-libre-baskerville-font-family"><strong><strong>What Are Cookies</strong></strong></h2>
+    /* Hero */
+    .mm-legal-hero {
+      position: relative;
+      padding: 90px 0 64px;
+      margin-bottom: 64px;
+      border-bottom: 1px solid var(--mm-line);
+    }
 
-<p class="ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Cookies are small files stored on your device.</p>
+    .mm-legal-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0 -48px;
+      z-index: -1;
+      background: radial-gradient(ellipse 55% 80% at 85% 30%, rgba(255, 128, 139, 0.12), transparent 70%);
+      pointer-events: none;
+    }
 
-<p class="ext-animate--on has-glacial-indifference-font-family has-medium-font-size">They help improve website performance.</p>
+    .mm-legal-eyebrow {
+      display: block;
+      margin-bottom: 18px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mm-pink);
+    }
 
-<h2 id="complaints" class="wp-block-heading ext-animate--on has-libre-baskerville-font-family"><strong><strong><strong>Cookies We Use</strong></strong></strong></h2>
+    .mm-legal h1 {
+      margin: 0 0 30px;
+      font-family: "Libre Baskerville", Georgia, serif;
+      font-size: clamp(2.5rem, 5.6vw, 4.8rem);
+      font-weight: 400;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
 
-<p class="ext-animate--on has-glacial-indifference-font-family has-medium-font-size"><strong>We use</strong>:</p>
+    .mm-legal h1 span {
+      display: block;
+    }
 
-<p class="ext-animate--on">Essential cookies</p>
+    .mm-legal h1 .mm-legal-pink {
+      color: var(--mm-pink);
+    }
 
-<p class="ext-animate--on">Analytics cookies</p>
+    .mm-legal-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 28px;
+      padding: 0;
+      list-style: none;
+    }
 
-<p class="ext-animate--on">Marketing cookies</p>
+    .mm-legal-meta li {
+      padding: 8px 16px;
+      border: 1px solid var(--mm-line);
+      border-radius: 999px;
+      font-size: 0.9rem;
+      color: #e6e6e6;
+      background: rgba(255, 255, 255, 0.03);
+    }
 
-<p class="ext-animate--on has-glacial-indifference-font-family has-medium-font-size">These help us understand website usage.</p>
+    .mm-legal-intro {
+      max-width: 680px;
+      margin: 0 0 22px;
+      font-size: 1.15rem;
+      line-height: 1.7;
+    }
 
-<h2 id="complaints" class="wp-block-heading ext-animate--on has-libre-baskerville-font-family"><strong><strong><strong><strong>Third Party Cookies</strong></strong></strong></strong></h2>
+    .mm-legal .mm-legal-cross {
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
 
-<p class="ext-animate--on has-glacial-indifference-font-family has-medium-font-size"><strong>We use</strong>:</p>
+    /* Two-column layout: sticky contents beside the text */
+    .mm-legal-layout {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 80px;
+      align-items: start;
+    }
 
-<p class="ext-animate--on">Google Analytics</p>
+    .mm-legal-toc {
+      position: sticky;
+      top: 32px;
+      max-height: calc(100vh - 64px);
+      overflow-y: auto;
+      padding-right: 8px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+    }
 
-<p class="ext-animate--on has-glacial-indifference-font-family has-medium-font-size">Meta Pixel</p>
+    .mm-legal-toc-title,
+    .mm-legal-toc-mobile summary {
+      margin: 0 0 16px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #fff;
+    }
 
-<h2 id="complaints" class="wp-block-heading ext-animate--on has-libre-baskerville-font-family"><strong><strong><strong><strong><strong>Managing Cookies</strong></strong></strong></strong></strong></h2>
+    .mm-legal-toc-part {
+      margin: 22px 0 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mm-pink);
+    }
 
-<p class="ext-animate--on has-glacial-indifference-font-family has-medium-font-size">You can control cookies in your browser settings.</p>
+    .mm-legal-toc ol,
+    .mm-legal-toc-mobile ol {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-left: 1px solid var(--mm-line);
+    }
 
-<p class="ext-animate--on"></p>
+    .mm-legal-toc li a,
+    .mm-legal-toc-mobile li a {
+      display: block;
+      margin-left: -1px;
+      padding: 6px 0 6px 16px;
+      border-left: 1px solid transparent;
+      font-size: 0.92rem;
+      line-height: 1.4;
+      color: #a9a9a9;
+      text-decoration: none;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
 
-<p class="ext-animate--on"></p>
+    .mm-legal-toc li a:hover,
+    .mm-legal-toc-mobile li a:hover {
+      color: #fff;
+      border-left-color: var(--mm-pink);
+    }
+
+    .mm-legal-toc-mobile {
+      display: none;
+    }
+
+    /* Body text */
+    .mm-legal-body {
+      max-width: 780px;
+    }
+
+    .mm-legal-section {
+      padding: 0 0 40px;
+      margin: 0 0 40px;
+      border-bottom: 1px solid var(--mm-line);
+      scroll-margin-top: 32px;
+    }
+
+    .mm-legal-body h2 {
+      margin: 0 0 18px;
+      font-family: "Libre Baskerville", Georgia, serif;
+      font-size: clamp(1.45rem, 2.2vw, 1.9rem);
+      font-weight: 400;
+      line-height: 1.25;
+      color: #fff;
+    }
+
+    .mm-legal-body h3 {
+      margin: 26px 0 10px;
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .mm-legal-body p {
+      margin: 0 0 14px;
+      font-size: 1.08rem;
+      line-height: 1.75;
+    }
+
+    .mm-legal-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .mm-legal-body p.mm-legal-lead {
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .mm-legal-list {
+      display: grid;
+      gap: 10px;
+      margin: 0 0 18px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .mm-legal-list li {
+      position: relative;
+      padding-left: 26px;
+      font-size: 1.08rem;
+      line-height: 1.6;
+    }
+
+    .mm-legal-list li::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 0.62em;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--mm-pink);
+      box-shadow: 0 0 10px rgba(255, 128, 139, 0.6);
+    }
+
+    /* Part dividers (Terms / Privacy) */
+    .mm-legal-part {
+      margin: 30px 0 44px;
+      padding: 30px 32px;
+      border: 1px solid rgba(255, 128, 139, 0.35);
+      border-radius: 18px;
+      background: linear-gradient(120deg, rgba(255, 128, 139, 0.14), rgba(255, 128, 139, 0.02) 70%);
+      scroll-margin-top: 32px;
+    }
+
+    .mm-legal-body > .mm-legal-part:first-of-type {
+      margin-top: 0;
+    }
+
+    .mm-legal-part span {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mm-pink);
+    }
+
+    .mm-legal-body .mm-legal-part h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+    }
+
+    /* Company details card */
+    .mm-legal-card {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      margin: 22px 0 0;
+      overflow: hidden;
+      border: 1px solid var(--mm-line);
+      border-radius: 16px;
+      background: var(--mm-line);
+    }
+
+    .mm-legal-card div {
+      padding: 18px 22px;
+      background: #0b0709;
+    }
+
+    .mm-legal-card dt {
+      margin: 0 0 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mm-pink);
+    }
+
+    .mm-legal-card dd {
+      margin: 0;
+      font-size: 1.02rem;
+      line-height: 1.5;
+      color: #fff;
+    }
+
+    /* Closing call to action */
+    .mm-legal-cta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      margin-top: 20px;
+      padding: 36px 40px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 128, 139, 0.35);
+      background:
+        radial-gradient(ellipse 70% 120% at 100% 0%, rgba(255, 128, 139, 0.2), transparent 70%),
+        #0b0709;
+    }
+
+    .mm-legal-body .mm-legal-cta h2 {
+      margin-bottom: 10px;
+    }
+
+    .mm-legal-cta p {
+      max-width: 480px;
+    }
+
+    .mm-legal .mm-legal-btn {
+      flex-shrink: 0;
+      padding: 14px 28px;
+      border-radius: 999px;
+      background: var(--mm-pink);
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      transition: background 0.25s ease, transform 0.25s ease;
+    }
+
+    .mm-legal .mm-legal-btn:hover {
+      background: #ff6d79;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 1024px) {
+      .mm-legal-layout {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .mm-legal-toc {
+        display: none;
+      }
+
+      .mm-legal-toc-mobile {
+        display: block;
+        margin: 0 0 44px;
+        padding: 18px 22px;
+        border: 1px solid var(--mm-line);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .mm-legal-toc-mobile summary {
+        margin: 0;
+        cursor: pointer;
+      }
+
+      .mm-legal-toc-mobile[open] summary {
+        margin-bottom: 14px;
+      }
+
+      .mm-legal-body {
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .mm-legal {
+        padding: 0 20px 80px;
+      }
+
+      .mm-legal-hero {
+        padding: 50px 0 40px;
+        margin-bottom: 40px;
+      }
+
+      .mm-legal-hero::before {
+        inset: 0 -20px;
+      }
+
+      .mm-legal-part {
+        padding: 24px 22px;
+      }
+
+      .mm-legal-card {
+        grid-template-columns: 1fr;
+      }
+
+      .mm-legal-cta {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 28px 24px;
+      }
+    }
+
+    .mm-legal-card div:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+</style>
+
+<div class="mm-legal">
+  <header class="mm-legal-hero">
+    <span class="mm-legal-eyebrow">Legal</span>
+    <h1><span>Cookie</span> <span class="mm-legal-pink">Policy</span></h1>
+    <ul class="mm-legal-meta">
+      <li>MM Digital Marketing Limited</li>
+      <li>Last updated 20th October 2026</li>
+    </ul>
+    <p class="mm-legal-intro">How we use cookies and similar technologies on our website, and how you can manage your preferences.</p>
+    <a class="mm-legal-cross" href="/privacy-policy/">Read our Privacy Policy &rarr;</a>
+  </header>
+
+  <div class="mm-legal-layout">
+    <nav class="mm-legal-toc" aria-label="On this page">
+      <p class="mm-legal-toc-title">On this page</p>
+      <ol><li><a href="#introduction">Introduction</a></li><li><a href="#what-are-cookies">What Are Cookies</a></li><li><a href="#why-we-use-cookies">Why We Use Cookies</a></li><li><a href="#the-types-of-cookies-we-use">The Types of Cookies We Use</a></li><li><a href="#third-party-cookies">Third Party Cookies</a></li><li><a href="#your-consent">Your Consent</a></li><li><a href="#managing-cookies">Managing Cookies</a></li><li><a href="#changes-to-this-cookie-policy">Changes to This Cookie Policy</a></li><li><a href="#contact-us">Contact Us</a></li></ol>
+    </nav>
+
+    <article class="mm-legal-body">
+      <details class="mm-legal-toc-mobile">
+        <summary>On this page</summary>
+        <nav aria-label="On this page"><ol><li><a href="#introduction">Introduction</a></li><li><a href="#what-are-cookies">What Are Cookies</a></li><li><a href="#why-we-use-cookies">Why We Use Cookies</a></li><li><a href="#the-types-of-cookies-we-use">The Types of Cookies We Use</a></li><li><a href="#third-party-cookies">Third Party Cookies</a></li><li><a href="#your-consent">Your Consent</a></li><li><a href="#managing-cookies">Managing Cookies</a></li><li><a href="#changes-to-this-cookie-policy">Changes to This Cookie Policy</a></li><li><a href="#contact-us">Contact Us</a></li></ol></nav>
+      </details>
+
+<section class="mm-legal-section" id="introduction">
+<h2>Introduction</h2>
+<p>This Cookie Policy explains how MM Digital Marketing Limited (“we”, “us”, “our”) uses cookies and similar technologies on our website, <a href="/">www.mm-digi.co.uk</a>. It should be read alongside our <a href="/privacy-policy/">Privacy Policy</a>, which explains how we handle your personal data more generally.</p>
+<p>By using our website, you agree to our use of cookies as described in this policy, except for any non essential cookies, which we only set with your consent.</p>
+</section>
+<section class="mm-legal-section" id="what-are-cookies">
+<h2>What Are Cookies</h2>
+<p>Cookies are small text files that are placed on your device (computer, tablet or mobile) when you visit a website. They are widely used to make websites work, to improve performance, and to provide information to the site owner.</p>
+<p>We also use similar technologies such as tracking pixels and tags, which work in a similar way. In this policy, we refer to all of these simply as “cookies”.</p>
+</section>
+<section class="mm-legal-section" id="why-we-use-cookies">
+<h2>Why We Use Cookies</h2>
+<p class="mm-legal-lead">We use cookies to:</p>
+<ul class="mm-legal-list">
+<li>Make our website function properly and securely</li>
+<li>Understand how visitors use our website, so we can improve it</li>
+<li>Measure the performance of our content and marketing</li>
+<li>Support our advertising and remarketing activity</li>
+</ul>
+</section>
+<section class="mm-legal-section" id="the-types-of-cookies-we-use">
+<h2>The Types of Cookies We Use</h2>
+<h3>Essential cookies</h3>
+<p>These are necessary for our website to function and cannot be switched off in our systems. They are usually set in response to actions you take, such as navigating the site or filling in forms. Without these, parts of the website will not work. These do not require your consent.</p>
+<h3>Analytics cookies</h3>
+<p>These help us understand how visitors interact with our website, such as which pages are visited and how people move around the site. This helps us improve how the website works. These are only set with your consent.</p>
+<h3>Marketing cookies</h3>
+<p>These are used to deliver and measure advertising that is relevant to you, and to understand the effectiveness of our marketing campaigns, including remarketing. These are only set with your consent.</p>
+</section>
+<section class="mm-legal-section" id="third-party-cookies">
+<h2>Third Party Cookies</h2>
+<p class="mm-legal-lead">Some cookies on our website are set by trusted third parties who provide services to us. These currently include:</p>
+<ul class="mm-legal-list">
+<li><strong>Google Analytics</strong>, to measure and analyse website usage and performance</li>
+<li><strong>Meta Pixel</strong>, to measure and support advertising and remarketing across Meta platforms (Facebook and Instagram)</li>
+</ul>
+<p>These third parties process data in accordance with their own privacy and cookie policies. We recommend reviewing their policies for further detail on how they use data.</p>
+</section>
+<section class="mm-legal-section" id="your-consent">
+<h2>Your Consent</h2>
+<p>When you first visit our website, you will be presented with a cookie banner allowing you to accept or manage your cookie preferences. Essential cookies will always be active, as they are required for the site to function. Non essential cookies (analytics and marketing) will only be set once you have given your consent.</p>
+<p>You can change or withdraw your consent at any time by adjusting your cookie preferences or your browser settings.</p>
+</section>
+<section class="mm-legal-section" id="managing-cookies">
+<h2>Managing Cookies</h2>
+<p class="mm-legal-lead">You can control and manage cookies in several ways:</p>
+<ul class="mm-legal-list">
+<li>Through our cookie banner / preferences, where available on our website</li>
+<li>Through your browser settings, where you can block or delete cookies. Most browsers allow you to refuse or remove cookies, though doing so may affect how the website functions. Instructions can usually be found in your browser’s help section.</li>
+</ul>
+</section>
+<section class="mm-legal-section" id="changes-to-this-cookie-policy">
+<h2>Changes to This Cookie Policy</h2>
+<p>We may update this Cookie Policy from time to time to reflect changes in the cookies we use or for operational, legal or regulatory reasons. Any updates will be posted on this page with a revised “last updated” date.</p>
+</section>
+<section class="mm-legal-section" id="contact-us">
+<h2>Contact Us</h2>
+<p>If you have any questions about this Cookie Policy or how we use cookies, please contact us at:</p>
+<dl class="mm-legal-card">
+<div><dt>Company</dt><dd>MM Digital Marketing Limited</dd></div>
+<div><dt>Registered Office</dt><dd>Admiral Way, Exeter, Devon, EX2 7GA, United Kingdom</dd></div>
+<div><dt>Company Number</dt><dd>16994209</dd></div>
+<div><dt>VAT Number</dt><dd>527650580</dd></div>
+<div><dt>Email</dt><dd><a href="mailto:info@mm-digi.co.uk">info<span class="mm-legal-at">@</span>mm-digi.co.uk</a></dd></div>
+<div><dt>Phone</dt><dd><a href="tel:+447880601123">07880 601123</a></dd></div>
+<div><dt>Website</dt><dd><a href="/">www.mm-digi.co.uk</a></dd></div>
+</dl>
+</section>
+
+      <aside class="mm-legal-cta">
+        <div>
+          <h2>Questions about this policy?</h2>
+          <p>Get in touch and we'll be happy to help. Email <a href="mailto:info@mm-digi.co.uk">info<span class="mm-legal-at">@</span>mm-digi.co.uk</a> or call <a href="tel:+447880601123">07880 601123</a>.</p>
+        </div>
+        <a class="mm-legal-btn" href="/get-in-touch/">Get In Touch &rarr;</a>
+      </aside>
+    </article>
+  </div>
 </div>
