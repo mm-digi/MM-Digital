@@ -3,6 +3,7 @@ import WpHtml from "@/components/WpHtml";
 import { breadcrumbNode, pageMetadata, webPageNode } from "@/lib/seo";
 import { readWpPage } from "@/lib/wp";
 import type { Metadata } from "next";
+import CaseStudyStats from "@/components/CaseStudyStats";
 import CaseStudyVideo from "./video";
 
 const title = "Yvonne Coomber Case Study";
@@ -30,6 +31,7 @@ export default function YvonneCoomberCaseStudyPage() {
       />
       <WpHtml html={readWpPage("yvonne-coombers-case-study") || ""} />
       <CaseStudyVideo />
+      <CaseStudyStats />
     </>
   );
 }

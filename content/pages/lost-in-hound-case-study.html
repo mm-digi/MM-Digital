@@ -142,7 +142,7 @@
 
 /* Propeller-style results: gradient figures in thin circles */
 .lih-results {
-  background: #101010;
+  background: #000;
   padding: 72px 0 64px;
 }
 .lih-kicker {
@@ -345,6 +345,12 @@
 @media (prefers-reduced-motion: reduce) {
   .lih-wall-track { animation: none; }
 }
+
+/* Client, channels and services stay on one or two lines */
+.lih-meta > div { container-type: inline-size; }
+.lih-meta dd { max-width: none; font-size: min(1.05rem, calc(98cqi / var(--mm-chars, 24) / 0.55)) !important; }
+.lih-meta .mm-line { display: block; white-space: nowrap; }
+@media (max-width: 1100px) { .lih-meta { grid-template-columns: 1fr; } }
 </style>
 
 <section class="lih-hero" aria-labelledby="lih-hero-title">
@@ -380,20 +386,20 @@
 
 <section class="lih-results" aria-labelledby="lih-results-title">
   <div class="lih-wrap">
-    <p class="lih-kicker" id="lih-results-title">Results overview</p>
+    <p class="lih-kicker" id="lih-results-title">Results Overview</p>
     <div class="lih-stats">
       <div class="lih-stat">
         <svg class="lih-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
         <div class="lih-stat-copy">
           <div class="lih-num">1.5M+</div>
-          <div class="lih-label">content views</div>
+          <div class="lih-label">Content views</div>
         </div>
       </div>
       <div class="lih-stat">
         <svg class="lih-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
         <div class="lih-stat-copy">
           <div class="lih-num">4,600+</div>
-          <div class="lih-label">engaged new followers</div>
+          <div class="lih-label">New followers</div>
         </div>
       </div>
       <div class="lih-stat">
@@ -407,15 +413,15 @@
     <dl class="lih-meta">
       <div>
         <dt>Client</dt>
-        <dd>Lost In Hound</dd>
+        <dd style="--mm-chars:13"><span class="mm-line">Lost In Hound</span></dd>
       </div>
       <div>
         <dt>Channels</dt>
-        <dd>Facebook, Instagram, <span class="lih-keep">LinkedIn and TikTok</span></dd>
+        <dd style="--mm-chars:20"><span class="mm-line">Facebook, Instagram,</span><span class="mm-line">LinkedIn and TikTok</span></dd>
       </div>
       <div>
         <dt>Services</dt>
-        <dd>Shopify store, social marketing, Amazon and Google Merchant Centre</dd>
+        <dd style="--mm-chars:33"><span class="mm-line">Shopify store, social marketing,</span><span class="mm-line">Amazon and Google Merchant Centre</span></dd>
       </div>
     </dl>
   </div>

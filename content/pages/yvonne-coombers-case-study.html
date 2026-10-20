@@ -66,7 +66,7 @@
 .yvc-logo { display: block; margin: 0 0 22px; line-height: 0; }
 .yvc-logo img { display: block; width: auto !important; height: 64px !important; border-radius: 0 !important; }
 .yvc-full img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center center; background: #000; }
-.yvc-results { background: #101010; padding: 72px 0 64px; }
+.yvc-results { background: #000; padding: 72px 0 64px; }
 .yvc-kicker { margin: 0 0 8px; text-align: center; font-size: 0.95rem !important; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.72) !important; }
 .yvc-stats, .yvc-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 1180px; margin: 0 auto; }
 .yvc-meta { margin-top: 8px; text-align: center; }
@@ -138,6 +138,12 @@
   .yvc-logo img { height: 52px !important; }
 }
 @media (prefers-reduced-motion: reduce) { .yvc-wall-track { animation: none; } }
+
+/* Client, channels and services stay on one or two lines */
+.yvc-meta > div { container-type: inline-size; }
+.yvc-meta dd { max-width: none; font-size: min(1.05rem, calc(98cqi / var(--mm-chars, 24) / 0.55)) !important; }
+.yvc-meta .mm-line { display: block; white-space: nowrap; }
+@media (max-width: 1100px) { .yvc-meta { grid-template-columns: 1fr; } }
 </style>
 
 <section class="yvc-hero" aria-labelledby="yvc-hero-title">
@@ -175,21 +181,21 @@
   <div class="yvc-stats">
     <div class="yvc-stat">
       <svg class="yvc-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-      <div class="yvc-stat-copy"><div class="yvc-num">18%</div><div class="yvc-label">higher website traffic, year on year</div></div>
+      <div class="yvc-stat-copy"><div class="yvc-num">18%</div><div class="yvc-label">Higher website traffic, year on year</div></div>
     </div>
     <div class="yvc-stat">
       <svg class="yvc-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-      <div class="yvc-stat-copy"><div class="yvc-num">10M+</div><div class="yvc-label">social media views</div></div>
+      <div class="yvc-stat-copy"><div class="yvc-num">10M+</div><div class="yvc-label">Social media views</div></div>
     </div>
     <div class="yvc-stat">
       <svg class="yvc-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-      <div class="yvc-stat-copy"><div class="yvc-num">Full</div><div class="yvc-label">platform expansion and digital rework</div></div>
+      <div class="yvc-stat-copy"><div class="yvc-num">Full</div><div class="yvc-label">Platform expansion and digital rework</div></div>
     </div>
   </div>
   <dl class="yvc-meta">
-    <div><dt>Client</dt><dd>Yvonne Coomber</dd></div>
-    <div><dt>Channels</dt><dd><span class="yvc-keep">Facebook and Instagram</span></dd></div>
-    <div><dt>Services</dt><dd>Social media management, content, paid advertising, platform expansion and digital rework</dd></div>
+    <div><dt>Client</dt><dd style="--mm-chars:14"><span class="mm-line">Yvonne Coomber</span></dd></div>
+    <div><dt>Channels</dt><dd style="--mm-chars:22"><span class="mm-line">Facebook and Instagram</span></dd></div>
+    <div><dt>Services</dt><dd style="--mm-chars:51"><span class="mm-line">Social media management, content, paid advertising,</span><span class="mm-line">platform expansion and digital rework</span></dd></div>
   </dl>
 </section>
 

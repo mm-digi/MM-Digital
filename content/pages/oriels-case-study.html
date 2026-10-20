@@ -66,7 +66,7 @@
 .orl-logo { display: block; margin: 0 0 22px; line-height: 0; }
 .orl-logo img { display: block; width: auto !important; height: 64px !important; border-radius: 0 !important; }
 .orl-full img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center center; background: #000; }
-.orl-results { background: #101010; padding: 72px 0 64px; }
+.orl-results { background: #000; padding: 72px 0 64px; }
 .orl-kicker { margin: 0 0 8px; text-align: center; font-size: 0.95rem !important; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.72) !important; }
 .orl-stats, .orl-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 1180px; margin: 0 auto; }
 .orl-meta { margin-top: 8px; text-align: center; }
@@ -138,6 +138,12 @@
   .orl-logo img { height: 52px !important; }
 }
 @media (prefers-reduced-motion: reduce) { .orl-wall-track { animation: none; } }
+
+/* Client, channels and services stay on one or two lines */
+.orl-meta > div { container-type: inline-size; }
+.orl-meta dd { max-width: none; font-size: min(1.05rem, calc(98cqi / var(--mm-chars, 24) / 0.55)) !important; }
+.orl-meta .mm-line { display: block; white-space: nowrap; }
+@media (max-width: 1100px) { .orl-meta { grid-template-columns: 1fr; } }
 </style>
 
 <section class="orl-hero" aria-labelledby="orl-hero-title">
@@ -176,21 +182,21 @@
     <div class="orl-stats">
       <div class="orl-stat">
         <svg class="orl-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-        <div class="orl-stat-copy"><div class="orl-num">7.2M+</div><div class="orl-label">social media views</div></div>
+        <div class="orl-stat-copy"><div class="orl-num">7.2M+</div><div class="orl-label">Social media views</div></div>
       </div>
       <div class="orl-stat">
         <svg class="orl-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-        <div class="orl-stat-copy"><div class="orl-num">300K+</div><div class="orl-label">website visits</div></div>
+        <div class="orl-stat-copy"><div class="orl-num">300K+</div><div class="orl-label">Website visits</div></div>
       </div>
       <div class="orl-stat">
         <svg class="orl-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-        <div class="orl-stat-copy"><div class="orl-num">Full</div><div class="orl-label">digital booking system developed</div></div>
+        <div class="orl-stat-copy"><div class="orl-num">Full</div><div class="orl-label">Digital booking system developed</div></div>
       </div>
     </div>
     <dl class="orl-meta">
-      <div><dt>Client</dt><dd>Oriels</dd></div>
-      <div><dt>Channels</dt><dd>Facebook, <span class="orl-keep">Instagram and TikTok</span></dd></div>
-      <div><dt>Services</dt><dd>Social media management, content, paid advertising, website and booking system development</dd></div>
+      <div><dt>Client</dt><dd style="--mm-chars:6"><span class="mm-line">Oriels</span></dd></div>
+      <div><dt>Channels</dt><dd style="--mm-chars:20"><span class="mm-line">Facebook,</span><span class="mm-line">Instagram and TikTok</span></dd></div>
+      <div><dt>Services</dt><dd style="--mm-chars:51"><span class="mm-line">Social media management, content, paid advertising,</span><span class="mm-line">website and booking system development</span></dd></div>
     </dl>
   </div>
 </section>

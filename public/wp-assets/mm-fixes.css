@@ -1057,6 +1057,68 @@ body {
   font-family: "Glacial Indifference", Arial, Helvetica, sans-serif;
 }
 
+/* Mobile footer: space under the company-number block and the VAT block.
+   The class only exists on the phone paragraph, so desktop stays as it is. */
+.mm-footer-reg {
+  display: block;
+  margin: 0 0 18px;
+}
+
+/* Case-study result figures: rise in, then a small settle once a number lands. */
+[class$="-results"] [class$="-num"],
+[class$="-results"] [class*="-num "] {
+  font-variant-numeric: tabular-nums;
+}
+@keyframes mm-stat-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+[class$="-results"] [class$="-num"].is-in,
+[class$="-results"] [class*="-num "].is-in {
+  animation: mm-stat-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+[class$="-results"] [class$="-num"].is-landed,
+[class$="-results"] [class*="-num "].is-landed {
+  animation: mmStatsLand 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Phones: the pictures directly above Get in touch swipe sideways. */
+@media (max-width: 800px) {
+  section[class$="-band"]:has(+ section[class$="-cta"]) {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 22px;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    padding: 12px 22px 20px;
+  }
+  section[class$="-band"]:has(+ section[class$="-cta"])::-webkit-scrollbar { display: none; }
+  section[class$="-band"]:has(+ section[class$="-cta"]) [class$="-wrap"],
+  section[class$="-band"]:has(+ section[class$="-cta"]) [class$="-more"],
+  section[class$="-band"]:has(+ section[class$="-cta"]) [class$="-more-row"],
+  section[class$="-band"]:has(+ section[class$="-cta"]) [class$="-more-3"] {
+    display: contents;
+  }
+  section[class$="-band"]:has(+ section[class$="-cta"]) img,
+  section[class$="-band"]:has(+ section[class$="-cta"]) video {
+    flex: 0 0 84%;
+    width: 84% !important;
+    max-width: none;
+    scroll-snap-align: start;
+    height: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [class$="-results"] [class$="-num"].is-in,
+  [class$="-results"] [class*="-num "].is-in,
+  [class$="-results"] [class$="-num"].is-landed,
+  [class$="-results"] [class*="-num "].is-landed {
+    animation: none;
+  }
+}
+
 /* ---------- Phones ---------- */
 
 /* Footer newsletter: the email box had a fixed 280px minimum next to the button, so on phones

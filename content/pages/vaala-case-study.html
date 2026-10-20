@@ -66,7 +66,7 @@
 .vaa-logo { display: block; margin: 0 0 22px; line-height: 0; }
 .vaa-logo img { display: block; width: auto !important; height: 64px !important; border-radius: 0 !important; }
 .vaa-full img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center center; background: #000; }
-.vaa-results { background: #101010; padding: 72px 0 64px; }
+.vaa-results { background: #000; padding: 72px 0 64px; }
 .vaa-kicker { margin: 0 0 8px; text-align: center; font-size: 0.95rem !important; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.72) !important; }
 .vaa-stats, .vaa-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 1180px; margin: 0 auto; }
 .vaa-meta { margin-top: 8px; text-align: center; }
@@ -138,6 +138,12 @@
   .vaa-logo img { height: 52px !important; }
 }
 @media (prefers-reduced-motion: reduce) { .vaa-wall-track { animation: none; } }
+
+/* Client, channels and services stay on one or two lines */
+.vaa-meta > div { container-type: inline-size; }
+.vaa-meta dd { max-width: none; font-size: min(1.05rem, calc(98cqi / var(--mm-chars, 24) / 0.55)) !important; }
+.vaa-meta .mm-line { display: block; white-space: nowrap; }
+@media (max-width: 1100px) { .vaa-meta { grid-template-columns: 1fr; } }
 </style>
 
 <section class="vaa-hero" aria-labelledby="vaa-hero-title">
@@ -174,14 +180,14 @@
   <div class="vaa-wrap">
     <p class="vaa-kicker">Results Overview</p>
     <div class="vaa-stats">
-      <div class="vaa-stat"><svg class="vaa-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg><div class="vaa-stat-copy"><div class="vaa-num">1M+</div><div class="vaa-label">total social media views</div></div></div>
-      <div class="vaa-stat"><svg class="vaa-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg><div class="vaa-stat-copy"><div class="vaa-num">12%</div><div class="vaa-label">increase in web traffic</div></div></div>
-      <div class="vaa-stat"><svg class="vaa-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg><div class="vaa-stat-copy"><div class="vaa-num">8%</div><div class="vaa-label">increase in enquiries</div></div></div>
+      <div class="vaa-stat"><svg class="vaa-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg><div class="vaa-stat-copy"><div class="vaa-num">1M+</div><div class="vaa-label">Total social media views</div></div></div>
+      <div class="vaa-stat"><svg class="vaa-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg><div class="vaa-stat-copy"><div class="vaa-num">12%</div><div class="vaa-label">Increase in web traffic</div></div></div>
+      <div class="vaa-stat"><svg class="vaa-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg><div class="vaa-stat-copy"><div class="vaa-num">8%</div><div class="vaa-label">Increase in enquiries</div></div></div>
     </div>
     <dl class="vaa-meta">
-      <div><dt>Client</dt><dd>Vaala</dd></div>
-      <div><dt>Channels</dt><dd><span class="vaa-keep">Facebook and Instagram</span></dd></div>
-      <div><dt>Services</dt><dd>Social media management, content, paid advertising and lead generation</dd></div>
+      <div><dt>Client</dt><dd style="--mm-chars:5"><span class="mm-line">Vaala</span></dd></div>
+      <div><dt>Channels</dt><dd style="--mm-chars:22"><span class="mm-line">Facebook and Instagram</span></dd></div>
+      <div><dt>Services</dt><dd style="--mm-chars:36"><span class="mm-line">Social media management, content,</span><span class="mm-line">paid advertising and lead generation</span></dd></div>
     </dl>
   </div>
 </section>

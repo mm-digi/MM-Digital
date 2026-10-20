@@ -66,7 +66,7 @@
 .aur-logo { display: block; margin: 0 0 22px; line-height: 0; }
 .aur-logo img { display: block; width: auto !important; height: 64px !important; border-radius: 0 !important; }
 .aur-full img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center center; background: #000; }
-.aur-results { background: #101010; padding: 72px 0 64px; }
+.aur-results { background: #000; padding: 72px 0 64px; }
 .aur-kicker { margin: 0 0 8px; text-align: center; font-size: 0.95rem !important; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.72) !important; }
 .aur-stats, .aur-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 1180px; margin: 0 auto; }
 .aur-meta { margin-top: 8px; text-align: center; }
@@ -138,6 +138,12 @@
   .aur-logo img { height: 52px !important; }
 }
 @media (prefers-reduced-motion: reduce) { .aur-wall-track { animation: none; } }
+
+/* Client, channels and services stay on one or two lines */
+.aur-meta > div { container-type: inline-size; }
+.aur-meta dd { max-width: none; font-size: min(1.05rem, calc(98cqi / var(--mm-chars, 24) / 0.55)) !important; }
+.aur-meta .mm-line { display: block; white-space: nowrap; }
+@media (max-width: 1100px) { .aur-meta { grid-template-columns: 1fr; } }
 </style>
 
 <section class="aur-hero" aria-labelledby="aur-hero-title">
@@ -176,21 +182,21 @@
     <div class="aur-stats">
       <div class="aur-stat">
         <svg class="aur-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-        <div class="aur-stat-copy"><div class="aur-num">Full</div><div class="aur-label">brand launch from scratch</div></div>
+        <div class="aur-stat-copy"><div class="aur-num">Full</div><div class="aur-label">Brand launch from scratch</div></div>
       </div>
       <div class="aur-stat">
         <svg class="aur-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-        <div class="aur-stat-copy"><div class="aur-num">Complete</div><div class="aur-label">website development</div></div>
+        <div class="aur-stat-copy"><div class="aur-num">Complete</div><div class="aur-label">Website development</div></div>
       </div>
       <div class="aur-stat">
         <svg class="aur-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-        <div class="aur-stat-copy"><div class="aur-num">500K+</div><div class="aur-label">website visits</div></div>
+        <div class="aur-stat-copy"><div class="aur-num">500K+</div><div class="aur-label">Website visits</div></div>
       </div>
     </div>
     <dl class="aur-meta">
-      <div><dt>Client</dt><dd>Auric Performance</dd></div>
-      <div><dt>Channels</dt><dd>Facebook, <span class="aur-keep">Instagram and LinkedIn</span></dd></div>
-      <div><dt>Services</dt><dd>Brand identity, full website development, social media, content and ongoing support</dd></div>
+      <div><dt>Client</dt><dd style="--mm-chars:17"><span class="mm-line">Auric Performance</span></dd></div>
+      <div><dt>Channels</dt><dd style="--mm-chars:22"><span class="mm-line">Facebook,</span><span class="mm-line">Instagram and LinkedIn</span></dd></div>
+      <div><dt>Services</dt><dd style="--mm-chars:41"><span class="mm-line">Brand identity, full website development,</span><span class="mm-line">social media, content and ongoing support</span></dd></div>
     </dl>
   </div>
 </section>

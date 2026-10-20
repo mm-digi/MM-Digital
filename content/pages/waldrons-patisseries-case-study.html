@@ -66,7 +66,7 @@
 .wal-logo { display: block; margin: 0 0 22px; line-height: 0; }
 .wal-logo img { display: block; width: auto !important; height: 64px !important; border-radius: 0 !important; }
 .wal-full img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center center; background: #000; }
-.wal-results { background: #101010; padding: 72px 0 64px; }
+.wal-results { background: #000; padding: 72px 0 64px; }
 .wal-kicker { margin: 0 0 8px; text-align: center; font-size: 0.95rem !important; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.72) !important; }
 .wal-stats, .wal-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 1180px; margin: 0 auto; }
 .wal-meta { margin-top: 8px; text-align: center; }
@@ -139,6 +139,12 @@
   .wal-logo img { height: 52px !important; }
 }
 @media (prefers-reduced-motion: reduce) { .wal-wall-track { animation: none; } }
+
+/* Client, channels and services stay on one or two lines */
+.wal-meta > div { container-type: inline-size; }
+.wal-meta dd { max-width: none; font-size: min(1.05rem, calc(98cqi / var(--mm-chars, 24) / 0.55)) !important; }
+.wal-meta .mm-line { display: block; white-space: nowrap; }
+@media (max-width: 1100px) { .wal-meta { grid-template-columns: 1fr; } }
 </style>
 
 <section class="wal-hero" aria-labelledby="wal-hero-title">
@@ -177,21 +183,21 @@
     <div class="wal-stats">
       <div class="wal-stat">
         <svg class="wal-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-        <div class="wal-stat-copy"><div class="wal-num">5M+</div><div class="wal-label">social media views</div></div>
+        <div class="wal-stat-copy"><div class="wal-num">5M+</div><div class="wal-label">Social media views</div></div>
       </div>
       <div class="wal-stat">
         <svg class="wal-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-        <div class="wal-stat-copy"><div class="wal-num">13%</div><div class="wal-label">uptick in sales</div></div>
+        <div class="wal-stat-copy"><div class="wal-num">13%</div><div class="wal-label">Uptick in sales</div></div>
       </div>
       <div class="wal-stat">
         <svg class="wal-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-        <div class="wal-stat-copy"><div class="wal-num">19%</div><div class="wal-label">uptick in website visitors</div></div>
+        <div class="wal-stat-copy"><div class="wal-num">19%</div><div class="wal-label">Uptick in website visitors</div></div>
       </div>
     </div>
     <dl class="wal-meta">
-      <div><dt>Client</dt><dd>Waldron’s Patisserie</dd></div>
-      <div><dt>Channels</dt><dd>Facebook, <span class="wal-keep">Instagram and LinkedIn</span></dd></div>
-      <div><dt>Services</dt><dd>Social media management, content, website support and digital rebuild</dd></div>
+      <div><dt>Client</dt><dd style="--mm-chars:20"><span class="mm-line">Waldron’s Patisserie</span></dd></div>
+      <div><dt>Channels</dt><dd style="--mm-chars:22"><span class="mm-line">Facebook,</span><span class="mm-line">Instagram and LinkedIn</span></dd></div>
+      <div><dt>Services</dt><dd style="--mm-chars:35"><span class="mm-line">Social media management, content,</span><span class="mm-line">website support and digital rebuild</span></dd></div>
     </dl>
   </div>
 </section>

@@ -3,6 +3,7 @@ import WpHtml from "@/components/WpHtml";
 import { breadcrumbNode, pageMetadata, webPageNode } from "@/lib/seo";
 import { readWpPage } from "@/lib/wp";
 import type { Metadata } from "next";
+import CaseStudyStats from "@/components/CaseStudyStats";
 import CaseStudyVideo from "./video";
 
 const title = "Auric Performance Case Study";
@@ -30,6 +31,7 @@ export default function AuricPerformanceCaseStudyPage() {
       />
       <WpHtml html={readWpPage("auric-performance-case-study") || ""} />
       <CaseStudyVideo />
+      <CaseStudyStats />
     </>
   );
 }

@@ -66,7 +66,7 @@
 .sdr-logo { display: block; margin: 0 0 22px; line-height: 0; }
 .sdr-logo img { display: block; width: auto !important; height: 64px !important; border-radius: 0 !important; }
 .sdr-full img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center center; background: #000; }
-.sdr-results { background: #101010; padding: 72px 0 64px; }
+.sdr-results { background: #000; padding: 72px 0 64px; }
 .sdr-kicker { margin: 0 0 8px; text-align: center; font-size: 0.95rem !important; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.72) !important; }
 .sdr-stats, .sdr-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 1180px; margin: 0 auto; }
 .sdr-meta { margin-top: 8px; text-align: center; }
@@ -138,6 +138,12 @@
   .sdr-logo img { height: 52px !important; }
 }
 @media (prefers-reduced-motion: reduce) { .sdr-wall-track { animation: none; } }
+
+/* Client, channels and services stay on one or two lines */
+.sdr-meta > div { container-type: inline-size; }
+.sdr-meta dd { max-width: none; font-size: min(1.05rem, calc(98cqi / var(--mm-chars, 24) / 0.55)) !important; }
+.sdr-meta .mm-line { display: block; white-space: nowrap; }
+@media (max-width: 1100px) { .sdr-meta { grid-template-columns: 1fr; } }
 </style>
 
 <section class="sdr-hero" aria-labelledby="sdr-hero-title">
@@ -176,21 +182,21 @@
     <div class="sdr-stats">
       <div class="sdr-stat">
         <svg class="sdr-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-        <div class="sdr-stat-copy"><div class="sdr-num">Full</div><div class="sdr-label">custom sales channel build</div></div>
+        <div class="sdr-stat-copy"><div class="sdr-num">Full</div><div class="sdr-label">Custom sales channel build</div></div>
       </div>
       <div class="sdr-stat">
         <svg class="sdr-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-        <div class="sdr-stat-copy"><div class="sdr-num">5K+</div><div class="sdr-label">leads generated</div></div>
+        <div class="sdr-stat-copy"><div class="sdr-num">5K+</div><div class="sdr-label">Leads generated</div></div>
       </div>
       <div class="sdr-stat">
         <svg class="sdr-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-        <div class="sdr-stat-copy"><div class="sdr-num">4%</div><div class="sdr-label">increase in conversions</div></div>
+        <div class="sdr-stat-copy"><div class="sdr-num">4%</div><div class="sdr-label">Increase in conversions</div></div>
       </div>
     </div>
     <dl class="sdr-meta">
-      <div><dt>Client</dt><dd>SDR, The Car Buying Service</dd></div>
-      <div><dt>Channels</dt><dd>Facebook, <span class="sdr-keep">Instagram and Google</span></dd></div>
-      <div><dt>Services</dt><dd>Custom sales channel build, paid advertising, social media, SEO and lead generation</dd></div>
+      <div><dt>Client</dt><dd style="--mm-chars:27"><span class="mm-line">SDR, The Car Buying Service</span></dd></div>
+      <div><dt>Channels</dt><dd style="--mm-chars:20"><span class="mm-line">Facebook,</span><span class="mm-line">Instagram and Google</span></dd></div>
+      <div><dt>Services</dt><dd style="--mm-chars:45"><span class="mm-line">Custom sales channel build, paid advertising,</span><span class="mm-line">social media, SEO and lead generation</span></dd></div>
     </dl>
   </div>
 </section>

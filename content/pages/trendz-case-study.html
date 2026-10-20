@@ -66,7 +66,7 @@
 .trz-logo { display: block; margin: 0 0 22px; line-height: 0; }
 .trz-logo img { display: block; width: auto !important; height: 84px !important; border-radius: 0 !important; }
 .trz-full img { display: block; width: 100%; height: auto; object-fit: contain; object-position: center center; background: #000; }
-.trz-results { background: #101010; padding: 72px 0 64px; }
+.trz-results { background: #000; padding: 72px 0 64px; }
 .trz-kicker { margin: 0 0 8px; text-align: center; font-size: 0.95rem !important; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.72) !important; }
 .trz-stats, .trz-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 1180px; margin: 0 auto; }
 .trz-meta { margin-top: 8px; text-align: center; }
@@ -136,6 +136,12 @@
   .trz-logo img { height: 68px !important; }
 }
 @media (prefers-reduced-motion: reduce) { .trz-wall-track { animation: none; } }
+
+/* Client, channels and services stay on one or two lines */
+.trz-meta > div { container-type: inline-size; }
+.trz-meta dd { max-width: none; font-size: min(1.05rem, calc(98cqi / var(--mm-chars, 24) / 0.55)) !important; }
+.trz-meta .mm-line { display: block; white-space: nowrap; }
+@media (max-width: 1100px) { .trz-meta { grid-template-columns: 1fr; } }
 </style>
 
 <section class="trz-hero" aria-labelledby="trz-hero-title">
@@ -173,21 +179,21 @@
   <div class="trz-stats">
     <div class="trz-stat">
       <svg class="trz-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-      <div class="trz-stat-copy"><div class="trz-num">Full</div><div class="trz-label">brand support across socials</div></div>
+      <div class="trz-stat-copy"><div class="trz-num">Full</div><div class="trz-label">Brand support across socials</div></div>
     </div>
     <div class="trz-stat">
       <svg class="trz-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-      <div class="trz-stat-copy"><div class="trz-num">Complete</div><div class="trz-label">digital setup and support</div></div>
+      <div class="trz-stat-copy"><div class="trz-num">Complete</div><div class="trz-label">Digital setup and support</div></div>
     </div>
     <div class="trz-stat">
       <svg class="trz-rings" viewBox="0 0 300 300" aria-hidden="true"><circle cx="150" cy="142" r="118" fill="none" stroke="rgba(255,128,139,0.75)" stroke-width="1.25"/><circle cx="164" cy="158" r="116" fill="none" stroke="rgba(255,128,139,0.45)" stroke-width="1.15"/><circle cx="136" cy="152" r="104" fill="none" stroke="rgba(255,179,185,0.4)" stroke-width="1.1"/></svg>
-      <div class="trz-stat-copy"><div class="trz-num">Expert</div><div class="trz-label">auditing and branding support</div></div>
+      <div class="trz-stat-copy"><div class="trz-num">Expert</div><div class="trz-label">Auditing and branding support</div></div>
     </div>
   </div>
   <dl class="trz-meta">
-    <div><dt>Client</dt><dd>Trendz</dd></div>
-    <div><dt>Channels</dt><dd>Social media</dd></div>
-    <div><dt>Services</dt><dd>Brand support, social media, digital setup, auditing and branding</dd></div>
+    <div><dt>Client</dt><dd style="--mm-chars:6"><span class="mm-line">Trendz</span></dd></div>
+    <div><dt>Channels</dt><dd style="--mm-chars:12"><span class="mm-line">Social media</span></dd></div>
+    <div><dt>Services</dt><dd style="--mm-chars:36"><span class="mm-line">Brand support, social media,</span><span class="mm-line">digital setup, auditing and branding</span></dd></div>
   </dl>
 </section>
 
