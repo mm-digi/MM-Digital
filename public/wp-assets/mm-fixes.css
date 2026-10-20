@@ -262,6 +262,13 @@ footer.wp-block-template-part .wp-block-navigation-item__content {
   font-family: "Glacial Indifference", Arial, sans-serif;
   transition: color 0.2s ease;
 }
+/* Rebalance the last lines of body text site-wide so no paragraph or list
+   item ends on a single word */
+.wp-site-blocks p,
+.wp-site-blocks li,
+.wp-site-blocks blockquote {
+  text-wrap: pretty;
+}
 /* Company name in the footer links home, styled like the footer links */
 footer.wp-block-template-part a.mm-footer-company {
   color: #fff;

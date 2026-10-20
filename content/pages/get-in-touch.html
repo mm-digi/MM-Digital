@@ -144,7 +144,7 @@ body .wp-site-blocks .mmc-quotes h2 {
   position: relative; z-index: 1; max-width: 1600px; margin: 0 auto; padding: 0 48px;
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; align-items: center;
 }
-.mmc-intro { max-width: 720px; padding-left: 32px; border-left: 2px solid #ff808b; }
+.mmc-intro { max-width: 720px; }
 .mmc-eyebrow {
   display: block; margin-bottom: 14px;
   font-family: "Glacial Indifference", Arial, sans-serif; font-size: 0.85rem; font-weight: 700;
@@ -198,7 +198,6 @@ body .wp-site-blocks .mmc-quotes h2 {
 @media (max-width: 640px) {
   .mmc-hero { padding: 120px 0 70px; }
   .mmc-hero-inner { padding: 0 20px; }
-  .mmc-intro { padding-left: 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .mmc-wall-track { animation: none; }
@@ -531,7 +530,7 @@ body .wp-site-blocks .mmc-quotes h2 {
         </details>
         <details class="mmf-item">
           <summary>How do you approach a new project?</summary>
-          <div class="mmf-answer"><p>Every project begins with clarity.<br> <br>We take time to understand:<br>Your goals<br>Your audience<br>Your current performance<br>Your positioning within the market<br> <br>From there, we build a tailored strategy and roadmap. You remain involved at every key stage, from concept and design through to launch, optimisation and performance tracking.<br> <br>Our focus is not just on delivery, it’s on long-term impact.</p></div>
+          <div class="mmf-answer"><p>Every project begins with clarity.<br> <br>We take time to understand:<br>Your goals<br>Your audience<br>Your current&nbsp;performance<br>Your positioning within the market<br> <br>From there, we build a tailored strategy and roadmap. You remain involved at every key stage, from concept and design through to launch, optimisation and performance tracking.<br> <br>Our focus is not just on delivery, it’s on long-term impact.</p></div>
         </details>
         <details class="mmf-item">
           <summary>Do you offer one-off projects or ongoing retainers?</summary>
@@ -543,7 +542,7 @@ body .wp-site-blocks .mmc-quotes h2 {
         </details>
         <details class="mmf-item">
           <summary>Can you redesign my existing website?</summary>
-          <div class="mmf-answer"><p>Absolutely.<br> <br>We can refresh your existing website to improve design, user experience, conversion performance and technical structure, while maintaining or refining your existing brand identity.<br> <br>Our goal is not just to modernise appearance, but to improve performance.</p></div>
+          <div class="mmf-answer"><p>Absolutely.<br> <br>We can refresh your existing website to improve design, user experience, conversion performance and technical structure, while maintaining or refining your existing brand identity.<br> <br>Our goal is not just to modernise appearance, but to improve&nbsp;performance.</p></div>
         </details>
         <details class="mmf-item">
           <summary>Do you work with small businesses as well as large companies?</summary>
@@ -559,7 +558,7 @@ body .wp-site-blocks .mmc-quotes h2 {
         </details>
         <details class="mmf-item">
           <summary>What makes MM Digital different from other agencies?</summary>
-          <div class="mmf-answer"><p>We combine creativity with data-driven strategy.<br> <br>Every campaign is built around:<br> <br>Clear commercial objectives<br>Measurable performance tracking<br>Intelligent use of AI<br>Structured growth systems<br>Strong brand positioning<br> <br>We are known for our personal approach, clear communication and commitment to quality, but ultimately, what sets us apart is structure and accountability.</p></div>
+          <div class="mmf-answer"><p>We combine creativity with data-driven strategy.<br> <br>Every campaign is built around:<br> <br>Clear commercial objectives<br>Measurable performance tracking<br>Intelligent use of AI<br>Structured growth systems<br>Strong brand positioning<br> <br>We are known for our personal approach, clear communication and commitment to quality, but ultimately, what sets us apart is structure and&nbsp;accountability.</p></div>
         </details>
       </div>
       </div>
@@ -584,8 +583,16 @@ body .wp-site-blocks .mmc-quotes h2 {
   </div>
 </section>
 
+<style>
+/* Phones: close the gap above "Get in touch and see how we can drive results for you" */
+@media (max-width: 640px) {
+  .mmc-cta-spacer { height: 0 !important; }
+  .wp-block-group:has(> #get-in-touch-and-see-how-we-can-drive-results-for-you) { padding-top: 32px !important; }
+}
+</style>
+
 <div class="wp-block-group alignfull is-style-ext-preset--group--natural-1--section has-foreground-alt-background-color has-background has-global-padding is-layout-constrained wp-container-core-group-is-layout-91535b9a wp-block-group-is-layout-constrained" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--70);padding-right:0;padding-bottom:var(--wp--preset--spacing--70);padding-left:0">
-<div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on"></div>
+<div style="height:100px" aria-hidden="true" class="wp-block-spacer ext-animate--on mmc-cta-spacer"></div>
 
 
 
@@ -738,7 +745,7 @@ body .wp-site-blocks .mmc-quotes h2 {
       <span class="mm-quote-mark" aria-hidden="true">“</span>
       <div class="mm-quote-slides" aria-live="polite">
         <figure class="mm-quote is-active" data-index="0">
-          <blockquote>First class and easy to deal with, having someone onboard who is driven and as passionate about your business as you are always helps! Would highly recommend.</blockquote>
+          <blockquote>First class and easy to deal with, having someone onboard who is driven and as passionate about your business as you are always helps! Would highly&nbsp;recommend.</blockquote>
           <figcaption>
             <span class="mm-quote-who"><b>Stuart Rayment</b><small>Google review</small></span>
           </figcaption>
@@ -751,25 +758,25 @@ body .wp-site-blocks .mmc-quotes h2 {
           </figcaption>
         </figure>
         <figure class="mm-quote" data-index="2" aria-hidden="true">
-          <blockquote>I have been cooperating with MM Digital for just over a year, working on a book promotion. While the way ahead has sometimes proved challenging, MM has invariably been professional, tenacious, and imaginative. For these reasons, our collaboration continues.</blockquote>
+          <blockquote>I have been cooperating with MM Digital for just over a year, working on a book promotion. While the way ahead has sometimes proved challenging, MM has invariably been professional, tenacious, and imaginative. For these reasons, our collaboration&nbsp;continues.</blockquote>
           <figcaption>
             <span class="mm-quote-who"><b>David Morrison</b><small>Google review</small></span>
           </figcaption>
         </figure>
         <figure class="mm-quote" data-index="3" aria-hidden="true">
-          <blockquote>MMDigital have been fantastic to work with – proactive, creative and highly supportive. The content they produce for our social media is outstanding and has truly elevated our online presence. Highly recommend their professionalism and expertise.</blockquote>
+          <blockquote>MMDigital have been fantastic to work with – proactive, creative and highly supportive. The content they produce for our social media is outstanding and has truly elevated our online presence. Highly recommend their professionalism and&nbsp;expertise.</blockquote>
           <figcaption>
             <span class="mm-quote-who"><b>Rob Waldron</b><small>Google review</small></span>
           </figcaption>
         </figure>
         <figure class="mm-quote" data-index="4" aria-hidden="true">
-          <blockquote>I simply cannot recommend Max and his team enough. Max gives consistent support, has a meticulous eye for all the details of my business and I value his experienced overview. A true professional.</blockquote>
+          <blockquote>I simply cannot recommend Max and his team enough. Max gives consistent support, has a meticulous eye for all the details of my business and I value his experienced overview. A true&nbsp;professional.</blockquote>
           <figcaption>
             <span class="mm-quote-who"><b>Yvonne Coomber</b><small>Google review</small></span>
           </figcaption>
         </figure>
         <figure class="mm-quote" data-index="5" aria-hidden="true">
-          <blockquote>Max and the team look after our socials and marketing and do a great job. Would definitely recommend.</blockquote>
+          <blockquote>Max and the team look after our socials and marketing and do a great job. Would definitely&nbsp;recommend.</blockquote>
           <figcaption>
             <span class="mm-quote-who"><b>James Frost</b><small>Google review</small></span>
           </figcaption>
