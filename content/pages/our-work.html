@@ -534,7 +534,8 @@
 
 .mmw-impact-visual video { aspect-ratio: 1 / 1; object-fit: cover; }
 /* Smallest phones: keep two-word heading endings on one line */
-@media (max-width: 380px) { .mmw-trio-copy h2 { font-size: 1.22rem !important; } }
+@media (max-width: 640px) { .mmw-trio-copy h2 { font-size: 1.15rem !important; } }
+@media (max-width: 380px) { .mmw-trio-copy h2 { font-size: 1.04rem !important; } }
 /* Small phones: keep "Transformative Results" on one line */
 @media (max-width: 430px) { #mmw-features-title { font-size: min(30.4px, 7.3vw) !important; } }
 
@@ -568,7 +569,9 @@
 .mmw-trio-copy .mmw-body { margin: 0; }
 @media (max-width: 1100px) { .mmw-trio { grid-template-columns: 1fr; max-width: 560px; margin-left: auto; margin-right: auto; } }
 
-.mmw-showcase-cta { text-align: center; }
+/* the trio sits in the showcase grid (64px gap), so drop its own margin and pull the button up to match the other buttons */
+.mmw-trio { margin-bottom: 0; }
+.mmw-showcase-cta { text-align: center; margin-top: -24px; }
 
 /* Impact */
 .mmw-impact {
@@ -709,6 +712,45 @@
   .mmw-metrics { grid-template-columns: 1fr; }
 }
 
+
+/* ---------- Phones: card groups become swipeable rows to cut scrolling ---------- */
+@media (max-width: 640px) {
+  .mmw-section { padding: 52px 0; }
+
+  .mmw-why-grid,
+  .mmw-trio,
+  .mmw-metrics,
+  .mmw-features {
+    display: flex;
+    gap: 14px;
+    max-width: none;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding: 0 20px 6px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 20px;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+
+  .mmw-why-grid::-webkit-scrollbar,
+  .mmw-trio::-webkit-scrollbar,
+  .mmw-metrics::-webkit-scrollbar,
+  .mmw-features::-webkit-scrollbar { display: none; }
+
+  .mmw-why-grid > *,
+  .mmw-trio > *,
+  .mmw-metrics > *,
+  .mmw-features > * {
+    flex: 0 0 88%;
+    scroll-snap-align: start;
+  }
+
+  .mmw-metrics > * { flex-basis: 70%; }
+  /* let the metrics column shrink to the screen so its row can scroll */
+  .mmw-impact > * { min-width: 0; }
+}
 @media (prefers-reduced-motion: reduce) {
   .mmw-wall-track,
   .mmw-count,
@@ -954,8 +996,8 @@
         <div class="mmw-trio-art"><img loading="lazy" src="/media/our-work-growth.webp" alt="Rising chart for strategic growth" width="1600" height="1600"></div>
         <div class="mmw-trio-copy">
           <span class="mmw-eyebrow">Our Work</span>
-          <h2><span class="mm-line">Driving Exceptional</span> <span class="mm-line">Growth Through</span> <span class="mm-line mm-line-pink">Strategic Insight</span></h2>
-          <p class="mmw-body">See how a brand revitalised its presence and boosted performance by embracing our tailored digital strategies.</p>
+          <h2><span class="mm-line">Driving Exceptional</span> <span class="mm-line">Growth&nbsp;Through</span> <span class="mm-line mm-line-pink">Strategic Insight</span></h2>
+          <p class="mmw-body">See how a brand revitalised its presence and boosted performance by embracing our tailored digital&nbsp;strategies.</p>
         </div>
       </article>
 
@@ -964,7 +1006,7 @@
         <div class="mmw-trio-copy">
           <span class="mmw-eyebrow">Our Work</span>
           <h2><span class="mm-line">Building Sustainable</span> <span class="mm-line">Success With</span> <span class="mm-line mm-line-pink">Innovative&nbsp;Approaches</span></h2>
-          <p class="mmw-body">Learn how a forward-thinking company navigated challenges and unlocked growth with our strategic digital expertise.</p>
+          <p class="mmw-body">Learn how a forward-thinking company navigated challenges and unlocked growth with our strategic digital&nbsp;expertise.</p>
         </div>
       </article>
 
@@ -972,7 +1014,7 @@
         <div class="mmw-trio-art"><img loading="lazy" src="/media/what-we-do/ai-automation-icon.webp" alt="A pink AI robot working at a laptop, for digital innovation" width="640" height="602"></div>
         <div class="mmw-trio-copy">
           <span class="mmw-eyebrow">Our Work</span>
-          <h2><span class="mm-line">Elevating Business</span> <span class="mm-line">Performance Through</span> <span class="mm-line mm-line-pink">Digital Innovation</span></h2>
+          <h2><span class="mm-line">Elevating Business</span> <span class="mm-line">Performance&nbsp;Through</span> <span class="mm-line mm-line-pink">Digital Innovation</span></h2>
           <p class="mmw-body">Discover how leveraging our solutions helped a client enhance efficiency, cut costs, and expand their&nbsp;reach.</p>
         </div>
       </article>
@@ -1006,19 +1048,19 @@
           <div class="mmw-metric-num">23K+</div>
           <p class="mmw-metric-label">Leads generated</p>
           <h3>Digital Reach</h3>
-          <p>Illustrating the expansion of our online presence across multiple platforms.</p>
+          <p>Illustrating the expansion of our online presence across multiple&nbsp;platforms.</p>
         </article>
         <article class="mmw-metric">
           <div class="mmw-metric-num">48%</div>
-          <p class="mmw-metric-label">Average revenue increase</p>
-          <h3>Campaign Success</h3>
-          <p>Highlighting notable wins and measurable results from recent projects.</p>
+          <p class="mmw-metric-label">Average revenue&nbsp;increase</p>
+          <h3>Campaign&nbsp;Success</h3>
+          <p>Highlighting notable wins and measurable results from recent&nbsp;projects.</p>
         </article>
         <article class="mmw-metric">
           <div class="mmw-metric-num">91%</div>
           <p class="mmw-metric-label">Retention rate</p>
           <h3>User Experience</h3>
-          <p>Detailing improvements in customer satisfaction and site interaction.</p>
+          <p>Detailing improvements in customer satisfaction and site&nbsp;interaction.</p>
         </article>
       </div>
     </div>
@@ -1062,7 +1104,7 @@
       </div>
       <div class="mmw-intro">
         <h2 id="mmw-close-title" class="mmw-close-title"><span class="mm-line">Discover How We</span> <span class="mm-line mm-line-pink">Grow Brands&nbsp;Online</span></h2>
-        <p class="mmw-body">Dive into our portfolio and see how strategic digital solutions propel brands forward, inspiring you to connect with us for tailored growth strategies.</p>
+        <p class="mmw-body">Dive into our portfolio and see how strategic digital solutions propel brands forward, inspiring you to connect with us for tailored growth&nbsp;strategies.</p>
         <a href="/digital-services/" class="mmw-btn">View Our Services</a>
       </div>
     </div>
