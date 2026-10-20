@@ -260,6 +260,18 @@ footer.wp-block-template-part .wp-block-navigation-item__content {
   color: #fff;
   text-decoration: none;
   font-family: "Glacial Indifference", Arial, sans-serif;
+  transition: color 0.2s ease;
+}
+/* Pink and underlined on hover, matching the header links */
+footer.wp-block-template-part .wp-block-navigation-item__content:hover,
+footer.wp-block-template-part .wp-block-navigation-item__content:hover .wp-block-navigation-item__label,
+footer.wp-block-template-part .wp-block-navigation-item__content:hover strong {
+  color: #ff808b;
+}
+footer.wp-block-template-part .wp-block-navigation-item__content:hover {
+  text-decoration: underline;
+  text-decoration-color: #ff808b;
+  text-underline-offset: 2.24px;
 }
 footer.wp-block-template-part .wp-block-columns:has(#want-our-updates-in-your-inbox) {
   display: flex !important;
