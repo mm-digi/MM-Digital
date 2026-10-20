@@ -46,7 +46,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   const footerHtml = readWpFile("footer.html");
 
   return (
-    <html lang="en-GB">
+    // The header-height script in WpChrome sets a style on <html> before React
+    // hydrates, which is expected, so don't flag it as a mismatch
+    <html lang="en-GB" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
