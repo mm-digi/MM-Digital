@@ -671,12 +671,13 @@
       padding: 60px 48px 50px;
     }
 
+    /* sits centred under the chat window, keeping the text column the same height as Client Dashboards */
     .mm-ai-logo {
       display: block;
       width: 190px;
       max-width: 100%;
       height: auto;
-      margin: 0 0 18px;
+      margin: 6px auto 0;
     }
 
     .mm-chat-powered {
@@ -924,11 +925,6 @@
         text-align: center;
       }
 
-      .mm-ai-logo {
-        margin-left: auto;
-        margin-right: auto;
-      }
-
       .mm-chat-powered .mm-ai-stage-label {
         text-align: center;
       }
@@ -1092,7 +1088,6 @@
   <div class="mm-dash-panel mm-panel-ai">
     <div class="mm-chat-panel">
       <div class="mm-dash-text">
-        <img class="mm-ai-logo" src="/media/ai/mm-ai.webp" alt="MM AI">
         <span class="mm-dash-eyebrow">Introducing MM AI</span>
         <h2><span class="mm-line">Ask The Question</span> <span class="mm-line">Get The Answer</span> <span class="mm-line mm-line-pink">From Your Data</span></h2>
         <p class="mm-dash-copy">
@@ -1130,6 +1125,7 @@
           </div>
         </div>
         <p class="mm-chat-note">Example conversation</p>
+        <img class="mm-ai-logo" src="/media/ai/mm-ai.webp" alt="MM AI">
       </div>
     </div>
   </div>
