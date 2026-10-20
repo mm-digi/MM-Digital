@@ -79,7 +79,12 @@ export default function WpChrome({
         (form.querySelector(":invalid") as HTMLElement | null)?.focus();
         return;
       }
-      const data = Object.fromEntries(new FormData(form).entries());
+      // The footer sign-up (the only Kadence form) and any .mm-newsletter-form
+      // go to Mailchimp; everything else is an enquiry emailed to info@
+      const isNewsletter = form.matches("form.kb-advanced-form, form.mm-newsletter-form");
+      const data = isNewsletter
+        ? { email: (form.querySelector('input[type="email"]') as HTMLInputElement | null)?.value ?? "" }
+        : Object.fromEntries(new FormData(form).entries());
       const label = button?.textContent;
       if (button) {
         button.disabled = true;
@@ -88,7 +93,7 @@ export default function WpChrome({
       say("", "");
       let ok = false;
       try {
-        const res = await fetch("/api/contact", {
+        const res = await fetch(isNewsletter ? "/api/newsletter" : "/api/contact", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
@@ -111,7 +116,9 @@ export default function WpChrome({
       } else {
         alert(
           ok
-            ? "The form has been submitted successfully!"
+            ? isNewsletter
+              ? "Thanks for subscribing! You'll hear from us soon."
+              : "The form has been submitted successfully!"
             : "There has been some error while submitting the form."
         );
       }
