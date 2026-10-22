@@ -128,11 +128,20 @@ function fillSeries(fromIso: string, toIso: string, rows: Record<string, unknown
     byDate.set(key, emptyPoint(key));
     cursor.setUTCDate(cursor.getUTCDate() + 1);
   }
+  // Followers is a running total, so it's tracked per source and carried forward:
+  // days with no reading (usually today, before Windsor has it) keep the last
+  // known count instead of plotting as 0.
+  const followerReadings = new Map<string, [string, number][]>();
   for (const row of rows) {
     const key = String(row.date);
+    const source = String(row.source || "");
+    const followers = Number(row.followers || 0);
+    if (followers > 0 && key <= toIso) {
+      if (!followerReadings.has(source)) followerReadings.set(source, []);
+      followerReadings.get(source)!.push([key, followers]);
+    }
     const point = byDate.get(key);
     if (!point) continue;
-    const source = String(row.source || "");
     point.sessions += Number(row.sessions || 0);
     point.spend += Number(row.spend || 0);
     point.impressions += Number(row.impressions || 0);
@@ -140,7 +149,6 @@ function fillSeries(fromIso: string, toIso: string, rows: Record<string, unknown
     point.clicks += Number(row.clicks || 0);
     point.conversions += Number(row.conversions || 0);
     point.engagement += Number(row.engagement || 0);
-    point.followers += Number(row.followers || 0);
     point.pageviews += extraNum(row, "pageviews") || (source === "ga4" ? Number(row.sessions || 0) : 0);
     point.newUsers += extraNum(row, "new_users") || Number(row.users || 0);
     point.avgDuration += extraNum(row, "avg_duration");
@@ -148,6 +156,15 @@ function fillSeries(fromIso: string, toIso: string, rows: Record<string, unknown
     point.likes += extraNum(row, "likes") || (source === "instagram" || source === "linkedin" ? Number(row.engagement || 0) : 0);
     point.reactions += extraNum(row, "reactions") || (source === "facebook" ? Number(row.engagement || 0) : 0);
     point.pageViews += extraNum(row, "page_views") || (source === "facebook" || source === "linkedin" ? Number(row.impressions || 0) : 0);
+  }
+  for (const readings of followerReadings.values()) {
+    readings.sort(([a], [b]) => a.localeCompare(b));
+    let next = 0;
+    let last = 0;
+    for (const point of byDate.values()) {
+      while (next < readings.length && readings[next][0] <= point.date) last = readings[next++][1];
+      point.followers += last;
+    }
   }
   return [...byDate.values()];
 }
@@ -230,7 +247,7 @@ export async function getClientSnapshot(slug: string): Promise<ClientSnapshot | 
     seriesBySource[source] = fillSeries(
       monthFromIso,
       iso(to),
-      monthRows.filter((row) => String(row.source) === source)
+      (rows || []).filter((row) => String(row.source) === source)
     );
   }
   const campaignMap = new Map<string, CampaignPoint>();
@@ -253,7 +270,7 @@ export async function getClientSnapshot(slug: string): Promise<ClientSnapshot | 
     month: { label: "This month", from: monthFromIso, to: iso(to), totals: month, previous: monthPrev },
     bySourceWeek,
     bySourceMonth,
-    series: fillSeries(monthFromIso, iso(to), monthRows),
+    series: fillSeries(monthFromIso, iso(to), rows || []),
     seriesBySource,
     campaigns: [...campaignMap.values()].sort((a, b) => b.conversions - a.conversions || b.spend - a.spend),
   };
