@@ -26,7 +26,6 @@ export const CLIENT_USERS: ClientUser[] = [
   { username: "tors-vodka-client", slug: "tors-vodka-dashboard", passwordHash: "$2b$12$c4k15UQfyHoUUs.lVjIOjuh3JdjYgevcgZcuHsmjhfZyHEgR7diJu" },
   { username: "trendz", slug: "trendz-dashboard", passwordHash: "$2b$12$XZFPq/7IZJz4sDhSifAYW.X4i/GC9H5qW5c.N8.RJjd5Fk6jfn8ri" },
   { username: "bastion", slug: "bastion-dashboard", passwordHash: "$2b$12$D50b3JspWokrOjXJ8fpa0egDNct/OGJJiU62oUNZ8sfrvfy1VNJMS" },
-  { username: "jazz-beauty-clinic", slug: "jazz-beauty-clinic-dashboard", passwordHash: "$2b$12$sGgCkzkLrvDyOZneYlKD9Om8sQj4x372D6h99xLtoPKp.OmeLjHO2" },
 ];
 
 export function findUser(username: string) {
