@@ -175,13 +175,6 @@ export const CLIENT_DASHBOARDS: ClientDashboard[] = [
     embedUrl:
       "https://datastudio.google.com/embed/reporting/516b054a-a5aa-4121-9d5b-7b60ae27d17e/page/rma8F",
   },
-  {
-    slug: "jazz-beauty-clinic-dashboard",
-    name: "Jazz Beauty Clinic",
-    heading: "Jazz Beauty Clinic's Analytics Dashboard",
-    reportTitle: "Website, Facebook & Instagram Analytics",
-    embedUrl: "",
-  },
 ];
 
 export const DASHBOARD_SLUGS = new Set(CLIENT_DASHBOARDS.map((c) => c.slug));
