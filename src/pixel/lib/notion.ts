@@ -4,6 +4,19 @@ import type { NotionMapping, NotionSchema, Priority, StaffSlug, TaskItem, TaskKi
 
 const SLUGS: StaffSlug[] = ["max", "tash", "mariette", "natasha"];
 
+// The three task trackers inside MM DIGITAL HQ. Max does not have one there yet.
+const OFFICE_TRACKERS = [
+  "8fd25a60-b082-83a7-aec4-013a8cd0b416",
+  "54a25a60-b082-8253-9f4b-018bffc020e5",
+  "cfc25a60-b082-827e-b1a5-816633850d51",
+];
+
+const NOTION_PEOPLE: { id: string; name: string; slug: StaffSlug }[] = [
+  { id: "38bd872b-594c-81a2-adb7-000287defdb1", name: "MM Digital", slug: "max" },
+  { id: "38ed872b-594c-814f-a8c4-00022abcf2bc", name: "Tash", slug: "tash" },
+  { id: "39cd872b-594c-813a-98de-00028e0fd8b1", name: "Mariette James", slug: "mariette" },
+];
+
 export function emptyMapping(): NotionMapping {
   return {
     tasksDatabaseId: process.env.NOTION_DATABASE_ID?.trim() || "",
@@ -18,6 +31,51 @@ export function emptyMapping(): NotionMapping {
     meetingValues: "Meeting",
     staff: { max: "", tash: "", mariette: "", natasha: "" },
   };
+}
+
+export function officeMapping(): NotionMapping {
+  const saved = readMapping();
+  if (saved?.tasksDatabaseId && saved.titleProp && saved.dateProp) return saved;
+  return {
+    ...emptyMapping(),
+    tasksDatabaseId: OFFICE_TRACKERS.join(","),
+    titleProp: "Task name",
+    assigneeProp: "Assignee",
+    dateProp: "Due date",
+    statusProp: "Status",
+    priorityProp: "Priority",
+    projectProp: "Client",
+    doneValues: "Done, Completed",
+    staff: {
+      max: NOTION_PEOPLE[0].id,
+      tash: NOTION_PEOPLE[1].id,
+      mariette: NOTION_PEOPLE[2].id,
+      natasha: "",
+    },
+  };
+}
+
+const TRACKER_OWNER: Record<string, StaffSlug> = {
+  "8fd25a60b08283a7aec4013a8cd0b416": "tash",
+  "54a25a60b08282539f4b018bffc020e5": "mariette",
+  "cfc25a60b082827eb1a5816633850d51": "natasha",
+};
+
+function trackerOwner(id: string): StaffSlug | null {
+  return TRACKER_OWNER[id.replace(/-/g, "").toLowerCase()] ?? null;
+}
+
+function databaseIds(mapping: NotionMapping) {
+  const seen = new Set<string>();
+  const ids: string[] = [];
+  for (const part of mapping.tasksDatabaseId.split(/[\s,]+/)) {
+    const id = part.trim();
+    const key = id.replace(/-/g, "").toLowerCase();
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    ids.push(id);
+  }
+  return ids;
 }
 
 export function readMapping(): NotionMapping | null {
@@ -130,6 +188,24 @@ function names(): Record<StaffSlug, string> {
   return { max: "Max", tash: "Tash", mariette: "Mariette", natasha: "Natasha" };
 }
 
+function peopleDetails(prop: unknown): { id: string; name: string }[] {
+  if (!prop || typeof prop !== "object") return [];
+  const value = prop as { type?: string; people?: { id?: string; name?: string }[] };
+  if (value.type !== "people") return [];
+  return (value.people ?? [])
+    .map((person) => ({ id: person.id ?? "", name: (person.name ?? "").trim() }))
+    .filter((person) => person.id || person.name);
+}
+
+function slugFromName(name: string): StaffSlug | null {
+  const text = name.trim().toLowerCase();
+  if (/^tash\b/.test(text)) return "tash";
+  if (/^mariette\b/.test(text)) return "mariette";
+  if (/^natasha\b/.test(text)) return "natasha";
+  if (/^(mm digital|maximilian|max)\b/.test(text)) return "max";
+  return null;
+}
+
 export function normaliseNotionPages(results: Record<string, unknown>[], mapping: NotionMapping, today: string): TaskItem[] {
   const staffByNotion = new Map<string, StaffSlug>();
   for (const slug of SLUGS) {
@@ -147,50 +223,65 @@ export function normaliseNotionPages(results: Record<string, unknown>[], mapping
     const when = dateRaw ? splitDate(dateRaw) : { date: "", time: null };
     const statusName = mapping.statusProp ? plain(properties[mapping.statusProp]) : "";
     const done = isNamed(statusName, mapping.doneValues, /^(done|complete|completed)$/i);
-    const doing = /progress|doing|started/i.test(statusName);
+    const doing = isNamed(statusName, "", /^(in progress|doing|started)$/i);
     const status: TaskStatus = done ? "done" : doing ? "doing" : "todo";
     const typeName = mapping.typeProp ? plain(properties[mapping.typeProp]) : "";
     const kind: TaskKind = isNamed(typeName, mapping.meetingValues, /^$/) || /meeting/i.test(typeName) ? "meeting" : "task";
     const priority = mapPriority(mapping.priorityProp ? plain(properties[mapping.priorityProp]) : "");
     const project = (mapping.projectProp ? plain(properties[mapping.projectProp]) : "") || "General";
-    const peopleIds = mapping.assigneeProp ? plain(properties[mapping.assigneeProp]).split(",").filter(Boolean) : [];
-    const assignee = peopleIds.map((id) => staffByNotion.get(id)).find(Boolean) ?? null;
+    const peopleOnTask = mapping.assigneeProp ? peopleDetails(properties[mapping.assigneeProp]) : [];
+    const slugs: StaffSlug[] = [];
+    for (const person of peopleOnTask) {
+      const slug = staffByNotion.get(person.id) ?? slugFromName(person.name);
+      if (slug && !slugs.includes(slug)) slugs.push(slug);
+    }
+    const owner = (page as { trackerOwner?: StaffSlug | null }).trackerOwner ?? null;
+    const targets: Array<StaffSlug | null> = slugs.length ? slugs : [owner];
     const pageUrl = typeof page.url === "string" ? page.url : null;
-    tasks.push({
-      id: `notion:${String(page.id)}`,
-      title,
-      detail: "",
-      project,
-      assignee,
-      assigneeName: assignee ? people[assignee] : "Unassigned",
-      priority,
-      status,
-      kind,
-      xp: 0,
-      source: "notion",
-      date: when.date,
-      time: when.time,
-      dueLabel: when.date ? `${when.date}${when.time ? ` ${when.time}` : ""}` : "No date yet",
-      notionUrl: pageUrl,
-      localPreview: false,
-      overdue: Boolean(when.date && when.date < today && status !== "done"),
-      today: when.date === today,
-    });
+    for (const assignee of targets) {
+      tasks.push({
+        id: assignee ? `notion:${String(page.id)}:${assignee}` : `notion:${String(page.id)}`,
+        title,
+        detail: "",
+        project,
+        assignee,
+        assigneeName: assignee ? people[assignee] : "Unassigned",
+        priority,
+        status,
+        kind,
+        xp: 0,
+        source: "notion",
+        date: when.date,
+        time: when.time,
+        dueLabel: when.date ? `${when.date}${when.time ? ` ${when.time}` : ""}` : "No date yet",
+        notionUrl: pageUrl,
+        localPreview: false,
+        overdue: Boolean(when.date && when.date < today && status !== "done"),
+        today: when.date === today,
+      });
+    }
   }
   return tasks;
 }
 
 export async function fetchNotionSchema(databaseId: string): Promise<NotionSchema> {
-  const database = (await notionFetch(`/databases/${databaseId}`)) as {
+  const firstId = databaseIds({ ...emptyMapping(), tasksDatabaseId: databaseId })[0] || databaseId;
+  const database = (await notionFetch(`/databases/${firstId}`)) as {
     properties?: Record<string, { type?: string }>;
   };
   const properties = Object.entries(database.properties ?? {})
     .map(([name, value]) => ({ name, type: value.type ?? "unknown" }))
     .sort((a, b) => a.name.localeCompare(b.name));
-  const userPayload = (await notionFetch("/users")) as { results?: { id?: string; name?: string; type?: string }[] };
-  const users = (userPayload.results ?? [])
-    .filter((user) => user.type !== "bot" && user.id)
-    .map((user) => ({ id: user.id as string, name: user.name || `Notion user ${String(user.id).slice(-4)}` }));
+  let users = NOTION_PEOPLE.map((person) => ({ id: person.id, name: person.name }));
+  try {
+    const userPayload = (await notionFetch("/users")) as { results?: { id?: string; name?: string; type?: string }[] };
+    const listed = (userPayload.results ?? [])
+      .filter((user) => user.type !== "bot" && user.id)
+      .map((user) => ({ id: user.id as string, name: user.name || `Notion user ${String(user.id).slice(-4)}` }));
+    if (listed.length) users = listed;
+  } catch {
+    // A personal token cannot list every workspace user. The known people still match.
+  }
   return { properties, users };
 }
 
@@ -210,11 +301,12 @@ async function queryDatabase(databaseId: string) {
 }
 
 export async function loadNotion(today: string, force = false): Promise<{ tasks: TaskItem[] | null; stateMessage: string | null; mode: "demo" | "live" | "stale"; age: number | null }> {
-  const mapping = readMapping();
+  const mapping = officeMapping();
+  const ids = databaseIds(mapping);
   if (!notionConfigured()) {
     return { tasks: null, stateMessage: "Notion is not connected. These are demo tasks.", mode: "demo", age: null };
   }
-  if (!mapping?.tasksDatabaseId || !mapping.titleProp || !mapping.dateProp) {
+  if (!ids.length || !mapping.titleProp || !mapping.dateProp) {
     return {
       tasks: null,
       stateMessage: "The Notion token is set. An administrator still needs to map the database.",
@@ -230,7 +322,17 @@ export async function loadNotion(today: string, force = false): Promise<{ tasks:
     return { tasks: retag(tasks, today), stateMessage: null, mode: "live", age };
   }
   try {
-    const pages = await queryDatabase(mapping.tasksDatabaseId);
+    const pages: Record<string, unknown>[] = [];
+    const seen = new Set<string>();
+    for (const id of ids) {
+      const owner = trackerOwner(id);
+      for (const page of await queryDatabase(id)) {
+        const pageId = String(page.id ?? "");
+        if (pageId && seen.has(pageId)) continue;
+        if (pageId) seen.add(pageId);
+        pages.push({ ...page, trackerOwner: owner });
+      }
+    }
     const tasks = normaliseNotionPages(pages, mapping, today);
     sqlRun("insert into settings (key, value) values ('notion_cache', ?) on conflict(key) do update set value = excluded.value", JSON.stringify(tasks));
     sqlRun("insert into settings (key, value) values ('notion_cache_at', ?) on conflict(key) do update set value = excluded.value", new Date().toISOString());

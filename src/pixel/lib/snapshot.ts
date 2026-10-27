@@ -2,7 +2,7 @@ import { SEATS } from "@/pixel/game/layout";
 import { cleanAppearance, DEFAULTS, statusLabel } from "@/pixel/game/options";
 import { sqlAll, sqlOne, type StaffRow, type TaskRow } from "@/pixel/lib/db";
 import { clockLabel, localKey, prettyDate, shiftKey } from "@/pixel/lib/format";
-import { loadNotion, notionConfigured, readMapping } from "@/pixel/lib/notion";
+import { loadNotion, notionConfigured, officeMapping } from "@/pixel/lib/notion";
 import { levelProgress, milestone } from "@/pixel/lib/xp";
 import type { Announcement, Appearance, ProjectItem, Snapshot, StaffPublic, StaffSlug, Status, TaskItem } from "@/pixel/types";
 
@@ -145,7 +145,7 @@ export async function buildSnapshot(viewer: StaffRow, forceNotion = false): Prom
   })) satisfies Announcement[];
 
   const doneCount = tasks.filter((task) => task.status === "done").length;
-  const mapping = readMapping();
+  const mapping = officeMapping();
   return {
     me,
     staff,

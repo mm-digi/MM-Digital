@@ -315,7 +315,7 @@ export function CalendarPanel({ snap, onClose }: { snap: Snapshot; onClose?: () 
           <h3>{selected.title}</h3>
           <p>{selected.detail || "No extra notes on this one."}</p>
           <p className="meta">{selected.project} · {selected.assigneeName} · {selected.dueLabel} · {selected.priority} · {selected.status}</p>
-          {selected.notionUrl ? <a href={selected.notionUrl} target="_blank" rel="noreferrer">Open the Notion page</a> : <p className="fine">No Notion link on this demo item.</p>}
+          {selected.notionUrl ? <a href={selected.notionUrl} target="_blank" rel="noreferrer">Open the Notion page</a> : <p className="fine">{selected.source === "demo" ? "Sample task. This one is not a page in Notion." : "This task has no Notion link."}</p>}
           <button type="button" className="pxbtn alt tiny" onClick={() => setSelected(null)}>Close detail</button>
         </div>
       ) : null}
@@ -526,12 +526,12 @@ export function NotionPanel({ snap, busy, act, onClose }: { snap: Snapshot; busy
 
   return (
     <Window title="Link Notion" onClose={onClose}>
-      <p>Read-only. Map your own property names. Staff are linked by Notion user, not by display name.</p>
+      <p>Read-only. The three task trackers are linked. A task named Not started stays open, and In progress shows as in progress.</p>
       {!snap.notion.configured ? <p className="banner">Notion is not connected yet. Add the integration token on the server, share the task database with it, then map the columns here.</p> : null}
       {error ? <p className="banner warn">{error}</p> : null}
       <div className="stack">
         <label htmlFor="dbid">Database ID</label>
-        <input id="dbid" value={databaseId} onChange={(event) => setDatabaseId(event.target.value)} placeholder="From the Notion database link" />
+        <input id="dbid" value={databaseId} onChange={(event) => setDatabaseId(event.target.value)} placeholder="One database id, or several separated by commas" />
         <button type="button" className="pxbtn alt" disabled={busy || !databaseId} onClick={() => void readSchema()}>Read properties</button>
         {field("Title", titleProp, setTitleProp)}
         {field("Assignee (people)", assigneeProp, setAssigneeProp)}

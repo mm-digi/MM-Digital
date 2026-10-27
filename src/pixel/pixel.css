@@ -437,3 +437,14 @@ body:has(.pixel-hq) { background: #1c1412 !important; }
 .pixel-hq a.pxbtn { display: inline-block; text-decoration: none !important; color: var(--ink) !important; font-family: var(--font-pixel), "Courier New", ui-monospace, monospace !important; }
 .pixel-hq a.texty { font-family: var(--font-body), "Segoe UI", sans-serif !important; color: #ffe7c8 !important; text-decoration: underline; }
 .pixel-hq button, .pixel-hq .pxbtn { border-radius: 0 !important; text-transform: none !important; }
+.pixel-hq .wood-body,
+.pixel-hq .wood-body :is(p, li, span, strong, time, h3, summary, label) {
+  color: #2a211c;
+}
+.pixel-hq .wood-body :is(.fine, .meta, .empty, .day-list span, .quest p) {
+  color: #5c4638;
+}
+.pixel-hq .wood-bar,
+.pixel-hq .wood-bar h2 {
+  color: #fff6e8;
+}
