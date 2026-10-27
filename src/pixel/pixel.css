@@ -38,8 +38,8 @@
 .pixel-hq a{ color: #8a3d4a; }
 
 .pixel-hq canvas, .pixel-hq .sprite{
-  image-rendering: pixelated;
   image-rendering: crisp-edges;
+  image-rendering: pixelated;
   display: block;
 }
 

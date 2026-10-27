@@ -61,12 +61,12 @@ export function OfficeStage({
     const measure = () => {
       const wrap = wrapRef.current;
       if (!wrap) return;
-      const box = wrap.getBoundingClientRect();
-      const width = Math.max(box.width, 320);
-      const height = Math.max(box.height, 360);
-      const next = Math.max(1, Math.min(3, Math.floor(Math.min(width / ROOM_W, height / ROOM_H)) || 1));
+      const width = Math.max(wrap.clientWidth - 12, 320);
+      const height = Math.max(wrap.clientHeight - 12, 280);
+      const fit = Math.min(width / ROOM_W, height / ROOM_H);
+      const next = Math.max(1, Math.min(4, Math.round(fit * 100) / 100));
       scaleRef.current = next;
-      setScale(next);
+      setScale((current) => (Math.abs(current - next) < 0.01 ? current : next));
     };
     measure();
     const observer = new ResizeObserver(measure);
