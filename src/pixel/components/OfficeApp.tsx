@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Creator } from "@/pixel/components/Creator";
 import { OfficeStage } from "@/pixel/components/OfficeStage";
 import {
@@ -17,7 +17,15 @@ import { blip, setAmbient } from "@/pixel/components/sound";
 import { STATUSES } from "@/pixel/game/options";
 import type { ActionBody, ActionResult, PanelId, Snapshot, StaffSlug } from "@/pixel/types";
 
-export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; presentation: "office" | "plain" }) {
+export function OfficeApp({
+  snapshot,
+  presentation,
+  lights,
+}: {
+  snapshot: Snapshot;
+  presentation: "office" | "plain";
+  lights?: ReactNode;
+}) {
   const [snap, setSnap] = useState(snapshot);
   const [panel, setPanel] = useState<PanelId | null>(snapshot.me.creatorDone ? "day" : "creator");
   const [deskSlug, setDeskSlug] = useState<StaffSlug>(snapshot.me.slug);
@@ -193,6 +201,7 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
         </div>
       </header>
       <div className="main">
+        {lights}
         <OfficeStage
           me={snap.me}
           staff={snap.staff}
