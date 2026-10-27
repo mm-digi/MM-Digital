@@ -28,7 +28,6 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
   const [busy, setBusy] = useState(false);
   const [mobileOffice, setMobileOffice] = useState(false);
   const [frankLine, setFrankLine] = useState<string | null>(null);
-  const statusRef = useRef<HTMLSelectElement>(null);
   const position = useRef<{ x: number; y: number } | null>(null);
   const soundOn = snap.me.sound;
 
@@ -176,7 +175,6 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
         <label className="status-label">
           Status
           <select
-            ref={statusRef}
             value={snap.me.status}
             onChange={(event) => void act({ type: "status", status: event.target.value as Snapshot["me"]["status"] })}
           >
@@ -209,9 +207,10 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
             else if (spot.action === "meetings") {
               setQuestFilter("meetings");
               setPanel("quests");
-            } else if (spot.action === "coffee" || spot.action === "lounge") {
-              statusRef.current?.focus();
-              if (spot.action === "lounge") showToast("The sofa is free. Set a break if you are taking one.", false);
+            } else if (spot.action === "coffee") {
+              void act({ type: "status", status: "break" });
+            } else if (spot.action === "lounge") {
+              showToast("The sofa is free. Set a break if you are taking one.", false);
             }
             setMobileOffice(false);
           }}

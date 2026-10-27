@@ -22,8 +22,8 @@ export function milestone(doneCount: number) {
 
 export const ACHIEVEMENTS: Record<string, { name: string; detail: string }> = {
   look: { name: "Studio portrait", detail: "You chose a look for the office." },
-  "first-quest": { name: "First quest", detail: "You finished a demo quest." },
-  "five-quests": { name: "Steady pace", detail: "Five demo quests finished, at your own pace." },
+  "first-quest": { name: "First quest", detail: "You finished a quest." },
+  "five-quests": { name: "Steady pace", detail: "Five quests finished, at your own pace." },
   coffee: { name: "Kettle club", detail: "You took a break. Frank approves." },
   frank: { name: "Approved by Frank", detail: "Frank accepted a visitor." },
 };

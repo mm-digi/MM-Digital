@@ -1,7 +1,7 @@
 import { canEditClientLights, clientsByHealth } from "@/lib/client-health";
 import { SEATS } from "@/pixel/game/layout";
 import { cleanAppearance, DEFAULTS, statusLabel } from "@/pixel/game/options";
-import { sqlAll, sqlOne, type StaffRow, type TaskRow } from "@/pixel/lib/db";
+import { sqlAll, sqlOne, sqlRun, type StaffRow, type TaskRow } from "@/pixel/lib/db";
 import { clockLabel, localKey, prettyDate, shiftKey } from "@/pixel/lib/format";
 import { savedClientLights } from "@/pixel/lib/lights";
 import { loadNotion, notionConfigured, officeMapping } from "@/pixel/lib/notion";
@@ -13,6 +13,21 @@ const NAMES: Record<StaffSlug, string> = { max: "Max", tash: "Tash", mariette: "
 
 function isSlug(value: string | null | undefined): value is StaffSlug {
   return !!value && (SLUGS as string[]).includes(value);
+}
+
+function grantAchievement(row: StaffRow, id: string): StaffRow {
+  let list: string[] = [];
+  try {
+    const parsed = JSON.parse(row.achievements) as unknown;
+    if (Array.isArray(parsed)) list = parsed.filter((item) => typeof item === "string");
+  } catch {
+    list = [];
+  }
+  if (list.includes(id)) return row;
+  list.push(id);
+  const achievements = JSON.stringify(list);
+  sqlRun("update staff set achievements = ? where id = ?", achievements, row.id);
+  return { ...row, achievements };
 }
 
 function appearanceFor(row: StaffRow, level: number): Appearance {
@@ -107,9 +122,13 @@ export async function buildSnapshot(viewer: StaffRow, forceNotion = false): Prom
   const notionResult = await loadNotion(today, forceNotion);
   const usingNotion = notionResult.tasks !== null;
   const tasks = usingNotion ? withPreviews(notionResult.tasks ?? [], fresh.slug) : demoTasks(today);
+  const mineDone = tasks.filter((task) => task.assignee === fresh.slug && task.status === "done").length;
+  let awarded = fresh;
+  if (mineDone >= 1) awarded = grantAchievement(awarded, "first-quest");
+  if (mineDone >= 5) awarded = grantAchievement(awarded, "five-quests");
   const staffRows = sqlAll<StaffRow>("select * from staff order by display_name");
-  const staff = staffRows.map((row) => toPublic(row, fresh.slug));
-  const me = staff.find((person) => person.id === fresh.id) ?? toPublic(fresh, fresh.slug);
+  const staff = staffRows.map((row) => toPublic(row.id === awarded.id ? awarded : row, awarded.slug));
+  const me = staff.find((person) => person.id === awarded.id) ?? toPublic(awarded, awarded.slug);
 
   const projectRows = sqlAll<{ id: string; name: string; client: string; summary: string; colour: string }>("select * from projects");
   const projects = new Map<string, ProjectItem>();
