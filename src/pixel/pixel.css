@@ -367,22 +367,65 @@
 .pixel-hq .split{ display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .pixel-hq .block{ background: rgba(255, 246, 232, 0.55); border: 3px solid #c9a27a; padding: 8px; }
 
-.pixel-hq .week{ display: grid; grid-template-columns: repeat(7, minmax(72px, 1fr)); gap: 4px; overflow: auto; }
-.pixel-hq .month{ display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
-.pixel-hq .cell, .pixel-hq .week > div{ background: var(--paper); border: 2px solid #c9a27a; min-height: 72px; padding: 4px; }
-.pixel-hq .cell.today{ border-color: var(--blush); box-shadow: inset 0 0 0 2px var(--blush); }
-.pixel-hq .dow{ font-size: 11px; text-align: center; }
-.pixel-hq .event{
-  display: block;
+.pixel-hq .cal-days{ display: flex; flex-direction: column; gap: 14px; }
+.pixel-hq .cal-day h3{ margin: 0 0 6px; font-size: 13px; }
+.pixel-hq .cal-day.today h3{ color: #8a3d4a; }
+.pixel-hq .cal-tasks{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.pixel-hq .cal-task{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
   width: 100%;
   text-align: left;
-  background: #fff;
-  border: 2px solid var(--wood);
-  margin-top: 4px;
-  padding: 3px;
-  font-size: 11px;
+  white-space: normal;
+  line-height: 1.4;
+  background: #fff6e8;
+  color: #2a211c;
+  border: 3px solid #5c3b2e;
+  box-shadow: none;
+  padding: 10px 12px;
+  font-family: var(--font-body), "Segoe UI", sans-serif !important;
+  letter-spacing: 0;
 }
-.pixel-hq .event.mini{ font-size: 10px; }
+.pixel-hq .cal-task strong{
+  font-family: var(--font-body), "Segoe UI", sans-serif !important;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: #2a211c;
+}
+.pixel-hq .cal-task span{ font-size: 13px; line-height: 1.35; color: #5c4638; }
+.pixel-hq .cal-task.done{ opacity: 0.72; }
+.pixel-hq .cal-task.done strong{ text-decoration: line-through; }
+.pixel-hq .month{ display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.pixel-hq .month .dow{ font-size: 11px; text-align: center; }
+.pixel-hq .month button.cell{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4px;
+  min-height: 46px;
+  padding: 4px;
+  background: #fff6e8;
+  color: #2a211c;
+  border: 2px solid #c9a27a;
+  box-shadow: none;
+  font-family: var(--font-body), "Segoe UI", sans-serif !important;
+  letter-spacing: 0;
+  text-align: left;
+}
+.pixel-hq .month button.cell.today,
+.pixel-hq .month button.cell.on{ border-color: #e56b78; box-shadow: inset 0 0 0 2px #e56b78; }
+.pixel-hq .month button.cell em{
+  font-style: normal;
+  font-size: 11px;
+  line-height: 1.2;
+  background: #ffe08a;
+  border: 2px solid #2a211c;
+  padding: 0 4px;
+}
 .pixel-hq .detail{ background: var(--paper); border: 4px solid var(--ink); padding: 10px; display: flex; flex-direction: column; gap: 8px; }
 
 .pixel-hq .desk-head{ display: flex; gap: 12px; align-items: center; }

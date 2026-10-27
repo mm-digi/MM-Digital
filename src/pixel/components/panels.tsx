@@ -225,14 +225,38 @@ function TaskList({ tasks }: { tasks: TaskItem[] }) {
   );
 }
 
+function CalendarTasks({ tasks, onOpen }: { tasks: TaskItem[]; onOpen: (task: TaskItem) => void }) {
+  if (!tasks.length) return <p className="empty">Nothing scheduled for this filter.</p>;
+  return (
+    <ul className="cal-tasks">
+      {tasks.map((task) => (
+        <li key={task.id}>
+          <button type="button" className={task.status === "done" ? "cal-task done" : "cal-task"} onClick={() => onOpen(task)}>
+            <strong>{task.title}</strong>
+            <span>{task.time || "Anytime"} · {task.assigneeName} · {task.project}</span>
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function CalendarPanel({ snap, onClose }: { snap: Snapshot; onClose?: () => void }) {
   const [view, setView] = useState<"today" | "week" | "month">("today");
   const [monthCursor, setMonthCursor] = useState(snap.today.slice(0, 7));
+  const [monthDay, setMonthDay] = useState(snap.today);
   const [picked, setPicked] = useState<StaffSlug[]>(snap.staff.map((person) => person.slug));
+  const [showDone, setShowDone] = useState(false);
   const [selected, setSelected] = useState<TaskItem | null>(null);
-  const visible = snap.tasks.filter((task) => task.date && (picked.length === 0 || (task.assignee ? picked.includes(task.assignee) : true)));
+  const visible = snap.tasks.filter((task) => task.date && (showDone || task.status !== "done") && (picked.length === 0 || (task.assignee ? picked.includes(task.assignee) : true)));
   const week = weekKeys(snap.today);
   const month = useMemo(() => monthGrid(monthCursor), [monthCursor]);
+
+  function moveMonth(delta: number) {
+    const next = shiftMonth(monthCursor, delta);
+    setMonthCursor(next);
+    setMonthDay(next === snap.today.slice(0, 7) ? snap.today : `${next}-01`);
+  }
 
   function toggle(slug: StaffSlug) {
     setPicked((current) => (current.includes(slug) ? current.filter((item) => item !== slug) : [...current, slug]));
@@ -248,6 +272,7 @@ export function CalendarPanel({ snap, onClose }: { snap: Snapshot; onClose?: () 
         ))}
       </div>
       <div className="filters" aria-label="Filter by employee">
+        <button type="button" className={showDone ? "chip on" : "chip"} onClick={() => setShowDone((current) => !current)} aria-pressed={showDone}>Show finished</button>
         <button type="button" className="chip" onClick={() => setPicked(snap.staff.map((person) => person.slug))}>Everyone</button>
         {snap.staff.map((person) => (
           <button key={person.slug} type="button" className={picked.includes(person.slug) ? "chip on" : "chip"} onClick={() => toggle(person.slug)} aria-pressed={picked.includes(person.slug)}>
@@ -255,30 +280,13 @@ export function CalendarPanel({ snap, onClose }: { snap: Snapshot; onClose?: () 
           </button>
         ))}
       </div>
-      {view === "today" ? (
-        <ul className="day-list">
-          {byTime(visible.filter((task) => task.date === snap.today)).map((task) => (
-            <li key={task.id}>
-              <time>{task.time || "Any"}</time>
-              <button type="button" className="linkish" onClick={() => setSelected(task)}>
-                <strong>{task.title}</strong>
-                <span>{task.assigneeName} · {task.project}</span>
-              </button>
-            </li>
-          ))}
-          {visible.every((task) => task.date !== snap.today) ? <li className="empty">Nothing dated today for this filter.</li> : null}
-        </ul>
-      ) : null}
+      {view === "today" ? <CalendarTasks tasks={byTime(visible.filter((task) => task.date === snap.today))} onOpen={setSelected} /> : null}
       {view === "week" ? (
-        <div className="week">
-          {week.map((day) => (
-            <section key={day}>
+        <div className="cal-days">
+          {week.filter((day) => day === snap.today || visible.some((task) => task.date === day)).map((day) => (
+            <section key={day} className={day === snap.today ? "cal-day today" : "cal-day"}>
               <h3>{prettyDate(day)}</h3>
-              {byTime(visible.filter((task) => task.date === day)).map((task) => (
-                <button key={task.id} type="button" className="event" style={{ borderColor: snap.staff.find((person) => person.slug === task.assignee)?.accent }} onClick={() => setSelected(task)}>
-                  <b>{task.assigneeName.slice(0, 1)}</b> {task.time ? `${task.time} ` : ""}{task.title}
-                </button>
-              ))}
+              <CalendarTasks tasks={byTime(visible.filter((task) => task.date === day))} onOpen={setSelected} />
             </section>
           ))}
         </div>
@@ -286,28 +294,26 @@ export function CalendarPanel({ snap, onClose }: { snap: Snapshot; onClose?: () 
       {view === "month" ? (
         <div>
           <div className="row-actions">
-            <button type="button" className="pxbtn alt tiny" onClick={() => setMonthCursor(shiftMonth(monthCursor, -1))}>Previous</button>
+            <button type="button" className="pxbtn alt tiny" onClick={() => moveMonth(-1)}>Previous</button>
             <strong>{month.label}</strong>
-            <button type="button" className="pxbtn alt tiny" onClick={() => setMonthCursor(shiftMonth(monthCursor, 1))}>Next</button>
+            <button type="button" className="pxbtn alt tiny" onClick={() => moveMonth(1)}>Next</button>
           </div>
           <div className="month">
             {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => <div key={day} className="dow">{day}</div>)}
             {Array.from({ length: month.pad }, (_, index) => <div key={`pad-${index}`} />)}
             {month.days.map((day) => {
               const key = `${monthCursor}-${String(day).padStart(2, "0")}`;
-              const events = visible.filter((task) => task.date === key);
+              const count = visible.filter((task) => task.date === key).length;
+              const classes = ["cell", key === snap.today ? "today" : "", key === monthDay ? "on" : ""].filter(Boolean).join(" ");
               return (
-                <div key={key} className={key === snap.today ? "cell today" : "cell"}>
+                <button key={key} type="button" className={classes} onClick={() => setMonthDay(key)} aria-pressed={key === monthDay}>
                   <span>{day}</span>
-                  {events.slice(0, 3).map((task) => (
-                    <button key={task.id} type="button" className="event mini" onClick={() => setSelected(task)}>
-                      {task.assigneeName.slice(0, 1)} {task.title}
-                    </button>
-                  ))}
-                </div>
+                  {count ? <em>{count}</em> : null}
+                </button>
               );
             })}
           </div>
+          <CalendarTasks tasks={byTime(visible.filter((task) => task.date === monthDay))} onOpen={setSelected} />
         </div>
       ) : null}
       {selected ? (
