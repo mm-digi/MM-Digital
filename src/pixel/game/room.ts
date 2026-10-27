@@ -1,5 +1,6 @@
 import { pix, rect } from "@/pixel/game/draw";
 import { DESKS, ROOM_H, ROOM_W, screenRect } from "@/pixel/game/layout";
+import { ukNightNow } from "@/pixel/game/uk-time";
 import type { StaffSlug } from "@/pixel/types";
 
 const PLANK_A = "#c4845c";
@@ -200,21 +201,32 @@ export function clearRoomCache() {
   cached = null;
 }
 
-function drawWindow(ctx: CanvasRenderingContext2D, x: number, y: number, time: number, evening: boolean, calm: boolean) {
+const NIGHT_STARS: [number, number][][] = [
+  [[8, 7], [15, 11], [9, 20], [32, 18]],
+  [[8, 9], [34, 8], [12, 21], [33, 20]],
+  [[7, 8], [14, 20], [30, 9], [35, 19]],
+];
+
+function drawWindow(ctx: CanvasRenderingContext2D, x: number, y: number, time: number, evening: boolean, calm: boolean, pane: number) {
   rect(ctx, x, y, 44, 34, "#f4efe6");
-  rect(ctx, x + 3, y + 3, 38, 24, evening ? "#3c4d74" : "#7ea0d0");
-  const shift = calm ? 8 : Math.floor(time / 160) % 18;
+  rect(ctx, x + 3, y + 3, 38, 24, evening ? "#1e3154" : "#7ea0d0");
   if (evening) {
-    rect(ctx, x + 28, y + 7, 3, 3, "#f7efe2");
-    pix(ctx, x + 10, y + 8, "#d7e2f4");
-    pix(ctx, x + 16, y + 12, "#d7e2f4");
+    if (pane === 1) {
+      rect(ctx, x + 27, y + 6, 4, 4, "#f7efe2");
+      pix(ctx, x + 30, y + 6, "#1e3154");
+    }
+    NIGHT_STARS[pane]?.forEach(([sx, sy], index) => {
+      const lit = calm || Math.floor(time / 500 + index + pane) % 6 !== 0;
+      if (lit) pix(ctx, x + sx, y + sy, index % 2 ? "#d7e2f4" : "#f7efe2");
+    });
   } else {
+    const shift = calm ? 8 : Math.floor(time / 160) % 18;
     rect(ctx, x + 6 + shift, y + 8, 12, 4, "#f7f3ea");
     rect(ctx, x + 9 + shift, y + 6, 6, 3, "#ffffff");
-  }
-  if (!evening && !calm && Math.floor(time / 400) % 7 === 0) {
-    pix(ctx, x + 8 + (Math.floor(time / 80) % 20), y + 16, "#2a2422");
-    pix(ctx, x + 10 + (Math.floor(time / 80) % 20), y + 16, "#2a2422");
+    if (!calm && Math.floor(time / 400) % 7 === 0) {
+      pix(ctx, x + 8 + (Math.floor(time / 80) % 20), y + 16, "#2a2422");
+      pix(ctx, x + 10 + (Math.floor(time / 80) % 20), y + 16, "#2a2422");
+    }
   }
   rect(ctx, x + 21, y + 3, 2, 24, "#f4efe6");
   rect(ctx, x + 3, y + 14, 38, 2, "#f4efe6");
@@ -287,11 +299,11 @@ export function drawAnimated(
   time: number,
   options: { evening?: boolean; calm?: boolean; offline?: Partial<Record<StaffSlug, boolean>> },
 ) {
-  const evening = options.evening ?? false;
+  const evening = options.evening ?? ukNightNow();
   const calm = options.calm ?? false;
-  drawWindow(ctx, 86, 10, time, evening, calm);
-  drawWindow(ctx, 140, 10, time + 400, evening, calm);
-  drawWindow(ctx, 194, 10, time + 800, evening, calm);
+  drawWindow(ctx, 86, 10, time, evening, calm, 0);
+  drawWindow(ctx, 140, 10, time + 400, evening, calm, 1);
+  drawWindow(ctx, 194, 10, time + 800, evening, calm, 2);
 
   // Right window sill ends at 240. Calendar starts at 286. The clock sits in the middle.
   drawClock(ctx, 253, 12, new Date());
