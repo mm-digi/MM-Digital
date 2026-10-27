@@ -18,14 +18,24 @@ export const CLIENT_LIGHT_LABEL: Record<ClientLight, string> = {
 
 const RANK: Record<ClientLight, number> = { red: 0, amber: 1, green: 2 };
 
-export function clientLight(slug: string): ClientLight {
+export function isClientLight(value: unknown): value is ClientLight {
+  return value === "green" || value === "amber" || value === "red";
+}
+
+export function canEditClientLights(slug: string) {
+  return slug === "tash" || slug === "max";
+}
+
+export function clientLight(slug: string, overrides: Record<string, ClientLight> = {}): ClientLight {
+  const saved = overrides[slug];
+  if (isClientLight(saved)) return saved;
   if (RED.has(slug)) return "red";
   if (AMBER.has(slug)) return "amber";
   return "green";
 }
 
-export function clientsByHealth(): (ClientDashboard & { light: ClientLight })[] {
-  return CLIENT_DASHBOARDS.map((client) => ({ ...client, light: clientLight(client.slug) })).sort(
+export function clientsByHealth(overrides: Record<string, ClientLight> = {}): (ClientDashboard & { light: ClientLight })[] {
+  return CLIENT_DASHBOARDS.map((client) => ({ ...client, light: clientLight(client.slug, overrides) })).sort(
     (a, b) => RANK[a.light] - RANK[b.light] || a.name.localeCompare(b.name, "en-GB"),
   );
 }

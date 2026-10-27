@@ -241,12 +241,36 @@
   flex-direction: column;
   gap: 6px;
 }
-.pixel-hq .light-list a{
+.pixel-hq .light-list li{
   display: flex;
   align-items: center;
   gap: 8px;
+}
+.pixel-hq .light-list a{
   font-size: 14px;
   line-height: 1.3;
+}
+.pixel-hq button.lamp-btn{
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex: none;
+}
+.pixel-hq button.lamp-btn:hover,
+.pixel-hq button.lamp-btn:focus-visible{
+  outline: 2px solid #8a3d4a;
+  outline-offset: 2px;
+}
+.pixel-hq button.lamp-btn:disabled{
+  opacity: 0.55;
+  cursor: wait;
 }
 .pixel-hq .lights a{
   color: #2a211c;

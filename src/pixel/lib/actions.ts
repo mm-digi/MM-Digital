@@ -1,7 +1,10 @@
 import { randomUUID } from "crypto";
+import { canEditClientLights, isClientLight } from "@/lib/client-health";
+import { DASHBOARD_SLUGS, getDashboard } from "@/lib/clients";
 import { ROOM_H, ROOM_W } from "@/pixel/game/layout";
 import { cleanAppearance, unlockNamesBetween } from "@/pixel/game/options";
 import { sqlOne, sqlRun, type StaffRow, type TaskRow } from "@/pixel/lib/db";
+import { saveClientLight } from "@/pixel/lib/lights";
 import { cleanMapping, fetchNotionSchema, loadNotion, saveMapping } from "@/pixel/lib/notion";
 import { buildSnapshot, presenceOf } from "@/pixel/lib/snapshot";
 import { ACHIEVEMENTS, levelProgress } from "@/pixel/lib/xp";
@@ -185,6 +188,16 @@ export async function handleAction(me: StaffRow, body: ActionBody | null): Promi
     saveMapping(mapping);
     const snapshot = await buildSnapshot(fresh(me.id), true);
     return { ok: true, snapshot, toast: snapshot.notion.mode === "demo" ? "Mapping saved. Demo tasks are still showing." : "Notion mapping saved." };
+  }
+
+  if (body.type === "clientLight") {
+    if (!canEditClientLights(me.slug)) return fail(403, "Only Tash and Max can change the lights.");
+    const slug = String(body.slug || "").trim();
+    if (!DASHBOARD_SLUGS.has(slug) || !isClientLight(body.light)) return fail(400, "That client light could not be saved.");
+    saveClientLight(slug, body.light);
+    const snapshot = await buildSnapshot(fresh(me.id));
+    const name = getDashboard(slug)?.name || "Client";
+    return { ok: true, snapshot, toast: `${name} updated.` };
   }
 
   if (body.type === "notionRefresh") {

@@ -1,7 +1,9 @@
+import { canEditClientLights, clientsByHealth } from "@/lib/client-health";
 import { SEATS } from "@/pixel/game/layout";
 import { cleanAppearance, DEFAULTS, statusLabel } from "@/pixel/game/options";
 import { sqlAll, sqlOne, type StaffRow, type TaskRow } from "@/pixel/lib/db";
 import { clockLabel, localKey, prettyDate, shiftKey } from "@/pixel/lib/format";
+import { savedClientLights } from "@/pixel/lib/lights";
 import { loadNotion, notionConfigured, officeMapping } from "@/pixel/lib/notion";
 import { levelProgress, milestone } from "@/pixel/lib/xp";
 import type { Announcement, Appearance, ProjectItem, Snapshot, StaffPublic, StaffSlug, Status, TaskItem } from "@/pixel/types";
@@ -161,6 +163,8 @@ export async function buildSnapshot(viewer: StaffRow, forceNotion = false): Prom
     },
     today,
     milestones: milestone(doneCount),
+    clients: clientsByHealth(savedClientLights()).map(({ slug, name, light }) => ({ slug, name, light })),
+    canEditLights: canEditClientLights(viewer.slug),
   };
 }
 

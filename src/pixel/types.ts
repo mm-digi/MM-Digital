@@ -129,6 +129,14 @@ export type Milestone = {
   label: string;
 };
 
+export type ClientLight = "green" | "amber" | "red";
+
+export type ClientHealth = {
+  slug: string;
+  name: string;
+  light: ClientLight;
+};
+
 export type Snapshot = {
   me: StaffPublic;
   staff: StaffPublic[];
@@ -138,6 +146,8 @@ export type Snapshot = {
   notion: NotionState;
   today: string;
   milestones: Milestone;
+  clients: ClientHealth[];
+  canEditLights: boolean;
 };
 
 export type Presence = {
@@ -168,7 +178,8 @@ export type ActionBody =
   | { type: "notionSave"; mapping: NotionMapping }
   | { type: "notionSchema"; databaseId: string }
   | { type: "notionRefresh" }
-  | { type: "frank" };
+  | { type: "frank" }
+  | { type: "clientLight"; slug: string; light: ClientLight };
 
 export type NotionSchema = {
   properties: { name: string; type: string }[];
