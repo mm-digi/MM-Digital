@@ -233,7 +233,6 @@
   min-height: 0;
   overflow: auto;
 }
-.pixel-hq .light-key,
 .pixel-hq .light-list{
   list-style: none;
   margin: 0;
@@ -242,11 +241,6 @@
   flex-direction: column;
   gap: 6px;
 }
-.pixel-hq .light-key{
-  padding-bottom: 8px;
-  border-bottom: 2px solid #e6d3b8;
-}
-.pixel-hq .light-key li,
 .pixel-hq .light-list a{
   display: flex;
   align-items: center;

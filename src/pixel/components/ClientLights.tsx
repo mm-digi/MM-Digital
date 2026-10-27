@@ -1,6 +1,4 @@
-import { CLIENT_LIGHT_LABEL, clientsByHealth, type ClientLight } from "@/lib/client-health";
-
-const ORDER: ClientLight[] = ["red", "amber", "green"];
+import { CLIENT_LIGHT_LABEL, clientsByHealth } from "@/lib/client-health";
 
 export function ClientLights() {
   const clients = clientsByHealth();
@@ -10,14 +8,6 @@ export function ClientLights() {
         <h2>Clients</h2>
       </header>
       <div className="wood-body">
-        <ul className="light-key">
-          {ORDER.map((light) => (
-            <li key={light}>
-              <i className={`lamp ${light}`} aria-hidden="true" />
-              {CLIENT_LIGHT_LABEL[light]}
-            </li>
-          ))}
-        </ul>
         <ul className="light-list">
           {clients.map((client) => (
             <li key={client.slug}>
