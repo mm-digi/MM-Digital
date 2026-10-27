@@ -30,11 +30,13 @@ export async function POST(request: Request) {
     // Mobile sessions stay signed in for 30 days by default - there's no
     // "keep me signed in" checkbox in the app, re-logging in on a phone
     // every 12 hours is just friction with no real security benefit here.
+    const staff = user.role === "staff";
     const token = await createSessionToken(
       {
         username: user.username,
         slug: user.slug,
-        name: dashboardNameForSlug(user.slug),
+        name: staff ? "MM Digital" : dashboardNameForSlug(user.slug),
+        ...(staff ? { role: "staff" as const } : {}),
       },
       true
     );
@@ -42,7 +44,7 @@ export async function POST(request: Request) {
     return corsJson({
       token,
       slug: user.slug,
-      name: dashboardNameForSlug(user.slug),
+      name: staff ? "MM Digital" : dashboardNameForSlug(user.slug),
     });
   } catch {
     return corsJson({ error: "Could not sign in. Please try again." }, { status: 500 });

@@ -8,6 +8,7 @@ export type Session = {
   username: string;
   slug: string;
   name: string;
+  role?: "staff";
 };
 
 export const AUTH_SECRET_VALUE =
@@ -33,7 +34,8 @@ export async function readSessionToken(token: string): Promise<Session | null> {
     const slug = String(payload.slug || "");
     const name = String(payload.name || "");
     if (!username || !slug) return null;
-    return { username, slug, name };
+    const role = payload.role === "staff" ? "staff" : undefined;
+    return { username, slug, name, role };
   } catch {
     return null;
   }

@@ -46,16 +46,18 @@ export async function POST(request: Request) {
     const ok = await bcrypt.compare(password, user.passwordHash);
     if (!ok) return fail("Invalid username or password.");
 
+    const staff = user.role === "staff";
     const token = await createSessionToken(
       {
         username: user.username,
         slug: user.slug,
-        name: dashboardNameForSlug(user.slug),
+        name: staff ? "MM Digital" : dashboardNameForSlug(user.slug),
+        ...(staff ? { role: "staff" as const } : {}),
       },
       remember
     );
 
-    const target = `/${user.slug}/`;
+    const target = staff ? "/team-access/" : `/${user.slug}/`;
     const response = isFormPost
       ? NextResponse.redirect(new URL(redirectTo || target, request.url), { status: 303 })
       : NextResponse.json({ ok: true, redirect: target });

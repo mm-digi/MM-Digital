@@ -2,6 +2,7 @@ export type ClientUser = {
   username: string;
   slug: string;
   passwordHash: string;
+  role?: "staff";
 };
 
 export const CLIENT_USERS: ClientUser[] = [
@@ -26,6 +27,10 @@ export const CLIENT_USERS: ClientUser[] = [
   { username: "tors-vodka-client", slug: "tors-vodka-dashboard", passwordHash: "$2b$12$c4k15UQfyHoUUs.lVjIOjuh3JdjYgevcgZcuHsmjhfZyHEgR7diJu" },
   { username: "trendz", slug: "trendz-dashboard", passwordHash: "$2b$12$XZFPq/7IZJz4sDhSifAYW.X4i/GC9H5qW5c.N8.RJjd5Fk6jfn8ri" },
   { username: "bastion", slug: "bastion-dashboard", passwordHash: "$2b$12$D50b3JspWokrOjXJ8fpa0egDNct/OGJJiU62oUNZ8sfrvfy1VNJMS" },
+  { username: "tash@mm-digi.co.uk", slug: "team-access", role: "staff", passwordHash: "$2b$12$8mS5EJR4vettxIn.yoMNnuPtzGBslUdRsPQaTjOZtNLfwAc7MrqSe" },
+  { username: "mariette@mm-digi.co.uk", slug: "team-access", role: "staff", passwordHash: "$2b$12$PgfDi9FfV.ogy31/OEroY.I2ljG6kHak/feJ.d/E1YHvCmxmx7cjS" },
+  { username: "maximilian@mm-digi.co.uk", slug: "team-access", role: "staff", passwordHash: "$2b$12$MNufInhrFBayAeKg/tbf3.5xLDv5fpcnknvk9B3oknBFooAL7Erqe" },
+  { username: "natasha@mm-digi.co.uk", slug: "team-access", role: "staff", passwordHash: "$2b$12$aVjYirZuS/EBEykKwu2/IuDzsA7u9c3AQNXTfBbYBIE79OOz7nDZm" },
 ];
 
 export function findUser(username: string) {
