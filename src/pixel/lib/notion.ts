@@ -318,8 +318,8 @@ export async function loadNotion(today: string, force = false): Promise<{ tasks:
   const cachedAt = sqlOne<{ value: string }>("select value from settings where key = 'notion_cache_at'");
   const age = cachedAt ? Math.max(0, Math.round((Date.now() - Date.parse(cachedAt.value)) / 1000)) : null;
   if (!force && cached && age !== null && age < cacheSeconds()) {
-    const tasks = JSON.parse(cached.value) as TaskItem[];
-    return { tasks: retag(tasks, today), stateMessage: null, mode: "live", age };
+    const tasks = readCachedTasks(cached.value);
+    if (tasks) return { tasks: retag(tasks, today), stateMessage: null, mode: "live", age };
   }
   try {
     const pages: Record<string, unknown>[] = [];
@@ -342,10 +342,19 @@ export async function loadNotion(today: string, force = false): Promise<{ tasks:
     const message = error instanceof Error ? error.message : "Notion could not be reached.";
     sqlRun("insert into settings (key, value) values ('notion_error', ?) on conflict(key) do update set value = excluded.value", message);
     if (cached) {
-      const tasks = JSON.parse(cached.value) as TaskItem[];
-      return { tasks: retag(tasks, today), stateMessage: `Showing the last Notion copy. ${message}`, mode: "stale", age };
+      const tasks = readCachedTasks(cached.value);
+      if (tasks) return { tasks: retag(tasks, today), stateMessage: `Showing the last Notion copy. ${message}`, mode: "stale", age };
     }
     return { tasks: null, stateMessage: `${message} Showing demo tasks instead.`, mode: "demo", age: null };
+  }
+}
+
+function readCachedTasks(value: string): TaskItem[] | null {
+  try {
+    const tasks = JSON.parse(value) as TaskItem[];
+    return Array.isArray(tasks) ? tasks : null;
+  } catch {
+    return null;
   }
 }
 

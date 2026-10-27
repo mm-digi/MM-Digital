@@ -7,7 +7,8 @@ import { createPixelDb, emptyTables, normaliseTables, type Cell, type Row, type 
 const BUCKET = "pixel-hq";
 const STATE = "state.json";
 const LOCK = "lock.json";
-const LOCK_MS = 15_000;
+const LOCK_MS = 45_000;
+const HEARTBEAT_MS = 5_000;
 
 type Ctx = { tables: Tables; dirty: boolean };
 type LockFile = { token: string; at: string };
@@ -87,6 +88,10 @@ export async function withPixel<T>(fn: () => Promise<T>): Promise<T> {
   const admin = createAdminClient();
   await ensureBucket(admin);
   const token = await acquireLock(admin);
+  // Opening the office matters more than winning the save. A missed save can
+  // retry on the next visit. A thrown lock error is the page that would not open.
+  if (!token) return runPixel(admin, fn);
+  const beat = startHeartbeat(admin, token);
   try {
     const tables = await loadState(admin);
     const ctx: Ctx = { tables, dirty: false };
@@ -96,14 +101,60 @@ export async function withPixel<T>(fn: () => Promise<T>): Promise<T> {
         return await fn();
       });
     } finally {
+      await beat.stop();
       if (ctx.dirty) {
         const holder = await readLock(admin);
-        if (!holder || holder.token !== token) throw new Error("The pixel office was busy. Try again.");
-        await saveState(admin, ctx.tables);
+        if (holder?.token === token) await saveState(admin, ctx.tables);
       }
     }
   } finally {
+    await beat.stop();
     await releaseLock(admin, token);
+  }
+}
+
+async function runPixel<T>(admin: StorageClient, fn: () => Promise<T>) {
+  const tables = await loadState(admin);
+  const ctx: Ctx = { tables, dirty: false };
+  return store.run(ctx, async () => {
+    seed(db());
+    return await fn();
+  });
+}
+
+function startHeartbeat(admin: StorageClient, token: string) {
+  let stopped = false;
+  let pending: Promise<void> | null = null;
+  const tick = () => {
+    if (stopped || pending) return;
+    pending = refreshOwnLock(admin, token, () => stopped).finally(() => {
+      pending = null;
+    });
+  };
+  const timer = setInterval(tick, HEARTBEAT_MS);
+  if (typeof timer === "object" && timer !== null && "unref" in timer) timer.unref();
+  return {
+    stop: async () => {
+      stopped = true;
+      clearInterval(timer);
+      if (pending) await pending;
+    },
+  };
+}
+
+async function refreshOwnLock(admin: StorageClient, token: string, stopped: () => boolean) {
+  try {
+    const current = await readLock(admin);
+    if (stopped() || !current || current.token !== token) return;
+    const body = Buffer.from(JSON.stringify({ token, at: new Date().toISOString() } satisfies LockFile));
+    if (stopped()) return;
+    await admin.storage.from(BUCKET).upload(LOCK, body, {
+      upsert: true,
+      contentType: "application/json",
+      cacheControl: "0",
+    });
+  } catch {
+    // A missed beat is safe. The lock still expires, and the save checks the token.
   }
 }
 
@@ -122,7 +173,7 @@ async function ensureBucket(admin: StorageClient) {
 }
 
 async function acquireLock(admin: StorageClient) {
-  for (let attempt = 0; attempt < 40; attempt += 1) {
+  for (let attempt = 0; attempt < 12; attempt += 1) {
     const token = randomUUID();
     const body = Buffer.from(JSON.stringify({ token, at: new Date().toISOString() } satisfies LockFile));
     const uploaded = await admin.storage.from(BUCKET).upload(LOCK, body, {
@@ -133,13 +184,14 @@ async function acquireLock(admin: StorageClient) {
     if (!uploaded.error) return token;
     if (!isConflict(uploaded.error)) failStore("lock", uploaded.error);
     const current = await readLock(admin);
-    if (!current || Date.now() - Date.parse(current.at) > LOCK_MS) {
+    const seenAt = current ? Date.parse(current.at) : Number.NaN;
+    if (current && Number.isFinite(seenAt) && Date.now() - seenAt > LOCK_MS) {
       await admin.storage.from(BUCKET).remove([LOCK]);
       continue;
     }
     await wait(120 + Math.floor(Math.random() * 180));
   }
-  throw new Error("The pixel office is busy. Try again in a moment.");
+  return null;
 }
 
 async function releaseLock(admin: StorageClient, token: string) {
