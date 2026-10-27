@@ -162,10 +162,7 @@ export function seed(database: PixelDatabase) {
 }
 
 function insertAnnouncements(database: PixelDatabase, now: string) {
-  const rows = [
-    ["max", "The kettle is on. This board is in demo mode until Notion is linked. Quests are optional, and Frank is in charge of breaks."],
-    ["tash", "Client dashboards stay separate from this office."],
-  ];
+  const rows = [["tash", "Client dashboards stay separate from this office."]];
   for (const [slug, body] of rows) {
     database.prepare("insert into announcements (id, author_slug, body, created_at) values (?, ?, ?, ?)").run(randomUUID(), slug, body, now);
   }

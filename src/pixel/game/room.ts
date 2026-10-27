@@ -70,19 +70,18 @@ function drawShelf(ctx: CanvasRenderingContext2D, x: number, y: number) {
 }
 
 function drawSign(ctx: CanvasRenderingContext2D, x: number, y: number) {
-  rect(ctx, x, y, 40, 12, "#2a160f");
-  const m = (ox: number) => {
-    rect(ctx, x + ox, y + 2, 2, 8, "#ff808b");
-    rect(ctx, x + ox + 4, y + 2, 2, 8, "#ff808b");
-    rect(ctx, x + ox, y + 2, 6, 2, "#ff808b");
-    pix(ctx, x + ox + 2, y + 5, "#ff808b");
-    pix(ctx, x + ox + 3, y + 6, "#ff808b");
+  rect(ctx, x, y, 44, 12, "#2a160f");
+  // Two M marks. A filled top reads as A, so the valley stays open.
+  const rows = ["110000011", "111000111", "110101011", "110010011", "110000011", "110000011", "110000011", "110000011", "110000011", "110000011"];
+  const drawM = (ox: number) => {
+    rows.forEach((row, ry) => {
+      for (let rx = 0; rx < row.length; rx += 1) {
+        if (row[rx] === "1") pix(ctx, x + ox + rx, y + 1 + ry, "#ff808b");
+      }
+    });
   };
-  m(4);
-  m(16);
-  rect(ctx, x + 28, y + 2, 8, 2, "#ff808b");
-  rect(ctx, x + 28, y + 8, 8, 2, "#ff808b");
-  rect(ctx, x + 34, y + 2, 2, 8, "#ff808b");
+  drawM(11);
+  drawM(24);
 }
 
 function drawPicture(ctx: CanvasRenderingContext2D, x: number, y: number) {
