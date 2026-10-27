@@ -46,7 +46,6 @@ function drawStatic(ctx: CanvasRenderingContext2D) {
 
   drawShelf(ctx, 8, 8);
   drawSign(ctx, 168, 46);
-  drawPicture(ctx, 248, 28);
   drawRug(ctx, 124, 150, 148, 74);
   drawBoard(ctx, 8, 156);
   drawTable(ctx, 136, 158);
@@ -82,15 +81,6 @@ function drawSign(ctx: CanvasRenderingContext2D, x: number, y: number) {
   };
   drawM(11);
   drawM(24);
-}
-
-function drawPicture(ctx: CanvasRenderingContext2D, x: number, y: number) {
-  rect(ctx, x, y, 30, 22, WOOD_DK);
-  rect(ctx, x + 2, y + 2, 26, 18, "#8eb8dc");
-  rect(ctx, x + 2, y + 12, 26, 8, "#6e9a68");
-  rect(ctx, x + 18, y + 5, 5, 5, "#ffd27a");
-  pix(ctx, x + 8, y + 14, "#3e7a45");
-  pix(ctx, x + 12, y + 13, "#3e7a45");
 }
 
 function drawRug(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number) {
@@ -231,6 +221,29 @@ function drawWindow(ctx: CanvasRenderingContext2D, x: number, y: number, time: n
   rect(ctx, x - 2, y + 30, 48, 4, WOOD_DK);
 }
 
+function drawHand(ctx: CanvasRenderingContext2D, cx: number, cy: number, angle: number, length: number, colour: string) {
+  const dx = Math.sin(angle);
+  const dy = -Math.cos(angle);
+  for (let step = 1; step <= length; step += 1) {
+    pix(ctx, Math.round(cx + dx * step), Math.round(cy + dy * step), colour);
+  }
+}
+
+function drawClock(ctx: CanvasRenderingContext2D, x: number, y: number, now: Date) {
+  rect(ctx, x, y, 20, 20, "#f7efe2");
+  rect(ctx, x + 2, y + 2, 16, 16, INK);
+  const cx = x + 10;
+  const cy = y + 10;
+  for (const [tx, ty] of [[0, -7], [7, 0], [0, 7], [-7, 0]] as const) pix(ctx, cx + tx, cy + ty, "#d7c4b0");
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+  const hourAngle = (((now.getHours() % 12) + minutes / 60) / 12) * Math.PI * 2;
+  const minuteAngle = ((minutes + seconds / 60) / 60) * Math.PI * 2;
+  drawHand(ctx, cx, cy, hourAngle, 5, "#ffd27a");
+  drawHand(ctx, cx, cy, minuteAngle, 7, "#f7efe2");
+  pix(ctx, cx, cy, "#ff808b");
+}
+
 function paintScreen(
   ctx: CanvasRenderingContext2D,
   x: number,
@@ -280,16 +293,8 @@ export function drawAnimated(
   drawWindow(ctx, 140, 10, time + 400, evening, calm);
   drawWindow(ctx, 194, 10, time + 800, evening, calm);
 
-  const now = new Date();
-  rect(ctx, 246, 12, 20, 20, "#f7efe2");
-  rect(ctx, 248, 14, 16, 16, INK);
-  rect(ctx, 255, 16, 2, 6, "#ffd27a");
-  const minute = now.getMinutes();
-  if (minute < 15) rect(ctx, 255, 16, 2, 5, "#f7efe2");
-  else if (minute < 30) rect(ctx, 255, 22, 6, 2, "#f7efe2");
-  else if (minute < 45) rect(ctx, 255, 22, 2, 6, "#f7efe2");
-  else rect(ctx, 249, 22, 6, 2, "#f7efe2");
-  pix(ctx, 255, 22, "#ff808b");
+  // Right window sill ends at 240. Calendar starts at 286. The clock sits in the middle.
+  drawClock(ctx, 253, 12, new Date());
 
   const frame = calm ? 1 : Math.floor(time / 700) % 4;
   DESKS.forEach((desk, index) => {
