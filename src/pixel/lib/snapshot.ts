@@ -78,6 +78,7 @@ export function toPublic(row: StaffRow, viewerSlug: string): StaffPublic {
     online,
     x,
     y,
+    sitting: Number(row.sitting) === 1,
   };
 }
 
@@ -196,6 +197,7 @@ export function presenceOf(viewerSlug: string) {
       status: person.status,
       x: person.x,
       y: person.y,
+      sitting: person.sitting,
       appearance: person.appearance,
       characterName: person.characterName,
     };

@@ -29,10 +29,18 @@ export async function GET() {
 export async function POST(request: Request) {
   if (!(await allowed())) return NextResponse.json({ error: "Sign in required." }, { status: 401, headers });
   const body = (await request.json().catch(() => null)) as ActionBody | null;
-  return withPixel(async () => {
-    const staff = await getCurrentStaff();
-    if (!staff) return NextResponse.json({ error: "Sign in required." }, { status: 401, headers });
-    const result = await handleAction(staff, body);
-    return NextResponse.json(result, { status: result.ok ? 200 : result.status || 400, headers });
-  });
+  try {
+    return await withPixel(async () => {
+      const staff = await getCurrentStaff();
+      if (!staff) return NextResponse.json({ error: "Sign in required." }, { status: 401, headers });
+      const result = await handleAction(staff, body);
+      return NextResponse.json(result, { status: result.ok ? 200 : result.status || 400, headers });
+    }, { persist: true });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "";
+    if (message === "The office was busy. Try again.") {
+      return NextResponse.json({ ok: false, error: message }, { status: 503, headers });
+    }
+    throw error;
+  }
 }

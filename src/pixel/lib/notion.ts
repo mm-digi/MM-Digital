@@ -390,9 +390,21 @@ export function cleanMapping(input: Partial<NotionMapping> | null): NotionMappin
   };
 }
 
-export async function writeNotionStatus() {
-  if (process.env.NOTION_WRITEBACK !== "true") {
-    return { ok: false as const, error: "Notion stays read-only until NOTION_WRITEBACK is reviewed and switched on." };
-  }
-  return { ok: false as const, error: "Write-back is reserved and not called by the office." };
+export function notionPageId(taskId: string) {
+  const match = /^notion:([0-9a-f-]{32,36})(?::(?:max|tash|mariette|natasha))?$/i.exec(taskId);
+  return match?.[1] ?? null;
+}
+
+export async function markNotionDone(pageId: string) {
+  const mapping = officeMapping();
+  const statusProp = mapping.statusProp || "Status";
+  const doneName = mapping.doneValues.split(",")[0]?.trim() || "Done";
+  const page = (await notionFetch(`/pages/${pageId}`)) as { properties?: Record<string, { type?: string }> };
+  const kind = page.properties?.[statusProp]?.type;
+  if (kind !== "status" && kind !== "select") throw new Error("That Notion task has no status to update.");
+  const value = kind === "status" ? { status: { name: doneName } } : { select: { name: doneName } };
+  await notionFetch(`/pages/${pageId}`, {
+    method: "PATCH",
+    body: JSON.stringify({ properties: { [statusProp]: value } }),
+  });
 }

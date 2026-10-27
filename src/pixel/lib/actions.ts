@@ -5,7 +5,7 @@ import { ROOM_H, ROOM_W } from "@/pixel/game/layout";
 import { cleanAppearance, unlockNamesBetween } from "@/pixel/game/options";
 import { sqlOne, sqlRun, type StaffRow, type TaskRow } from "@/pixel/lib/db";
 import { saveClientLight } from "@/pixel/lib/lights";
-import { cleanMapping, fetchNotionSchema, loadNotion, saveMapping } from "@/pixel/lib/notion";
+import { cleanMapping, fetchNotionSchema, loadNotion, markNotionDone, notionPageId, saveMapping } from "@/pixel/lib/notion";
 import { buildSnapshot, presenceOf } from "@/pixel/lib/snapshot";
 import { ACHIEVEMENTS, levelProgress } from "@/pixel/lib/xp";
 import type { ActionBody, ActionResult, StaffSlug, Status } from "@/pixel/types";
@@ -41,7 +41,8 @@ export async function handleAction(me: StaffRow, body: ActionBody | null): Promi
     if (typeof body.x === "number" && typeof body.y === "number" && Number.isFinite(body.x) && Number.isFinite(body.y)) {
       const x = Math.max(0, Math.min(ROOM_W, body.x));
       const y = Math.max(0, Math.min(ROOM_H, body.y));
-      sqlRun("update staff set pos_x = ?, pos_y = ?, last_seen = ? where id = ?", x, y, now, me.id);
+      const sitting = body.sitting ? 1 : 0;
+      sqlRun("update staff set pos_x = ?, pos_y = ?, sitting = ?, last_seen = ? where id = ?", x, y, sitting, now, me.id);
     } else {
       sqlRun("update staff set last_seen = ? where id = ?", now, me.id);
     }
@@ -117,24 +118,25 @@ export async function handleAction(me: StaffRow, body: ActionBody | null): Promi
 
   if (body.type === "complete") {
     if (body.taskId.startsWith("notion:")) {
+      const pageId = notionPageId(body.taskId);
+      if (!pageId) return fail(400, "That quest is not linked to Notion.");
       const today = new Date();
       const key = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
       const loaded = await loadNotion(key);
       const notionTask = loaded.tasks?.find((task) => task.id === body.taskId);
       if (!notionTask) return fail(404, "That Notion task is not in the current copy.");
       if (notionTask.assignee && notionTask.assignee !== me.slug) return fail(403, "This quest belongs to someone else.");
-      sqlRun(
-        "insert into local_completions (staff_slug, external_id, created_at) values (?, ?, ?) on conflict(staff_slug, external_id) do nothing",
-        me.slug,
-        body.taskId,
-        new Date().toISOString(),
-      );
-      const snapshot = await buildSnapshot(fresh(me.id));
-      return {
-        ok: true,
-        snapshot,
-        toast: "Saved as a local preview. Notion was not changed.",
-      };
+      if (notionTask.status === "done") {
+        const snapshot = await buildSnapshot(fresh(me.id), true);
+        return { ok: true, snapshot, toast: "Already marked done in Notion." };
+      }
+      try {
+        await markNotionDone(pageId);
+      } catch (error) {
+        return fail(502, error instanceof Error ? error.message : "Notion could not mark that quest done.");
+      }
+      const snapshot = await buildSnapshot(fresh(me.id), true);
+      return { ok: true, snapshot, toast: "Marked done in Notion." };
     }
     const task = sqlOne<TaskRow>("select * from tasks where id = ?", body.taskId);
     if (!task || task.source !== "demo") return fail(404, "That quest is not on the demo board.");

@@ -101,6 +101,7 @@ function paint(ctx: CanvasRenderingContext2D, appearance: Appearance, blink: boo
     for (let y = 0; y < CELL_H; y += 1) {
       for (let x = 0; x < CELL_W; x += 1) {
         if (!hairPixel(appearance.hair, x, y, phase)) continue;
+        if (appearance.hat === "frog" && y < 12) continue;
         if (phase === "front" && faceOpen(x, y) && appearance.hair !== "sweep") continue;
         if (phase === "front" && appearance.hair === "sweep" && faceOpen(x, y) && x > 6) continue;
         pix(ctx, x, y, x < 7 ? hairLight : hair);
@@ -228,6 +229,38 @@ function paint(ctx: CanvasRenderingContext2D, appearance: Appearance, blink: boo
     pix(ctx, 12, 3, "#ff808b");
     pix(ctx, 11, 4, "#ff808b");
     pix(ctx, 12, 2, "#e0b15a");
+  } else if (appearance.hat === "frog") {
+    const green = "#3cb54a";
+    const dark = "#2a7d34";
+    const light = "#8ed96a";
+    const white = "#f7f4ee";
+    const pupil = "#17202b";
+    pix(ctx, 1, 0, white);
+    pix(ctx, 2, 0, pupil);
+    pix(ctx, 1, 1, pupil);
+    pix(ctx, 2, 1, white);
+    pix(ctx, 13, 0, pupil);
+    pix(ctx, 14, 0, white);
+    pix(ctx, 13, 1, white);
+    pix(ctx, 14, 1, pupil);
+    pix(ctx, 2, 2, green);
+    pix(ctx, 13, 2, green);
+    rect(ctx, 3, 2, 10, 4, green);
+    pix(ctx, 4, 2, light);
+    pix(ctx, 5, 2, light);
+    pix(ctx, 6, 2, light);
+    pix(ctx, 3, 4, dark);
+    pix(ctx, 3, 5, dark);
+    for (let y = 6; y <= 9; y += 1) {
+      pix(ctx, 3, y, dark);
+      pix(ctx, 4, y, green);
+      pix(ctx, 11, y, green);
+      pix(ctx, 12, y, light);
+    }
+    rect(ctx, 4, 10, 8, 1, green);
+    pix(ctx, 4, 10, dark);
+    rect(ctx, 6, 11, 4, 1, dark);
+    pix(ctx, 8, 11, "#1f5c28");
   }
 
   if (appearance.accessory === "glasses") {

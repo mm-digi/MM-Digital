@@ -22,13 +22,13 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
   const [snap, setSnap] = useState(snapshot);
   const [panel, setPanel] = useState<PanelId | null>(snapshot.me.creatorDone ? "day" : "creator");
   const [deskSlug, setDeskSlug] = useState<StaffSlug>(snapshot.me.slug);
-  const [questFilter, setQuestFilter] = useState<"mine" | "all" | "meetings">("mine");
+  const [questFilter, setQuestFilter] = useState<"mine" | "all" | "meetings" | "done">("mine");
   const [toast, setToast] = useState<string | null>(null);
   const [celebrate, setCelebrate] = useState(false);
   const [busy, setBusy] = useState(false);
   const [mobileOffice, setMobileOffice] = useState(false);
   const [frankLine, setFrankLine] = useState<string | null>(null);
-  const position = useRef<{ x: number; y: number } | null>(null);
+  const position = useRef<{ x: number; y: number; sitting?: boolean } | null>(null);
   const soundOn = snap.me.sound;
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
       void fetch("/api/pixel/", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ type: "presence", x: position.current?.x, y: position.current?.y }),
+        body: JSON.stringify({ type: "presence", x: position.current?.x, y: position.current?.y, sitting: position.current?.sitting }),
       })
         .then((response) => response.json())
         .then((data: ActionResult) => {
@@ -209,18 +209,29 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
               setPanel("quests");
             } else if (spot.action === "coffee") {
               void act({ type: "status", status: "break" });
-            } else if (spot.action === "lounge") {
-              showToast("The sofa is free. Set a break if you are taking one.", false);
             }
             setMobileOffice(false);
           }}
+          onSofaFull={() => showToast("The sofa is full.", false)}
           onFrank={(line) => {
             setFrankLine(line);
             void act({ type: "frank" });
             window.setTimeout(() => setFrankLine(null), 4200);
           }}
-          onMove={(x, y) => {
-            position.current = { x, y };
+          onMove={(x, y, sitting) => {
+            position.current = { x, y, sitting };
+            const send = () => fetch("/api/pixel/", {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({ type: "presence", x, y, sitting: Boolean(sitting) }),
+            }).then((response) => {
+              if (!response.ok) throw new Error("busy");
+            });
+            void send().catch(() => {
+              window.setTimeout(() => {
+                void send().catch(() => undefined);
+              }, 900);
+            });
           }}
         />
         <aside className="dock">{panel === "creator" ? null : panels}</aside>

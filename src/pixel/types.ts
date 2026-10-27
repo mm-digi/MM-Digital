@@ -14,7 +14,7 @@ export type ShoeId = "trainers" | "loafers" | "boots";
 
 export type AccessoryId = "none" | "glasses" | "scarf" | "earrings" | "headphones";
 
-export type HatId = "none" | "beanie" | "cap" | "beret" | "flower";
+export type HatId = "none" | "beanie" | "cap" | "beret" | "flower" | "frog";
 
 export type Appearance = {
   hair: HairStyle;
@@ -60,6 +60,7 @@ export type StaffPublic = {
   online: boolean;
   x: number;
   y: number;
+  sitting: boolean;
 };
 
 export type TaskItem = {
@@ -156,6 +157,7 @@ export type Presence = {
   status: Status;
   x: number;
   y: number;
+  sitting: boolean;
   appearance: Appearance;
   characterName: string;
 };
@@ -174,7 +176,7 @@ export type ActionBody =
       calm?: boolean;
       plainMode?: boolean;
     }
-  | { type: "presence"; x?: number; y?: number }
+  | { type: "presence"; x?: number; y?: number; sitting?: boolean }
   | { type: "notionSave"; mapping: NotionMapping }
   | { type: "notionSchema"; databaseId: string }
   | { type: "notionRefresh" }

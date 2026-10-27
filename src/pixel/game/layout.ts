@@ -17,6 +17,12 @@ export const SEATS: Record<StaffSlug, { x: number; y: number }> = {
   natasha: { x: 330, y: 140 },
 };
 
+export const SOFA_SPOTS = [
+  { x: 31, y: 260 },
+  { x: 65, y: 260 },
+  { x: 99, y: 260 },
+];
+
 export const HOTSPOTS = [
   { id: "shelf", label: "Project shelf", x: 8, y: 8, w: 72, h: 52, action: "projects" as const },
   { id: "calendar", label: "Wall calendar", x: 286, y: 8, w: 90, h: 50, action: "calendar" as const },

@@ -40,6 +40,7 @@ export type StaffRow = {
   achievements: string;
   pos_x: number | null;
   pos_y: number | null;
+  sitting?: number | null;
   last_seen: string | null;
   created_at: string;
 };
@@ -84,29 +85,42 @@ export function sqlRun(sql: string, ...params: SqlParam[]) {
 // The office state is one private JSON file. Vercel disk is ephemeral, and this
 // must not create tables in the client database. A lock file stops one person's
 // presence update from overwriting someone else's save.
-export async function withPixel<T>(fn: () => Promise<T>): Promise<T> {
+export async function withPixel<T>(fn: () => Promise<T>, options?: { persist?: boolean }): Promise<T> {
   const admin = createAdminClient();
   await ensureBucket(admin);
-  const token = await acquireLock(admin);
+  const token = await acquireLock(admin, options?.persist ? 28 : 12);
   // Opening the office matters more than winning the save. A missed save can
   // retry on the next visit. A thrown lock error is the page that would not open.
-  if (!token) return runPixel(admin, fn);
+  // A change, such as a look or a seat, has to wait and say so if it was not saved.
+  if (!token) {
+    if (options?.persist) throw new Error("The office was busy. Try again.");
+    return runPixel(admin, fn);
+  }
   const beat = startHeartbeat(admin, token);
   try {
     const tables = await loadState(admin);
     const ctx: Ctx = { tables, dirty: false };
+    let result!: T;
+    let failedToSave = false;
     try {
-      return await store.run(ctx, async () => {
+      result = await store.run(ctx, async () => {
         seed(db());
         return await fn();
       });
     } finally {
       await beat.stop();
       if (ctx.dirty) {
-        const holder = await readLock(admin);
+        let holder = await readLock(admin);
+        if (holder?.token !== token) {
+          await wait(160);
+          holder = await readLock(admin);
+        }
         if (holder?.token === token) await saveState(admin, ctx.tables);
+        else failedToSave = true;
       }
     }
+    if (options?.persist && failedToSave) throw new Error("The office was busy. Try again.");
+    return result;
   } finally {
     await beat.stop();
     await releaseLock(admin, token);
@@ -172,8 +186,8 @@ async function ensureBucket(admin: StorageClient) {
   bucketReady = true;
 }
 
-async function acquireLock(admin: StorageClient) {
-  for (let attempt = 0; attempt < 12; attempt += 1) {
+async function acquireLock(admin: StorageClient, attempts = 12) {
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
     const token = randomUUID();
     const body = Buffer.from(JSON.stringify({ token, at: new Date().toISOString() } satisfies LockFile));
     const uploaded = await admin.storage.from(BUCKET).upload(LOCK, body, {

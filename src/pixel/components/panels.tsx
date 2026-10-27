@@ -74,11 +74,13 @@ export function QuestPanel({
   busy: boolean;
   act: Act;
   onClose?: () => void;
-  filter: "mine" | "all" | "meetings";
-  setFilter: (value: "mine" | "all" | "meetings") => void;
+  filter: "mine" | "all" | "meetings" | "done";
+  setFilter: (value: "mine" | "all" | "meetings" | "done") => void;
 }) {
   const tasks = byTime(
     snap.tasks.filter((task) => {
+      if (filter === "done") return task.status === "done";
+      if (task.status === "done") return false;
       if (filter === "mine") return task.assignee === snap.me.slug;
       if (filter === "meetings") return task.kind === "meeting";
       return true;
@@ -87,14 +89,13 @@ export function QuestPanel({
   return (
     <Window title="Quest journal" onClose={onClose}>
       <div className="filters" role="tablist" aria-label="Quest filter">
-        {(["mine", "all", "meetings"] as const).map((value) => (
+        {(["mine", "all", "meetings", "done"] as const).map((value) => (
           <button key={value} type="button" className={filter === value ? "chip on" : "chip"} onClick={() => setFilter(value)} aria-pressed={filter === value}>
-            {value === "mine" ? "Mine" : value === "all" ? "Whole team" : "Meetings"}
+            {value === "mine" ? "Mine" : value === "all" ? "Whole team" : value === "meetings" ? "Meetings" : "Done"}
           </button>
         ))}
       </div>
-      {snap.notion.mode !== "demo" ? <p className="fine">Notion is read-only. A local preview does not complete the Notion page.</p> : null}
-      {tasks.length === 0 ? <p className="empty">No quests in this view.</p> : null}
+      {tasks.length === 0 ? <p className="empty">{filter === "done" ? "Nothing finished yet." : "No quests in this view."}</p> : null}
       <ul className="quests">
         {tasks.map((task) => {
           const mine = task.assignee === snap.me.slug || task.assignee === null;
@@ -113,14 +114,9 @@ export function QuestPanel({
                 </p>
                 {task.notionUrl ? <a href={task.notionUrl} target="_blank" rel="noreferrer">Open in Notion</a> : null}
               </div>
-              {mine && !done && task.source === "demo" ? (
+              {mine && !done && (task.source === "demo" || task.source === "notion") ? (
                 <button type="button" className="pxbtn tiny" disabled={busy} onClick={() => act({ type: "complete", taskId: task.id })}>
                   Mark done
-                </button>
-              ) : null}
-              {mine && !done && task.source === "notion" && !task.localPreview ? (
-                <button type="button" className="pxbtn alt tiny" disabled={busy} onClick={() => act({ type: "complete", taskId: task.id })}>
-                  Preview locally
                 </button>
               ) : null}
               {done ? <span className="done-mark">Done</span> : null}

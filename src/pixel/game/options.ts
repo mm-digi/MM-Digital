@@ -107,6 +107,7 @@ export const HATS: { id: HatId; name: string; level: number }[] = [
   { id: "cap", name: "Cap", level: 2 },
   { id: "beret", name: "Beret", level: 3 },
   { id: "flower", name: "Flower clip", level: 3 },
+  { id: "frog", name: "Frog hat", level: 1 },
 ];
 
 export const STATUSES: { id: Status; label: string; hint: string }[] = [

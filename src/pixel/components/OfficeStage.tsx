@@ -3,13 +3,13 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { drawCharacter } from "@/pixel/game/character";
 import { createFrank, drawFrank, FRANK_H, FRANK_LINES, FRANK_W, stepFrank, type FrankState } from "@/pixel/game/frank";
-import { HOTSPOTS, ROOM_H, ROOM_W, SEATS } from "@/pixel/game/layout";
+import { HOTSPOTS, ROOM_H, ROOM_W, SEATS, SOFA_SPOTS } from "@/pixel/game/layout";
 import { drawAnimated, staticRoom } from "@/pixel/game/room";
 import { findPath } from "@/pixel/game/walk";
 import { statusLabel } from "@/pixel/game/options";
 import type { StaffPublic, StaffSlug } from "@/pixel/types";
 
-type Actor = { x: number; y: number; dir: 1 | -1; frame: number };
+type Actor = { x: number; y: number; dir: 1 | -1; frame: number; sitting: boolean };
 
 export function OfficeStage({
   me,
@@ -18,13 +18,15 @@ export function OfficeStage({
   onHotspot,
   onFrank,
   onMove,
+  onSofaFull,
 }: {
   me: StaffPublic;
   staff: StaffPublic[];
   calm: boolean;
   onHotspot: (id: (typeof HOTSPOTS)[number]) => void;
   onFrank: (line: string) => void;
-  onMove: (x: number, y: number) => void;
+  onMove: (x: number, y: number, sitting?: boolean) => void;
+  onSofaFull?: () => void;
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -33,27 +35,27 @@ export function OfficeStage({
   const plates = useRef<Record<string, HTMLDivElement | null>>({});
   const actors = useRef<Record<string, Actor>>({});
   const path = useRef<{ x: number; y: number }[]>([]);
+  const pendingSit = useRef<{ x: number; y: number } | null>(null);
   const moving = useRef(false);
   const frank = useRef<FrankState>(createFrank());
   const lineIndex = useRef(0);
-  const propsRef = useRef({ me, staff, calm, onMove });
-  propsRef.current = { me, staff, calm, onMove };
+  const propsRef = useRef({ me, staff, calm, onMove, onSofaFull });
+  propsRef.current = { me, staff, calm, onMove, onSofaFull };
   const [scale, setScale] = useState(2);
   const scaleRef = useRef(2);
 
   useEffect(() => {
     for (const person of staff) {
       const current = actors.current[person.slug];
-      if (person.slug === me.slug && moving.current && current) continue;
+      const keepMine = person.slug === me.slug && current && (moving.current || current.sitting || pendingSit.current);
+      if (keepMine) continue;
       actors.current[person.slug] = {
-        x: person.slug === me.slug && current ? current.x : person.x,
-        y: person.slug === me.slug && current ? current.y : person.y,
+        x: person.x || SEATS[person.slug].x,
+        y: person.y || SEATS[person.slug].y,
         dir: current?.dir ?? 1,
         frame: current?.frame ?? 0,
+        sitting: person.sitting,
       };
-      if (!current) {
-        actors.current[person.slug] = { x: person.x || SEATS[person.slug].x, y: person.y || SEATS[person.slug].y, dir: 1, frame: 0 };
-      }
     }
   }, [staff, me.slug]);
 
@@ -98,7 +100,7 @@ export function OfficeStage({
         const target = path.current[0];
         const dx = target.x - mine.x;
         const dy = target.y - mine.y;
-        const distance = Math.hypot(dx, dy) || 1;
+        const distance = Math.hypot(dx, dy);
         const step = dt * 0.055;
         if (distance <= step) {
           mine.x = target.x;
@@ -106,7 +108,17 @@ export function OfficeStage({
           path.current.shift();
           if (!path.current.length) {
             moving.current = false;
-            propsRef.current.onMove(mine.x, mine.y);
+            const seat = pendingSit.current;
+            pendingSit.current = null;
+            if (seat) {
+              mine.x = seat.x;
+              mine.y = seat.y;
+              mine.sitting = true;
+              propsRef.current.onMove(mine.x, mine.y, true);
+            } else {
+              mine.sitting = false;
+              propsRef.current.onMove(mine.x, mine.y, false);
+            }
           }
         } else {
           mine.x += (dx / distance) * step;
@@ -125,8 +137,8 @@ export function OfficeStage({
 
       const drawables: { y: number; draw: () => void }[] = [];
       for (const person of propsRef.current.staff) {
-        const actor = actors.current[person.slug] ?? { x: SEATS[person.slug].x, y: SEATS[person.slug].y, dir: 1 as const, frame: 0 };
-        const pose = person.online ? "stand" : "sit";
+        const actor = actors.current[person.slug] ?? { x: SEATS[person.slug].x, y: SEATS[person.slug].y, dir: 1 as const, frame: 0, sitting: person.sitting };
+        const pose = actor.sitting || !person.online ? "sit" : "stand";
         const bob = pose === "stand" && !reduced && person.online ? actor.frame % 2 : 0;
         drawables.push({
           y: actor.y,
@@ -182,6 +194,50 @@ export function OfficeStage({
     };
   }, [scale, calm]);
 
+  function standUp(actor: Actor) {
+    pendingSit.current = null;
+    if (!actor.sitting) return;
+    actor.sitting = false;
+    propsRef.current.onMove(actor.x, actor.y, false);
+  }
+
+  function sitDown() {
+    const slug = propsRef.current.me.slug;
+    let actor = actors.current[slug];
+    if (!actor) {
+      actor = { x: SEATS[slug].x, y: SEATS[slug].y, dir: 1, frame: 0, sitting: false };
+      actors.current[slug] = actor;
+    }
+    const spot = SOFA_SPOTS.find(
+      (item) => !Object.entries(actors.current).some(([slug, other]) => slug !== propsRef.current.me.slug && other.sitting && Math.abs(other.x - item.x) < 16),
+    );
+    if (!spot) {
+      propsRef.current.onSofaFull?.();
+      return;
+    }
+    pendingSit.current = spot;
+    actor.sitting = false;
+    const reduced = propsRef.current.calm || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      actor.x = spot.x;
+      actor.y = spot.y;
+      actor.sitting = true;
+      pendingSit.current = null;
+      propsRef.current.onMove(actor.x, actor.y, true);
+      return;
+    }
+    const route = findPath(actor, { x: spot.x, y: 224 });
+    if (!route.length) {
+      actor.x = spot.x;
+      actor.y = spot.y;
+      actor.sitting = true;
+      pendingSit.current = null;
+      propsRef.current.onMove(actor.x, actor.y, true);
+      return;
+    }
+    path.current = route;
+  }
+
   function walkTo(event: React.MouseEvent<HTMLDivElement>) {
     if ((event.target as HTMLElement).closest("button")) return;
     const canvas = canvasRef.current;
@@ -191,12 +247,14 @@ export function OfficeStage({
     const x = ((event.clientX - box.left) / box.width) * ROOM_W;
     const y = ((event.clientY - box.top) / box.height) * ROOM_H;
     if (y < 120) return;
+    standUp(actor);
     path.current = findPath(actor, { x, y });
   }
 
   function nudge(dx: number, dy: number) {
     const actor = actors.current[me.slug];
     if (!actor) return;
+    standUp(actor);
     const next = { x: actor.x + dx, y: actor.y + dy };
     const route = findPath(actor, next);
     if (route.length) path.current = route;
@@ -230,7 +288,14 @@ export function OfficeStage({
             type="button"
             className="hotspot"
             style={{ left: spot.x * scale, top: spot.y * scale, width: spot.w * scale, height: spot.h * scale }}
-            onClick={() => onHotspot(spot)}
+            onClick={(event) => {
+              event.stopPropagation();
+              if (spot.action === "lounge") {
+                sitDown();
+                return;
+              }
+              onHotspot(spot);
+            }}
           >
             {spot.label}
           </button>
