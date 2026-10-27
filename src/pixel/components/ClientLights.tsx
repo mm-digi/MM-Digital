@@ -20,6 +20,25 @@ export function ClientLights({
         <h2>Clients</h2>
       </header>
       <div className="wood-body">
+        <div className="form-block">
+          <p className="fine">Each client against their own last month.</p>
+          {snap.form.best ? (
+            <p className="form-line">
+              <span className="fine">Best this month</span>
+              <a href={`/${snap.form.best.slug}/`}>{snap.form.best.name}</a>
+              <span className="fine">{snap.form.best.label}</span>
+            </p>
+          ) : (
+            <p className="fine">Not enough of last month to compare yet.</p>
+          )}
+          {snap.form.worst ? (
+            <p className="form-line">
+              <span className="fine">Worst this month</span>
+              <a href={`/${snap.form.worst.slug}/`}>{snap.form.worst.name}</a>
+              <span className="fine">{snap.form.worst.label}</span>
+            </p>
+          ) : null}
+        </div>
         {snap.canEditLights ? <p className="fine">Click a light to change it.</p> : null}
         <ul className="light-list">
           {snap.clients.map((client) => (

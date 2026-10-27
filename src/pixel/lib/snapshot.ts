@@ -1,4 +1,5 @@
 import { canEditClientLights, clientsByHealth } from "@/lib/client-health";
+import { emptyClientForm, loadClientForm } from "@/lib/metrics/load-form";
 import { SEATS } from "@/pixel/game/layout";
 import { cleanAppearance, DEFAULTS, statusLabel } from "@/pixel/game/options";
 import { sqlAll, sqlOne, sqlRun, type StaffRow, type TaskRow } from "@/pixel/lib/db";
@@ -120,6 +121,7 @@ function withPreviews(tasks: TaskItem[], slug: string) {
 export async function buildSnapshot(viewer: StaffRow, forceNotion = false): Promise<Snapshot> {
   const fresh = sqlOne<StaffRow>("select * from staff where id = ?", viewer.id) ?? viewer;
   const today = localKey(new Date());
+  const formPromise = loadClientForm().catch(() => emptyClientForm());
   const notionResult = await loadNotion(today, forceNotion);
   const usingNotion = notionResult.tasks !== null;
   const tasks = usingNotion ? withPreviews(notionResult.tasks ?? [], fresh.slug) : demoTasks(today);
@@ -185,6 +187,7 @@ export async function buildSnapshot(viewer: StaffRow, forceNotion = false): Prom
     milestones: milestone(doneCount),
     clients: clientsByHealth(savedClientLights()).map(({ slug, name, light }) => ({ slug, name, light })),
     canEditLights: canEditClientLights(viewer.slug),
+    form: await formPromise,
   };
 }
 

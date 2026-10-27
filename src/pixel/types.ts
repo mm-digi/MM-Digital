@@ -138,6 +138,17 @@ export type ClientHealth = {
   light: ClientLight;
 };
 
+export type ClientStanding = {
+  slug: string;
+  name: string;
+  label: string;
+};
+
+export type ClientForm = {
+  best: ClientStanding | null;
+  worst: ClientStanding | null;
+};
+
 export type Snapshot = {
   me: StaffPublic;
   staff: StaffPublic[];
@@ -149,6 +160,7 @@ export type Snapshot = {
   milestones: Milestone;
   clients: ClientHealth[];
   canEditLights: boolean;
+  form: ClientForm;
 };
 
 export type Presence = {
