@@ -19,8 +19,8 @@ export async function proxy(request: NextRequest) {
   }
 
   const slug = request.nextUrl.pathname.replace(/^\/+|\/+$/g, "");
-  const staffHome = slug === "team-access";
-  if (!staffHome && !DASHBOARD_SLUGS.has(slug)) return NextResponse.next();
+  const staffOnly = slug === "team-access" || slug === "pixel" || slug.startsWith("pixel/");
+  if (!staffOnly && !DASHBOARD_SLUGS.has(slug)) return NextResponse.next();
 
   const token = request.cookies.get(SESSION_COOKIE)?.value;
   const key = secretKey();
@@ -33,7 +33,7 @@ export async function proxy(request: NextRequest) {
   try {
     const { payload } = await jwtVerify(token, key);
     const staff = payload.role === "staff";
-    if (staffHome && !staff) {
+    if (staffOnly && !staff) {
       const login = new URL("/login/", request.url);
       login.searchParams.set("error", "forbidden");
       return NextResponse.redirect(login);

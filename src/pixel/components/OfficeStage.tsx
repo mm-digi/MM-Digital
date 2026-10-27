@@ -1,0 +1,269 @@
+"use client";
+
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { drawCharacter } from "@/pixel/game/character";
+import { createFrank, drawFrank, FRANK_H, FRANK_LINES, FRANK_W, stepFrank, type FrankState } from "@/pixel/game/frank";
+import { HOTSPOTS, ROOM_H, ROOM_W, SEATS } from "@/pixel/game/layout";
+import { drawAnimated, staticRoom } from "@/pixel/game/room";
+import { findPath } from "@/pixel/game/walk";
+import { statusLabel } from "@/pixel/game/options";
+import type { StaffPublic, StaffSlug } from "@/pixel/types";
+
+type Actor = { x: number; y: number; dir: 1 | -1; frame: number };
+
+export function OfficeStage({
+  me,
+  staff,
+  calm,
+  onHotspot,
+  onFrank,
+  onMove,
+}: {
+  me: StaffPublic;
+  staff: StaffPublic[];
+  calm: boolean;
+  onHotspot: (id: (typeof HOTSPOTS)[number]) => void;
+  onFrank: (line: string) => void;
+  onMove: (x: number, y: number) => void;
+}) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const frankButton = useRef<HTMLButtonElement>(null);
+  const plates = useRef<Record<string, HTMLDivElement | null>>({});
+  const actors = useRef<Record<string, Actor>>({});
+  const path = useRef<{ x: number; y: number }[]>([]);
+  const moving = useRef(false);
+  const frank = useRef<FrankState>(createFrank());
+  const lineIndex = useRef(0);
+  const propsRef = useRef({ me, staff, calm, onMove });
+  propsRef.current = { me, staff, calm, onMove };
+  const [scale, setScale] = useState(2);
+  const scaleRef = useRef(2);
+
+  useEffect(() => {
+    for (const person of staff) {
+      const current = actors.current[person.slug];
+      if (person.slug === me.slug && moving.current && current) continue;
+      actors.current[person.slug] = {
+        x: person.slug === me.slug && current ? current.x : person.x,
+        y: person.slug === me.slug && current ? current.y : person.y,
+        dir: current?.dir ?? 1,
+        frame: current?.frame ?? 0,
+      };
+      if (!current) {
+        actors.current[person.slug] = { x: person.x || SEATS[person.slug].x, y: person.y || SEATS[person.slug].y, dir: 1, frame: 0 };
+      }
+    }
+  }, [staff, me.slug]);
+
+  useEffect(() => {
+    const measure = () => {
+      const wrap = wrapRef.current;
+      if (!wrap) return;
+      const box = wrap.getBoundingClientRect();
+      const width = Math.max(box.width, 320);
+      const height = Math.max(box.height, 360);
+      const next = Math.max(1, Math.min(3, Math.floor(Math.min(width / ROOM_W, height / ROOM_H)) || 1));
+      scaleRef.current = next;
+      setScale(next);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    if (wrapRef.current) observer.observe(wrapRef.current);
+    window.addEventListener("resize", measure);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measure);
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    let alive = true;
+    let raf = 0;
+    let last = performance.now();
+
+    const frame = (now: number) => {
+      if (!alive) return;
+      const dt = Math.min(40, now - last);
+      last = now;
+      const reduced = propsRef.current.calm || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const mine = actors.current[propsRef.current.me.slug];
+      if (mine && path.current.length && !reduced) {
+        moving.current = true;
+        const target = path.current[0];
+        const dx = target.x - mine.x;
+        const dy = target.y - mine.y;
+        const distance = Math.hypot(dx, dy) || 1;
+        const step = dt * 0.055;
+        if (distance <= step) {
+          mine.x = target.x;
+          mine.y = target.y;
+          path.current.shift();
+          if (!path.current.length) {
+            moving.current = false;
+            propsRef.current.onMove(mine.x, mine.y);
+          }
+        } else {
+          mine.x += (dx / distance) * step;
+          mine.y += (dy / distance) * step;
+          mine.dir = dx < 0 ? -1 : 1;
+        }
+        mine.frame = Math.floor(now / 160);
+      }
+      if (!reduced) stepFrank(frank.current, dt, false);
+      ctx.imageSmoothingEnabled = false;
+      ctx.clearRect(0, 0, ROOM_W, ROOM_H);
+      ctx.drawImage(staticRoom(), 0, 0);
+      const offline: Partial<Record<StaffSlug, boolean>> = {};
+      for (const person of propsRef.current.staff) offline[person.slug] = !person.online;
+      drawAnimated(ctx, now, { calm: reduced, offline });
+
+      const drawables: { y: number; draw: () => void }[] = [];
+      for (const person of propsRef.current.staff) {
+        const actor = actors.current[person.slug] ?? { x: SEATS[person.slug].x, y: SEATS[person.slug].y, dir: 1 as const, frame: 0 };
+        const pose = person.online ? "stand" : "sit";
+        const bob = pose === "stand" && !reduced && person.online ? actor.frame % 2 : 0;
+        drawables.push({
+          y: actor.y,
+          draw: () => {
+            ctx.save();
+            if (actor.dir < 0) {
+              ctx.translate(actor.x + 16, 0);
+              ctx.scale(-1, 1);
+              drawCharacter(ctx, person.appearance, -16, actor.y - 48 + bob, bob, pose, 2);
+            } else {
+              drawCharacter(ctx, person.appearance, actor.x - 16, actor.y - 48 + bob, bob, pose, 2);
+            }
+            ctx.restore();
+            if (!person.online) {
+              ctx.fillStyle = "#f3e6cf";
+              ctx.fillRect(actor.x + 10, actor.y - 52, 3, 3);
+            } else if (person.status === "break") {
+              ctx.fillStyle = "#ff808b";
+              ctx.fillRect(actor.x + 8, actor.y - 54, 6, 5);
+            } else if (person.status === "meeting") {
+              ctx.fillStyle = "#f7efe2";
+              ctx.fillRect(actor.x + 8, actor.y - 54, 8, 5);
+            } else if (person.status === "away") {
+              ctx.fillStyle = "#d7e2f4";
+              ctx.fillRect(actor.x + 10, actor.y - 54, 4, 4);
+            } else if (person.status === "available") {
+              ctx.fillStyle = "#7dba6a";
+              ctx.fillRect(actor.x + 12, actor.y - 52, 3, 3);
+            }
+            const plate = plates.current[person.slug];
+            if (plate) {
+              plate.style.left = `${(actor.x - 28) * scaleRef.current}px`;
+              plate.style.top = `${(actor.y + 2) * scaleRef.current}px`;
+            }
+          },
+        });
+      }
+      drawables.push({ y: frank.current.y + FRANK_H, draw: () => drawFrank(ctx, frank.current) });
+      drawables.sort((a, b) => a.y - b.y);
+      for (const item of drawables) item.draw();
+
+      if (frankButton.current) {
+        frankButton.current.style.left = `${frank.current.x * scaleRef.current}px`;
+        frankButton.current.style.top = `${frank.current.y * scaleRef.current}px`;
+      }
+      if (!reduced) raf = requestAnimationFrame(frame);
+    };
+
+    raf = requestAnimationFrame(frame);
+    return () => {
+      alive = false;
+      cancelAnimationFrame(raf);
+    };
+  }, [scale, calm]);
+
+  function walkTo(event: React.MouseEvent<HTMLDivElement>) {
+    if ((event.target as HTMLElement).closest("button")) return;
+    const canvas = canvasRef.current;
+    const actor = actors.current[me.slug];
+    if (!canvas || !actor) return;
+    const box = canvas.getBoundingClientRect();
+    const x = ((event.clientX - box.left) / box.width) * ROOM_W;
+    const y = ((event.clientY - box.top) / box.height) * ROOM_H;
+    if (y < 120) return;
+    path.current = findPath(actor, { x, y });
+  }
+
+  function nudge(dx: number, dy: number) {
+    const actor = actors.current[me.slug];
+    if (!actor) return;
+    const next = { x: actor.x + dx, y: actor.y + dy };
+    const route = findPath(actor, next);
+    if (route.length) path.current = route;
+  }
+
+  return (
+    <div className="stage-scroll" ref={wrapRef}>
+      <div
+        className="stage"
+        ref={stageRef}
+        style={{ width: ROOM_W * scale, height: ROOM_H * scale }}
+        onClick={walkTo}
+        onKeyDown={(event) => {
+          if (event.target !== stageRef.current) return;
+          const step = 16;
+          if (event.key === "ArrowLeft") nudge(-step, 0);
+          else if (event.key === "ArrowRight") nudge(step, 0);
+          else if (event.key === "ArrowUp") nudge(0, -step);
+          else if (event.key === "ArrowDown") nudge(0, step);
+          else return;
+          event.preventDefault();
+        }}
+        tabIndex={0}
+        role="application"
+        aria-label="MM Digital office. Arrow keys walk when this floor is focused. Tab reaches desks, the noticeboard, and Frank."
+      >
+        <canvas ref={canvasRef} width={ROOM_W} height={ROOM_H} style={{ width: ROOM_W * scale, height: ROOM_H * scale }} />
+        {HOTSPOTS.map((spot) => (
+          <button
+            key={spot.id}
+            type="button"
+            className="hotspot"
+            style={{ left: spot.x * scale, top: spot.y * scale, width: spot.w * scale, height: spot.h * scale }}
+            onClick={() => onHotspot(spot)}
+          >
+            {spot.label}
+          </button>
+        ))}
+        <button
+          ref={frankButton}
+          type="button"
+          className="hotspot frank-spot"
+          style={{ width: FRANK_W * scale, height: FRANK_H * scale }}
+          onClick={() => {
+            const line = FRANK_LINES[lineIndex.current % FRANK_LINES.length];
+            lineIndex.current += 1;
+            frank.current.mode = frank.current.mode === "sleep" ? "sit" : "idle";
+            frank.current.until = 1600;
+            onFrank(line);
+          }}
+        >
+          Frank the office cat
+        </button>
+        {staff.map((person) => (
+          <div
+            key={person.slug}
+            ref={(node) => {
+              plates.current[person.slug] = node;
+            }}
+            className="nameplate"
+            aria-hidden="true"
+          >
+            <strong>{person.characterName}</strong>
+            <span>{person.online ? statusLabel(person.status) : "Offline"}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

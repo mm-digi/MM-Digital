@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect } from "react";
+import { usePathname } from "next/navigation";
 
 // Runs while the page is still loading, straight after the header is parsed, so
 // the homepage hero is laid out under the header from the first paint. Without
@@ -19,6 +20,9 @@ export default function WpChrome({
   footerHtml: string;
   children: React.ReactNode;
 }) {
+  const pathname = usePathname() || "";
+  const pixelOffice = pathname === "/pixel" || pathname.startsWith("/pixel/");
+
   useLayoutEffect(() => {
     const header = document.querySelector("header.wp-block-template-part");
     if (!header || !document.querySelector(".mm-hero")) return;
@@ -572,6 +576,8 @@ export default function WpChrome({
       sliders.forEach((off) => off());
     };
   }, []);
+
+  if (pixelOffice) return <>{children}</>;
 
   return (
     <>

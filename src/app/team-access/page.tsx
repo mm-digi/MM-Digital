@@ -21,7 +21,11 @@ export default async function TeamAccessPage() {
     <div className="px-5 py-10 sm:py-16">
       <div className="mx-auto max-w-2xl mm-card p-8">
         <span className="eyebrow">Team</span>
-        <h1 className="mt-3 font-serif text-4xl">Client dashboards</h1>
+        <a className="mt-4 block border border-[#ff808b] px-4 py-4 text-white hover:bg-white/5" href="/pixel/">
+          <span className="block font-serif text-2xl">Pixel office</span>
+          <span className="mt-1 block text-sm text-[#cfcfcf]">The 8-bit staff office. Desks, tasks, and Frank.</span>
+        </a>
+        <h1 className="mt-8 font-serif text-4xl">Client dashboards</h1>
         <p className="mt-3 text-[#cfcfcf]">Signed in as {session.username}. Choose a client.</p>
         <ul className="mt-8 grid list-none gap-2 p-0">
           {clients.map((client) => (
