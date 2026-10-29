@@ -173,6 +173,13 @@ function mapPriority(value: string): Priority {
   return "normal";
 }
 
+// Same rewards as the demo quests, so Notion tasks level people up at the same pace.
+const XP_BY_PRIORITY: Record<Priority, number> = { low: 15, normal: 25, high: 40, urgent: 40 };
+
+export function notionXp(priority: Priority) {
+  return XP_BY_PRIORITY[priority] ?? XP_BY_PRIORITY.normal;
+}
+
 function isNamed(value: string, configured: string, fallback: RegExp) {
   const list = configured
     .split(",")
@@ -249,7 +256,7 @@ export function normaliseNotionPages(results: Record<string, unknown>[], mapping
         priority,
         status,
         kind,
-        xp: 0,
+        xp: notionXp(priority),
         source: "notion",
         date: when.date,
         time: when.time,
@@ -361,6 +368,7 @@ function readCachedTasks(value: string): TaskItem[] | null {
 function retag(tasks: TaskItem[], today: string) {
   return tasks.map((task) => ({
     ...task,
+    xp: notionXp(task.priority),
     overdue: Boolean(task.date && task.date < today && task.status !== "done"),
     today: task.date === today,
     dueLabel: task.date ? `${task.date}${task.time ? ` ${task.time}` : ""}` : "No date yet",

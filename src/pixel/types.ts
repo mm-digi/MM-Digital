@@ -161,15 +161,23 @@ export type Snapshot = {
   clients: ClientHealth[];
   canEditLights: boolean;
   form: ClientForm;
+  live: LiveConfig | null;
 };
 
+// Where to join live presence (Supabase Realtime). The channel name is derived
+// from the server secret, so only signed-in staff are ever given it.
+export type LiveConfig = {
+  url: string;
+  key: string;
+  channel: string;
+};
+
+// What each open office tab shares with everyone else, live.
 export type Presence = {
-  slug: StaffSlug;
-  online: boolean;
-  status: Status;
   x: number;
   y: number;
   sitting: boolean;
+  status: Status;
   appearance: Appearance;
   characterName: string;
 };
@@ -188,7 +196,6 @@ export type ActionBody =
       calm?: boolean;
       plainMode?: boolean;
     }
-  | { type: "presence"; x?: number; y?: number; sitting?: boolean }
   | { type: "notionSave"; mapping: NotionMapping }
   | { type: "notionSchema"; databaseId: string }
   | { type: "notionRefresh" }
@@ -208,7 +215,6 @@ export type ActionResult = {
   celebrate?: boolean;
   snapshot?: Snapshot;
   schema?: NotionSchema;
-  staff?: Presence[];
 };
 
 export type PanelId =

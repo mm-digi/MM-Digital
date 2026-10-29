@@ -109,7 +109,7 @@ export function QuestPanel({
                 <p className="meta">
                   {task.project} · {task.assigneeName} · {task.dueLabel} · {task.priority} priority
                   {task.kind === "meeting" ? " · Meeting" : ""} · {done ? "Done" : task.status === "doing" ? "In progress" : "Open"}
-                  {snap.me.gamification && task.source === "demo" ? ` · ${task.xp} XP` : ""}
+                  {snap.me.gamification && task.xp ? ` · ${task.xp} XP` : ""}
                   {task.localPreview ? " · Local preview" : ""}
                 </p>
                 {task.notionUrl ? <a href={task.notionUrl} target="_blank" rel="noreferrer">Open in Notion</a> : null}

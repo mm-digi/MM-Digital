@@ -1,5 +1,5 @@
 import { getSession } from "@/lib/auth";
-import { sqlOne, sqlRun, type StaffRow } from "@/pixel/lib/db";
+import { sqlOne, type StaffRow } from "@/pixel/lib/db";
 
 const EMAIL_TO_SLUG: Record<string, string> = {
   "tash@mm-digi.co.uk": "tash",
@@ -8,13 +8,12 @@ const EMAIL_TO_SLUG: Record<string, string> = {
   "natasha@mm-digi.co.uk": "natasha",
 };
 
+// Who is online now comes from live presence in the browser, so opening the
+// office no longer writes a "last seen" time to the shared office file.
 export async function getCurrentStaff(): Promise<StaffRow | null> {
   const session = await getSession();
   if (!session || session.role !== "staff") return null;
   const slug = EMAIL_TO_SLUG[session.username.toLowerCase()];
   if (!slug) return null;
-  const staff = sqlOne<StaffRow>("select * from staff where slug = ?", slug);
-  if (!staff) return null;
-  sqlRun("update staff set last_seen = ? where id = ?", new Date().toISOString(), staff.id);
-  return sqlOne<StaffRow>("select * from staff where id = ?", staff.id) ?? null;
+  return sqlOne<StaffRow>("select * from staff where slug = ?", slug) ?? null;
 }

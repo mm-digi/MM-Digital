@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ClientLights } from "@/pixel/components/ClientLights";
 import { Creator } from "@/pixel/components/Creator";
 import { OfficeStage } from "@/pixel/components/OfficeStage";
@@ -14,6 +14,7 @@ import {
   QuestPanel,
   TeamPanel,
 } from "@/pixel/components/panels";
+import { useLivePresence } from "@/pixel/components/presence";
 import { blip, setAmbient } from "@/pixel/components/sound";
 import { STATUSES } from "@/pixel/game/options";
 import type { ActionBody, ActionResult, PanelId, Snapshot, StaffSlug } from "@/pixel/types";
@@ -28,8 +29,9 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
   const [busy, setBusy] = useState(false);
   const [mobileOffice, setMobileOffice] = useState(false);
   const [frankLine, setFrankLine] = useState<string | null>(null);
-  const position = useRef<{ x: number; y: number; sitting?: boolean } | null>(null);
   const soundOn = snap.me.sound;
+  const live = useLivePresence(snapshot.live, snap.me, snap.staff);
+  const view = useMemo(() => ({ ...snap, me: { ...snap.me, online: true }, staff: live.staff }), [snap, live.staff]);
 
   useEffect(() => {
     setAmbient(soundOn);
@@ -37,29 +39,6 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
   }, [soundOn]);
 
   useEffect(() => {
-    const timer = window.setInterval(() => {
-      void fetch("/api/pixel/", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ type: "presence", x: position.current?.x, y: position.current?.y, sitting: position.current?.sitting }),
-      })
-        .then((response) => response.json())
-        .then((data: ActionResult) => {
-          if (!data.staff) return;
-          setSnap((current) => ({
-            ...current,
-            staff: current.staff.map((person) => {
-              const next = data.staff?.find((item) => item.slug === person.slug);
-              if (!next) return person;
-              if (person.slug === current.me.slug && position.current) {
-                return { ...person, online: true, status: next.status, appearance: next.appearance, characterName: next.characterName };
-              }
-              return { ...person, ...next, notes: person.notes };
-            }),
-          }));
-        })
-        .catch(() => undefined);
-    }, 12000);
     const refresh = window.setInterval(() => {
       void fetch("/api/pixel/")
         .then((response) => (response.ok ? response.json() : null))
@@ -68,10 +47,7 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
         })
         .catch(() => undefined);
     }, 180000);
-    return () => {
-      window.clearInterval(timer);
-      window.clearInterval(refresh);
-    };
+    return () => window.clearInterval(refresh);
   }, []);
 
   useEffect(() => {
@@ -126,20 +102,20 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
   const close = presentation === "plain" ? undefined : () => setPanel(null);
   const panels = (
     <>
-      {panel === "day" || presentation === "plain" ? <DayPanel snap={snap} onClose={close} openPanel={setPanel} /> : null}
+      {panel === "day" || presentation === "plain" ? <DayPanel snap={view} onClose={close} openPanel={setPanel} /> : null}
       {panel === "quests" || presentation === "plain" ? (
-        <QuestPanel snap={snap} busy={busy} act={act} onClose={close} filter={questFilter} setFilter={setQuestFilter} />
+        <QuestPanel snap={view} busy={busy} act={act} onClose={close} filter={questFilter} setFilter={setQuestFilter} />
       ) : null}
-      {panel === "team" || presentation === "plain" ? <TeamPanel snap={snap} busy={busy} act={act} onClose={close} /> : null}
-      {panel === "calendar" || presentation === "plain" ? <CalendarPanel snap={snap} onClose={close} /> : null}
-      {panel === "projects" || presentation === "plain" ? <ProjectPanel snap={snap} onClose={close} /> : null}
+      {panel === "team" || presentation === "plain" ? <TeamPanel snap={view} busy={busy} act={act} onClose={close} /> : null}
+      {panel === "calendar" || presentation === "plain" ? <CalendarPanel snap={view} onClose={close} /> : null}
+      {panel === "projects" || presentation === "plain" ? <ProjectPanel snap={view} onClose={close} /> : null}
       {panel === "desk" || presentation === "plain" ? (
-        <DeskPanel snap={snap} busy={busy} act={act} slug={deskSlug} onClose={close} openPanel={setPanel} />
+        <DeskPanel snap={view} busy={busy} act={act} slug={deskSlug} onClose={close} openPanel={setPanel} />
       ) : null}
       {panel === "profile" ? (
-        <ProfilePanel snap={snap} busy={busy} act={act} onClose={close} onEdit={() => setPanel("creator")} onLogout={() => void logout()} />
+        <ProfilePanel snap={view} busy={busy} act={act} onClose={close} onEdit={() => setPanel("creator")} onLogout={() => void logout()} />
       ) : null}
-      {panel === "notion" && snap.me.role === "admin" ? <NotionPanel snap={snap} busy={busy} act={act} onClose={close} /> : null}
+      {panel === "notion" && snap.me.role === "admin" ? <NotionPanel snap={view} busy={busy} act={act} onClose={close} /> : null}
     </>
   );
 
@@ -194,8 +170,8 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
       <div className="main">
         {presentation === "office" ? <ClientLights snap={snap} busy={busy} act={act} /> : null}
         <OfficeStage
-          me={snap.me}
-          staff={snap.staff}
+          me={view.me}
+          staff={view.staff}
           calm={snap.me.calm}
           onHotspot={(spot) => {
             if (spot.action === "desk" && spot.slug) {
@@ -218,21 +194,7 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
             void act({ type: "frank" });
             window.setTimeout(() => setFrankLine(null), 4200);
           }}
-          onMove={(x, y, sitting) => {
-            position.current = { x, y, sitting };
-            const send = () => fetch("/api/pixel/", {
-              method: "POST",
-              headers: { "content-type": "application/json" },
-              body: JSON.stringify({ type: "presence", x, y, sitting: Boolean(sitting) }),
-            }).then((response) => {
-              if (!response.ok) throw new Error("busy");
-            });
-            void send().catch(() => {
-              window.setTimeout(() => {
-                void send().catch(() => undefined);
-              }, 900);
-            });
-          }}
+          onMove={(x, y, sitting) => live.share({ x, y, sitting: Boolean(sitting) })}
         />
         <aside className="dock">{panel === "creator" ? null : panels}</aside>
       </div>

@@ -10,6 +10,33 @@ import { statusLabel } from "@/pixel/game/options";
 import type { StaffPublic, StaffSlug } from "@/pixel/types";
 
 type Actor = { x: number; y: number; dir: 1 | -1; frame: number; sitting: boolean };
+type Point = { x: number; y: number };
+type RemoteWalk = { path: Point[]; sit: Point | null };
+
+const WALK_SPEED = 0.055;
+
+// Moves an actor along a route by up to `distance` pixels. True once it arrives.
+function advance(actor: Actor, route: Point[], distance: number) {
+  let left = distance;
+  while (route.length && left > 0) {
+    const target = route[0];
+    const dx = target.x - actor.x;
+    const dy = target.y - actor.y;
+    const gap = Math.hypot(dx, dy);
+    if (dx) actor.dir = dx < 0 ? -1 : 1;
+    if (gap <= left) {
+      actor.x = target.x;
+      actor.y = target.y;
+      route.shift();
+      left -= gap;
+    } else {
+      actor.x += (dx / gap) * left;
+      actor.y += (dy / gap) * left;
+      left = 0;
+    }
+  }
+  return route.length === 0;
+}
 
 export function OfficeStage({
   me,
@@ -34,7 +61,9 @@ export function OfficeStage({
   const frankButton = useRef<HTMLButtonElement>(null);
   const plates = useRef<Record<string, HTMLDivElement | null>>({});
   const actors = useRef<Record<string, Actor>>({});
-  const path = useRef<{ x: number; y: number }[]>([]);
+  const path = useRef<Point[]>([]);
+  const remote = useRef<Record<string, RemoteWalk>>({});
+  const redraw = useRef<() => void>(() => undefined);
   const pendingSit = useRef<{ x: number; y: number } | null>(null);
   const moving = useRef(false);
   const frank = useRef<FrankState>(createFrank());
@@ -46,17 +75,36 @@ export function OfficeStage({
 
   useEffect(() => {
     for (const person of staff) {
+      const seat = SEATS[person.slug];
+      const target = { x: person.x || seat.x, y: person.y || seat.y };
       const current = actors.current[person.slug];
-      const keepMine = person.slug === me.slug && current && (moving.current || current.sitting || pendingSit.current);
-      if (keepMine) continue;
-      actors.current[person.slug] = {
-        x: person.x || SEATS[person.slug].x,
-        y: person.y || SEATS[person.slug].y,
-        dir: current?.dir ?? 1,
-        frame: current?.frame ?? 0,
-        sitting: person.sitting,
-      };
+      // My own character is driven by my clicks, never by what comes back.
+      if (person.slug === me.slug) {
+        if (!current) actors.current[person.slug] = { ...target, dir: 1, frame: 0, sitting: false };
+        continue;
+      }
+      if (!current || !person.online) {
+        actors.current[person.slug] = { ...target, dir: current?.dir ?? 1, frame: current?.frame ?? 0, sitting: person.online && person.sitting };
+        delete remote.current[person.slug];
+        continue;
+      }
+      // Someone else moved: walk them to where they now are, instead of jumping.
+      const heading = remote.current[person.slug];
+      const end = heading ? heading.sit ?? heading.path[heading.path.length - 1] ?? current : current;
+      const sittingAtEnd = heading ? Boolean(heading.sit) : current.sitting;
+      if (Math.hypot(end.x - target.x, end.y - target.y) < 4 && sittingAtEnd === person.sitting) continue;
+      current.sitting = false;
+      const route = findPath(current, person.sitting ? { x: target.x, y: 224 } : target);
+      if (!route.length) {
+        current.x = target.x;
+        current.y = target.y;
+        current.sitting = person.sitting;
+        delete remote.current[person.slug];
+        continue;
+      }
+      remote.current[person.slug] = { path: route, sit: person.sitting ? target : null };
     }
+    redraw.current();
   }, [staff, me.slug]);
 
   useEffect(() => {
@@ -90,42 +138,41 @@ export function OfficeStage({
     let last = performance.now();
 
     const frame = (now: number) => {
+      raf = 0;
       if (!alive) return;
       const dt = Math.min(40, now - last);
       last = now;
       const reduced = propsRef.current.calm || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      // Calmer motion skips the walk and places people straight at the end.
+      const step = reduced ? Infinity : dt * WALK_SPEED;
       const mine = actors.current[propsRef.current.me.slug];
-      if (mine && path.current.length && !reduced) {
+      if (mine && path.current.length) {
         moving.current = true;
-        const target = path.current[0];
-        const dx = target.x - mine.x;
-        const dy = target.y - mine.y;
-        const distance = Math.hypot(dx, dy);
-        const step = dt * 0.055;
-        if (distance <= step) {
-          mine.x = target.x;
-          mine.y = target.y;
-          path.current.shift();
-          if (!path.current.length) {
-            moving.current = false;
-            const seat = pendingSit.current;
-            pendingSit.current = null;
-            if (seat) {
-              mine.x = seat.x;
-              mine.y = seat.y;
-              mine.sitting = true;
-              propsRef.current.onMove(mine.x, mine.y, true);
-            } else {
-              mine.sitting = false;
-              propsRef.current.onMove(mine.x, mine.y, false);
-            }
-          }
-        } else {
-          mine.x += (dx / distance) * step;
-          mine.y += (dy / distance) * step;
-          mine.dir = dx < 0 ? -1 : 1;
-        }
         mine.frame = Math.floor(now / 160);
+        if (advance(mine, path.current, step)) {
+          moving.current = false;
+          const seat = pendingSit.current;
+          pendingSit.current = null;
+          if (seat) {
+            mine.x = seat.x;
+            mine.y = seat.y;
+          }
+          mine.sitting = Boolean(seat);
+          propsRef.current.onMove(mine.x, mine.y, mine.sitting);
+        }
+      }
+      for (const [slug, walk] of Object.entries(remote.current)) {
+        const actor = actors.current[slug];
+        if (!actor) continue;
+        actor.frame = Math.floor(now / 160);
+        if (advance(actor, walk.path, step)) {
+          if (walk.sit) {
+            actor.x = walk.sit.x;
+            actor.y = walk.sit.y;
+          }
+          actor.sitting = Boolean(walk.sit);
+          delete remote.current[slug];
+        }
       }
       if (!reduced) stepFrank(frank.current, dt, false);
       ctx.imageSmoothingEnabled = false;
@@ -187,9 +234,14 @@ export function OfficeStage({
       if (!reduced) raf = requestAnimationFrame(frame);
     };
 
+    // With calmer motion the loop stops after each draw, so changes ask for one more frame.
+    redraw.current = () => {
+      if (alive && !raf) raf = requestAnimationFrame(frame);
+    };
     raf = requestAnimationFrame(frame);
     return () => {
       alive = false;
+      redraw.current = () => undefined;
       cancelAnimationFrame(raf);
     };
   }, [scale, calm]);
@@ -199,6 +251,25 @@ export function OfficeStage({
     if (!actor.sitting) return;
     actor.sitting = false;
     propsRef.current.onMove(actor.x, actor.y, false);
+    redraw.current();
+  }
+
+  // Share where I'm heading as soon as I set off, so everyone else sees me walk
+  // there at the same time rather than appear once I've arrived.
+  function startWalk(route: Point[], sit: Point | null = null) {
+    path.current = route;
+    const end = sit ?? route[route.length - 1];
+    if (end) propsRef.current.onMove(end.x, end.y, Boolean(sit));
+    redraw.current();
+  }
+
+  function sitStraightAway(actor: Actor, spot: Point) {
+    actor.x = spot.x;
+    actor.y = spot.y;
+    actor.sitting = true;
+    pendingSit.current = null;
+    propsRef.current.onMove(actor.x, actor.y, true);
+    redraw.current();
   }
 
   function sitDown() {
@@ -218,24 +289,12 @@ export function OfficeStage({
     pendingSit.current = spot;
     actor.sitting = false;
     const reduced = propsRef.current.calm || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
-      actor.x = spot.x;
-      actor.y = spot.y;
-      actor.sitting = true;
-      pendingSit.current = null;
-      propsRef.current.onMove(actor.x, actor.y, true);
-      return;
-    }
-    const route = findPath(actor, { x: spot.x, y: 224 });
+    const route = reduced ? [] : findPath(actor, { x: spot.x, y: 224 });
     if (!route.length) {
-      actor.x = spot.x;
-      actor.y = spot.y;
-      actor.sitting = true;
-      pendingSit.current = null;
-      propsRef.current.onMove(actor.x, actor.y, true);
+      sitStraightAway(actor, spot);
       return;
     }
-    path.current = route;
+    startWalk(route, spot);
   }
 
   function walkTo(event: React.MouseEvent<HTMLDivElement>) {
@@ -248,7 +307,7 @@ export function OfficeStage({
     const y = ((event.clientY - box.top) / box.height) * ROOM_H;
     if (y < 120) return;
     standUp(actor);
-    path.current = findPath(actor, { x, y });
+    startWalk(findPath(actor, { x, y }));
   }
 
   function nudge(dx: number, dy: number) {
@@ -257,7 +316,7 @@ export function OfficeStage({
     standUp(actor);
     const next = { x: actor.x + dx, y: actor.y + dy };
     const route = findPath(actor, next);
-    if (route.length) path.current = route;
+    if (route.length) startWalk(route);
   }
 
   return (

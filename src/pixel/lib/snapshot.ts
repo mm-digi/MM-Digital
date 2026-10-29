@@ -1,3 +1,5 @@
+import { createHmac } from "crypto";
+import { AUTH_SECRET_VALUE } from "@/lib/auth";
 import { canEditClientLights, clientsByHealth } from "@/lib/client-health";
 import { emptyClientForm, loadClientForm } from "@/lib/metrics/load-form";
 import { SEATS } from "@/pixel/game/layout";
@@ -7,7 +9,7 @@ import { clockLabel, localKey, prettyDate, shiftKey } from "@/pixel/lib/format";
 import { savedClientLights } from "@/pixel/lib/lights";
 import { loadNotion, notionConfigured, officeMapping } from "@/pixel/lib/notion";
 import { levelProgress, milestone } from "@/pixel/lib/xp";
-import type { Announcement, Appearance, ProjectItem, Snapshot, StaffPublic, StaffSlug, Status, TaskItem } from "@/pixel/types";
+import type { Announcement, Appearance, LiveConfig, ProjectItem, Snapshot, StaffPublic, StaffSlug, Status, TaskItem } from "@/pixel/types";
 
 const SLUGS: StaffSlug[] = ["max", "tash", "mariette", "natasha"];
 const NAMES: Record<StaffSlug, string> = { max: "Max", tash: "Tash", mariette: "Mariette", natasha: "Natasha" };
@@ -44,10 +46,7 @@ export function toPublic(row: StaffRow, viewerSlug: string): StaffPublic {
   const slug = (isSlug(row.slug) ? row.slug : "max") as StaffSlug;
   const xp = Number(row.xp) || 0;
   const progress = levelProgress(xp);
-  const online = !!row.last_seen && Date.now() - Date.parse(row.last_seen) < 35000;
   const seat = SEATS[slug];
-  const x = online && row.pos_x != null ? row.pos_x : seat.x;
-  const y = online && row.pos_y != null ? row.pos_y : seat.y;
   let achievements: string[] = [];
   try {
     const parsed = JSON.parse(row.achievements) as unknown;
@@ -76,11 +75,24 @@ export function toPublic(row: StaffRow, viewerSlug: string): StaffPublic {
     calm: Number(row.calm) === 1,
     plainMode: Number(row.plain_mode) === 1,
     achievements,
-    online,
-    x,
-    y,
-    sitting: Number(row.sitting) === 1,
+    // Everyone starts at their desk. Live presence in the browser then marks
+    // who is online and where they are standing.
+    online: false,
+    x: seat.x,
+    y: seat.y,
+    sitting: false,
   };
+}
+
+function liveConfig(): LiveConfig | null {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+  const key =
+    process.env.SUPABASE_PUBLISHABLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+  const channel = `pixel-${createHmac("sha256", AUTH_SECRET_VALUE).update("pixel-office-presence").digest("hex").slice(0, 32)}`;
+  return { url, key, channel };
 }
 
 function demoTasks(today: string): TaskItem[] {
@@ -188,23 +200,8 @@ export async function buildSnapshot(viewer: StaffRow, forceNotion = false): Prom
     clients: clientsByHealth(savedClientLights()).map(({ slug, name, light }) => ({ slug, name, light })),
     canEditLights: canEditClientLights(viewer.slug),
     form: await formPromise,
+    live: liveConfig(),
   };
-}
-
-export function presenceOf(viewerSlug: string) {
-  return sqlAll<StaffRow>("select * from staff").map((row) => {
-    const person = toPublic(row, viewerSlug);
-    return {
-      slug: person.slug,
-      online: person.online,
-      status: person.status,
-      x: person.x,
-      y: person.y,
-      sitting: person.sitting,
-      appearance: person.appearance,
-      characterName: person.characterName,
-    };
-  });
 }
 
 export { statusLabel };
