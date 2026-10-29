@@ -170,7 +170,8 @@ function fillSeries(fromIso: string, toIso: string, rows: Record<string, unknown
   return [...byDate.values()];
 }
 
-export async function getClientSnapshot(slug: string): Promise<ClientSnapshot | null> {
+// Dashboard slugs don't always match the clients table exactly, so try a few spellings.
+export async function findClient(slug: string): Promise<{ id: string; name: string; slug: string } | null> {
   const supabase = createAdminClient();
   const candidates = [slug, slug.replace(/-dashboard$/, ""), slug.replace(/-2$/, "")];
   let client = null;
@@ -189,6 +190,12 @@ export async function getClientSnapshot(slug: string): Promise<ClientSnapshot | 
       .maybeSingle();
     client = data;
   }
+  return client;
+}
+
+export async function getClientSnapshot(slug: string): Promise<ClientSnapshot | null> {
+  const supabase = createAdminClient();
+  const client = await findClient(slug);
   if (!client) return null;
 
   const to = new Date();

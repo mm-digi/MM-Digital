@@ -1,6 +1,8 @@
 import ChannelChart from "@/components/ChannelChart";
 import DashboardAssistant from "@/components/DashboardAssistant";
+import MonthlyHistory from "@/components/MonthlyHistory";
 import { formatDateRange } from "@/lib/metrics/dates";
+import { getClientHistory } from "@/lib/metrics/history";
 import { buildInsights } from "@/lib/metrics/insights";
 import { getClientSnapshot, type CampaignPoint, type DayPoint, type MetricTotals, type PeriodBlock } from "@/lib/metrics/snapshot";
 
@@ -221,12 +223,14 @@ function CampaignBars({ campaigns }: { campaigns: CampaignPoint[] }) {
 
 export default async function MetricsSnapshot({ slug }: { slug: string }) {
   let snapshot = null;
+  const historyPromise = getClientHistory(slug).catch(() => null);
   try {
     snapshot = await getClientSnapshot(slug);
   } catch {
     return null;
   }
   if (!snapshot) return null;
+  const history = await historyPromise;
 
   const updated = snapshot.updatedAt
     ? new Date(snapshot.updatedAt).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" })
@@ -246,6 +250,8 @@ export default async function MetricsSnapshot({ slug }: { slug: string }) {
 
         <PeriodGrid period={snapshot.week} compare="week" />
         <PeriodGrid period={snapshot.month} compare="month" />
+
+        {history ? <MonthlyHistory months={history} /> : null}
 
         {chartGroup("Website", [
           ["Website views", "How many pages were viewed.", "pageviews"],
