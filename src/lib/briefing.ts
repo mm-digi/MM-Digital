@@ -265,7 +265,7 @@ const changeItems = (items: Change[]) => items.map((item) => `${link(item.slug, 
 
 // Each day's email has its own name.
 export function briefingName(day: Date) {
-  const names: Record<number, string> = { 1: "Monday Briefing", 3: "Mid Week Briefing", 5: "Friday Briefing" };
+  const names: Record<number, string> = { 1: "Monday Briefing", 3: "Mid Week Update", 5: "Friday Summary" };
   return names[day.getUTCDay()] ?? "Briefing";
 }
 
