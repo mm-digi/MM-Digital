@@ -71,7 +71,6 @@ const TILES: { key: keyof MetricTotals; label: string; prefix: string }[] = [
   { key: "impressions", label: "Impressions", prefix: "" },
   { key: "reach", label: "Reach", prefix: "" },
   { key: "engagement", label: "Engagement", prefix: "" },
-  { key: "conversions", label: "Conversions", prefix: "" },
 ];
 
 const SOURCE_LABELS: Record<string, string> = {
@@ -98,11 +97,11 @@ function PeriodGrid({ period, compare }: { period: PeriodBlock; compare: string 
           {formatDateRange(period.from, period.to)} · vs previous {compare}
         </p>
       </div>
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-7">
-        {TILES.map(({ key, label, prefix }, index) => (
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-6">
+        {TILES.map(({ key, label, prefix }) => (
           <div
             key={`${period.label}-${key}`}
-            className={`mm-card p-4 sm:p-5 ${index === TILES.length - 1 ? "col-span-2 xl:col-span-1" : ""}`}
+            className="mm-card p-4 sm:p-5"
           >
             <div className="text-xs text-[#cfcfcf] sm:text-sm">{label}</div>
             <div className="mt-2 text-xl font-bold text-[#ff808b] sm:text-2xl">

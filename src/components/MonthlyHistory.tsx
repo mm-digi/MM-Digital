@@ -22,7 +22,6 @@ const METRICS: { key: MetricKey; label: string; money?: boolean; note?: string }
   { key: "engagement", label: "Engagement" },
   { key: "followers", label: "Followers", note: "Followers at the end of each month." },
   { key: "clicks", label: "Clicks" },
-  { key: "conversions", label: "Conversions" },
   { key: "spend", label: "Ad spend", money: true },
 ];
 

@@ -82,14 +82,13 @@ function compareTotals(totals: MetricTotals, previous: MetricTotals) {
   add("reach", "reach");
   add("engagement", "engagement");
   add("clicks", "clicks");
-  add("conversions", "conversions");
   add("spend", "ad spend", true);
   return lines;
 }
 
 // Overall direction across the headline numbers, ignoring spend (more spend isn't "better").
 function verdict(totals: MetricTotals, previous: MetricTotals) {
-  const keys: (keyof MetricTotals)[] = ["sessions", "impressions", "reach", "engagement", "clicks", "conversions"];
+  const keys: (keyof MetricTotals)[] = ["sessions", "impressions", "reach", "engagement", "clicks"];
   const changes = keys.map((key) => pct(totals[key], previous[key])).filter((value): value is number => value !== null);
   if (!changes.length) return null;
   const ups = changes.filter((value) => value >= 3).length;
@@ -170,7 +169,6 @@ function websiteAnswer(snapshot: ClientSnapshot) {
     });
     answer.push(`Your busiest day was ${day}, with ${formatNumber(busiest.sessions)} visits.`);
   }
-  if (totals.conversions) answer.push(`The site also recorded ${formatNumber(totals.conversions)} conversions.`);
   return answer;
 }
 

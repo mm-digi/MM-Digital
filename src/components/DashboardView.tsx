@@ -17,9 +17,15 @@ export default function DashboardView({ dashboard }: { dashboard: ClientDashboar
               Speak To Us
             </a>
           </div>
-          <div className="mm-card p-8">
+          <div className="mm-card space-y-4 p-8">
             <p className="text-[1.04rem] leading-7 text-[#cfcfcf]">
               Here’s your latest social media and website activity. We’re continuously working behind the scenes to grow your visibility, increase engagement and drive more visits across your channels and website.
+            </p>
+            <p className="text-[1.04rem] leading-7 text-[#cfcfcf]">
+              Please note that this dashboard is designed to give you a quick, helpful snapshot of your performance. Figures shown here can sometimes be delayed or vary slightly, depending on when each platform and provider sends through their data, so numbers may not always reflect results in real time. Your full picture is always captured in your in-depth monthly report, where we review everything properly and highlight exactly what the data is telling us.
+            </p>
+            <p className="text-[1.04rem] leading-7 text-[#cfcfcf]">
+              If you have any questions about the figures shown, or you would like clarity on anything, please do get in touch and we will always be happy to talk it through.
             </p>
           </div>
         </div>
