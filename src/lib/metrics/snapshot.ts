@@ -51,6 +51,7 @@ export type ClientSnapshot = {
   month: PeriodBlock;
   bySourceWeek: Record<string, MetricTotals>;
   bySourceMonth: Record<string, MetricTotals>;
+  bySourcePrevMonth: Record<string, MetricTotals>;
   series: DayPoint[];
   seriesBySource: Record<string, DayPoint[]>;
   campaigns: CampaignPoint[];
@@ -212,6 +213,7 @@ export async function getClientSnapshot(slug: string): Promise<ClientSnapshot | 
   const monthPrev = emptyTotals();
   const bySourceWeek: Record<string, MetricTotals> = {};
   const bySourceMonth: Record<string, MetricTotals> = {};
+  const bySourcePrevMonth: Record<string, MetricTotals> = {};
   let updatedAt: string | null = null;
 
   const weekFromIso = iso(weekFrom);
@@ -235,6 +237,8 @@ export async function getClientSnapshot(slug: string): Promise<ClientSnapshot | 
       addRow(bySourceMonth[row.source], row);
     } else if (date >= monthPrevFromIso) {
       addRow(monthPrev, row);
+      bySourcePrevMonth[row.source] ||= emptyTotals();
+      addRow(bySourcePrevMonth[row.source], row);
     }
   }
 
@@ -270,6 +274,7 @@ export async function getClientSnapshot(slug: string): Promise<ClientSnapshot | 
     month: { label: "This month", from: monthFromIso, to: iso(to), totals: month, previous: monthPrev },
     bySourceWeek,
     bySourceMonth,
+    bySourcePrevMonth,
     series: fillSeries(monthFromIso, iso(to), rows || []),
     seriesBySource,
     campaigns: [...campaignMap.values()].sort((a, b) => b.conversions - a.conversions || b.spend - a.spend),

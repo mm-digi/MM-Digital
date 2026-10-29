@@ -1,5 +1,7 @@
 import ChannelChart from "@/components/ChannelChart";
+import DashboardAssistant from "@/components/DashboardAssistant";
 import { formatDateRange } from "@/lib/metrics/dates";
+import { buildInsights } from "@/lib/metrics/insights";
 import { getClientSnapshot, type CampaignPoint, type DayPoint, type MetricTotals, type PeriodBlock } from "@/lib/metrics/snapshot";
 
 function formatNumber(value: number) {
@@ -287,6 +289,8 @@ export default async function MetricsSnapshot({ slug }: { slug: string }) {
           <SourceTable title="This month by channel" data={snapshot.bySourceMonth} />
         </div>
       </div>
+
+      <DashboardAssistant clientName={snapshot.clientName} insights={buildInsights(snapshot)} />
     </section>
   );
 }
