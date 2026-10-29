@@ -85,6 +85,7 @@ export type TaskItem = {
   dueLabel: string;
   notionUrl: string | null;
   localPreview: boolean;
+  completedAt?: string | null;
   overdue: boolean;
   today: boolean;
 };
@@ -169,6 +170,13 @@ export type Snapshot = {
   form: ClientForm;
   live: LiveConfig | null;
   focus: FocusSession | null;
+  wrapup: Wrapup;
+};
+
+// The week so far, for the Friday wrap-up board.
+export type Wrapup = {
+  week: string[];
+  focus: Record<StaffSlug, number>;
 };
 
 export type FocusSession = {
@@ -245,4 +253,5 @@ export type PanelId =
   | "notion"
   | "creator"
   | "standup"
-  | "client";
+  | "client"
+  | "wrapup";

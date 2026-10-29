@@ -263,6 +263,8 @@ export function normaliseNotionPages(results: Record<string, unknown>[], mapping
         dueLabel: when.date ? `${when.date}${when.time ? ` ${when.time}` : ""}` : "No date yet",
         notionUrl: pageUrl,
         localPreview: false,
+        // Notion doesn't record when a status changed, so the last edit stands in for it.
+        completedAt: done && typeof page.last_edited_time === "string" ? page.last_edited_time : null,
         overdue: Boolean(when.date && when.date < today && status !== "done"),
         today: when.date === today,
       });

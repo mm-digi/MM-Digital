@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { Insight } from "@/lib/metrics/insights";
 import { Sprite } from "@/pixel/components/Sprite";
 import { Window } from "@/pixel/components/Window";
-import { monthLabel, prettyDate, weekKeys } from "@/pixel/lib/format";
+import { monthLabel, prettyDate, shiftKey, weekKeys } from "@/pixel/lib/format";
 import { ACHIEVEMENTS } from "@/pixel/lib/xp";
 import { STATUSES, statusLabel } from "@/pixel/game/options";
 import type { ActionBody, ActionResult, PanelId, Snapshot, StaffSlug, TaskItem } from "@/pixel/types";
@@ -706,7 +706,10 @@ function StandupList({ label, tasks, empty, warn }: { label: string; tasks: Task
         <ul className="plain-list">
           {shown.map((task) => (
             <li key={task.id}>
-              {task.title} <span>{task.time ? `${task.time} · ` : ""}{task.project}{warn ? ` · ${task.dueLabel}` : ""}</span>
+              <strong>{task.title}</strong>{" "}
+              <span>
+                {[task.time, task.project !== "General" ? task.project : "", warn ? task.dueLabel : ""].filter(Boolean).join(" · ")}
+              </span>
             </li>
           ))}
           {tasks.length > shown.length ? <li className="meta">and {tasks.length - shown.length} more</li> : null}
@@ -756,6 +759,61 @@ export function ClientPanel({ slug, name, onClose }: { slug: string; name: strin
         <p className="fine">Updated {new Date(look.updatedAt).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" })}.</p>
       ) : null}
       <a className="pxbtn alt" href={`/${slug}/`}>Open the full dashboard</a>
+    </Window>
+  );
+}
+
+export function WrapupPanel({ snap, onClose }: { snap: Snapshot; onClose?: () => void }) {
+  const [monday, , , , friday, , sunday] = snap.wrapup.week;
+  const isFriday = snap.today === friday;
+  const weekStart = `${monday}T00:00:00`;
+  const finished = snap.tasks.filter((task) => task.status === "done" && task.completedAt && task.completedAt >= weekStart);
+  const focusTotal = Object.values(snap.wrapup.focus).reduce((sum, count) => sum + count, 0);
+  const notes = snap.announcements.filter((note) => note.createdAt >= weekStart).length;
+  const nextWeek = new Set(weekKeys(shiftKey(sunday, 1)));
+  return (
+    <Window title={isFriday ? "Friday wrap-up" : "The week so far"} onClose={onClose}>
+      <p className="fine">Week of {prettyDate(monday)}.</p>
+      <div className="wrap-totals">
+        <p><strong>{finished.length}</strong> tasks ticked off</p>
+        <p><strong>{focusTotal}</strong> focus sessions</p>
+        <p><strong>{notes}</strong> notes pinned</p>
+      </div>
+      {snap.staff.map((person) => {
+        const theirs = finished
+          .filter((task) => task.assignee === person.slug)
+          .sort((a, b) => (b.completedAt || "").localeCompare(a.completedAt || ""));
+        const due = snap.tasks.filter((task) => task.assignee === person.slug && task.status !== "done" && nextWeek.has(task.date)).length;
+        const focus = snap.wrapup.focus[person.slug] || 0;
+        return (
+          <section key={person.slug} className="standup-person">
+            <header>
+              <i style={{ background: person.accent }} aria-hidden="true" />
+              <strong>{person.name}</strong>
+              <span className="meta">
+                {theirs.length} done{focus ? ` · ${focus} focus` : ""}
+              </span>
+            </header>
+            {theirs.length ? (
+              <ul className="plain-list">
+                {theirs.slice(0, 5).map((task) => (
+                  <li key={task.id}>
+                    <strong>{task.title}</strong> {task.project !== "General" ? <span>{task.project}</span> : null}
+                  </li>
+                ))}
+                {theirs.length > 5 ? <li className="meta">and {theirs.length - 5} more</li> : null}
+              </ul>
+            ) : (
+              <p className="empty">No Notion tasks logged this week.</p>
+            )}
+            {due ? <p className="meta">{due} due next week.</p> : null}
+          </section>
+        );
+      })}
+      <p className="fine">
+        This only counts what&apos;s ticked off in Notion. Plenty happens behind the scenes that never makes it onto a list.
+        {isFriday ? " Have a good weekend." : ""}
+      </p>
     </Window>
   );
 }

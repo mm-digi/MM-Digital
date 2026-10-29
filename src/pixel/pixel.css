@@ -683,3 +683,8 @@ body:has(.pixel-hq) { background: #1c1412 !important; }
 @media (prefers-reduced-motion: reduce) {
   .pixel-hq .emote-bubble[data-show="true"]{ animation: none; }
 }
+
+/* Friday wrap-up */
+.pixel-hq .wrap-totals{ display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.pixel-hq .wrap-totals p{ margin: 0; background: rgba(255, 246, 232, 0.55); border: 3px solid #c9a27a; padding: 8px; font-size: 12px; text-align: center; }
+.pixel-hq .wrap-totals strong{ display: block; font-family: var(--font-pixel), "Courier New", monospace; font-size: 20px; }

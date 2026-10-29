@@ -17,13 +17,18 @@ import {
   QuestPanel,
   StandupPanel,
   TeamPanel,
+  WrapupPanel,
 } from "@/pixel/components/panels";
 import { useLivePresence } from "@/pixel/components/presence";
 import { blip, setAmbient } from "@/pixel/components/sound";
 import { EMOTES, STATUSES } from "@/pixel/game/options";
 import type { ActionBody, ActionResult, EmoteId, PanelId, Snapshot, StaffSlug } from "@/pixel/types";
 
-const SHORTCUTS: Record<string, PanelId> = { d: "day", q: "quests", t: "team", c: "calendar", p: "projects", s: "standup" };
+const SHORTCUTS: Record<string, PanelId> = { d: "day", q: "quests", t: "team", c: "calendar", p: "projects", s: "standup", w: "wrapup" };
+
+// On Friday afternoons the wrap-up opens by itself, once a week per person.
+const WRAPUP_FROM_HOUR = 14;
+const wrapupKey = (slug: string) => `pixel-wrapup-seen:${slug}`;
 
 // When I last read the noticeboard. Kept in this browser only, so "New" badges
 // are a per-person convenience and never touch the shared office file.
@@ -76,6 +81,7 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
   const live = useLivePresence(snapshot.live, snap.me, snap.staff);
   const view = useMemo(() => ({ ...snap, me: { ...snap.me, online: true }, staff: live.staff }), [snap, live.staff]);
   const notesSeen = useSyncExternalStore(subscribeNotes, () => readNotesSeen(mySlug), () => null);
+  const isFriday = snap.today === snap.wrapup.week[4];
   const unreadNotes = snap.announcements.filter((note) => isNewNote(note, snap, notesSeen)).length;
 
   useEffect(() => {
@@ -112,6 +118,21 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  const weekStart = snap.wrapup.week[0];
+  useEffect(() => {
+    const now = new Date();
+    if (now.getDay() !== 5 || now.getHours() < WRAPUP_FROM_HOUR || !snapshot.me.creatorDone) return;
+    try {
+      if (window.localStorage.getItem(wrapupKey(mySlug)) === weekStart) return;
+      window.localStorage.setItem(wrapupKey(mySlug), weekStart);
+    } catch {
+      return;
+    }
+    // A short pause so it slides in after the office has drawn.
+    const timer = window.setTimeout(() => setPanel("wrapup"), 800);
+    return () => window.clearTimeout(timer);
+  }, [mySlug, weekStart, snapshot.me.creatorDone]);
 
   // The focus timer ends here whichever window is open, and the server checks the time.
   const focusEnds = snap.focus?.endsAt;
@@ -193,6 +214,7 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
     <>
       {panel === "day" || presentation === "plain" ? <DayPanel snap={view} onClose={close} openPanel={openPanel} /> : null}
       {panel === "standup" || presentation === "plain" ? <StandupPanel snap={view} onClose={close} openPanel={openPanel} /> : null}
+      {panel === "wrapup" || presentation === "plain" ? <WrapupPanel snap={view} onClose={close} /> : null}
       {panel === "client" && client ? <ClientPanel key={client.slug} slug={client.slug} name={client.name} onClose={() => setPanel(null)} /> : null}
       {panel === "quests" || presentation === "plain" ? (
         <QuestPanel snap={view} busy={busy} act={act} onClose={close} filter={questFilter} setFilter={setQuestFilter} />
@@ -302,6 +324,7 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
         <BarButton current={panel} id="team" label="Team" shortcut="T" badge={unreadNotes} onPick={openPanel} />
         <BarButton current={panel} id="calendar" label="Calendar" shortcut="C" onPick={openPanel} />
         <BarButton current={panel} id="projects" label="Projects" shortcut="P" onPick={openPanel} />
+        <BarButton current={panel} id="wrapup" label={isFriday ? "Friday wrap-up" : "Wrap-up"} shortcut="W" onPick={openPanel} />
         <button type="button" className={panel === "desk" ? "pxbtn tiny" : "pxbtn alt tiny"} onClick={() => { setDeskSlug(snap.me.slug); openPanel("desk"); }}>My desk</button>
         <button type="button" className={panel === "profile" ? "pxbtn tiny" : "pxbtn alt tiny"} onClick={() => openPanel("profile")}>Me</button>
         <div className="emotes" role="group" aria-label="Emotes">

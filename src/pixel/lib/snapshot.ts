@@ -5,11 +5,11 @@ import { emptyClientForm, loadClientForm } from "@/lib/metrics/load-form";
 import { SEATS } from "@/pixel/game/layout";
 import { cleanAppearance, DEFAULTS, statusLabel } from "@/pixel/game/options";
 import { sqlAll, sqlOne, sqlRun, type StaffRow, type TaskRow } from "@/pixel/lib/db";
-import { clockLabel, localKey, prettyDate, shiftKey } from "@/pixel/lib/format";
+import { clockLabel, localKey, prettyDate, shiftKey, weekKeys } from "@/pixel/lib/format";
 import { savedClientLights } from "@/pixel/lib/lights";
 import { loadNotion, notionConfigured, officeMapping } from "@/pixel/lib/notion";
 import { levelProgress, milestone } from "@/pixel/lib/xp";
-import type { Announcement, Appearance, FocusSession, LiveConfig, ProjectItem, Snapshot, StaffPublic, StaffSlug, Status, TaskItem } from "@/pixel/types";
+import type { Announcement, Appearance, FocusSession, LiveConfig, Wrapup, ProjectItem, Snapshot, StaffPublic, StaffSlug, Status, TaskItem } from "@/pixel/types";
 
 const SLUGS: StaffSlug[] = ["max", "tash", "mariette", "natasha"];
 const NAMES: Record<StaffSlug, string> = { max: "Max", tash: "Tash", mariette: "Mariette", natasha: "Natasha" };
@@ -97,6 +97,18 @@ function focusOf(slug: string): FocusSession | null {
   }
 }
 
+function wrapupOf(today: string, staff: StaffPublic[]): Wrapup {
+  const week = weekKeys(today);
+  const focus = {} as Record<StaffSlug, number>;
+  for (const person of staff) {
+    focus[person.slug] = week.reduce((sum, day) => {
+      const row = sqlOne<{ value: string }>("select value from settings where key = ?", `focus_count:${person.slug}:${day}`);
+      return sum + (Number(row?.value) || 0);
+    }, 0);
+  }
+  return { week, focus };
+}
+
 function liveConfig(): LiveConfig | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
   const key =
@@ -131,6 +143,7 @@ function demoTasks(today: string): TaskItem[] {
       dueLabel: date ? `${prettyDate(date)}${row.time_of_day ? ` · ${row.time_of_day}` : ""}` : "No date yet",
       notionUrl: null,
       localPreview: false,
+      completedAt: row.completed_at,
       overdue: Boolean(date && date < today && status !== "done"),
       today: date === today,
     };
@@ -217,6 +230,7 @@ export async function buildSnapshot(viewer: StaffRow, forceNotion = false): Prom
     form: await formPromise,
     live: liveConfig(),
     focus: focusOf(awarded.slug),
+    wrapup: wrapupOf(today, staff),
   };
 }
 
