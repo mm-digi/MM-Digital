@@ -3,7 +3,7 @@ import { escapeHtml, sendEmail } from "@/lib/email";
 import { checkDataHealth, type DataProblem } from "@/lib/metrics/health";
 import { createAdminClient } from "@/lib/supabase/admin";
 
-// The 9am weekday team briefing. One email to everyone: which client needs the most
+// The 9am team briefing, sent on Mondays, Wednesdays and Fridays. One email to everyone: which client needs the most
 // help this week, then a section for each person's area. "This week" is the
 // last 7 full days (up to yesterday) against the 7 days before. It goes on the
 // figures alone; the office traffic lights aren't used yet.
@@ -263,7 +263,15 @@ ${body}
 
 const changeItems = (items: Change[]) => items.map((item) => `${link(item.slug, item.name)}: ${escapeHtml(item.text)}`);
 
-export async function buildBriefing(now = new Date(), test = false) {
+// Each day's email has its own name.
+export function briefingName(day: Date) {
+  const names: Record<number, string> = { 1: "Monday Briefing", 3: "Mid Week Briefing", 5: "Friday Briefing" };
+  return names[day.getUTCDay()] ?? "Briefing";
+}
+
+// sendDate is the day the email is for. It's only different from now when previewing a future day.
+export async function buildBriefing(now = new Date(), test = false, sendDate = now) {
+  const name = briefingName(sendDate);
   const { clients, weekFrom, yesterday, problems } = await loadWeek(now);
   const ranked = clients
     .map((client) => ({ client, ...needsHelp(client) }))
@@ -353,7 +361,7 @@ export async function buildBriefing(now = new Date(), test = false) {
 
   const topBlock = top
     ? `<div style="margin:20px 0 0;padding:18px 20px;background:#fff1f3;border-left:5px solid ${PINK};border-radius:6px">
-<p style="margin:0;font-size:13px;font-weight:bold;color:${PINK};text-transform:uppercase;letter-spacing:0.04em">Needs the most help this week</p>
+<p style="margin:0;font-size:13px;font-weight:bold;color:${PINK};text-transform:uppercase;letter-spacing:0.04em">ACTION REQUIRED</p>
 <p style="margin:6px 0 0;font-size:22px">${link(top.client.slug, top.client.name)}</p>
 ${list(top.reasons.map(escapeHtml))}
 ${
@@ -365,34 +373,39 @@ ${
     : `<p style="margin:20px 0 0;font-size:15px">No client stands out as needing help this week.</p>`;
 
   const html = `<div style="font-family:Arial,Helvetica,sans-serif;color:#111;max-width:680px">
-${test ? `<p style="margin:0 0 16px;padding:10px 12px;background:#f5f5f5;border-left:4px solid #999;font-size:14px">Test copy for Tash. The real one goes to Tash, Mariette, Natasha and Max at 9am, Monday to Friday.</p>` : ""}
-<h2 style="margin:0;font-size:22px">Morning briefing · ${escapeHtml(prettyDate(iso(now)))}</h2>
+${test ? `<p style="margin:0 0 16px;padding:10px 12px;background:#f5f5f5;border-left:4px solid #999;font-size:14px">Test copy for Tash. The real one goes to Tash, Mariette, Natasha and Max at 9am on Mondays, Wednesdays and Fridays.</p>` : ""}
+<h2 style="margin:0;font-size:22px">${escapeHtml(name)} · ${escapeHtml(prettyDate(iso(sendDate)))}</h2>
 <p style="margin:6px 0 0;color:#555;font-size:14px">This week is ${escapeHtml(range)}, compared with the 7 days before.</p>
 ${topBlock}
-${section("The big picture", "Max", maxBody)}
+${section("The Big Picture", "Max", maxBody)}
 ${section("Websites", "Tash", tashBody)}
-${section("Social media & marketing", "Mariette", marietteBody)}
+${section("Social Media & Marketing", "Mariette", marietteBody)}
 ${section("Campaigns & LinkedIn", "Natasha", natashaBody)}
-<p style="margin:24px 0 0;color:#777;font-size:12px">Sent at 9am every weekday from the client dashboards. Click a client to open their dashboard.</p>
+<p style="margin:24px 0 0;color:#777;font-size:12px">Sent at 9am on Mondays, Wednesdays and Fridays from the client dashboards. Click a client to open their dashboard.</p>
 </div>`;
 
   const text = [
-    `Morning briefing, ${prettyDate(iso(now))}`,
+    `${name}, ${prettyDate(iso(sendDate))}`,
     `This week is ${range}, compared with the 7 days before.`,
     "",
-    top ? `Needs the most help: ${top.client.name}\n${top.reasons.map((reason) => `- ${reason}`).join("\n")}` : "No client stands out as needing help this week.",
+    top ? `ACTION REQUIRED: ${top.client.name}\n${top.reasons.map((reason) => `- ${reason}`).join("\n")}` : "No client stands out as needing help this week.",
     ...(watch.length ? ["", "Also keep an eye on:", ...watch.map((item) => `- ${item.client.name}: ${item.reasons[0]}`)] : []),
     "",
     "Open the email in HTML for each person's section.",
   ].join("\n");
 
-  const subject = `${test ? "[Test] " : ""}Morning briefing: ${top ? `${top.client.name} needs the most help` : "no client stands out"} this week`;
+  const subject = `${test ? "[Test] " : ""}${name}: ${top ? `action required for ${top.client.name}` : "no client stands out this week"}`;
   return { subject, html, text, top: top?.client.name ?? null };
 }
 
 // test: a marked test copy to Tash. sample: the real email, unmarked, to Tash only.
-export async function sendBriefing({ test = false, sample = false, now = new Date() } = {}) {
-  const email = await buildBriefing(now, test);
+export async function sendBriefing({
+  test = false,
+  sample = false,
+  now = new Date(),
+  sendDate,
+}: { test?: boolean; sample?: boolean; now?: Date; sendDate?: Date } = {}) {
+  const email = await buildBriefing(now, test, sendDate ?? now);
   const to = test || sample ? [BRIEFING_TO[0]] : BRIEFING_TO;
   const sent = await sendEmail({ subject: email.subject, html: email.html, text: email.text, to });
   return { sent, to, top: email.top };
