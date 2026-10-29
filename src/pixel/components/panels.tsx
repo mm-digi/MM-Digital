@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import type { Insight } from "@/lib/metrics/insights";
 import { Sprite } from "@/pixel/components/Sprite";
 import { Window } from "@/pixel/components/Window";
 import { monthLabel, prettyDate, weekKeys } from "@/pixel/lib/format";
@@ -129,7 +130,19 @@ export function QuestPanel({
   );
 }
 
-export function TeamPanel({ snap, busy, act, onClose }: { snap: Snapshot; busy: boolean; act: Act; onClose?: () => void }) {
+export function TeamPanel({
+  snap,
+  busy,
+  act,
+  onClose,
+  newSince,
+}: {
+  snap: Snapshot;
+  busy: boolean;
+  act: Act;
+  onClose?: () => void;
+  newSince?: string | null;
+}) {
   const [body, setBody] = useState("");
   const today = snap.tasks.filter((task) => task.today && task.status !== "done");
   const week = new Set(weekKeys(snap.today));
@@ -186,7 +199,8 @@ export function TeamPanel({ snap, busy, act, onClose }: { snap: Snapshot; busy: 
       {snap.announcements.length === 0 ? <p className="empty">The board is clear.</p> : null}
       <ul className="notes">
         {snap.announcements.map((note) => (
-          <li key={note.id}>
+          <li key={note.id} className={isNewNote(note, snap, newSince) ? "fresh" : undefined}>
+            {isNewNote(note, snap, newSince) ? <span className="new-badge">New</span> : null}
             <p>{note.body}</p>
             <span>{note.authorName} · {note.timeLabel}</span>
             {note.authorSlug === snap.me.slug || snap.me.role === "admin" ? (
@@ -208,6 +222,10 @@ export function TeamPanel({ snap, busy, act, onClose }: { snap: Snapshot; busy: 
       </form>
     </Window>
   );
+}
+
+export function isNewNote(note: Snapshot["announcements"][number], snap: Snapshot, since: string | null | undefined) {
+  return Boolean(since && note.authorSlug !== snap.me.slug && note.createdAt > since);
 }
 
 function TaskList({ tasks }: { tasks: TaskItem[] }) {
@@ -408,6 +426,7 @@ export function DeskPanel({
       {projects.length ? <p>{projects.join(", ")}</p> : <p className="empty">No open project tags.</p>}
       <h3>Recently finished</h3>
       <TaskList tasks={done} />
+      {mine ? <FocusTimer snap={snap} busy={busy} act={act} /> : null}
       {mine ? (
         <form
           className="stack"
@@ -581,6 +600,162 @@ export function NotionPanel({ snap, busy, act, onClose }: { snap: Snapshot; busy
         </button>
         <button type="button" className="pxbtn alt" disabled={busy} onClick={() => act({ type: "notionRefresh" })}>Refresh now</button>
       </div>
+    </Window>
+  );
+}
+
+function remaining(endsAt: string, now: number) {
+  const left = Math.max(0, Math.round((Date.parse(endsAt) - now) / 1000));
+  return `${Math.floor(left / 60)}:${String(left % 60).padStart(2, "0")}`;
+}
+
+export function FocusClock({ endsAt }: { endsAt: string }) {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+  return <time dateTime={endsAt}>{remaining(endsAt, now)}</time>;
+}
+
+function FocusTimer({ snap, busy, act }: { snap: Snapshot; busy: boolean; act: Act }) {
+  return (
+    <div className="block">
+      <h3>Focus timer</h3>
+      {snap.focus ? (
+        <>
+          <p className="focus-clock">
+            <FocusClock endsAt={snap.focus.endsAt} /> left
+          </p>
+          <p className="fine">Your status says Focusing until the timer ends.</p>
+          <button type="button" className="pxbtn alt tiny" disabled={busy} onClick={() => act({ type: "focusStop" })}>
+            Stop early
+          </button>
+        </>
+      ) : (
+        <>
+          <p className="fine">
+            Sets your status to Focusing so the team knows you&apos;re heads down.
+            {snap.me.gamification ? " Finishing one gives a little XP, up to four a day." : ""}
+          </p>
+          <div className="row-actions">
+            {[25, 50].map((minutes) => (
+              <button key={minutes} type="button" className="pxbtn tiny" disabled={busy} onClick={() => act({ type: "focusStart", minutes })}>
+                Focus {minutes} min
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+export function StandupPanel({ snap, onClose, openPanel }: { snap: Snapshot; onClose?: () => void; openPanel: (id: PanelId) => void }) {
+  const open = snap.tasks.filter((task) => task.status !== "done");
+  const meetings = byTime(open.filter((task) => task.kind === "meeting" && task.today));
+  return (
+    <Window title="Morning stand-up" onClose={onClose}>
+      <p className="fine">{prettyDate(snap.today)}. Everyone&apos;s day at a glance.</p>
+      <div className="block">
+        <h3>Meetings today</h3>
+        {meetings.length ? (
+          <ul className="plain-list">
+            {meetings.map((task) => (
+              <li key={task.id}>
+                <strong>{task.time || "Anytime"}</strong> {task.title} <span>{task.assigneeName}</span>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="empty">No meetings today.</p>
+        )}
+      </div>
+      {snap.staff.map((person) => {
+        const theirs = open.filter((task) => task.assignee === person.slug);
+        const today = byTime(theirs.filter((task) => task.today && task.kind !== "meeting"));
+        const doing = theirs.filter((task) => task.status === "doing" && !task.today);
+        const overdue = theirs.filter((task) => task.overdue);
+        return (
+          <section key={person.slug} className="standup-person">
+            <header>
+              <i style={{ background: person.accent }} aria-hidden="true" />
+              <strong>{person.name}</strong>
+              <span className="meta">{person.online ? statusLabel(person.status) : "Offline"}</span>
+            </header>
+            <StandupList label="Today" tasks={today} empty="Nothing dated today." />
+            {doing.length ? <StandupList label="In progress" tasks={doing} /> : null}
+            {overdue.length ? <StandupList label="Overdue" tasks={overdue} warn /> : null}
+          </section>
+        );
+      })}
+      <div className="row-actions">
+        <button type="button" className="pxbtn alt tiny" onClick={() => openPanel("calendar")}>Calendar</button>
+        <button type="button" className="pxbtn alt tiny" onClick={() => openPanel("quests")}>Quest journal</button>
+      </div>
+    </Window>
+  );
+}
+
+function StandupList({ label, tasks, empty, warn }: { label: string; tasks: TaskItem[]; empty?: string; warn?: boolean }) {
+  const shown = tasks.slice(0, 4);
+  return (
+    <div className="standup-list">
+      <h3 className={warn ? "warn" : undefined}>{label}{tasks.length ? ` (${tasks.length})` : ""}</h3>
+      {shown.length ? (
+        <ul className="plain-list">
+          {shown.map((task) => (
+            <li key={task.id}>
+              {task.title} <span>{task.time ? `${task.time} · ` : ""}{task.project}{warn ? ` · ${task.dueLabel}` : ""}</span>
+            </li>
+          ))}
+          {tasks.length > shown.length ? <li className="meta">and {tasks.length - shown.length} more</li> : null}
+        </ul>
+      ) : (
+        <p className="empty">{empty}</p>
+      )}
+    </div>
+  );
+}
+
+type ClientLook = { slug: string; name: string; updatedAt: string | null; insights: Insight[] };
+
+export function ClientPanel({ slug, name, onClose }: { slug: string; name: string; onClose?: () => void }) {
+  const [look, setLook] = useState<ClientLook | null>(null);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    let live = true;
+    fetch(`/api/pixel/client/?slug=${encodeURIComponent(slug)}`)
+      .then((response) => (response.ok ? (response.json() as Promise<ClientLook>) : Promise.reject(new Error("failed"))))
+      .then((data) => {
+        if (live) setLook(data);
+      })
+      .catch(() => {
+        if (live) setFailed(true);
+      });
+    return () => {
+      live = false;
+    };
+  }, [slug]);
+
+  return (
+    <Window title={name} onClose={onClose}>
+      {failed ? <p className="banner warn">Could not load this client&apos;s figures.</p> : null}
+      {!look && !failed ? <p className="empty">Fetching the latest figures...</p> : null}
+      {look && !look.insights.length ? <p className="empty">No figures synced for this client yet.</p> : null}
+      {look?.insights.map((insight, index) => (
+        <details key={insight.id} className="block" open={index === 0}>
+          <summary>{insight.question}</summary>
+          {insight.answer.map((line, lineIndex) => (
+            <p key={lineIndex}>{line}</p>
+          ))}
+        </details>
+      ))}
+      {look?.updatedAt ? (
+        <p className="fine">Updated {new Date(look.updatedAt).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" })}.</p>
+      ) : null}
+      <a className="pxbtn alt" href={`/${slug}/`}>Open the full dashboard</a>
     </Window>
   );
 }

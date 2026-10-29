@@ -9,10 +9,12 @@ export function ClientLights({
   snap,
   busy,
   act,
+  onOpen,
 }: {
   snap: Snapshot;
   busy: boolean;
   act: (body: ActionBody) => Promise<ActionResult | void>;
+  onOpen: (slug: string, name: string) => void;
 }) {
   return (
     <aside className="lights wood" aria-label="Client health">
@@ -25,7 +27,7 @@ export function ClientLights({
           {snap.form.best ? (
             <p className="form-line">
               <span className="fine">Best this month</span>
-              <a href={`/${snap.form.best.slug}/`}>{snap.form.best.name}</a>
+              <button type="button" className="client-name" onClick={() => onOpen(snap.form.best!.slug, snap.form.best!.name)}>{snap.form.best.name}</button>
               <span className="fine">{snap.form.best.label}</span>
             </p>
           ) : (
@@ -34,12 +36,12 @@ export function ClientLights({
           {snap.form.worst ? (
             <p className="form-line">
               <span className="fine">Worst this month</span>
-              <a href={`/${snap.form.worst.slug}/`}>{snap.form.worst.name}</a>
+              <button type="button" className="client-name" onClick={() => onOpen(snap.form.worst!.slug, snap.form.worst!.name)}>{snap.form.worst.name}</button>
               <span className="fine">{snap.form.worst.label}</span>
             </p>
           ) : null}
         </div>
-        {snap.canEditLights ? <p className="fine">Click a light to change it.</p> : null}
+        <p className="fine">{snap.canEditLights ? "Click a light to change it, or a name for a quick look." : "Click a name for a quick look."}</p>
         <ul className="light-list">
           {snap.clients.map((client) => (
             <li key={client.slug}>
@@ -56,9 +58,12 @@ export function ClientLights({
               ) : (
                 <i className={`lamp ${client.light}`} aria-hidden="true" />
               )}
-              <a href={`/${client.slug}/`}>
+              <button type="button" className="client-name" onClick={() => onOpen(client.slug, client.name)}>
                 <span>{client.name}</span>
-                <span className="sr-only">{CLIENT_LIGHT_LABEL[client.light]}</span>
+                <span className="sr-only">{CLIENT_LIGHT_LABEL[client.light]}. Quick look.</span>
+              </button>
+              <a className="client-open" href={`/${client.slug}/`} aria-label={`Open ${client.name}'s dashboard`} title="Open the full dashboard">
+                ↗
               </a>
             </li>
           ))}

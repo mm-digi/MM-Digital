@@ -10,7 +10,12 @@ import { buildSnapshot } from "@/pixel/lib/snapshot";
 import { ACHIEVEMENTS, levelProgress } from "@/pixel/lib/xp";
 import type { ActionBody, ActionResult, Snapshot, StaffSlug, Status } from "@/pixel/types";
 
-const STATUSES: Status[] = ["working", "meeting", "break", "away", "available"];
+const STATUSES: Status[] = ["working", "meeting", "break", "away", "available", "focus"];
+const FOCUS_XP: Record<number, number> = { 25: 10, 50: 20 };
+// Focus XP stops after this many sessions a day. Long days earn nothing extra.
+const FOCUS_XP_PER_DAY = 4;
+// Achievements the browser is allowed to ask for, because only the browser sees them happen.
+const CLIENT_ACHIEVEMENTS = ["wave", "stand-up"];
 const fail = (status: number, error: string): ActionResult => ({ ok: false, status, error });
 
 function addAchievement(row: StaffRow, id: string) {
@@ -53,6 +58,35 @@ function claimNotionXp(slug: string, pageId: string) {
     JSON.stringify(claimed),
   );
   return true;
+}
+
+function readSetting<T>(key: string): T | null {
+  const row = sqlOne<{ value: string }>("select value from settings where key = ?", key);
+  if (!row) return null;
+  try {
+    return JSON.parse(row.value) as T;
+  } catch {
+    return null;
+  }
+}
+
+function writeSetting(key: string, value: unknown) {
+  sqlRun("insert into settings (key, value) values (?, ?) on conflict(key) do update set value = excluded.value", key, JSON.stringify(value));
+}
+
+function unlockedToast(snapshot: Snapshot, id: string, before: string[]): ActionResult {
+  const item = ACHIEVEMENTS[id];
+  if (!snapshot.me.gamification || before.includes(id) || !item) return { ok: true, snapshot };
+  return { ok: true, snapshot, celebrate: true, toast: `Unlocked: ${item.name}.` };
+}
+
+function achievementsOf(row: StaffRow) {
+  try {
+    const parsed = JSON.parse(row.achievements) as unknown;
+    return Array.isArray(parsed) ? parsed.filter((item): item is string => typeof item === "string") : [];
+  } catch {
+    return [];
+  }
 }
 
 function questDoneResult(snapshot: Snapshot, reward: number, beforeLevel: number, plain: string): ActionResult {
@@ -114,6 +148,7 @@ export async function handleAction(me: StaffRow, body: ActionBody | null): Promi
     const text = String(body.body ?? "").trim().slice(0, 280);
     if (!text) return fail(400, "Write a short announcement first.");
     sqlRun("insert into announcements (id, author_slug, body, created_at) values (?, ?, ?, ?)", randomUUID(), me.slug, text, new Date().toISOString());
+    addAchievement(fresh(me.id), "noticeboard");
     const snapshot = await buildSnapshot(fresh(me.id));
     return { ok: true, snapshot, toast: "Pinned to the noticeboard." };
   }
@@ -131,6 +166,48 @@ export async function handleAction(me: StaffRow, body: ActionBody | null): Promi
     addAchievement(fresh(me.id), "frank");
     const snapshot = await buildSnapshot(fresh(me.id));
     return { ok: true, snapshot };
+  }
+
+  if (body.type === "achievement") {
+    if (!CLIENT_ACHIEVEMENTS.includes(body.id)) return fail(400, "Unknown achievement.");
+    const before = achievementsOf(fresh(me.id));
+    addAchievement(fresh(me.id), body.id);
+    const snapshot = await buildSnapshot(fresh(me.id));
+    return unlockedToast(snapshot, body.id, before);
+  }
+
+  if (body.type === "focusStart") {
+    if (!FOCUS_XP[body.minutes]) return fail(400, "Pick a 25 or 50 minute focus session.");
+    writeSetting(`focus:${me.slug}`, { startedAt: new Date().toISOString(), minutes: body.minutes });
+    sqlRun("update staff set status = 'focus' where id = ?", me.id);
+    const snapshot = await buildSnapshot(fresh(me.id));
+    return { ok: true, snapshot, toast: `Focus timer started for ${body.minutes} minutes. Your status says Focusing.` };
+  }
+
+  if (body.type === "focusStop" || body.type === "focusDone") {
+    const key = `focus:${me.slug}`;
+    const session = readSetting<{ startedAt: string; minutes: number }>(key);
+    if (!session) {
+      const snapshot = await buildSnapshot(fresh(me.id));
+      return { ok: true, snapshot };
+    }
+    const finished = Date.now() - Date.parse(session.startedAt) >= session.minutes * 60_000 - 30_000;
+    if (body.type === "focusDone" && !finished) return fail(400, "That focus session has not finished yet.");
+    sqlRun("delete from settings where key = ?", key);
+    sqlRun("update staff set status = 'working' where id = ? and status = 'focus'", me.id);
+    if (body.type === "focusStop" || !finished) {
+      const snapshot = await buildSnapshot(fresh(me.id));
+      return { ok: true, snapshot, toast: "Focus timer stopped." };
+    }
+    const beforeLevel = levelProgress(fresh(me.id).xp).level;
+    const countKey = `focus_count:${me.slug}:${localKey(new Date())}`;
+    const count = readSetting<number>(countKey) ?? 0;
+    writeSetting(countKey, count + 1);
+    const reward = count < FOCUS_XP_PER_DAY ? FOCUS_XP[session.minutes] ?? 0 : 0;
+    if (reward) sqlRun("update staff set xp = xp + ? where id = ?", reward, me.id);
+    addAchievement(fresh(me.id), "deep-work");
+    const snapshot = await buildSnapshot(fresh(me.id));
+    return questDoneResult(snapshot, reward, beforeLevel, "Focus session done. Time for a stretch.");
   }
 
   if (body.type === "complete") {

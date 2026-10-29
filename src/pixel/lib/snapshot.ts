@@ -9,7 +9,7 @@ import { clockLabel, localKey, prettyDate, shiftKey } from "@/pixel/lib/format";
 import { savedClientLights } from "@/pixel/lib/lights";
 import { loadNotion, notionConfigured, officeMapping } from "@/pixel/lib/notion";
 import { levelProgress, milestone } from "@/pixel/lib/xp";
-import type { Announcement, Appearance, LiveConfig, ProjectItem, Snapshot, StaffPublic, StaffSlug, Status, TaskItem } from "@/pixel/types";
+import type { Announcement, Appearance, FocusSession, LiveConfig, ProjectItem, Snapshot, StaffPublic, StaffSlug, Status, TaskItem } from "@/pixel/types";
 
 const SLUGS: StaffSlug[] = ["max", "tash", "mariette", "natasha"];
 const NAMES: Record<StaffSlug, string> = { max: "Max", tash: "Tash", mariette: "Mariette", natasha: "Natasha" };
@@ -84,6 +84,19 @@ export function toPublic(row: StaffRow, viewerSlug: string): StaffPublic {
   };
 }
 
+function focusOf(slug: string): FocusSession | null {
+  const row = sqlOne<{ value: string }>("select value from settings where key = ?", `focus:${slug}`);
+  if (!row) return null;
+  try {
+    const session = JSON.parse(row.value) as { startedAt: string; minutes: number };
+    const start = Date.parse(session.startedAt);
+    if (!Number.isFinite(start) || !session.minutes) return null;
+    return { endsAt: new Date(start + session.minutes * 60_000).toISOString(), minutes: session.minutes };
+  } catch {
+    return null;
+  }
+}
+
 function liveConfig(): LiveConfig | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
   const key =
@@ -141,6 +154,7 @@ export async function buildSnapshot(viewer: StaffRow, forceNotion = false): Prom
   let awarded = fresh;
   if (mineDone >= 1) awarded = grantAchievement(awarded, "first-quest");
   if (mineDone >= 5) awarded = grantAchievement(awarded, "five-quests");
+  if (mineDone >= 10) awarded = grantAchievement(awarded, "ten-quests");
   const staffRows = sqlAll<StaffRow>("select * from staff order by display_name");
   const staff = staffRows.map((row) => toPublic(row.id === awarded.id ? awarded : row, awarded.slug));
   const me = staff.find((person) => person.id === awarded.id) ?? toPublic(awarded, awarded.slug);
@@ -178,6 +192,7 @@ export async function buildSnapshot(viewer: StaffRow, forceNotion = false): Prom
     authorName: isSlug(row.author_slug) ? NAMES[row.author_slug] : row.author_slug,
     body: row.body,
     timeLabel: clockLabel(row.created_at),
+    createdAt: row.created_at,
   })) satisfies Announcement[];
 
   const doneCount = tasks.filter((task) => task.status === "done").length;
@@ -201,6 +216,7 @@ export async function buildSnapshot(viewer: StaffRow, forceNotion = false): Prom
     canEditLights: canEditClientLights(viewer.slug),
     form: await formPromise,
     live: liveConfig(),
+    focus: focusOf(awarded.slug),
   };
 }
 

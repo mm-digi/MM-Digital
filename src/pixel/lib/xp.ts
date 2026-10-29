@@ -26,4 +26,9 @@ export const ACHIEVEMENTS: Record<string, { name: string; detail: string }> = {
   "five-quests": { name: "Steady pace", detail: "Five quests finished, at your own pace." },
   coffee: { name: "Kettle club", detail: "You took a break. Frank approves." },
   frank: { name: "Approved by Frank", detail: "Frank accepted a visitor." },
+  "ten-quests": { name: "In the groove", detail: "Ten quests finished. Still home on time." },
+  "deep-work": { name: "Deep work", detail: "You finished a focus session." },
+  "stand-up": { name: "Morning huddle", detail: "You checked the stand-up board." },
+  wave: { name: "Friendly face", detail: "You waved at the office." },
+  noticeboard: { name: "Town crier", detail: "You pinned a note for the team." },
 };

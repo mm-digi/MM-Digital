@@ -2,7 +2,11 @@ export type StaffSlug = "max" | "tash" | "mariette" | "natasha";
 
 export type Role = "admin" | "staff";
 
-export type Status = "working" | "meeting" | "break" | "away" | "available";
+export type Status = "working" | "meeting" | "break" | "away" | "available" | "focus";
+
+export type EmoteId = "wave" | "thumbs" | "coffee" | "call" | "party" | "think";
+
+export type Emote = { id: EmoteId; at: number };
 
 export type HairStyle = "bob" | "sweep" | "curls" | "long" | "bun" | "pixie" | "spikes" | "braids";
 
@@ -61,6 +65,7 @@ export type StaffPublic = {
   x: number;
   y: number;
   sitting: boolean;
+  emote?: Emote | null;
 };
 
 export type TaskItem = {
@@ -100,6 +105,7 @@ export type Announcement = {
   authorName: string;
   body: string;
   timeLabel: string;
+  createdAt: string;
 };
 
 export type NotionMapping = {
@@ -162,6 +168,12 @@ export type Snapshot = {
   canEditLights: boolean;
   form: ClientForm;
   live: LiveConfig | null;
+  focus: FocusSession | null;
+};
+
+export type FocusSession = {
+  endsAt: string;
+  minutes: number;
 };
 
 // Where to join live presence (Supabase Realtime). The channel name is derived
@@ -180,6 +192,7 @@ export type Presence = {
   status: Status;
   appearance: Appearance;
   characterName: string;
+  emote: Emote | null;
 };
 
 export type ActionBody =
@@ -200,6 +213,10 @@ export type ActionBody =
   | { type: "notionSchema"; databaseId: string }
   | { type: "notionRefresh" }
   | { type: "frank" }
+  | { type: "focusStart"; minutes: number }
+  | { type: "focusStop" }
+  | { type: "focusDone" }
+  | { type: "achievement"; id: string }
   | { type: "clientLight"; slug: string; light: ClientLight };
 
 export type NotionSchema = {
@@ -226,4 +243,6 @@ export type PanelId =
   | "desk"
   | "profile"
   | "notion"
-  | "creator";
+  | "creator"
+  | "standup"
+  | "client";

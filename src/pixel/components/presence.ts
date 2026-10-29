@@ -3,12 +3,19 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createClient, type RealtimeChannel } from "@supabase/supabase-js";
 import { ROOM_H, ROOM_W } from "@/pixel/game/layout";
-import { STATUSES } from "@/pixel/game/options";
-import type { LiveConfig, Presence, StaffPublic, StaffSlug } from "@/pixel/types";
+import { EMOTES, STATUSES } from "@/pixel/game/options";
+import type { Emote, LiveConfig, Presence, StaffPublic, StaffSlug } from "@/pixel/types";
 
 // Live presence for the office. Each open tab joins one Supabase Realtime
 // channel and shares where it is standing, so nothing about who is online or
 // where they are goes through the shared office file any more.
+
+function cleanEmote(value: unknown): Emote | null {
+  if (!value || typeof value !== "object") return null;
+  const emote = value as Partial<Emote>;
+  if (!EMOTES.some((item) => item.id === emote.id) || typeof emote.at !== "number") return null;
+  return { id: emote.id as Emote["id"], at: emote.at };
+}
 
 function clean(value: unknown, fallback: StaffPublic): Presence | null {
   if (!value || typeof value !== "object") return null;
@@ -21,11 +28,13 @@ function clean(value: unknown, fallback: StaffPublic): Presence | null {
     status: STATUSES.some((status) => status.id === item.status) ? (item.status as Presence["status"]) : fallback.status,
     appearance: item.appearance && typeof item.appearance === "object" ? item.appearance : fallback.appearance,
     characterName: typeof item.characterName === "string" && item.characterName.trim() ? item.characterName.slice(0, 18) : fallback.characterName,
+    emote: cleanEmote(item.emote),
   };
 }
 
 export function useLivePresence(live: LiveConfig | null, me: StaffPublic, staff: StaffPublic[]) {
   const [others, setOthers] = useState<Record<string, unknown>>({});
+  const [myEmote, setMyEmote] = useState<Emote | null>(null);
   const channel = useRef<RealtimeChannel | null>(null);
   const joined = useRef(false);
   const mine = useRef<Presence>({
@@ -35,6 +44,7 @@ export function useLivePresence(live: LiveConfig | null, me: StaffPublic, staff:
     status: me.status,
     appearance: me.appearance,
     characterName: me.characterName,
+    emote: null,
   });
   const slug = me.slug;
   const url = live?.url;
@@ -74,6 +84,15 @@ export function useLivePresence(live: LiveConfig | null, me: StaffPublic, staff:
     if (joined.current) void channel.current?.track(mine.current).catch(() => undefined);
   }, []);
 
+  const emote = useCallback(
+    (id: Emote["id"]) => {
+      const next = { id, at: Date.now() };
+      setMyEmote(next);
+      share({ emote: next });
+    },
+    [share],
+  );
+
   useEffect(() => {
     share({ status: me.status, appearance: me.appearance, characterName: me.characterName });
   }, [share, me.status, me.appearance, me.characterName]);
@@ -81,12 +100,12 @@ export function useLivePresence(live: LiveConfig | null, me: StaffPublic, staff:
   const merged = useMemo(
     () =>
       staff.map((person) => {
-        if (person.slug === slug) return { ...person, online: true };
+        if (person.slug === slug) return { ...person, online: true, emote: myEmote };
         const seen = clean(others[person.slug as StaffSlug], person);
         return seen ? { ...person, ...seen, online: true } : { ...person, online: false };
       }),
-    [staff, others, slug],
+    [staff, others, slug, myEmote],
   );
 
-  return { staff: merged, share, connected: Boolean(live) };
+  return { staff: merged, share, emote, connected: Boolean(live) };
 }

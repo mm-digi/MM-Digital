@@ -6,7 +6,7 @@ import { createFrank, drawFrank, FRANK_H, FRANK_LINES, FRANK_W, stepFrank, type 
 import { HOTSPOTS, ROOM_H, ROOM_W, SEATS, SOFA_SPOTS } from "@/pixel/game/layout";
 import { drawAnimated, staticRoom } from "@/pixel/game/room";
 import { findPath } from "@/pixel/game/walk";
-import { statusLabel } from "@/pixel/game/options";
+import { EMOTES, statusLabel } from "@/pixel/game/options";
 import type { StaffPublic, StaffSlug } from "@/pixel/types";
 
 type Actor = { x: number; y: number; dir: 1 | -1; frame: number; sitting: boolean };
@@ -14,6 +14,7 @@ type Point = { x: number; y: number };
 type RemoteWalk = { path: Point[]; sit: Point | null };
 
 const WALK_SPEED = 0.055;
+const BUBBLE_MS = 6000;
 
 // Moves an actor along a route by up to `distance` pixels. True once it arrives.
 function advance(actor: Actor, route: Point[], distance: number) {
@@ -60,6 +61,8 @@ export function OfficeStage({
   const stageRef = useRef<HTMLDivElement>(null);
   const frankButton = useRef<HTMLButtonElement>(null);
   const plates = useRef<Record<string, HTMLDivElement | null>>({});
+  const bubbles = useRef<Record<string, HTMLDivElement | null>>({});
+  const seenEmotes = useRef<Record<string, number>>({});
   const actors = useRef<Record<string, Actor>>({});
   const path = useRef<Point[]>([]);
   const remote = useRef<Record<string, RemoteWalk>>({});
@@ -106,6 +109,28 @@ export function OfficeStage({
     }
     redraw.current();
   }, [staff, me.slug]);
+
+  // Emotes pop up over a character for a few seconds. Old ones seen on joining are skipped.
+  // Hide timers are left to run across re-renders, since presence updates often.
+  useEffect(() => {
+    for (const person of staff) {
+      const emote = person.emote;
+      const bubble = bubbles.current[person.slug];
+      if (!emote || !bubble || seenEmotes.current[person.slug] === emote.at) continue;
+      seenEmotes.current[person.slug] = emote.at;
+      if (Math.abs(Date.now() - emote.at) > 60_000) continue;
+      const icon = EMOTES.find((item) => item.id === emote.id);
+      if (!icon) continue;
+      bubble.textContent = icon.icon;
+      bubble.setAttribute("aria-label", `${person.characterName}: ${icon.label}`);
+      bubble.dataset.show = "true";
+      const at = emote.at;
+      window.setTimeout(() => {
+        if (seenEmotes.current[person.slug] === at) delete bubble.dataset.show;
+      }, BUBBLE_MS);
+    }
+    redraw.current();
+  }, [staff]);
 
   useEffect(() => {
     const measure = () => {
@@ -211,6 +236,9 @@ export function OfficeStage({
             } else if (person.status === "away") {
               ctx.fillStyle = "#d7e2f4";
               ctx.fillRect(actor.x + 10, actor.y - 54, 4, 4);
+            } else if (person.status === "focus") {
+              ctx.fillStyle = "#9b7fd1";
+              ctx.fillRect(actor.x + 8, actor.y - 54, 7, 4);
             } else if (person.status === "available") {
               ctx.fillStyle = "#7dba6a";
               ctx.fillRect(actor.x + 12, actor.y - 52, 3, 3);
@@ -219,6 +247,11 @@ export function OfficeStage({
             if (plate) {
               plate.style.left = `${(actor.x - 28) * scaleRef.current}px`;
               plate.style.top = `${(actor.y + 2) * scaleRef.current}px`;
+            }
+            const bubble = bubbles.current[person.slug];
+            if (bubble) {
+              bubble.style.left = `${actor.x * scaleRef.current}px`;
+              bubble.style.top = `${(actor.y - 50) * scaleRef.current}px`;
             }
           },
         });
@@ -386,6 +419,16 @@ export function OfficeStage({
             <strong>{person.characterName}</strong>
             <span>{person.online ? statusLabel(person.status) : "Offline"}</span>
           </div>
+        ))}
+        {staff.map((person) => (
+          <div
+            key={`bubble-${person.slug}`}
+            ref={(node) => {
+              bubbles.current[person.slug] = node;
+            }}
+            className="emote-bubble"
+            role="status"
+          />
         ))}
       </div>
     </div>

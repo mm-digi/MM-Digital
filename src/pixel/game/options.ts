@@ -1,6 +1,7 @@
 import type {
   AccessoryId,
   Appearance,
+  EmoteId,
   EyeStyle,
   HairStyle,
   HatId,
@@ -116,6 +117,16 @@ export const STATUSES: { id: Status; label: string; hint: string }[] = [
   { id: "break", label: "Taking a break", hint: "Breaks are part of the day" },
   { id: "away", label: "Away", hint: "Out of the office" },
   { id: "available", label: "Available", hint: "Free for a question" },
+  { id: "focus", label: "Focusing", hint: "Heads down, back soon" },
+];
+
+export const EMOTES: { id: EmoteId; icon: string; label: string }[] = [
+  { id: "wave", icon: "👋", label: "Wave" },
+  { id: "thumbs", icon: "👍", label: "Thumbs up" },
+  { id: "coffee", icon: "☕", label: "Grabbing a coffee" },
+  { id: "call", icon: "📞", label: "On a call" },
+  { id: "party", icon: "🎉", label: "Celebrate" },
+  { id: "think", icon: "🤔", label: "Thinking" },
 ];
 
 const LEVELS: Record<string, number> = {};
