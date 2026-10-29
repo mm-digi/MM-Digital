@@ -29,11 +29,13 @@ export async function sendEmail({
   html,
   text,
   replyTo,
+  to = [TO],
 }: {
   subject: string;
   html: string;
   text: string;
   replyTo?: string;
+  to?: string[];
 }) {
   const key = process.env.RESEND_API_KEY;
   if (!key) {
@@ -43,7 +45,7 @@ export async function sendEmail({
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from: FROM, to: [TO], subject, html, text, ...(replyTo ? { reply_to: replyTo } : {}) }),
+    body: JSON.stringify({ from: FROM, to, subject, html, text, ...(replyTo ? { reply_to: replyTo } : {}) }),
   });
   if (!res.ok) {
     console.error("Resend send failed", res.status, await res.text().catch(() => ""));
