@@ -17,7 +17,6 @@ const TILES: { key: keyof MetricTotals; label: string; prefix: string }[] = [
   { key: "impressions", label: "Impressions", prefix: "" },
   { key: "reach", label: "Reach", prefix: "" },
   { key: "engagement", label: "Engagement", prefix: "" },
-  { key: "conversions", label: "Conversions", prefix: "" },
 ];
 
 const CHART_GROUPS: {
@@ -125,13 +124,12 @@ function PeriodSection({ period, compare }: { period: PeriodBlock; compare: stri
         {formatDateRange(period.from, period.to)} · vs previous {compare}
       </Text>
       <View style={styles.tileGrid}>
-        {TILES.map(({ key, label, prefix }, index) => (
+        {TILES.map(({ key, label, prefix }) => (
           <StatTile
             key={key}
             label={label}
             value={`${prefix}${formatNumber(period.totals[key])}`}
             change={formatChange(period.totals[key], period.previous[key])}
-            wide={index === TILES.length - 1}
           />
         ))}
       </View>
