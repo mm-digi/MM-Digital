@@ -35,6 +35,12 @@ const SOURCE_LABELS: Record<string, string> = {
   linkedin_ads: "LinkedIn Ads",
 };
 
+// Channels always appear in this order, whatever order the data arrives in.
+function sourceOrder(source: string) {
+  const index = Object.keys(SOURCE_LABELS).indexOf(source);
+  return index === -1 ? Infinity : index;
+}
+
 function formatNumber(value: number, money = false) {
   const prefix = money ? "£" : "";
   if (!value) return `${prefix}0`;
@@ -200,44 +206,35 @@ function MonthBars({
 }
 
 function ChannelTable({ block }: { block: MonthBlock }) {
-  const rows = Object.entries(block.bySource);
-  const columns = METRICS.filter(({ key }) => rows.some(([, totals]) => totals[key] > 0));
-  if (!rows.length) return null;
+  // One card per channel listing only the figures it actually has, so
+  // channels that don't report a measure don't leave gaps or 0s behind.
+  const channels = Object.entries(block.bySource)
+    .sort(([a], [b]) => sourceOrder(a) - sourceOrder(b))
+    .map(([source, totals]) => [source, METRICS.filter(({ key }) => totals[key] > 0), totals] as const)
+    .filter(([, columns]) => columns.length);
+  if (!channels.length) return null;
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full min-w-[640px] text-left text-sm">
-        <thead>
-          <tr>
-            <th className="pb-3 font-normal" style={{ color: SOFT }}>Channel</th>
+    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+      {channels.map(([source, columns, totals]) => (
+        <div key={source} className="rounded-xl p-4" style={{ border: "1px solid rgba(255,255,255,0.1)" }}>
+          <div className="mb-2 font-bold" style={{ color: INK }}>{SOURCE_LABELS[source] || source}</div>
+          <dl className="space-y-1.5 text-sm" style={{ margin: 0 }}>
             {columns.map((column) => (
-              <th key={column.key} className="pb-3 font-normal" style={{ color: SOFT }}>{column.label}</th>
+              <div key={column.key} className="flex items-baseline justify-between gap-3">
+                <dt style={{ color: SOFT }}>{column.label}</dt>
+                <dd className="text-right" style={{ margin: 0 }}>
+                  <span className="font-bold" style={{ color: INK }}>{formatNumber(totals[column.key], column.money)}</span>
+                  {block.previous ? (
+                    <span className="ml-2 text-xs">
+                      <Change current={totals[column.key]} previous={block.bySourcePrevious[source]?.[column.key] ?? 0} />
+                    </span>
+                  ) : null}
+                </dd>
+              </div>
             ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(([source, totals]) => (
-            <tr key={source} style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }}>
-              <td className="py-3" style={{ color: INK }}>{SOURCE_LABELS[source] || source}</td>
-              {columns.map((column) => (
-                <td key={column.key} className="py-3 pr-3">
-                  {!totals[column.key] && !block.bySourcePrevious[source]?.[column.key] ? (
-                    <span style={{ color: MUTED }}>–</span>
-                  ) : (
-                    <>
-                      <span style={{ color: INK }}>{formatNumber(totals[column.key], column.money)}</span>
-                      {block.previous ? (
-                        <span className="block text-xs">
-                          <Change current={totals[column.key]} previous={block.bySourcePrevious[source]?.[column.key] ?? 0} />
-                        </span>
-                      ) : null}
-                    </>
-                  )}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+          </dl>
+        </div>
+      ))}
     </div>
   );
 }

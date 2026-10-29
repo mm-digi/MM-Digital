@@ -83,6 +83,12 @@ const SOURCE_LABELS: Record<string, string> = {
   linkedin_ads: "LinkedIn Ads",
 };
 
+// Channels always appear in this order, whatever order the data arrives in.
+function sourceOrder(source: string) {
+  const index = Object.keys(SOURCE_LABELS).indexOf(source);
+  return index === -1 ? Infinity : index;
+}
+
 function PeriodGrid({ period, compare }: { period: PeriodBlock; compare: string }) {
   return (
     <div>
@@ -111,38 +117,44 @@ function PeriodGrid({ period, compare }: { period: PeriodBlock; compare: string 
   );
 }
 
+const SOURCE_COLUMNS: { key: keyof MetricTotals; label: string; prefix: string }[] = [
+  { key: "sessions", label: "Sessions", prefix: "" },
+  { key: "spend", label: "Spend", prefix: "£" },
+  { key: "clicks", label: "Clicks", prefix: "" },
+  { key: "impressions", label: "Impressions", prefix: "" },
+  { key: "reach", label: "Reach", prefix: "" },
+  { key: "engagement", label: "Engagement", prefix: "" },
+];
+
 function SourceTable({ title, data }: { title: string; data: Record<string, MetricTotals> }) {
-  const rows = Object.entries(data);
-  if (!rows.length) return null;
+  // One card per channel listing only the figures it actually has, so
+  // channels that don't report a measure don't leave gaps or 0s behind.
+  const channels = Object.entries(data)
+    .sort(([a], [b]) => sourceOrder(a) - sourceOrder(b))
+    .map(([source, totals]) => [source, SOURCE_COLUMNS.filter(({ key }) => totals[key] > 0), totals] as const)
+    .filter(([, columns]) => columns.length);
+  if (!channels.length) return null;
   return (
-    <div className="mm-card overflow-x-auto p-5">
+    <div className="mm-card p-5">
       <h3 className="mb-4 font-serif text-xl">{title}</h3>
-      <table className="w-full min-w-[640px] text-left text-sm">
-        <thead className="text-[#cfcfcf]">
-          <tr>
-            <th className="pb-3 font-normal">Channel</th>
-            <th className="pb-3 font-normal">Sessions</th>
-            <th className="pb-3 font-normal">Spend</th>
-            <th className="pb-3 font-normal">Clicks</th>
-            <th className="pb-3 font-normal">Impressions</th>
-            <th className="pb-3 font-normal">Reach</th>
-            <th className="pb-3 font-normal">Engagement</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(([source, totals]) => (
-            <tr key={source} className="border-t border-white/10">
-              <td className="py-3">{SOURCE_LABELS[source] || source}</td>
-              <td>{formatNumber(totals.sessions)}</td>
-              <td>£{formatNumber(totals.spend)}</td>
-              <td>{formatNumber(totals.clicks)}</td>
-              <td>{formatNumber(totals.impressions)}</td>
-              <td>{formatNumber(totals.reach)}</td>
-              <td>{formatNumber(totals.engagement)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {channels.map(([source, columns, totals]) => (
+          <div key={source} className="rounded-xl border border-white/10 p-4">
+            <div className="mb-2 font-bold text-white">{SOURCE_LABELS[source] || source}</div>
+            <dl className="space-y-1.5 text-sm" style={{ margin: 0 }}>
+              {columns.map(({ key, label, prefix }) => (
+                <div key={key} className="flex items-baseline justify-between gap-3">
+                  <dt className="text-[#cfcfcf]">{label}</dt>
+                  <dd className="font-bold text-[#ff808b]" style={{ margin: 0 }}>
+                    {prefix}
+                    {formatNumber(totals[key])}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

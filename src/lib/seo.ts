@@ -152,10 +152,11 @@ function decodeText(fragment: string) {
 export function faqNode(html: string) {
   const entities = [];
   const pattern =
-    /<details class="mmp-faq-item">\s*<summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>/gi;
+    /<details class="mmp-faq-item">\s*<summary>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/gi;
   for (const match of html.matchAll(pattern)) {
     const name = decodeText(match[1]);
-    const text = decodeText(match[2]);
+    // Answers can run over several paragraphs; keep a space between them.
+    const text = decodeText(match[2].replace(/<\/p>/gi, " "));
     if (!name || !text) continue;
     entities.push({
       "@type": "Question",
