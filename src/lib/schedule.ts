@@ -4,6 +4,7 @@
 // +01:00, GMT is +00:00); once the time has passed the entry can be deleted.
 export const SCHEDULED_POSTS: Record<string, string> = {
   "local-seo-how-to-get-your-business-found-on-google": "2026-10-02T00:00:00+01:00",
+  "christmas-marketing-plan-for-small-businesses": "2026-11-02T00:00:00+00:00",
 };
 
 // Pages taken off the site for now: they 404 and stay out of the sitemap, but
@@ -15,8 +16,13 @@ export const HIDDEN_PAGES = new Set<string>([
   "the-100-day-plan-companys-case-study",
 ]);
 
+// Set PREVIEW_SCHEDULED_POSTS=1 in .env.local to see scheduled posts early when
+// running the site locally. It is never set on Vercel.
+const previewScheduled = process.env.PREVIEW_SCHEDULED_POSTS === "1" && process.env.NODE_ENV !== "production";
+
 export function isUnpublished(slug: string, now = new Date()): boolean {
   if (HIDDEN_PAGES.has(slug)) return true;
+  if (previewScheduled) return false;
   const goLive = SCHEDULED_POSTS[slug];
   return Boolean(goLive) && now < new Date(goLive);
 }

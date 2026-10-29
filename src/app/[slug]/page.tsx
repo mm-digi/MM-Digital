@@ -19,10 +19,13 @@ const TITLE_OVERRIDES: Record<string, string> = {
   "why-your-business-needs-to-be-found-on-ai-search-not-just-google": "Get Found on AI Search, Not Just Google",
   "why-most-businesses-waste-their-ad-spend-and-what-to-do-instead": "Why Businesses Waste Ad Spend & How to Fix It",
   "local-seo-how-to-get-your-business-found-on-google": "Local SEO: Get Your Business Found on Google",
+  "christmas-marketing-plan-for-small-businesses": "Your 6-Week Christmas Marketing Plan",
 };
 
 // Hand-written meta descriptions, used instead of the first paragraph.
 const DESCRIPTION_OVERRIDES: Record<string, string> = {
+  "christmas-marketing-plan-for-small-businesses":
+    "Christmas is won in November. A week-by-week festive marketing plan for small businesses, from Black Friday and Small Business Saturday to last-minute shoppers.",
   "local-seo-how-to-get-your-business-found-on-google":
     "Want your business to show up when local customers search on Google? Here's how local SEO works, and the practical steps to get found in your area.",
   "ai-in-business-2026":
