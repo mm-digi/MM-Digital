@@ -246,8 +246,6 @@ export type PanelId =
   | "day"
   | "quests"
   | "team"
-  | "calendar"
-  | "projects"
   | "desk"
   | "profile"
   | "notion"

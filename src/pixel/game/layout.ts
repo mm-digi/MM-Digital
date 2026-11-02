@@ -24,8 +24,6 @@ export const SOFA_SPOTS = [
 ];
 
 export const HOTSPOTS = [
-  { id: "shelf", label: "Project shelf", x: 8, y: 8, w: 72, h: 52, action: "projects" as const },
-  { id: "calendar", label: "Wall calendar", x: 286, y: 8, w: 90, h: 50, action: "calendar" as const },
   { id: "desk-max", label: "Max's desk", x: 8, y: 68, w: 86, h: 70, action: "desk" as const, slug: "max" as const },
   { id: "desk-tash", label: "Tash's desk", x: 102, y: 68, w: 86, h: 70, action: "desk" as const, slug: "tash" as const },
   { id: "desk-mariette", label: "Mariette's desk", x: 196, y: 68, w: 86, h: 70, action: "desk" as const, slug: "mariette" as const },

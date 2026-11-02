@@ -1,5 +1,5 @@
 import { sqlOne, sqlRun } from "@/pixel/lib/db";
-import { localKey } from "@/pixel/lib/format";
+import { dueLabel, localKey } from "@/pixel/lib/format";
 import type { NotionMapping, NotionSchema, Priority, StaffSlug, TaskItem, TaskKind, TaskStatus } from "@/pixel/types";
 
 const SLUGS: StaffSlug[] = ["max", "tash", "mariette", "natasha"];
@@ -260,7 +260,7 @@ export function normaliseNotionPages(results: Record<string, unknown>[], mapping
         source: "notion",
         date: when.date,
         time: when.time,
-        dueLabel: when.date ? `${when.date}${when.time ? ` ${when.time}` : ""}` : "No date yet",
+        dueLabel: dueLabel(when.date, when.time, today),
         notionUrl: pageUrl,
         localPreview: false,
         // Notion doesn't record when a status changed, so the last edit stands in for it.
@@ -373,7 +373,7 @@ function retag(tasks: TaskItem[], today: string) {
     xp: notionXp(task.priority),
     overdue: Boolean(task.date && task.date < today && task.status !== "done"),
     today: task.date === today,
-    dueLabel: task.date ? `${task.date}${task.time ? ` ${task.time}` : ""}` : "No date yet",
+    dueLabel: dueLabel(task.date, task.time, today),
   }));
 }
 

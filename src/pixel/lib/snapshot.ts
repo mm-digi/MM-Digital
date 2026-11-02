@@ -5,7 +5,7 @@ import { emptyClientForm, loadClientForm } from "@/lib/metrics/load-form";
 import { SEATS } from "@/pixel/game/layout";
 import { cleanAppearance, DEFAULTS, statusLabel } from "@/pixel/game/options";
 import { sqlAll, sqlOne, sqlRun, type StaffRow, type TaskRow } from "@/pixel/lib/db";
-import { clockLabel, localKey, prettyDate, shiftKey, weekKeys } from "@/pixel/lib/format";
+import { clockLabel, dueLabel, localKey, shiftKey, weekKeys } from "@/pixel/lib/format";
 import { savedClientLights } from "@/pixel/lib/lights";
 import { loadNotion, notionConfigured, officeMapping } from "@/pixel/lib/notion";
 import { levelProgress, milestone } from "@/pixel/lib/xp";
@@ -140,7 +140,7 @@ function demoTasks(today: string): TaskItem[] {
       source: "demo",
       date,
       time: row.time_of_day,
-      dueLabel: date ? `${prettyDate(date)}${row.time_of_day ? ` · ${row.time_of_day}` : ""}` : "No date yet",
+      dueLabel: dueLabel(date, row.time_of_day),
       notionUrl: null,
       localPreview: false,
       completedAt: row.completed_at,

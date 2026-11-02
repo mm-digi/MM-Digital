@@ -5,7 +5,6 @@ import { ClientLights } from "@/pixel/components/ClientLights";
 import { Creator } from "@/pixel/components/Creator";
 import { OfficeStage } from "@/pixel/components/OfficeStage";
 import {
-  CalendarPanel,
   ClientPanel,
   DayPanel,
   DeskPanel,
@@ -13,7 +12,6 @@ import {
   isNewNote,
   NotionPanel,
   ProfilePanel,
-  ProjectPanel,
   QuestPanel,
   StandupPanel,
   TeamPanel,
@@ -24,7 +22,7 @@ import { blip, setAmbient } from "@/pixel/components/sound";
 import { EMOTES, STATUSES } from "@/pixel/game/options";
 import type { ActionBody, ActionResult, EmoteId, PanelId, Snapshot, StaffSlug } from "@/pixel/types";
 
-const SHORTCUTS: Record<string, PanelId> = { d: "day", q: "quests", t: "team", c: "calendar", p: "projects", s: "standup", w: "wrapup" };
+const SHORTCUTS: Record<string, PanelId> = { d: "day", q: "quests", t: "team", s: "standup", w: "wrapup" };
 
 // On Friday afternoons the wrap-up opens by itself, once a week per person.
 const WRAPUP_FROM_HOUR = 14;
@@ -222,8 +220,6 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
       {panel === "team" || presentation === "plain" ? (
         <TeamPanel snap={view} busy={busy} act={act} onClose={close} newSince={presentation === "plain" ? notesSeen : teamNewSince} />
       ) : null}
-      {panel === "calendar" || presentation === "plain" ? <CalendarPanel snap={view} onClose={close} /> : null}
-      {panel === "projects" || presentation === "plain" ? <ProjectPanel snap={view} onClose={close} /> : null}
       {panel === "desk" || presentation === "plain" ? (
         <DeskPanel snap={view} busy={busy} act={act} slug={deskSlug} onClose={close} openPanel={openPanel} />
       ) : null}
@@ -298,8 +294,6 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
               setDeskSlug(spot.slug);
               openPanel("desk");
             } else if (spot.action === "team") openPanel("team");
-            else if (spot.action === "calendar") openPanel("calendar");
-            else if (spot.action === "projects") openPanel("projects");
             else if (spot.action === "meetings") openPanel("standup");
             else if (spot.action === "coffee") {
               void act({ type: "status", status: "break" });
@@ -322,8 +316,6 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
         <BarButton current={panel} id="standup" label="Stand-up" shortcut="S" onPick={openPanel} />
         <BarButton current={panel} id="quests" label="Quests" shortcut="Q" onPick={openPanel} />
         <BarButton current={panel} id="team" label="Team" shortcut="T" badge={unreadNotes} onPick={openPanel} />
-        <BarButton current={panel} id="calendar" label="Calendar" shortcut="C" onPick={openPanel} />
-        <BarButton current={panel} id="projects" label="Projects" shortcut="P" onPick={openPanel} />
         <BarButton current={panel} id="wrapup" label={isFriday ? "Friday wrap-up" : "Wrap-up"} shortcut="W" onPick={openPanel} />
         <button type="button" className={panel === "desk" ? "pxbtn tiny" : "pxbtn alt tiny"} onClick={() => { setDeskSlug(snap.me.slug); openPanel("desk"); }}>My desk</button>
         <button type="button" className={panel === "profile" ? "pxbtn tiny" : "pxbtn alt tiny"} onClick={() => openPanel("profile")}>Me</button>
@@ -339,7 +331,7 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
         <button type="button" onClick={() => { setMobileOffice(false); openPanel("day"); }}>Day</button>
         <button type="button" onClick={() => { setMobileOffice(false); openPanel("standup"); }}>Stand-up</button>
         <button type="button" onClick={() => { setMobileOffice(false); openPanel("quests"); }}>Quests</button>
-        <button type="button" onClick={() => { setMobileOffice(false); openPanel("calendar"); }}>Dates</button>
+        <button type="button" onClick={() => { setMobileOffice(false); openPanel("team"); }}>Team</button>
         <button type="button" onClick={() => setMobileOffice(true)}>Office</button>
       </nav>
       {panel === "creator" ? (

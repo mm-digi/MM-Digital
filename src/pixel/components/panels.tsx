@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type { Insight } from "@/lib/metrics/insights";
 import { Sprite } from "@/pixel/components/Sprite";
 import { Window } from "@/pixel/components/Window";
-import { monthLabel, prettyDate, shiftKey, weekKeys } from "@/pixel/lib/format";
+import { prettyDate, shiftKey, weekKeys } from "@/pixel/lib/format";
 import { ACHIEVEMENTS } from "@/pixel/lib/xp";
 import { STATUSES, statusLabel } from "@/pixel/game/options";
 import type { ActionBody, ActionResult, PanelId, Snapshot, StaffSlug, TaskItem } from "@/pixel/types";
@@ -40,7 +40,7 @@ export function DayPanel({ snap, onClose, openPanel }: { snap: Snapshot; onClose
           <h3>Still open</h3>
           <ul className="plain-list">
             {overdue.map((task) => (
-              <li key={task.id}>{task.title} <span>{task.dueLabel}</span></li>
+              <li key={task.id}><strong>{task.title}</strong> <span>{task.dueLabel}</span></li>
             ))}
           </ul>
         </div>
@@ -50,14 +50,14 @@ export function DayPanel({ snap, onClose, openPanel }: { snap: Snapshot; onClose
           <summary>Later this week</summary>
           <ul className="plain-list">
             {upcoming.map((task) => (
-              <li key={task.id}>{task.dueLabel} · {task.title}</li>
+              <li key={task.id}><strong>{task.title}</strong> <span>{task.dueLabel}</span></li>
             ))}
           </ul>
         </details>
       ) : null}
       <div className="row-actions">
         <button type="button" className="pxbtn" onClick={() => openPanel("quests")}>Open the quest journal</button>
-        <button type="button" className="pxbtn alt" onClick={() => openPanel("calendar")}>Calendar</button>
+        <button type="button" className="pxbtn alt" onClick={() => openPanel("standup")}>Stand-up</button>
       </div>
     </Window>
   );
@@ -106,7 +106,7 @@ export function QuestPanel({
               <i className={`seal ${task.priority}`} title={task.priority} aria-hidden="true" />
               <div>
                 <strong>{task.title}</strong>
-                <p>{task.detail || task.project}</p>
+                {task.detail ? <p>{task.detail}</p> : null}
                 <p className="meta">
                   {task.project} · {task.assigneeName} · {task.dueLabel} · {task.priority} priority
                   {task.kind === "meeting" ? " · Meeting" : ""} · {done ? "Done" : task.status === "doing" ? "In progress" : "Open"}
@@ -236,153 +236,6 @@ function TaskList({ tasks }: { tasks: TaskItem[] }) {
         <li key={task.id}><strong>{task.title}</strong> <span>{task.assigneeName} · {task.dueLabel}</span></li>
       ))}
     </ul>
-  );
-}
-
-function CalendarTasks({ tasks, onOpen }: { tasks: TaskItem[]; onOpen: (task: TaskItem) => void }) {
-  if (!tasks.length) return <p className="empty">Nothing scheduled for this filter.</p>;
-  return (
-    <ul className="cal-tasks">
-      {tasks.map((task) => (
-        <li key={task.id}>
-          <button type="button" className={task.status === "done" ? "cal-task done" : "cal-task"} onClick={() => onOpen(task)}>
-            <strong>{task.title}</strong>
-            <span>{task.time || "Anytime"} · {task.assigneeName} · {task.project}</span>
-          </button>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-export function CalendarPanel({ snap, onClose }: { snap: Snapshot; onClose?: () => void }) {
-  const [view, setView] = useState<"today" | "week" | "month">("today");
-  const [monthCursor, setMonthCursor] = useState(snap.today.slice(0, 7));
-  const [monthDay, setMonthDay] = useState(snap.today);
-  const [picked, setPicked] = useState<StaffSlug[]>(snap.staff.map((person) => person.slug));
-  const [showDone, setShowDone] = useState(false);
-  const [selected, setSelected] = useState<TaskItem | null>(null);
-  const visible = snap.tasks.filter((task) => task.date && (showDone || task.status !== "done") && (picked.length === 0 || (task.assignee ? picked.includes(task.assignee) : true)));
-  const week = weekKeys(snap.today);
-  const month = useMemo(() => monthGrid(monthCursor), [monthCursor]);
-
-  function moveMonth(delta: number) {
-    const next = shiftMonth(monthCursor, delta);
-    setMonthCursor(next);
-    setMonthDay(next === snap.today.slice(0, 7) ? snap.today : `${next}-01`);
-  }
-
-  function toggle(slug: StaffSlug) {
-    setPicked((current) => (current.includes(slug) ? current.filter((item) => item !== slug) : [...current, slug]));
-  }
-
-  return (
-    <Window title="Wall calendar" onClose={onClose}>
-      <div className="filters">
-        {(["today", "week", "month"] as const).map((value) => (
-          <button key={value} type="button" className={view === value ? "chip on" : "chip"} onClick={() => setView(value)} aria-pressed={view === value}>
-            {value === "today" ? "Today" : value === "week" ? "This week" : "This month"}
-          </button>
-        ))}
-      </div>
-      <div className="filters" aria-label="Filter by employee">
-        <button type="button" className={showDone ? "chip on" : "chip"} onClick={() => setShowDone((current) => !current)} aria-pressed={showDone}>Show finished</button>
-        <button type="button" className="chip" onClick={() => setPicked(snap.staff.map((person) => person.slug))}>Everyone</button>
-        {snap.staff.map((person) => (
-          <button key={person.slug} type="button" className={picked.includes(person.slug) ? "chip on" : "chip"} onClick={() => toggle(person.slug)} aria-pressed={picked.includes(person.slug)}>
-            <i style={{ background: person.accent }} aria-hidden="true" /> {person.name}
-          </button>
-        ))}
-      </div>
-      {view === "today" ? <CalendarTasks tasks={byTime(visible.filter((task) => task.date === snap.today))} onOpen={setSelected} /> : null}
-      {view === "week" ? (
-        <div className="cal-days">
-          {week.filter((day) => day === snap.today || visible.some((task) => task.date === day)).map((day) => (
-            <section key={day} className={day === snap.today ? "cal-day today" : "cal-day"}>
-              <h3>{prettyDate(day)}</h3>
-              <CalendarTasks tasks={byTime(visible.filter((task) => task.date === day))} onOpen={setSelected} />
-            </section>
-          ))}
-        </div>
-      ) : null}
-      {view === "month" ? (
-        <div>
-          <div className="row-actions">
-            <button type="button" className="pxbtn alt tiny" onClick={() => moveMonth(-1)}>Previous</button>
-            <strong>{month.label}</strong>
-            <button type="button" className="pxbtn alt tiny" onClick={() => moveMonth(1)}>Next</button>
-          </div>
-          <div className="month">
-            {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => <div key={day} className="dow">{day}</div>)}
-            {Array.from({ length: month.pad }, (_, index) => <div key={`pad-${index}`} />)}
-            {month.days.map((day) => {
-              const key = `${monthCursor}-${String(day).padStart(2, "0")}`;
-              const count = visible.filter((task) => task.date === key).length;
-              const classes = ["cell", key === snap.today ? "today" : "", key === monthDay ? "on" : ""].filter(Boolean).join(" ");
-              return (
-                <button key={key} type="button" className={classes} onClick={() => setMonthDay(key)} aria-pressed={key === monthDay}>
-                  <span>{day}</span>
-                  {count ? <em>{count}</em> : null}
-                </button>
-              );
-            })}
-          </div>
-          <CalendarTasks tasks={byTime(visible.filter((task) => task.date === monthDay))} onOpen={setSelected} />
-        </div>
-      ) : null}
-      {selected ? (
-        <div className="detail" role="dialog" aria-label={selected.title}>
-          <h3>{selected.title}</h3>
-          <p>{selected.detail || "No extra notes on this one."}</p>
-          <p className="meta">{selected.project} · {selected.assigneeName} · {selected.dueLabel} · {selected.priority} · {selected.status}</p>
-          {selected.notionUrl ? <a href={selected.notionUrl} target="_blank" rel="noreferrer">Open the Notion page</a> : <p className="fine">{selected.source === "demo" ? "Sample task. This one is not a page in Notion." : "This task has no Notion link."}</p>}
-          <button type="button" className="pxbtn alt tiny" onClick={() => setSelected(null)}>Close detail</button>
-        </div>
-      ) : null}
-    </Window>
-  );
-}
-
-function monthGrid(cursor: string) {
-  const [year, month] = cursor.split("-").map(Number);
-  const first = new Date(year, month - 1, 1);
-  return {
-    label: monthLabel(`${cursor}-01`),
-    pad: (first.getDay() + 6) % 7,
-    days: Array.from({ length: new Date(year, month, 0).getDate() }, (_, index) => index + 1),
-  };
-}
-
-function shiftMonth(cursor: string, delta: number) {
-  const [year, month] = cursor.split("-").map(Number);
-  const date = new Date(year, month - 1 + delta, 1);
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-}
-
-export function ProjectPanel({ snap, onClose }: { snap: Snapshot; onClose?: () => void }) {
-  const [active, setActive] = useState(snap.projects[0]?.id ?? "");
-  const project = snap.projects.find((item) => item.id === active) ?? snap.projects[0];
-  const tasks = project ? snap.tasks.filter((task) => task.project === project.name) : [];
-  return (
-    <Window title="Project shelf" onClose={onClose}>
-      {snap.projects.length === 0 ? <p className="empty">No projects in this view yet.</p> : null}
-      <div className="folders">
-        {snap.projects.map((item) => (
-          <button key={item.id} type="button" className={item.id === project?.id ? "folder on" : "folder"} onClick={() => setActive(item.id)}>
-            <i style={{ background: item.colour }} aria-hidden="true" />
-            <strong>{item.name}</strong>
-            <span>{item.done}/{item.total || 0} done</span>
-          </button>
-        ))}
-      </div>
-      {project ? (
-        <div className="block">
-          <h3>{project.client}</h3>
-          <p>{project.summary}</p>
-          <TaskList tasks={tasks} />
-        </div>
-      ) : null}
-    </Window>
   );
 }
 
@@ -657,20 +510,18 @@ export function StandupPanel({ snap, onClose, openPanel }: { snap: Snapshot; onC
   return (
     <Window title="Morning stand-up" onClose={onClose}>
       <p className="fine">{prettyDate(snap.today)}. Everyone&apos;s day at a glance.</p>
-      <div className="block">
-        <h3>Meetings today</h3>
-        {meetings.length ? (
+      {meetings.length ? (
+        <div className="block">
+          <h3>Meetings today</h3>
           <ul className="plain-list">
             {meetings.map((task) => (
               <li key={task.id}>
-                <strong>{task.time || "Anytime"}</strong> {task.title} <span>{task.assigneeName}</span>
+                <strong>{task.title}</strong> <span>{task.time || "Anytime"} · {task.assigneeName}</span>
               </li>
             ))}
           </ul>
-        ) : (
-          <p className="empty">No meetings today.</p>
-        )}
-      </div>
+        </div>
+      ) : null}
       {snap.staff.map((person) => {
         const theirs = open.filter((task) => task.assignee === person.slug);
         const today = byTime(theirs.filter((task) => task.today && task.kind !== "meeting"));
@@ -690,7 +541,6 @@ export function StandupPanel({ snap, onClose, openPanel }: { snap: Snapshot; onC
         );
       })}
       <div className="row-actions">
-        <button type="button" className="pxbtn alt tiny" onClick={() => openPanel("calendar")}>Calendar</button>
         <button type="button" className="pxbtn alt tiny" onClick={() => openPanel("quests")}>Quest journal</button>
       </div>
     </Window>

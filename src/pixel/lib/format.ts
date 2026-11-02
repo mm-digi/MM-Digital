@@ -43,3 +43,10 @@ export function clockLabel(iso: string) {
   const date = new Date(iso);
   return new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", day: "numeric", month: "short" }).format(date);
 }
+
+// "Mon 12 Oct · 10:30", with the year added when it isn't this year: "Tue 12 Jan 2027".
+export function dueLabel(date: string, time?: string | null, today = localKey(new Date())) {
+  if (!date) return "No date yet";
+  const day = date.slice(0, 4) === today.slice(0, 4) ? prettyDate(date) : `${prettyDate(date)} ${date.slice(0, 4)}`;
+  return time ? `${day} · ${time}` : day;
+}

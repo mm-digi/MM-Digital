@@ -688,3 +688,19 @@ body:has(.pixel-hq) { background: #1c1412 !important; }
 .pixel-hq .wrap-totals{ display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
 .pixel-hq .wrap-totals p{ margin: 0; background: rgba(255, 246, 232, 0.55); border: 3px solid #c9a27a; padding: 8px; font-size: 12px; text-align: center; }
 .pixel-hq .wrap-totals strong{ display: block; font-family: var(--font-pixel), "Courier New", monospace; font-size: 20px; }
+
+/* Task lists: the title on one line, then its time, person or project underneath in smaller text */
+.pixel-hq .day-list li{ grid-template-columns: 64px 1fr; gap: 10px; }
+.pixel-hq .day-list time{ font-size: 13px; font-weight: 700; padding-top: 1px; }
+.pixel-hq .day-list li > div{ display: flex; flex-direction: column; gap: 2px; min-width: 0; overflow-wrap: anywhere; }
+.pixel-hq .day-list li > div span{ font-size: 13px; }
+.pixel-hq .plain-list{ gap: 10px; }
+.pixel-hq .plain-list li{ display: flex; flex-direction: column; gap: 1px; line-height: 1.35; overflow-wrap: anywhere; }
+.pixel-hq .plain-list li > span{ font-size: 12.5px; }
+.pixel-hq .plain-list li > span:empty{ display: none; }
+.pixel-hq .wood-body .plain-list li > span{ color: #5c4638; }
+.pixel-hq .notes li{ display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.pixel-hq .notes li p{ margin: 0; }
+.pixel-hq .notes li > span:not(.new-badge){ font-size: 12px; color: #5c4638; }
+.pixel-hq .notes li .texty{ margin-top: 2px; }
+.pixel-hq .split section h3, .pixel-hq .block h3{ margin-top: 0; }
