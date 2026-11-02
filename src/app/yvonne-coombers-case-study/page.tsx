@@ -2,6 +2,7 @@ import JsonLd from "@/components/JsonLd";
 import WpHtml from "@/components/WpHtml";
 import { breadcrumbNode, pageMetadata, webPageNode } from "@/lib/seo";
 import { readWpPage } from "@/lib/wp";
+import { withMoreWork } from "@/lib/more-work";
 import type { Metadata } from "next";
 import CaseStudyStats from "@/components/CaseStudyStats";
 import CaseStudyVideo from "./video";
@@ -29,7 +30,7 @@ export default function YvonneCoomberCaseStudyPage() {
           ],
         }}
       />
-      <WpHtml html={readWpPage("yvonne-coombers-case-study") || ""} />
+      <WpHtml html={withMoreWork(readWpPage("yvonne-coombers-case-study") || "", "yvonne-coombers-case-study")} />
       <CaseStudyVideo />
       <CaseStudyStats />
     </>

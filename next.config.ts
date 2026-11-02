@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
+      // Old WordPress sitemap addresses, which crawlers and SEO tools still look for.
+      { source: "/sitemap_index.xml", destination: "/sitemap.xml", permanent: true },
+      { source: "/wp-sitemap.xml", destination: "/sitemap.xml", permanent: true },
+      { source: "/page-sitemap.xml", destination: "/sitemap.xml", permanent: true },
+      { source: "/post-sitemap.xml", destination: "/sitemap.xml", permanent: true },
       {
         source: "/6135-2/",
         destination: "/why-most-businesses-waste-their-ad-spend-and-what-to-do-instead/",

@@ -25,7 +25,7 @@ const TITLE_OVERRIDES: Record<string, string> = {
 // Hand-written meta descriptions, used instead of the first paragraph.
 const DESCRIPTION_OVERRIDES: Record<string, string> = {
   "christmas-marketing-plan-for-small-businesses":
-    "Christmas is won in November. A week-by-week festive marketing plan for small businesses, from Black Friday and Small Business Saturday to last-minute shoppers.",
+    "Christmas is won in November. A week-by-week festive marketing plan for small businesses, from Black Friday to the last-minute shoppers.",
   "local-seo-how-to-get-your-business-found-on-google":
     "Want your business to show up when local customers search on Google? Here's how local SEO works, and the practical steps to get found in your area.",
   "ai-in-business-2026":
