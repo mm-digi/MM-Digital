@@ -78,33 +78,45 @@ export const FRANK_LINES = [
 export function drawFrank(ctx: CanvasRenderingContext2D, frank: FrankState) {
   const step = Math.floor(frank.frame / 180) % 2;
   ctx.save();
+  // Whole pixels only, or his edges blur when he stops between two.
+  const x = Math.round(frank.x);
+  const y = Math.round(frank.y);
   if (frank.dir < 0) {
-    ctx.translate(frank.x + FRANK_W, frank.y);
+    ctx.translate(x + FRANK_W, y);
     ctx.scale(-1, 1);
   } else {
-    ctx.translate(frank.x, frank.y);
+    ctx.translate(x, y);
   }
   ctx.fillStyle = "rgba(60,30,20,0.2)";
   ctx.fillRect(4, 18, 18, 3);
 
   if (frank.mode === "sleep") {
-    rect(ctx, 4, 10, 18, 8, FUR);
-    rect(ctx, 6, 12, 8, 4, CREAM);
-    rect(ctx, 2, 8, 6, 6, FUR);
-    pix(ctx, 3, 9, FUR_DK);
-    pix(ctx, 6, 9, FUR_DK);
-    rect(ctx, 3, 11, 3, 1, INK);
-    pix(ctx, 4, 12, PINK);
-    rect(ctx, 18, 12, 6, 3, FUR_DK);
-    rect(ctx, 8, 8, 8, 2, COLLAR);
+    // Curled up: a rounded back, his head resting on his paws and his tail wrapped round the front.
+    rect(ctx, 9, 9, 12, 1, FUR);
+    rect(ctx, 7, 10, 16, 8, FUR);
+    pix(ctx, 14, 10, FUR_DK);
+    pix(ctx, 17, 10, FUR_DK);
+    pix(ctx, 20, 11, FUR_DK);
+    rect(ctx, 2, 9, 9, 8, FUR);
+    rect(ctx, 2, 7, 3, 2, FUR);
+    rect(ctx, 8, 7, 3, 2, FUR);
+    pix(ctx, 3, 8, PINK);
+    pix(ctx, 9, 8, PINK);
+    rect(ctx, 3, 12, 2, 1, INK);
+    rect(ctx, 7, 12, 2, 1, INK);
+    pix(ctx, 6, 14, PINK);
+    rect(ctx, 4, 15, 5, 2, CREAM);
+    rect(ctx, 11, 10, 1, 7, COLLAR);
+    rect(ctx, 8, 17, 15, 1, FUR_DK);
+    rect(ctx, 22, 14, 2, 4, FUR_DK);
   } else if (frank.mode === "sit" || frank.mode === "perch" || frank.mode === "idle") {
     rect(ctx, 8, 8, 12, 10, FUR);
     rect(ctx, 10, 12, 6, 4, CREAM);
     rect(ctx, 6, 2, 10, 8, FUR);
-    pix(ctx, 6, 1, FUR_DK);
-    pix(ctx, 14, 1, FUR_DK);
-    pix(ctx, 7, 0, FUR);
-    pix(ctx, 15, 0, FUR);
+    rect(ctx, 6, 0, 3, 2, FUR);
+    rect(ctx, 13, 0, 3, 2, FUR);
+    pix(ctx, 7, 1, PINK);
+    pix(ctx, 14, 1, PINK);
     rect(ctx, 8, 5, 2, 2, INK);
     rect(ctx, 12, 5, 2, 2, INK);
     pix(ctx, 8, 5, "#f7efe2");
@@ -119,8 +131,10 @@ export function drawFrank(ctx: CanvasRenderingContext2D, frank: FrankState) {
     rect(ctx, 6, 8, 14, 7, FUR);
     rect(ctx, 8, 11, 6, 3, CREAM);
     rect(ctx, 4, 4, 8, 7, FUR);
-    pix(ctx, 4, 3, FUR_DK);
-    pix(ctx, 10, 3, FUR_DK);
+    rect(ctx, 4, 2, 2, 2, FUR);
+    rect(ctx, 10, 2, 2, 2, FUR);
+    pix(ctx, 4, 3, PINK);
+    pix(ctx, 11, 3, PINK);
     rect(ctx, 5, 6, 2, 2, INK);
     rect(ctx, 9, 6, 2, 2, INK);
     pix(ctx, 11, 8, PINK);
