@@ -72,7 +72,10 @@ export function OfficeStage({
   const frank = useRef<FrankState>(createFrank());
   const lineIndex = useRef(0);
   const propsRef = useRef({ me, staff, calm, onMove, onSofaFull });
-  propsRef.current = { me, staff, calm, onMove, onSofaFull };
+  // Keep the latest props to hand for the drawing loop and click handlers.
+  useLayoutEffect(() => {
+    propsRef.current = { me, staff, calm, onMove, onSofaFull };
+  });
   const [scale, setScale] = useState(2);
   const scaleRef = useRef(2);
 
@@ -307,11 +310,8 @@ export function OfficeStage({
 
   function sitDown() {
     const slug = propsRef.current.me.slug;
-    let actor = actors.current[slug];
-    if (!actor) {
-      actor = { x: SEATS[slug].x, y: SEATS[slug].y, dir: 1, frame: 0, sitting: false };
-      actors.current[slug] = actor;
-    }
+    actors.current[slug] ??= { x: SEATS[slug].x, y: SEATS[slug].y, dir: 1, frame: 0, sitting: false };
+    const actor = actors.current[slug];
     const spot = SOFA_SPOTS.find(
       (item) => !Object.entries(actors.current).some(([slug, other]) => slug !== propsRef.current.me.slug && other.sitting && Math.abs(other.x - item.x) < 16),
     );

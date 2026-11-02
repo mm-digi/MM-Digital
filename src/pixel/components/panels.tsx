@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Fragment, useEffect, useState } from "react";
 import type { Insight } from "@/lib/metrics/insights";
 import { Sprite } from "@/pixel/components/Sprite";
 import { Window } from "@/pixel/components/Window";
@@ -15,10 +16,63 @@ function byTime(tasks: TaskItem[]) {
   return [...tasks].sort((a, b) => (a.time || "99:99").localeCompare(b.time || "99:99") || a.title.localeCompare(b.title));
 }
 
+// Soonest first: by date, then time of day, then name. Undated tasks go last.
+function byDue(tasks: TaskItem[]) {
+  return [...tasks].sort(
+    (a, b) => (a.date || "9999").localeCompare(b.date || "9999") || (a.time || "99:99").localeCompare(b.time || "99:99") || a.title.localeCompare(b.title),
+  );
+}
+
+function dueGroups(tasks: TaskItem[], today: string) {
+  const week = new Set(weekKeys(today));
+  const groups: { label: string; tasks: TaskItem[] }[] = [
+    { label: "Overdue", tasks: [] },
+    { label: "Today", tasks: [] },
+    { label: "This week", tasks: [] },
+    { label: "Later", tasks: [] },
+    { label: "No date", tasks: [] },
+  ];
+  for (const task of byDue(tasks)) {
+    const index = !task.date ? 4 : task.date < today ? 0 : task.date === today ? 1 : week.has(task.date) ? 2 : 3;
+    groups[index].tasks.push(task);
+  }
+  return groups.filter((group) => group.tasks.length);
+}
+
+const URL_PATTERN = /https?:\/\/[^\s)]+/g;
+
+// "https://www.example.com/page/" becomes "example.com/page".
+function shortUrl(url: string) {
+  try {
+    const parsed = new URL(url);
+    const path = parsed.pathname === "/" ? "" : parsed.pathname.replace(/\/$/, "");
+    const text = parsed.hostname.replace(/^www\./, "") + path;
+    return text.length > 40 ? `${text.slice(0, 38)}…` : text;
+  } catch {
+    return url;
+  }
+}
+
+// A task name with any web addresses in it shortened into clickable links.
+export function TaskTitle({ title }: { title: string }) {
+  const parts: React.ReactNode[] = [];
+  let last = 0;
+  for (const match of title.matchAll(URL_PATTERN)) {
+    const url = match[0].replace(/[.,;:!?]+$/, "");
+    const start = match.index ?? 0;
+    parts.push(title.slice(last, start));
+    parts.push(<a key={start} href={url} target="_blank" rel="noreferrer">{shortUrl(url)}</a>);
+    last = start + url.length;
+  }
+  if (!parts.length) return <>{title}</>;
+  parts.push(title.slice(last));
+  return <>{parts.map((part, index) => <Fragment key={index}>{part}</Fragment>)}</>;
+}
+
 export function DayPanel({ snap, onClose, openPanel }: { snap: Snapshot; onClose?: () => void; openPanel: (id: PanelId) => void }) {
   const mine = byTime(snap.tasks.filter((task) => task.assignee === snap.me.slug && task.today && task.status !== "done"));
-  const overdue = snap.tasks.filter((task) => task.assignee === snap.me.slug && task.overdue);
-  const upcoming = snap.tasks.filter((task) => task.assignee === snap.me.slug && task.date > snap.today && task.status !== "done").slice(0, 5);
+  const overdue = byDue(snap.tasks.filter((task) => task.assignee === snap.me.slug && task.overdue));
+  const upcoming = byDue(snap.tasks.filter((task) => task.assignee === snap.me.slug && task.date > snap.today && task.status !== "done")).slice(0, 5);
   return (
     <Window id="today" title={`${snap.me.name.toUpperCase()}'S DAY`} onClose={onClose}>
       {snap.notion.mode === "demo" ? <p className="banner">Demo tasks. Not from Notion.</p> : null}
@@ -27,9 +81,9 @@ export function DayPanel({ snap, onClose, openPanel }: { snap: Snapshot; onClose
       <ol className="day-list">
         {mine.map((task) => (
           <li key={task.id}>
-            <time>{task.time || "Anytime"}</time>
+            <time>{task.time}</time>
             <div>
-              <strong>{task.title}</strong>
+              <strong><TaskTitle title={task.title} /></strong>
               <span>{task.project}{task.kind === "meeting" ? " · Meeting" : ""}</span>
             </div>
           </li>
@@ -40,17 +94,17 @@ export function DayPanel({ snap, onClose, openPanel }: { snap: Snapshot; onClose
           <h3>Still open</h3>
           <ul className="plain-list">
             {overdue.map((task) => (
-              <li key={task.id}><strong>{task.title}</strong> <span>{task.dueLabel}</span></li>
+              <li key={task.id}><strong><TaskTitle title={task.title} /></strong> <span>{task.dueLabel}</span></li>
             ))}
           </ul>
         </div>
       ) : null}
       {upcoming.length ? (
         <details className="block">
-          <summary>Later this week</summary>
+          <summary>Coming up</summary>
           <ul className="plain-list">
             {upcoming.map((task) => (
-              <li key={task.id}><strong>{task.title}</strong> <span>{task.dueLabel}</span></li>
+              <li key={task.id}><strong><TaskTitle title={task.title} /></strong> <span>{task.dueLabel}</span></li>
             ))}
           </ul>
         </details>
@@ -78,15 +132,53 @@ export function QuestPanel({
   filter: "mine" | "all" | "meetings" | "done";
   setFilter: (value: "mine" | "all" | "meetings" | "done") => void;
 }) {
-  const tasks = byTime(
-    snap.tasks.filter((task) => {
-      if (filter === "done") return task.status === "done";
-      if (task.status === "done") return false;
-      if (filter === "mine") return task.assignee === snap.me.slug;
-      if (filter === "meetings") return task.kind === "meeting";
-      return true;
-    }),
-  );
+  const tasks = snap.tasks.filter((task) => {
+    if (filter === "done") return task.status === "done";
+    if (task.status === "done") return false;
+    if (filter === "mine") return task.assignee === snap.me.slug;
+    if (filter === "meetings") return task.kind === "meeting";
+    return true;
+  });
+  // Finished quests read best newest first; open ones are grouped by when they're due.
+  const groups =
+    filter === "done"
+      ? [{ label: "", tasks: [...tasks].sort((a, b) => (b.completedAt || "").localeCompare(a.completedAt || "")) }]
+      : dueGroups(tasks, snap.today);
+
+  function quest(task: TaskItem) {
+    const mine = task.assignee === snap.me.slug || task.assignee === null;
+    const done = task.status === "done";
+    const tags = [
+      task.priority === "urgent" ? ["Urgent", "urgent"] : task.priority === "high" ? ["High priority", "high"] : null,
+      task.status === "doing" && !done ? ["In progress", "doing"] : null,
+      task.kind === "meeting" ? ["Meeting", "meeting"] : null,
+      snap.me.gamification && task.xp ? [`${task.xp} XP`, "xp"] : null,
+      task.localPreview ? ["Local preview", "preview"] : null,
+    ].filter((tag): tag is string[] => Boolean(tag));
+    return (
+      <li key={task.id} className={done ? "quest done" : "quest"}>
+        <i className={`seal ${task.priority}`} title={`${task.priority} priority`} aria-hidden="true" />
+        <div>
+          <strong><TaskTitle title={task.title} /></strong>
+          {task.detail ? <p>{task.detail}</p> : null}
+          <p className="meta">{[task.project !== "General" ? task.project : "", task.assigneeName, task.dueLabel].filter(Boolean).join(" · ")}</p>
+          {tags.length ? (
+            <p className="tags">
+              {tags.map(([label, kind]) => <span key={kind} className={`tag tag-${kind}`}>{label}</span>)}
+            </p>
+          ) : null}
+          {task.notionUrl ? <a href={task.notionUrl} target="_blank" rel="noreferrer">Open in Notion</a> : null}
+        </div>
+        {mine && !done && (task.source === "demo" || task.source === "notion") ? (
+          <button type="button" className="pxbtn tiny" disabled={busy} onClick={() => act({ type: "complete", taskId: task.id })}>
+            Mark done
+          </button>
+        ) : null}
+        {done ? <span className="done-mark">Done</span> : null}
+      </li>
+    );
+  }
+
   return (
     <Window title="Quest journal" onClose={onClose}>
       <div className="filters" role="tablist" aria-label="Quest filter">
@@ -97,35 +189,12 @@ export function QuestPanel({
         ))}
       </div>
       {tasks.length === 0 ? <p className="empty">{filter === "done" ? "Nothing finished yet." : "No quests in this view."}</p> : null}
-      <ul className="quests">
-        {tasks.map((task) => {
-          const mine = task.assignee === snap.me.slug || task.assignee === null;
-          const done = task.status === "done";
-          return (
-            <li key={task.id} className={done ? "quest done" : "quest"}>
-              <i className={`seal ${task.priority}`} title={task.priority} aria-hidden="true" />
-              <div>
-                <strong>{task.title}</strong>
-                {task.detail ? <p>{task.detail}</p> : null}
-                <p className="meta">
-                  {task.project} · {task.assigneeName} · {task.dueLabel} · {task.priority} priority
-                  {task.kind === "meeting" ? " · Meeting" : ""} · {done ? "Done" : task.status === "doing" ? "In progress" : "Open"}
-                  {snap.me.gamification && task.xp ? ` · ${task.xp} XP` : ""}
-                  {task.localPreview ? " · Local preview" : ""}
-                </p>
-                {task.notionUrl ? <a href={task.notionUrl} target="_blank" rel="noreferrer">Open in Notion</a> : null}
-              </div>
-              {mine && !done && (task.source === "demo" || task.source === "notion") ? (
-                <button type="button" className="pxbtn tiny" disabled={busy} onClick={() => act({ type: "complete", taskId: task.id })}>
-                  Mark done
-                </button>
-              ) : null}
-              {done ? <span className="done-mark">Done</span> : null}
-              {task.localPreview && !done ? <span className="done-mark">Preview</span> : null}
-            </li>
-          );
-        })}
-      </ul>
+      {groups.map((group) => (
+        <section key={group.label || "done"} className="quest-group">
+          {group.label ? <h3 className={group.label === "Overdue" ? "warn" : undefined}>{group.label} <span>({group.tasks.length})</span></h3> : null}
+          <ul className="quests">{group.tasks.map(quest)}</ul>
+        </section>
+      ))}
     </Window>
   );
 }
@@ -233,7 +302,7 @@ function TaskList({ tasks }: { tasks: TaskItem[] }) {
   return (
     <ul className="plain-list">
       {tasks.map((task) => (
-        <li key={task.id}><strong>{task.title}</strong> <span>{task.assigneeName} · {task.dueLabel}</span></li>
+        <li key={task.id}><strong><TaskTitle title={task.title} /></strong> <span>{task.assigneeName} · {task.dueLabel}</span></li>
       ))}
     </ul>
   );
@@ -293,7 +362,7 @@ export function DeskPanel({
           <button type="submit" className="pxbtn" disabled={busy}>Save notes</button>
         </form>
       ) : (
-        <p className="fine">Notes stay on each person's own desk.</p>
+        <p className="fine">Notes stay on each person&apos;s own desk.</p>
       )}
     </Window>
   );
@@ -353,8 +422,8 @@ export function ProfilePanel({
         <label><input type="checkbox" checked={me.plainMode} disabled={busy} onChange={(event) => act({ type: "preferences", plainMode: event.target.checked })} /> Open the plain task list next time</label>
       </div>
       <div className="row-actions">
-        <a className="pxbtn alt" href="/team-access/">Dashboards</a>
-        <a className="pxbtn alt" href="/pixel/plain/">Plain task list</a>
+        <Link className="pxbtn alt" href="/team-access/">Dashboards</Link>
+        <Link className="pxbtn alt" href="/pixel/plain/">Plain task list</Link>
         <button type="button" className="pxbtn alt" onClick={onLogout}>Sign out</button>
       </div>
     </Window>
@@ -516,7 +585,7 @@ export function StandupPanel({ snap, onClose, openPanel }: { snap: Snapshot; onC
           <ul className="plain-list">
             {meetings.map((task) => (
               <li key={task.id}>
-                <strong>{task.title}</strong> <span>{task.time || "Anytime"} · {task.assigneeName}</span>
+                <strong><TaskTitle title={task.title} /></strong> <span>{[task.time, task.assigneeName].filter(Boolean).join(" · ")}</span>
               </li>
             ))}
           </ul>
@@ -556,7 +625,7 @@ function StandupList({ label, tasks, empty, warn }: { label: string; tasks: Task
         <ul className="plain-list">
           {shown.map((task) => (
             <li key={task.id}>
-              <strong>{task.title}</strong>{" "}
+              <strong><TaskTitle title={task.title} /></strong>{" "}
               <span>
                 {[task.time, task.project !== "General" ? task.project : "", warn ? task.dueLabel : ""].filter(Boolean).join(" · ")}
               </span>
@@ -648,7 +717,7 @@ export function WrapupPanel({ snap, onClose }: { snap: Snapshot; onClose?: () =>
               <ul className="plain-list">
                 {theirs.slice(0, 5).map((task) => (
                   <li key={task.id}>
-                    <strong>{task.title}</strong> {task.project !== "General" ? <span>{task.project}</span> : null}
+                    <strong><TaskTitle title={task.title} /></strong> {task.project !== "General" ? <span>{task.project}</span> : null}
                   </li>
                 ))}
                 {theirs.length > 5 ? <li className="meta">and {theirs.length - 5} more</li> : null}

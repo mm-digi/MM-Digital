@@ -9,7 +9,7 @@ import { clockLabel, dueLabel, localKey, shiftKey, weekKeys } from "@/pixel/lib/
 import { savedClientLights } from "@/pixel/lib/lights";
 import { loadNotion, notionConfigured, officeMapping } from "@/pixel/lib/notion";
 import { levelProgress, milestone } from "@/pixel/lib/xp";
-import type { Announcement, Appearance, FocusSession, LiveConfig, Wrapup, ProjectItem, Snapshot, StaffPublic, StaffSlug, Status, TaskItem } from "@/pixel/types";
+import type { Announcement, Appearance, FocusSession, LiveConfig, Wrapup, Snapshot, StaffPublic, StaffSlug, Status, TaskItem } from "@/pixel/types";
 
 const SLUGS: StaffSlug[] = ["max", "tash", "mariette", "natasha"];
 const NAMES: Record<StaffSlug, string> = { max: "Max", tash: "Tash", mariette: "Mariette", natasha: "Natasha" };
@@ -172,31 +172,6 @@ export async function buildSnapshot(viewer: StaffRow, forceNotion = false): Prom
   const staff = staffRows.map((row) => toPublic(row.id === awarded.id ? awarded : row, awarded.slug));
   const me = staff.find((person) => person.id === awarded.id) ?? toPublic(awarded, awarded.slug);
 
-  const projectRows = sqlAll<{ id: string; name: string; client: string; summary: string; colour: string }>("select * from projects");
-  const projects = new Map<string, ProjectItem>();
-  if (!usingNotion) {
-    for (const project of projectRows) {
-      projects.set(project.name, { ...project, done: 0, total: 0 });
-    }
-  }
-  for (const task of tasks) {
-    if (!projects.has(task.project)) {
-      projects.set(task.project, {
-        id: task.project.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
-        name: task.project,
-        client: task.project,
-        summary: usingNotion ? "Grouped from the linked Notion database." : "",
-        colour: "#c47a86",
-        done: 0,
-        total: 0,
-      });
-    }
-    const project = projects.get(task.project);
-    if (!project) continue;
-    project.total += 1;
-    if (task.status === "done") project.done += 1;
-  }
-
   const announcements = sqlAll<{ id: string; author_slug: string; body: string; created_at: string }>(
     "select * from announcements order by created_at desc limit 20",
   ).map((row) => ({
@@ -214,7 +189,6 @@ export async function buildSnapshot(viewer: StaffRow, forceNotion = false): Prom
     me,
     staff,
     tasks,
-    projects: [...projects.values()],
     announcements,
     notion: {
       configured: notionConfigured(),

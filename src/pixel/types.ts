@@ -90,16 +90,6 @@ export type TaskItem = {
   today: boolean;
 };
 
-export type ProjectItem = {
-  id: string;
-  name: string;
-  client: string;
-  summary: string;
-  colour: string;
-  done: number;
-  total: number;
-};
-
 export type Announcement = {
   id: string;
   authorSlug: StaffSlug;
@@ -160,7 +150,6 @@ export type Snapshot = {
   me: StaffPublic;
   staff: StaffPublic[];
   tasks: TaskItem[];
-  projects: ProjectItem[];
   announcements: Announcement[];
   notion: NotionState;
   today: string;

@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ClientLights } from "@/pixel/components/ClientLights";
 import { Creator } from "@/pixel/components/Creator";
@@ -61,6 +63,7 @@ function subscribeNotes(onChange: () => void) {
 
 export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; presentation: "office" | "plain" }) {
   const [snap, setSnap] = useState(snapshot);
+  const router = useRouter();
   const [panel, setPanel] = useState<PanelId | null>(snapshot.me.creatorDone ? "day" : "creator");
   const [deskSlug, setDeskSlug] = useState<StaffSlug>(snapshot.me.slug);
   const [client, setClient] = useState<{ slug: string; name: string } | null>(null);
@@ -160,8 +163,8 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
       if (data.snapshot) setSnap(data.snapshot);
       if (data.toast) showToast(data.toast, Boolean(data.celebrate));
       else if (!data.ok && data.error) showToast(data.error, false);
-      if (body.type === "preferences" && body.plainMode) window.location.assign("/pixel/plain/");
-      if (body.type === "preferences" && body.plainMode === false && presentation === "plain") window.location.assign("/pixel/");
+      if (body.type === "preferences" && body.plainMode) router.push("/pixel/plain/");
+      if (body.type === "preferences" && body.plainMode === false && presentation === "plain") router.push("/pixel/");
       return data;
     } catch {
       showToast("The office could not save that.", false);
@@ -204,7 +207,8 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
 
   async function logout() {
     await fetch("/api/logout/", { method: "POST" });
-    window.location.href = "/login/";
+    router.replace("/login/");
+    router.refresh();
   }
 
   const close = presentation === "plain" ? undefined : () => setPanel(null);
@@ -240,7 +244,7 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
           </div>
           <div className="row-actions">
             <button type="button" className="pxbtn" onClick={() => void act({ type: "preferences", plainMode: false })}>Enter the office</button>
-            <a className="pxbtn alt" href="/team-access/">Dashboards</a>
+            <Link className="pxbtn alt" href="/team-access/">Dashboards</Link>
             <button type="button" className="pxbtn alt" onClick={() => void logout()}>Sign out</button>
           </div>
         </header>
@@ -279,8 +283,8 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
         <div className="row-actions">
           {snap.me.role === "admin" ? <button type="button" className="pxbtn alt tiny" onClick={() => setPanel("notion")}>Notion</button> : null}
           <button type="button" className="pxbtn alt tiny" onClick={() => void act({ type: "notionRefresh" })} disabled={busy}>Refresh</button>
-          <a className="texty" href="/team-access/">Dashboards</a>
-          <a className="texty" href="/pixel/plain/">Plain list</a>
+          <Link className="texty" href="/team-access/">Dashboards</Link>
+          <Link className="texty" href="/pixel/plain/">Plain list</Link>
         </div>
       </header>
       <div className="main">
