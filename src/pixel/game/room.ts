@@ -1,6 +1,7 @@
 import { pix, rect } from "@/pixel/game/draw";
 import { DESKS, ROOM_H, ROOM_W, screenRect } from "@/pixel/game/layout";
-import { ukNightNow } from "@/pixel/game/uk-time";
+import { ukDaylightNow } from "@/pixel/game/uk-time";
+import { CALM_WEATHER, type Weather } from "@/pixel/game/weather";
 import type { StaffSlug } from "@/pixel/types";
 
 const PLANK_A = "#c4845c";
@@ -182,6 +183,12 @@ function drawDesk(ctx: CanvasRenderingContext2D, x: number, y: number) {
   for (let i = 0; i < 5; i += 1) pix(ctx, x + 17 + i * 5, y + 36, "#6a6560");
   rect(ctx, x + 62, y + 32, 8, 7, "#f7efe2");
   rect(ctx, x + 69, y + 34, 3, 3, "#f7efe2");
+  // Desk lamp, lit after dark by the lighting layer.
+  rect(ctx, x + 6, y + 27, 9, 2, INK);
+  rect(ctx, x + 9, y + 17, 2, 10, "#3a3532");
+  rect(ctx, x + 5, y + 12, 10, 5, "#e0b15a");
+  rect(ctx, x + 6, y + 11, 8, 1, "#f0c870");
+  rect(ctx, x + 5, y + 16, 10, 1, "#a87828");
   rect(ctx, x + 30, y + 44, 22, 8, "#8d5a40");
   rect(ctx, x + 28, y + 50, 26, 6, WOOD_DK);
 }
@@ -207,27 +214,118 @@ const NIGHT_STARS: [number, number][][] = [
   [[7, 8], [14, 20], [30, 9], [35, 19]],
 ];
 
-function drawWindow(ctx: CanvasRenderingContext2D, x: number, y: number, time: number, evening: boolean, calm: boolean, pane: number) {
+const SKY: Record<Weather["kind"], [string, string]> = {
+  // [day, night]
+  clear: ["#7ea0d0", "#1e3154"],
+  cloudy: ["#8fa8c8", "#1e2c48"],
+  overcast: ["#a3adbb", "#1b2436"],
+  fog: ["#c5c9cf", "#2a3040"],
+  rain: ["#7f8c9e", "#162034"],
+  snow: ["#b8c4d2", "#25304a"],
+  storm: ["#5d6878", "#121a2a"],
+};
+
+function cloud(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, colour: string, top: string) {
+  rect(ctx, x, y + 2, w, 4, colour);
+  rect(ctx, x + 3, y, w - 6, 3, top);
+}
+
+// One window pane. Clipped by hand: every shape stays inside the 38x24 glass.
+function drawWindow(ctx: CanvasRenderingContext2D, x: number, y: number, time: number, evening: boolean, calm: boolean, pane: number, weather: Weather, warmth: number) {
+  const gx = x + 3;
+  const gy = y + 3;
   rect(ctx, x, y, 44, 34, "#f4efe6");
-  rect(ctx, x + 3, y + 3, 38, 24, evening ? "#1e3154" : "#7ea0d0");
-  if (evening) {
+  rect(ctx, gx, gy, 38, 24, SKY[weather.kind][evening ? 1 : 0]);
+  // Sunrise and sunset glow low in a clear or cloudy sky.
+  if (!evening && warmth > 0.25 && (weather.kind === "clear" || weather.kind === "cloudy")) {
+    rect(ctx, gx, gy + 10, 38, 14, warmth > 0.6 ? "#f2a988" : "#d8b0b0");
+    rect(ctx, gx, gy + 17, 38, 7, warmth > 0.6 ? "#f7c98a" : "#e8c4a4");
+  }
+  const kind = weather.kind;
+  const t = calm ? 0 : time;
+  const glass = (px: number, py: number, w: number, h: number, colour: string) => {
+    const left = Math.max(gx, px);
+    const top = Math.max(gy, py);
+    const right = Math.min(gx + 38, px + w);
+    const bottom = Math.min(gy + 24, py + h);
+    if (right > left && bottom > top) rect(ctx, left, top, right - left, bottom - top, colour);
+  };
+
+  if (evening && (kind === "clear" || kind === "cloudy")) {
     if (pane === 1) {
-      rect(ctx, x + 27, y + 6, 4, 4, "#f7efe2");
-      pix(ctx, x + 30, y + 6, "#1e3154");
+      glass(x + 27, y + 6, 4, 4, "#f7efe2");
+      pix(ctx, x + 30, y + 6, SKY[kind][1]);
     }
     NIGHT_STARS[pane]?.forEach(([sx, sy], index) => {
       const lit = calm || Math.floor(time / 500 + index + pane) % 6 !== 0;
-      if (lit) pix(ctx, x + sx, y + sy, index % 2 ? "#d7e2f4" : "#f7efe2");
+      if (lit && (kind === "clear" || index % 2 === 0)) pix(ctx, x + sx, y + sy, index % 2 ? "#d7e2f4" : "#f7efe2");
     });
+  }
+  if (!evening && kind === "clear" && pane === 2) {
+    glass(gx + 27, gy + 3, 6, 6, "#ffe08a");
+    glass(gx + 28, gy + 2, 4, 8, "#ffe08a");
+    glass(gx + 26, gy + 4, 8, 4, "#ffe08a");
+  }
+
+  // Clouds drift across all three panes as one sky.
+  const drift = (speed: number, offset: number) => ((Math.floor(t / speed) + offset + pane * 54) % 162) - 30;
+  const pale = evening ? "#3a4660" : "#f7f3ea";
+  const paleTop = evening ? "#46536e" : "#ffffff";
+  const grey = evening ? "#2e3850" : "#cfd5dd";
+  const greyTop = evening ? "#3a4560" : "#e3e7ec";
+  if (kind === "clear") {
+    if (!evening) cloud(ctx, gx + Math.max(0, Math.min(24, drift(160, 8) % 30)), gy + 5, 12, pale, paleTop);
+  } else if (kind === "cloudy") {
+    for (const [speed, offset, cy, w] of [[150, 0, 4, 16], [210, 70, 12, 12], [180, 120, 7, 14]] as const) {
+      const cx = drift(speed, offset);
+      glass(gx + cx, gy + cy + 2, w, 4, pale);
+      glass(gx + cx + 3, gy + cy, w - 6, 3, paleTop);
+    }
   } else {
-    const shift = calm ? 8 : Math.floor(time / 160) % 18;
-    rect(ctx, x + 6 + shift, y + 8, 12, 4, "#f7f3ea");
-    rect(ctx, x + 9 + shift, y + 6, 6, 3, "#ffffff");
-    if (!calm && Math.floor(time / 400) % 7 === 0) {
-      pix(ctx, x + 8 + (Math.floor(time / 80) % 20), y + 16, "#2a2422");
-      pix(ctx, x + 10 + (Math.floor(time / 80) % 20), y + 16, "#2a2422");
+    // Overcast, fog, rain, snow and storms: a low ceiling of cloud.
+    const band = kind === "storm" ? "#3e4756" : grey;
+    const bandTop = kind === "storm" ? "#4a5464" : greyTop;
+    if (kind === "overcast" || kind === "fog") {
+      for (let i = 0; i < 4; i += 1) {
+        const cx = drift(260 + i * 40, i * 45);
+        glass(gx + cx, gy + i * 2, 24, 5, i % 2 ? band : bandTop);
+      }
+    } else {
+      // Rain, snow and storms: an even grey sky with a heavier band of cloud on top.
+      glass(gx, gy, 38, 3, band);
+      glass(gx, gy + 3, 38, 2, bandTop);
     }
   }
+
+  if (kind === "fog") {
+    for (let row = 0; row < 3; row += 1) {
+      const shift = calm ? 0 : Math.floor(t / 300 + row * 7) % 10;
+      glass(gx - 4 + shift, gy + 10 + row * 5, 30, 2, evening ? "rgba(160,170,190,0.35)" : "rgba(255,255,255,0.55)");
+    }
+  }
+
+  if (kind === "rain" || kind === "storm") {
+    const drops = weather.heavy || kind === "storm" ? 16 : 9;
+    const slant = Math.min(3, Math.round(weather.wind / 15));
+    const colour = evening ? "#9fb4d6" : "#f2f6fb";
+    for (let i = 0; i < drops; i += 1) {
+      const seed = (i * 37 + pane * 11) % 38;
+      const fall = calm ? (i * 7) % 24 : (Math.floor(t / 28) + i * 9) % 30;
+      const dx = gx + ((seed + fall * slant / 3) % 38);
+      glass(dx, gy + fall - 4, 1, 4, colour);
+    }
+  }
+
+  if (kind === "snow") {
+    const flakes = weather.heavy ? 14 : 8;
+    for (let i = 0; i < flakes; i += 1) {
+      const fall = calm ? (i * 5) % 24 : (Math.floor(t / 120) + i * 7) % 26;
+      const sway = calm ? 0 : Math.round(Math.sin(t / 700 + i) * 1.5);
+      const dx = gx + ((i * 23 + pane * 13 + sway + Math.round((fall * weather.wind) / 60)) % 38);
+      glass(dx, gy + fall - 1, i % 3 === 0 ? 2 : 1, i % 3 === 0 ? 2 : 1, "#ffffff");
+    }
+  }
+
   rect(ctx, x + 21, y + 3, 2, 24, "#f4efe6");
   rect(ctx, x + 3, y + 14, 38, 2, "#f4efe6");
   rect(ctx, x - 2, y + 30, 48, 4, WOOD_DK);
@@ -297,13 +395,15 @@ function paintScreen(
 export function drawAnimated(
   ctx: CanvasRenderingContext2D,
   time: number,
-  options: { evening?: boolean; calm?: boolean; offline?: Partial<Record<StaffSlug, boolean>> },
+  options: { evening?: boolean; calm?: boolean; offline?: Partial<Record<StaffSlug, boolean>>; weather?: Weather; warmth?: number },
 ) {
-  const evening = options.evening ?? ukNightNow();
+  const evening = options.evening ?? ukDaylightNow().darkness > 0.5;
+  const weather = options.weather ?? CALM_WEATHER;
   const calm = options.calm ?? false;
-  drawWindow(ctx, 86, 10, time, evening, calm, 0);
-  drawWindow(ctx, 140, 10, time + 400, evening, calm, 1);
-  drawWindow(ctx, 194, 10, time + 800, evening, calm, 2);
+  const warmth = options.warmth ?? 0;
+  drawWindow(ctx, 86, 10, time, evening, calm, 0, weather, warmth);
+  drawWindow(ctx, 140, 10, time, evening, calm, 1, weather, warmth);
+  drawWindow(ctx, 194, 10, time, evening, calm, 2, weather, warmth);
 
   // Right window sill ends at 240. Calendar starts at 286. The clock sits in the middle.
   drawClock(ctx, 253, 12, new Date());

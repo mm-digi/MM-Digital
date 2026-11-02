@@ -56,3 +56,41 @@ export function ukNightNow(now = Date.now()) {
   cached = { at: now, night };
   return night;
 }
+
+export type Daylight = {
+  /** 0 in daylight, 1 at full night, ramping through dawn and dusk. */
+  darkness: number;
+  /** 0 to 1: how golden the light is, strongest just after sunrise and before sunset. */
+  warmth: number;
+  /** 0 at sunrise to 1 at sunset: where the sun is, for the angle of the sunbeams. */
+  sun: number;
+};
+
+function clamp01(value: number) {
+  return Math.max(0, Math.min(1, value));
+}
+
+// How light the office is right now, from today's real UK sunrise and sunset.
+export function ukDaylight(date = new Date()): Daylight {
+  const { year, month, day } = londonDate(date);
+  const sunrise = sunUtcHours(year, month, day, true);
+  const sunset = sunUtcHours(year, month, day, false);
+  const hour = date.getUTCHours() + date.getUTCMinutes() / 60 + date.getUTCSeconds() / 3600;
+  // Light ramps over about 45 minutes either side: dark before dawn, light after.
+  const morning = clamp01((hour - (sunrise - 0.5)) / 1);
+  const evening = clamp01(((sunset + 0.6) - hour) / 1.1);
+  const darkness = 1 - Math.min(morning, evening);
+  const afterRise = clamp01(1 - (hour - sunrise) / 1.5);
+  const beforeSet = clamp01(1 - (sunset - hour) / 2);
+  const warmth = (hour >= sunrise - 0.5 && hour <= sunset + 0.6 ? Math.max(afterRise, beforeSet) : 0) * (1 - darkness * 0.6);
+  return { darkness, warmth, sun: clamp01((hour - sunrise) / Math.max(1, sunset - sunrise)) };
+}
+
+let daylightCache: { at: number; light: Daylight } | null = null;
+
+export function ukDaylightNow(now = Date.now()) {
+  if (daylightCache && now >= daylightCache.at && now - daylightCache.at < 20_000) return daylightCache.light;
+  const light = ukDaylight(new Date(now));
+  daylightCache = { at: now, light };
+  return light;
+}

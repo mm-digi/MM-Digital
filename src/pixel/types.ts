@@ -66,6 +66,10 @@ export type StaffPublic = {
   y: number;
   sitting: boolean;
   emote?: Emote | null;
+  /** When they last finished a quest, for the confetti everyone sees. */
+  cheer?: number | null;
+  /** When they last started a Friday party. */
+  party?: number | null;
 };
 
 export type TaskItem = {
@@ -190,6 +194,8 @@ export type Presence = {
   appearance: Appearance;
   characterName: string;
   emote: Emote | null;
+  cheer: number | null;
+  party: number | null;
 };
 
 export type ActionBody =

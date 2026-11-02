@@ -682,7 +682,7 @@ export function ClientPanel({ slug, name, onClose }: { slug: string; name: strin
   );
 }
 
-export function WrapupPanel({ snap, onClose }: { snap: Snapshot; onClose?: () => void }) {
+export function WrapupPanel({ snap, onClose, onParty }: { snap: Snapshot; onClose?: () => void; onParty?: () => void }) {
   const [monday, , , , friday, , sunday] = snap.wrapup.week;
   const isFriday = snap.today === friday;
   const weekStart = `${monday}T00:00:00`;
@@ -733,6 +733,11 @@ export function WrapupPanel({ snap, onClose }: { snap: Snapshot; onClose?: () =>
         This only counts what&apos;s ticked off in Notion. Plenty happens behind the scenes that never makes it onto a list.
         {isFriday ? " Have a good weekend." : ""}
       </p>
+      {isFriday && onParty ? (
+        <button type="button" className="pxbtn" onClick={onParty}>
+          Start the Friday party
+        </button>
+      ) : null}
     </Window>
   );
 }

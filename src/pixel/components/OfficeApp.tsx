@@ -162,6 +162,8 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
       const data = (await response.json()) as ActionResult;
       if (data.snapshot) setSnap(data.snapshot);
       if (data.toast) showToast(data.toast, Boolean(data.celebrate));
+      // Finishing a quest sets off confetti over you for the whole office.
+      if (body.type === "complete" && data.ok) live.cheer();
       else if (!data.ok && data.error) showToast(data.error, false);
       if (body.type === "preferences" && body.plainMode) router.push("/pixel/plain/");
       if (body.type === "preferences" && body.plainMode === false && presentation === "plain") router.push("/pixel/");
@@ -216,7 +218,7 @@ export function OfficeApp({ snapshot, presentation }: { snapshot: Snapshot; pres
     <>
       {panel === "day" || presentation === "plain" ? <DayPanel snap={view} onClose={close} openPanel={openPanel} /> : null}
       {panel === "standup" || presentation === "plain" ? <StandupPanel snap={view} onClose={close} openPanel={openPanel} /> : null}
-      {panel === "wrapup" || presentation === "plain" ? <WrapupPanel snap={view} onClose={close} /> : null}
+      {panel === "wrapup" || presentation === "plain" ? <WrapupPanel snap={view} onClose={close} onParty={presentation === "office" ? live.party : undefined} /> : null}
       {panel === "client" && client ? <ClientPanel key={client.slug} slug={client.slug} name={client.name} onClose={() => setPanel(null)} /> : null}
       {panel === "quests" || presentation === "plain" ? (
         <QuestPanel snap={view} busy={busy} act={act} onClose={close} filter={questFilter} setFilter={setQuestFilter} />

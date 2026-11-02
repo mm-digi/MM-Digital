@@ -4,7 +4,11 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { drawCharacter } from "@/pixel/game/character";
 import { createFrank, drawFrank, FRANK_H, FRANK_LINES, FRANK_W, stepFrank, type FrankState } from "@/pixel/game/frank";
 import { COFFEE_SPOT, HOTSPOTS, ROOM_H, ROOM_W, SEATS, SOFA_SPOTS } from "@/pixel/game/layout";
+import { burst, hasConfetti, sprinkle, stepAndDrawConfetti } from "@/pixel/game/confetti";
+import { drawLighting } from "@/pixel/game/lighting";
 import { drawAnimated, staticRoom } from "@/pixel/game/room";
+import { ukDaylightNow, type Daylight } from "@/pixel/game/uk-time";
+import { CALM_WEATHER, type Weather } from "@/pixel/game/weather";
 import { findPath } from "@/pixel/game/walk";
 import { EMOTES, statusLabel } from "@/pixel/game/options";
 import type { StaffPublic, StaffSlug } from "@/pixel/types";
@@ -15,6 +19,10 @@ type RemoteWalk = { path: Point[]; sit: Point | null };
 
 const WALK_SPEED = 0.055;
 const BUBBLE_MS = 6000;
+const HOP_MS = 1600;
+const PARTY_MS = 15000;
+const WEATHER_MS = 15 * 60 * 1000;
+const PARTY_LIGHTS = ["rgba(255, 128, 139, A)", "rgba(142, 196, 224, A)", "rgba(255, 224, 138, A)", "rgba(155, 127, 209, A)"];
 
 // A mug of coffee held at the hand, with a wisp of steam. Pass now = -1 for no steam (calmer motion).
 function drawMug(ctx: CanvasRenderingContext2D, x: number, y: number, now: number) {
@@ -90,6 +98,11 @@ export function OfficeStage({
   const moving = useRef(false);
   const frank = useRef<FrankState>(createFrank());
   const lineIndex = useRef(0);
+  const weather = useRef<Weather>(CALM_WEATHER);
+  const seenMoments = useRef<Record<string, { cheer: number | null; party: number | null }>>({});
+  const hopUntil = useRef<Record<string, number>>({});
+  const partyUntil = useRef(0);
+  const skyOverride = useRef<Daylight | null>(null);
   const propsRef = useRef({ me, staff, calm, onMove, onSofaFull });
   // Keep the latest props to hand for the drawing loop and click handlers.
   useLayoutEffect(() => {
@@ -150,6 +163,65 @@ export function OfficeStage({
       window.setTimeout(() => {
         if (seenEmotes.current[person.slug] === at) delete bubble.dataset.show;
       }, BUBBLE_MS);
+    }
+    redraw.current();
+  }, [staff]);
+
+  // Exeter's weather for the windows, checked every 15 minutes.
+  useEffect(() => {
+    // Development only: preview any light or weather with ?dark=0-1&warm=0-1&sun=0-1&weather=rain&heavy=1&party=1
+    const preview = process.env.NODE_ENV !== "production" ? new URLSearchParams(window.location.search) : null;
+    if (preview?.has("dark") || preview?.has("warm") || preview?.has("sun")) {
+      skyOverride.current = { darkness: Number(preview.get("dark") ?? 0), warmth: Number(preview.get("warm") ?? 0), sun: Number(preview.get("sun") ?? 0.5) };
+    }
+    if (preview?.get("party") === "1") partyUntil.current = Infinity;
+    if (preview?.has("weather")) {
+      weather.current = { kind: preview.get("weather") as Weather["kind"], heavy: preview.get("heavy") === "1", wind: Number(preview.get("wind") ?? 10) };
+      redraw.current();
+      return;
+    }
+    let live = true;
+    const load = () =>
+      fetch("/api/pixel/weather/")
+        .then((response) => (response.ok ? (response.json() as Promise<Weather>) : null))
+        .then((next) => {
+          if (live && next) {
+            weather.current = next;
+            redraw.current();
+          }
+        })
+        .catch(() => undefined);
+    void load();
+    const timer = window.setInterval(load, WEATHER_MS);
+    return () => {
+      live = false;
+      window.clearInterval(timer);
+    };
+  }, []);
+
+  // Shared moments: confetti over whoever finished a quest (and nearby people
+  // hop to cheer), or a Friday party for everyone. Old ones seen on joining are skipped.
+  useEffect(() => {
+    const now = performance.now();
+    const reduced = propsRef.current.calm || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    for (const person of staff) {
+      const seen = (seenMoments.current[person.slug] ??= { cheer: null, party: null });
+      if (person.cheer && person.cheer !== seen.cheer) {
+        seen.cheer = person.cheer;
+        const actor = actors.current[person.slug];
+        if (actor && !reduced && Date.now() - person.cheer < 20_000) {
+          burst(actor.x, actor.y - 44);
+          for (const other of propsRef.current.staff) {
+            const near = actors.current[other.slug];
+            if (other.online && near && Math.hypot(near.x - actor.x, near.y - actor.y) < 110) hopUntil.current[other.slug] = now + HOP_MS;
+          }
+        }
+      }
+      if (person.party && person.party !== seen.party) {
+        seen.party = person.party;
+        const age = Date.now() - person.party;
+        if (age < PARTY_MS && !reduced) partyUntil.current = Math.max(partyUntil.current, now + PARTY_MS - age);
+      }
     }
     redraw.current();
   }, [staff]);
@@ -227,13 +299,19 @@ export function OfficeStage({
       ctx.drawImage(staticRoom(), 0, 0);
       const offline: Partial<Record<StaffSlug, boolean>> = {};
       for (const person of propsRef.current.staff) offline[person.slug] = !person.online;
-      drawAnimated(ctx, now, { calm: reduced, offline });
+      const light = skyOverride.current ?? ukDaylightNow();
+      drawAnimated(ctx, now, { calm: reduced, offline, weather: weather.current, evening: light.darkness > 0.5, warmth: light.warmth });
+      const partying = !reduced && now < partyUntil.current;
 
       const drawables: { y: number; draw: () => void }[] = [];
       for (const person of propsRef.current.staff) {
         const actor = actors.current[person.slug] ?? { x: SEATS[person.slug].x, y: SEATS[person.slug].y, dir: 1 as const, frame: 0, sitting: person.sitting };
         const pose = actor.sitting || !person.online ? "sit" : "stand";
-        const bob = pose === "stand" && !reduced && person.online ? actor.frame % 2 : 0;
+        const walkBob = pose === "stand" && !reduced && person.online ? actor.frame % 2 : 0;
+        // A cheer is a few quick hops; at a party everyone bounces to the beat.
+        const hopLeft = (hopUntil.current[person.slug] ?? 0) - now;
+        const hop = pose !== "stand" || reduced || !person.online ? 0 : hopLeft > 0 ? Math.round(Math.abs(Math.sin((hopLeft / HOP_MS) * Math.PI * 3)) * 6) : partying ? (Math.floor(now / 280) % 2) * 2 : 0;
+        const bob = walkBob - hop;
         drawables.push({
           y: actor.y,
           draw: () => {
@@ -279,6 +357,19 @@ export function OfficeStage({
       drawables.push({ y: frank.current.y + FRANK_H, draw: () => drawFrank(ctx, frank.current) });
       drawables.sort((a, b) => a.y - b.y);
       for (const item of drawables) item.draw();
+
+      const online: Partial<Record<StaffSlug, boolean>> = {};
+      for (const person of propsRef.current.staff) online[person.slug] = person.online;
+      const party = partying
+        ? PARTY_LIGHTS.map((colour, index) => ({
+            x: 192 + Math.sin(now / 1300 + index * 1.7) * 140,
+            y: 190 + Math.cos(now / 1700 + index * 1.3) * 62,
+            colour,
+          }))
+        : undefined;
+      drawLighting(ctx, light, weather.current, now, reduced, { online, party });
+      if (partying && Math.random() < dt / 30) sprinkle(1);
+      if (!reduced && hasConfetti()) stepAndDrawConfetti(ctx, dt, now);
 
       if (frankButton.current) {
         frankButton.current.style.left = `${frank.current.x * scaleRef.current}px`;

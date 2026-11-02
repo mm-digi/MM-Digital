@@ -29,12 +29,15 @@ function clean(value: unknown, fallback: StaffPublic): Presence | null {
     appearance: item.appearance && typeof item.appearance === "object" ? item.appearance : fallback.appearance,
     characterName: typeof item.characterName === "string" && item.characterName.trim() ? item.characterName.slice(0, 18) : fallback.characterName,
     emote: cleanEmote(item.emote),
+    cheer: typeof item.cheer === "number" && Number.isFinite(item.cheer) ? item.cheer : null,
+    party: typeof item.party === "number" && Number.isFinite(item.party) ? item.party : null,
   };
 }
 
 export function useLivePresence(live: LiveConfig | null, me: StaffPublic, staff: StaffPublic[]) {
   const [others, setOthers] = useState<Record<string, unknown>>({});
   const [myEmote, setMyEmote] = useState<Emote | null>(null);
+  const [myMoments, setMyMoments] = useState<{ cheer: number | null; party: number | null }>({ cheer: null, party: null });
   const channel = useRef<RealtimeChannel | null>(null);
   const joined = useRef(false);
   const mine = useRef<Presence>({
@@ -45,6 +48,8 @@ export function useLivePresence(live: LiveConfig | null, me: StaffPublic, staff:
     appearance: me.appearance,
     characterName: me.characterName,
     emote: null,
+    cheer: null,
+    party: null,
   });
   const slug = me.slug;
   const url = live?.url;
@@ -93,6 +98,16 @@ export function useLivePresence(live: LiveConfig | null, me: StaffPublic, staff:
     [share],
   );
 
+  // Shared moments: confetti when I finish a quest, and a Friday party for the whole office.
+  const moment = useCallback(
+    (kind: "cheer" | "party") => {
+      const at = Date.now();
+      setMyMoments((current) => ({ ...current, [kind]: at }));
+      share({ [kind]: at });
+    },
+    [share],
+  );
+
   useEffect(() => {
     share({ status: me.status, appearance: me.appearance, characterName: me.characterName });
   }, [share, me.status, me.appearance, me.characterName]);
@@ -100,12 +115,12 @@ export function useLivePresence(live: LiveConfig | null, me: StaffPublic, staff:
   const merged = useMemo(
     () =>
       staff.map((person) => {
-        if (person.slug === slug) return { ...person, online: true, emote: myEmote };
+        if (person.slug === slug) return { ...person, online: true, emote: myEmote, ...myMoments };
         const seen = clean(others[person.slug as StaffSlug], person);
         return seen ? { ...person, ...seen, online: true } : { ...person, online: false };
       }),
-    [staff, others, slug, myEmote],
+    [staff, others, slug, myEmote, myMoments],
   );
 
-  return { staff: merged, share, emote, connected: Boolean(live) };
+  return { staff: merged, share, emote, cheer: () => moment("cheer"), party: () => moment("party"), connected: Boolean(live) };
 }
