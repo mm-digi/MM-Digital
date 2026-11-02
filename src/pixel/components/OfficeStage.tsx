@@ -3,7 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { drawCharacter } from "@/pixel/game/character";
 import { createFrank, drawFrank, FRANK_H, FRANK_LINES, FRANK_W, stepFrank, type FrankState } from "@/pixel/game/frank";
-import { HOTSPOTS, ROOM_H, ROOM_W, SEATS, SOFA_SPOTS } from "@/pixel/game/layout";
+import { COFFEE_SPOT, HOTSPOTS, ROOM_H, ROOM_W, SEATS, SOFA_SPOTS } from "@/pixel/game/layout";
 import { drawAnimated, staticRoom } from "@/pixel/game/room";
 import { findPath } from "@/pixel/game/walk";
 import { EMOTES, statusLabel } from "@/pixel/game/options";
@@ -15,6 +15,25 @@ type RemoteWalk = { path: Point[]; sit: Point | null };
 
 const WALK_SPEED = 0.055;
 const BUBBLE_MS = 6000;
+
+// A mug of coffee held at the hand, with a wisp of steam. Pass now = -1 for no steam (calmer motion).
+function drawMug(ctx: CanvasRenderingContext2D, x: number, y: number, now: number) {
+  ctx.fillStyle = "#2a211c";
+  ctx.fillRect(x - 1, y - 1, 8, 8);
+  ctx.fillRect(x + 6, y + 1, 3, 4);
+  ctx.fillStyle = "#f7efe2";
+  ctx.fillRect(x, y, 6, 6);
+  ctx.fillRect(x + 7, y + 2, 1, 2);
+  ctx.fillStyle = "#ff808b";
+  ctx.fillRect(x, y + 3, 6, 1);
+  ctx.fillStyle = "#6b3f2a";
+  ctx.fillRect(x + 1, y, 4, 1);
+  if (now < 0) return;
+  const rise = Math.floor(now / 260) % 3;
+  ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
+  ctx.fillRect(x + 1 + (rise % 2), y - 3 - rise, 1, 2);
+  ctx.fillRect(x + 4 - (rise % 2), y - 5 - rise, 1, 2);
+}
 
 // Moves an actor along a route by up to `distance` pixels. True once it arrives.
 function advance(actor: Actor, route: Point[], distance: number) {
@@ -219,20 +238,18 @@ export function OfficeStage({
           y: actor.y,
           draw: () => {
             ctx.save();
+            const left = actor.dir < 0 ? -16 : actor.x - 16;
             if (actor.dir < 0) {
               ctx.translate(actor.x + 16, 0);
               ctx.scale(-1, 1);
-              drawCharacter(ctx, person.appearance, -16, actor.y - 48 + bob, bob, pose, 2);
-            } else {
-              drawCharacter(ctx, person.appearance, actor.x - 16, actor.y - 48 + bob, bob, pose, 2);
             }
+            drawCharacter(ctx, person.appearance, left, actor.y - 48 + bob, bob, pose, 2);
+            // Anyone on a break has a coffee in their hand.
+            if (person.online && person.status === "break") drawMug(ctx, left + 22, actor.y - 21 + bob, reduced ? -1 : now);
             ctx.restore();
             if (!person.online) {
               ctx.fillStyle = "#f3e6cf";
               ctx.fillRect(actor.x + 10, actor.y - 52, 3, 3);
-            } else if (person.status === "break") {
-              ctx.fillStyle = "#ff808b";
-              ctx.fillRect(actor.x + 8, actor.y - 54, 6, 5);
             } else if (person.status === "meeting") {
               ctx.fillStyle = "#f7efe2";
               ctx.fillRect(actor.x + 8, actor.y - 54, 8, 5);
@@ -330,6 +347,15 @@ export function OfficeStage({
     startWalk(route, spot);
   }
 
+  // Walk over to the counter. Picking up the mug is the break status, set by onHotspot.
+  function goForCoffee() {
+    const actor = actors.current[propsRef.current.me.slug];
+    if (!actor) return;
+    standUp(actor);
+    const route = findPath(actor, COFFEE_SPOT);
+    if (route.length) startWalk(route);
+  }
+
   function walkTo(event: React.MouseEvent<HTMLDivElement>) {
     if ((event.target as HTMLElement).closest("button")) return;
     const canvas = canvasRef.current;
@@ -386,6 +412,7 @@ export function OfficeStage({
                 sitDown();
                 return;
               }
+              if (spot.action === "coffee") goForCoffee();
               onHotspot(spot);
             }}
           >

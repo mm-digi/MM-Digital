@@ -17,6 +17,9 @@ export const SEATS: Record<StaffSlug, { x: number; y: number }> = {
   natasha: { x: 330, y: 140 },
 };
 
+// Where you stand to make a coffee: just left of the counter, facing it.
+export const COFFEE_SPOT = { x: 272, y: 256 };
+
 export const SOFA_SPOTS = [
   { x: 31, y: 260 },
   { x: 65, y: 260 },

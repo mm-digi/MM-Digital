@@ -52,7 +52,7 @@ function drawStatic(ctx: CanvasRenderingContext2D) {
   drawTable(ctx, 136, 158);
   drawSofa(ctx, 8, 232);
   drawCoffee(ctx, 286, 216);
-  drawPlant(ctx, 118, 214, "leaf");
+  drawPlant(ctx, 128, 214, "leaf");
   drawPlant(ctx, 232, 224, "leaf");
   drawPlant(ctx, 252, 86, "cactus");
   for (const desk of DESKS) drawDesk(ctx, desk.x, desk.y);
