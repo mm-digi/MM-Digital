@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "predev": "node scripts/minify-css.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/minify-css.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
@@ -24,6 +26,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
+    "lightningcss": "^1.32.0",
     "eslint-config-next": "16.3.4",
     "tailwindcss": "^4",
     "typescript": "^5"
