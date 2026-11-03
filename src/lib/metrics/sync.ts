@@ -1,3 +1,5 @@
+import { CLIENT_DASHBOARDS } from "@/lib/clients";
+import { matchClient as matchDashboardClient } from "@/lib/metrics/health";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { matchClient, type ClientRow } from "@/lib/metrics/match-client";
 import { fetchGa4Property } from "@/lib/metrics/ga4";
@@ -170,7 +172,17 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
   }
 
   if (process.env.GOOGLE_REFRESH_TOKEN) {
-    const gaClients = (clients || []).filter((client: { ga4_property_id?: string | null }) => client.ga4_property_id);
+    // Only current clients (those with a dashboard), so former clients whose
+    // Google Analytics access has been removed don't show up as errors.
+    const current = new Set(
+      CLIENT_DASHBOARDS.flatMap((dashboard) => {
+        const client = matchDashboardClient(clients || [], dashboard.slug);
+        return client ? [client.id] : [];
+      }),
+    );
+    const gaClients = (clients || []).filter(
+      (client: { id: string; ga4_property_id?: string | null }) => client.ga4_property_id && current.has(client.id),
+    );
     result.sources.ga4 = 0;
     for (const client of gaClients) {
       try {

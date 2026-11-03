@@ -32,11 +32,7 @@ export const WINDSOR_CONNECTORS: ConnectorConfig[] = [
     connector: "linkedin_organic",
     fields: ["date", "account_name", "share_count", "like_count", "comment_count", "impression_count"],
   },
-  {
-    source: "linkedin_ads",
-    connector: "linkedin",
-    fields: ["date", "account_name", "impressions", "clicks", "spend"],
-  },
+  // LinkedIn Ads isn't connected in Windsor on purpose, so it isn't synced.
 ];
 
 export type WindsorRow = {

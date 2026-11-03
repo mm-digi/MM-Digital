@@ -79,7 +79,7 @@ async function latestDates(clientIds: string[], since: string) {
 }
 
 // Same spellings findClient tries for a dashboard slug, without a query each.
-function matchClient<T extends { slug: string }>(rows: T[], slug: string) {
+export function matchClient<T extends { slug: string }>(rows: T[], slug: string) {
   const candidates = [slug, slug.replace(/-dashboard$/, ""), slug.replace(/-2$/, "")];
   for (const candidate of candidates) {
     const found = rows.find((row) => row.slug === candidate);
