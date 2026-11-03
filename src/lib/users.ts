@@ -27,6 +27,8 @@ export const CLIENT_USERS: ClientUser[] = [
   { username: "tors-vodka-client", slug: "tors-vodka-dashboard", passwordHash: "$2b$12$c4k15UQfyHoUUs.lVjIOjuh3JdjYgevcgZcuHsmjhfZyHEgR7diJu" },
   { username: "trendz", slug: "trendz-dashboard", passwordHash: "$2b$12$XZFPq/7IZJz4sDhSifAYW.X4i/GC9H5qW5c.N8.RJjd5Fk6jfn8ri" },
   { username: "bastion", slug: "bastion-dashboard", passwordHash: "$2b$12$D50b3JspWokrOjXJ8fpa0egDNct/OGJJiU62oUNZ8sfrvfy1VNJMS" },
+  { username: "intentional-dating", slug: "intentional-dating-dashboard", passwordHash: "$2b$12$JVSQ8pDJB.6qFv.k2brwFu8y96lJ6tqK8tsX4BtF5vSohE1w9qL8a" },
+  { username: "my-prop-pilot", slug: "my-prop-pilot-dashboard", passwordHash: "$2b$12$2QYRFPnh5FHXf/BJFp3CnuT5Zzdz2B4UVzxDmaqxiXC4xChRdKZv." },
   { username: "tash@mm-digi.co.uk", slug: "team-access", role: "staff", passwordHash: "$2b$12$8mS5EJR4vettxIn.yoMNnuPtzGBslUdRsPQaTjOZtNLfwAc7MrqSe" },
   { username: "mariette@mm-digi.co.uk", slug: "team-access", role: "staff", passwordHash: "$2b$12$PgfDi9FfV.ogy31/OEroY.I2ljG6kHak/feJ.d/E1YHvCmxmx7cjS" },
   { username: "maximilian@mm-digi.co.uk", slug: "team-access", role: "staff", passwordHash: "$2b$12$MNufInhrFBayAeKg/tbf3.5xLDv5fpcnknvk9B3oknBFooAL7Erqe" },
