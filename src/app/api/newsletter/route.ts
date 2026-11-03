@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { NextResponse } from "next/server";
 import { fieldsToEmail, sendEmail } from "@/lib/email";
+import { failsFormChecks, isBot } from "@/lib/spam";
 
 // Adds newsletter sign-ups to the Mailchimp audience. Needs MAILCHIMP_API_KEY
 // (ends in the data centre, e.g. "-us21") and MAILCHIMP_AUDIENCE_ID in Vercel.
@@ -50,10 +51,18 @@ async function emailFallback(email: string) {
 }
 
 export async function POST(request: Request) {
+  if (await isBot()) {
+    return NextResponse.json({ error: "Sorry, we couldn't sign you up. Please try again later." }, { status: 403 });
+  }
+
   const body = await request.json().catch(() => null);
   const email = String(body?.email || "").trim().toLowerCase();
   if (!EMAIL_RE.test(email)) {
     return NextResponse.json({ error: "Please enter a valid email address." }, { status: 400 });
+  }
+  // Looks like a bot: say it worked, but don't add or email it.
+  if (failsFormChecks(body)) {
+    return NextResponse.json({ ok: true });
   }
 
   try {

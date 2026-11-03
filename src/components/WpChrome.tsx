@@ -65,6 +65,17 @@ export default function WpChrome({
         "form.kb-advanced-form, form.wpcf7-form, form.uagb-forms-main-form, form.mm-newsletter-form, form.mm-home-contact-form"
       ),
     ];
+    // Spam checks (see lib/spam.ts): a decoy field people never see but bots
+    // fill in, and when the page opened, so instant submissions can be dropped.
+    const openedAt = Date.now();
+    const decoys = forms.map((form) => {
+      const decoy = document.createElement("input");
+      Object.assign(decoy, { type: "text", name: "_hp", tabIndex: -1, autocomplete: "off" });
+      decoy.setAttribute("aria-hidden", "true");
+      decoy.style.cssText = "position:absolute;left:-9999px;width:1px;height:1px;opacity:0";
+      form.append(decoy);
+      return decoy;
+    });
     const onSubmit = async (e: Event) => {
       e.preventDefault();
       const form = e.currentTarget as HTMLFormElement;
@@ -87,7 +98,10 @@ export default function WpChrome({
       // go to Mailchimp; everything else is an enquiry emailed to info@
       const isNewsletter = form.matches("form.kb-advanced-form, form.mm-newsletter-form");
       const data = isNewsletter
-        ? { email: (form.querySelector('input[type="email"]') as HTMLInputElement | null)?.value ?? "" }
+        ? {
+            email: (form.querySelector('input[type="email"]') as HTMLInputElement | null)?.value ?? "",
+            _hp: (form.querySelector('input[name="_hp"]') as HTMLInputElement | null)?.value ?? "",
+          }
         : [...new FormData(form).entries()].reduce<Record<string, string | string[]>>((acc, [k, v]) => {
             // Ticked checkboxes share a name ("your-services[]"), so collect them all
             const key = k.replace(/\[\]$/, "");
@@ -95,6 +109,7 @@ export default function WpChrome({
             acc[key] = prev === undefined ? String(v) : [...[prev].flat(), String(v)];
             return acc;
           }, {});
+      const payload = { ...data, _t: String(Date.now() - openedAt) };
       const label = button?.textContent;
       if (button) {
         button.disabled = true;
@@ -106,7 +121,7 @@ export default function WpChrome({
         const res = await fetch(isNewsletter ? "/api/newsletter" : "/api/contact", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data),
+          body: JSON.stringify(payload),
         });
         ok = res.ok;
       } catch {
@@ -569,6 +584,7 @@ export default function WpChrome({
       opens.forEach((el) => el.removeEventListener("click", openMenu));
       closes.forEach((el) => el.removeEventListener("click", closeMenu));
       forms.forEach((form) => form.removeEventListener("submit", onSubmit));
+      decoys.forEach((decoy) => decoy.remove());
       faqItems.forEach((item) => item.removeEventListener("click", onFaq));
       values.forEach((el) => io.unobserve(el));
       if (typedTimer) window.clearTimeout(typedTimer);
