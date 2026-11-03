@@ -3,12 +3,22 @@ export type WindsorSource =
   | "facebook"
   | "instagram"
   | "linkedin"
-  | "linkedin_ads";
+  | "linkedin_ads"
+  | "amazon";
 
 type ConnectorConfig = {
   source: WindsorSource;
   connector: string;
   fields: string[];
+};
+
+const AMAZON_REPORT = "sales_and_traffic_report_by_date__";
+const AMAZON_FIELDS = {
+  sales: `${AMAZON_REPORT}salesbydate_orderedproductsales_amount`,
+  orders: `${AMAZON_REPORT}salesbydate_totalorderitems`,
+  units: `${AMAZON_REPORT}salesbydate_unitsordered`,
+  sessions: `${AMAZON_REPORT}trafficbydate_sessions`,
+  pageViews: `${AMAZON_REPORT}trafficbydate_pageviews`,
 };
 
 export const WINDSOR_CONNECTORS: ConnectorConfig[] = [
@@ -33,6 +43,12 @@ export const WINDSOR_CONNECTORS: ConnectorConfig[] = [
     fields: ["date", "account_name", "share_count", "like_count", "comment_count", "impression_count"],
   },
   // LinkedIn Ads isn't connected in Windsor on purpose, so it isn't synced.
+  {
+    // Amazon Seller Central's daily sales and traffic report.
+    source: "amazon",
+    connector: "amazon_sp",
+    fields: ["date", "account_name", ...Object.values(AMAZON_FIELDS)],
+  },
 ];
 
 export type WindsorRow = {
@@ -52,7 +68,38 @@ function num(row: WindsorRow, ...keys: string[]) {
   return null;
 }
 
-export function rowToMetrics(source: WindsorSource, row: WindsorRow) {
+type Campaign = { name: string; spend: number; clicks: number; conversions: number };
+
+export type WindsorMetrics = {
+  date: string;
+  accountId: string;
+  accountName: string;
+  source: WindsorSource;
+  impressions: number | null;
+  reach: number | null;
+  clicks: number | null;
+  spend: number | null;
+  engagement: number | null;
+  conversions: number | null;
+  followers: number | null;
+  sessions: number | null;
+  users: number | null;
+  extra: {
+    views: number | null;
+    likes: number | null;
+    page_views: number | null;
+    reactions: number | null;
+    campaigns: Campaign[];
+    sales?: number | null;
+    orders?: number | null;
+    units?: number | null;
+    store_sessions?: number | null;
+    store_page_views?: number | null;
+  };
+};
+
+export function rowToMetrics(source: WindsorSource, row: WindsorRow): WindsorMetrics {
+  if (source === "amazon") return amazonRowToMetrics(row);
   const likes = num(row, "likes", "like_count");
   const views = num(row, "views");
   const pageViews = num(row, "page_views");
@@ -70,8 +117,8 @@ export function rowToMetrics(source: WindsorSource, row: WindsorRow) {
     engagement: num(row, "engagement", "page_post_engagements", "likes", "share_count", "like_count"),
     conversions: num(row, "conversions", "leads"),
     followers: num(row, "followers", "followers_count", "follower_count", "page_fans"),
-    sessions: null as number | null,
-    users: null as number | null,
+    sessions: null,
+    users: null,
     extra: {
       views,
       likes,
@@ -87,6 +134,38 @@ export function rowToMetrics(source: WindsorSource, row: WindsorRow) {
             },
           ]
         : [],
+    },
+  };
+}
+
+// Amazon figures all go in extra, never the shared columns, so store visits
+// aren't added to website sessions or orders to ad leads in the totals.
+function amazonRowToMetrics(row: WindsorRow): WindsorMetrics {
+  return {
+    date: String(row.date || "").slice(0, 10),
+    accountId: String(row.account_id || ""),
+    accountName: String(row.account_name || row.account || ""),
+    source: "amazon",
+    impressions: null,
+    reach: null,
+    clicks: null,
+    spend: null,
+    engagement: null,
+    conversions: null,
+    followers: null,
+    sessions: null,
+    users: null,
+    extra: {
+      views: null,
+      likes: null,
+      page_views: null,
+      reactions: null,
+      campaigns: [],
+      sales: num(row, AMAZON_FIELDS.sales),
+      orders: num(row, AMAZON_FIELDS.orders),
+      units: num(row, AMAZON_FIELDS.units),
+      store_sessions: num(row, AMAZON_FIELDS.sessions),
+      store_page_views: num(row, AMAZON_FIELDS.pageViews),
     },
   };
 }

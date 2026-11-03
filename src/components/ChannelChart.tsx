@@ -8,6 +8,7 @@ const SOURCE_LABELS: Record<string, string> = {
   instagram: "Instagram",
   linkedin: "LinkedIn",
   linkedin_ads: "LinkedIn Ads",
+  amazon: "Amazon",
 };
 
 const SOURCE_COLORS: Record<string, string> = {
@@ -17,6 +18,7 @@ const SOURCE_COLORS: Record<string, string> = {
   instagram: "#e1306c",
   linkedin: "#70b5f9",
   linkedin_ads: "#f5c16c",
+  amazon: "#ff9900",
 };
 
 type MetricKey = Exclude<keyof DayPoint, "date">;

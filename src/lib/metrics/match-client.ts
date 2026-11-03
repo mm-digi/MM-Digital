@@ -27,8 +27,20 @@ const ALIASES: Record<string, string> = {
   designwithbloomcouk: "designwithbloom",
 };
 
+// Amazon seller accounts come through as "<seller ID>-<country>", e.g.
+// "A3D5RUOPIHYASV-GB", whichever marketplaces were picked in Windsor.
+const AMAZON_SELLERS: Record<string, string> = {
+  a3d5ruopihyasv: "lostinhound",
+};
+
+function alias(needle: string) {
+  if (ALIASES[needle]) return ALIASES[needle];
+  const seller = Object.keys(AMAZON_SELLERS).find((id) => needle.startsWith(id));
+  return seller ? AMAZON_SELLERS[seller] : needle;
+}
+
 export function matchClient(accountName: string, clients: ClientRow[]) {
-  const needle = ALIASES[compact(accountName)] || compact(accountName);
+  const needle = alias(compact(accountName));
   if (!needle) return null;
 
   const scored = clients
