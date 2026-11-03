@@ -14,7 +14,15 @@ type Extra = {
   new_users?: number | null;
   avg_duration?: number | null;
   campaigns?: { name: string; spend: number; clicks: number; conversions: number }[];
+  sales?: number | null;
+  orders?: number | null;
+  units?: number | null;
+  store_sessions?: number | null;
+  store_page_views?: number | null;
 };
+
+// Amazon figures, only set on Amazon rows so other sources' extra stays as it was.
+const AMAZON_EXTRA = ["sales", "orders", "units", "store_sessions", "store_page_views"] as const;
 
 function mergeExtra(a: Extra = {}, b: Extra = {}): Extra {
   const campaigns = [...(a.campaigns || [])];
@@ -26,7 +34,12 @@ function mergeExtra(a: Extra = {}, b: Extra = {}): Extra {
       found.conversions += campaign.conversions;
     } else campaigns.push({ ...campaign });
   }
+  const amazon: Extra = {};
+  for (const key of AMAZON_EXTRA) {
+    if (a[key] != null || b[key] != null) amazon[key] = (a[key] || 0) + (b[key] || 0);
+  }
   return {
+    ...amazon,
     views: (a.views || 0) + (b.views || 0) || null,
     likes: (a.likes || 0) + (b.likes || 0) || null,
     page_views: (a.page_views || 0) + (b.page_views || 0) || null,

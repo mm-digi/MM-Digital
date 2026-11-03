@@ -31,8 +31,12 @@ function buildSummary(
   name: string,
   week: PeriodBlock,
   month: PeriodBlock,
-  bySourceWeek: Record<string, MetricTotals>
+  bySourceWeek: Record<string, MetricTotals>,
+  amazon: DayPoint[] = []
 ) {
+  const amazonWeek = amazon.slice(-7);
+  const amazonSales = amazonWeek.reduce((sum, point) => sum + point.sales, 0);
+  const amazonOrders = amazonWeek.reduce((sum, point) => sum + point.orders, 0);
   const weekParts: string[] = [];
   if (week.totals.sessions) {
     weekParts.push(
@@ -48,6 +52,9 @@ function buildSummary(
   if (week.totals.engagement && !instagram?.reach && !facebook?.impressions) {
     weekParts.push(`${formatNumber(week.totals.engagement)} social engagements`);
   }
+  if (amazonSales) {
+    weekParts.push(`£${formatNumber(amazonSales)} in Amazon sales from ${formatNumber(amazonOrders)} order${amazonOrders === 1 ? "" : "s"}`);
+  }
 
   const monthParts: string[] = [];
   if (month.totals.sessions) monthParts.push(`${formatNumber(month.totals.sessions)} website sessions`);
@@ -60,7 +67,7 @@ function buildSummary(
   if (monthParts.length) {
     text += ` Over the last 30 days, that includes ${joinAnd(monthParts)}.`;
   }
-  text += " These numbers update automatically each morning from Google Analytics, Facebook, Instagram and ads.";
+  text += ` These numbers update automatically each morning from Google Analytics, Facebook, Instagram${amazon.length ? ", Amazon" : ""} and ads.`;
   return text;
 }
 
@@ -80,6 +87,7 @@ const SOURCE_LABELS: Record<string, string> = {
   instagram: "Instagram",
   linkedin: "LinkedIn",
   linkedin_ads: "LinkedIn Ads",
+  amazon: "Amazon",
 };
 
 // Channels always appear in this order, whatever order the data arrives in.
@@ -179,7 +187,7 @@ function chartGroup(
             title={chartTitle}
             description={description}
             metric={metric}
-            prefix={metric === "spend" ? "£" : ""}
+            prefix={metric === "spend" || metric === "sales" ? "£" : ""}
             duration={metric === "avgDuration"}
             series={sourceSeries}
             seriesBySource={{ [source]: sourceSeries }}
@@ -254,7 +262,7 @@ export default async function MetricsSnapshot({ slug }: { slug: string }) {
           <span className="eyebrow mb-2 block">Live reporting</span>
           <h2 className="font-serif text-3xl">Performance snapshot</h2>
           <p className="mt-4 max-w-4xl text-[1.08rem] leading-8 text-[#cfcfcf]">
-            {buildSummary(snapshot.clientName, snapshot.week, snapshot.month, snapshot.bySourceWeek)}
+            {buildSummary(snapshot.clientName, snapshot.week, snapshot.month, snapshot.bySourceWeek, snapshot.seriesBySource.amazon)}
           </p>
           <p className="mt-3 text-sm text-white/50">Updated {updated}.</p>
         </div>
@@ -298,6 +306,13 @@ export default async function MetricsSnapshot({ slug }: { slug: string }) {
           ["Ad clicks over time", "Clicks on Facebook ads.", "clicks"],
           ["Ad impressions over time", "How often ads were shown.", "impressions"],
         ], snapshot, "facebook_ads")}
+
+        {chartGroup("Amazon", [
+          ["Amazon sales", "Value of products ordered on Amazon.", "sales"],
+          ["Amazon orders", "Orders placed on Amazon.", "orders"],
+          ["Amazon units sold", "Number of items ordered.", "units"],
+          ["Amazon store visits", "Sessions on the Amazon listings.", "storeSessions"],
+        ], snapshot, "amazon")}
 
         <CampaignBars campaigns={snapshot.campaigns} />
 

@@ -27,6 +27,11 @@ export type DayPoint = {
   likes: number;
   reactions: number;
   pageViews: number;
+  sales: number;
+  orders: number;
+  units: number;
+  storeSessions: number;
+  storePageViews: number;
 };
 
 export type CampaignPoint = {
@@ -117,6 +122,11 @@ function emptyPoint(date: string): DayPoint {
     likes: 0,
     reactions: 0,
     pageViews: 0,
+    sales: 0,
+    orders: 0,
+    units: 0,
+    storeSessions: 0,
+    storePageViews: 0,
   };
 }
 
@@ -157,6 +167,11 @@ function fillSeries(fromIso: string, toIso: string, rows: Record<string, unknown
     point.likes += extraNum(row, "likes") || (source === "instagram" || source === "linkedin" ? Number(row.engagement || 0) : 0);
     point.reactions += extraNum(row, "reactions") || (source === "facebook" ? Number(row.engagement || 0) : 0);
     point.pageViews += extraNum(row, "page_views") || (source === "facebook" || source === "linkedin" ? Number(row.impressions || 0) : 0);
+    point.sales += extraNum(row, "sales");
+    point.orders += extraNum(row, "orders");
+    point.units += extraNum(row, "units");
+    point.storeSessions += extraNum(row, "store_sessions");
+    point.storePageViews += extraNum(row, "store_page_views");
   }
   for (const readings of followerReadings.values()) {
     readings.sort(([a], [b]) => a.localeCompare(b));
