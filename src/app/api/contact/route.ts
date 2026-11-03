@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { fieldsToEmail, sendEmail } from "@/lib/email";
+import { failsFormChecks, isBot, tooManyLinks } from "@/lib/spam";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -29,6 +30,10 @@ const tidy = (key: string) =>
   key.replace(/^your-/, "").replace(/[-_]+/g, " ").replace(/^./, (c) => c.toUpperCase());
 
 export async function POST(request: Request) {
+  if (await isBot()) {
+    return NextResponse.json({ error: "Sorry, we couldn't send that. Please call us on 07880 601123." }, { status: 403 });
+  }
+
   const body = await request.json().catch(() => null);
   if (!body || typeof body !== "object") {
     return NextResponse.json({ error: "Please complete the form." }, { status: 400 });
@@ -51,6 +56,14 @@ export async function POST(request: Request) {
   if (!rows.length) {
     return NextResponse.json({ error: "Please complete the form." }, { status: 400 });
   }
+  if (!EMAIL_RE.test(emailField)) {
+    return NextResponse.json({ error: "Please enter a valid email address." }, { status: 400 });
+  }
+  // Looks like spam: say it was sent, so the sender has no reason to try again,
+  // but don't email it.
+  if (failsFormChecks(body) || tooManyLinks(rows.map(([, value]) => value))) {
+    return NextResponse.json({ ok: true });
+  }
 
   const subject = `New enquiry from ${name || "the website"}`;
   const { html, text } = fieldsToEmail("New enquiry from mm-digi.co.uk", rows);
@@ -60,7 +73,7 @@ export async function POST(request: Request) {
       subject,
       html,
       text,
-      replyTo: EMAIL_RE.test(emailField) ? emailField : undefined,
+      replyTo: emailField,
     });
     if (!ok) throw new Error("send failed");
     return NextResponse.json({ ok: true });
