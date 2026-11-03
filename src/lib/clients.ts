@@ -175,6 +175,22 @@ export const CLIENT_DASHBOARDS: ClientDashboard[] = [
     embedUrl:
       "https://datastudio.google.com/embed/reporting/516b054a-a5aa-4121-9d5b-7b60ae27d17e/page/rma8F",
   },
+  // No Looker Studio report: the page in content/pages and the live snapshot
+  // are the whole dashboard.
+  {
+    slug: "intentional-dating-dashboard",
+    name: "Intentional Dating",
+    heading: "Intentional Dating's Analytics Dashboard",
+    reportTitle: "Website, Facebook & LinkedIn Analytics",
+    embedUrl: "",
+  },
+  {
+    slug: "my-prop-pilot-dashboard",
+    name: "My Prop Pilot",
+    heading: "My Prop Pilot's Analytics Dashboard",
+    reportTitle: "Website, Facebook & LinkedIn Analytics",
+    embedUrl: "",
+  },
 ];
 
 export const DASHBOARD_SLUGS = new Set(CLIENT_DASHBOARDS.map((c) => c.slug));

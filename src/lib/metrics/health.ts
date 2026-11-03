@@ -13,7 +13,7 @@ export const ALERT_TO = ["tash@mm-digi.co.uk", "info@mm-digi.co.uk"];
 
 // New clients whose accounts aren't connected yet. Remove a slug once their
 // figures start coming in, so they're watched like everyone else.
-const NOT_SET_UP = new Set(["tors-vodka-dashboard"]);
+const NOT_SET_UP = new Set(["tors-vodka-dashboard", "intentional-dating-dashboard", "my-prop-pilot-dashboard"]);
 
 // Figures from 3+ days ago means two whole days have gone missing.
 const STALE_AFTER_DAYS = 3;
