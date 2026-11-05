@@ -652,6 +652,158 @@
   }
 }
 
+/* The team photo leads the team section now that the headshot cards are gone */
+.mma-section.mma-team {
+  padding-top: 100px;
+}
+
+.mma-team .mma-split {
+  margin-top: 0;
+}
+
+/* Each person's name, role, bio and socials, lined up under them in the photo.
+   The spacer columns put each column's centre under that person's face. */
+.mma-people {
+  display: grid;
+  grid-template-columns: 11.7fr 20fr 19.35fr 18.75fr 18.8fr 11.4fr;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mma-person {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 34px 14px 0;
+  text-align: center;
+}
+
+/* Social buttons sit level across all four, whatever the bio length */
+.mma-person .mma-member-social {
+  margin-top: auto;
+}
+
+.mma-person:nth-child(1) { grid-column: 2; }
+.mma-person:nth-child(2) { grid-column: 3; }
+.mma-person:nth-child(3) { grid-column: 4; }
+.mma-person:nth-child(4) { grid-column: 5; }
+
+/* A short pink tick pointing up to the person */
+.mma-person::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 20px;
+  background: var(--mm-pink);
+}
+
+.mma-person-face {
+  display: none;
+}
+
+.mma-person h3 {
+  margin: 0;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.mma-person-role {
+  display: block;
+  margin-top: 6px;
+  font-family: "Glacial Indifference", Arial, sans-serif;
+  font-size: 0.95rem;
+  color: var(--mm-pink);
+}
+
+.mma-person p {
+  margin: 14px 0 18px;
+  font-family: "Glacial Indifference", Arial, sans-serif;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: #cfcfcf;
+}
+
+.mma-person .mma-member-social {
+  justify-content: center;
+}
+
+.mma-person .mma-member-in {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+}
+
+.mma-person .mma-member-in svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Narrower screens: the columns can't line up under faces any more, so each
+   person gets a small headshot beside their details instead */
+@media (max-width: 1024px) {
+  .mma-people {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+    margin-top: 36px;
+  }
+
+  .mma-person:nth-child(n) {
+    grid-column: auto;
+  }
+
+  .mma-person {
+    display: grid;
+    grid-template-columns: 76px 1fr;
+    column-gap: 16px;
+    align-content: start;
+    padding: 0;
+    text-align: left;
+  }
+
+  .mma-person::before {
+    display: none;
+  }
+
+  .mma-person-face {
+    display: block;
+    grid-row: 1 / span 4;
+    align-self: start;
+    width: 76px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: 50% 30%;
+    box-shadow: 0 0 0 2px var(--mm-pink);
+  }
+
+  .mma-person .mma-member-social {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .mma-people {
+    grid-template-columns: 1fr;
+  }
+
+  .mma-person-face {
+    width: 64px;
+  }
+
+  .mma-person {
+    grid-template-columns: 64px 1fr;
+  }
+}
+
 /* ---------- Cards ---------- */
 .mma-cards {
   display: grid;
@@ -946,11 +1098,6 @@
   color: #cfcfcf;
 }
 
-@media (max-width: 1024px) {
-  .mma-team .mma-split {
-    margin-top: 56px;
-  }
-}
 
 /* ---------- Smaller screens ---------- */
 @media (max-width: 1100px) {
@@ -1099,79 +1246,6 @@
 </section>
 
 <section class="mma-section mma-team" aria-labelledby="mma-team-title">
-  <div class="mma-wrap">
-    <ul class="mma-members">
-      <li>
-        <input class="mma-member-toggle" type="checkbox" id="mma-member-0">
-        <label class="mma-member" for="mma-member-0">
-          <span class="mma-member-inner">
-            <span class="mma-member-front">
-              <img src="/media/about/team/maximilian-madl.webp" width="800" height="1000" alt="Maximilian Madl" loading="lazy">
-              <span class="mma-member-tag"><b>Maximilian Madl</b><small>Founder &amp; Director</small></span>
-            </span>
-            <span class="mma-member-back">
-              <b>Maximilian Madl</b>
-              <small>Founder &amp; Director</small>
-              <span class="mma-member-bio">With a passion for driving growth and delivering exceptional results, Maximilian leads our team in crafting tailored digital marketing strategies that help businesses thrive.</span>
-              <span class="mma-member-social"><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="screen-reader-text">MM Digital on Facebook</span></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg><span class="screen-reader-text">MM Digital on Instagram</span></a><a href="https://www.linkedin.com/in/maximillian-madl-0637b6139/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Maximilian Madl's LinkedIn profile">in</a></span>
-            </span>
-          </span>
-        </label>
-      </li>
-      <li>
-        <input class="mma-member-toggle" type="checkbox" id="mma-member-1">
-        <label class="mma-member" for="mma-member-1">
-          <span class="mma-member-inner">
-            <span class="mma-member-front">
-              <img src="/media/about/team/tash-card.webp" width="800" height="1000" alt="Tash Card" loading="lazy">
-              <span class="mma-member-tag"><b>Tash Card</b><small>Senior Web Specialist</small></span>
-            </span>
-            <span class="mma-member-back">
-              <b>Tash Card</b>
-              <small>Senior Web Specialist</small>
-              <span class="mma-member-bio">Tash brings a strong technical mindset and a data-driven approach to her role, supporting the design and development of websites while ensuring functionality and performance remain at the forefront.</span>
-              <span class="mma-member-social"><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="screen-reader-text">MM Digital on Facebook</span></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg><span class="screen-reader-text">MM Digital on Instagram</span></a><a href="https://www.linkedin.com/in/natasha-card-a2b40b195/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Tash Card's LinkedIn profile">in</a></span>
-            </span>
-          </span>
-        </label>
-      </li>
-      <li>
-        <input class="mma-member-toggle" type="checkbox" id="mma-member-2">
-        <label class="mma-member" for="mma-member-2">
-          <span class="mma-member-inner">
-            <span class="mma-member-front">
-              <img src="/media/about/team/mariette-james.webp" width="800" height="1000" alt="Mariette James" loading="lazy">
-              <span class="mma-member-tag"><b>Mariette James</b><small>Marketing Executive</small></span>
-            </span>
-            <span class="mma-member-back">
-              <b>Mariette James</b>
-              <small>Marketing Executive</small>
-              <span class="mma-member-bio">Mariette brings a blend of creative and commercial thinking to her role. She works across the social media calendars, content creation and campaigns, ensuring every piece of content is on brand and aligned with client goals.</span>
-              <span class="mma-member-social"><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="screen-reader-text">MM Digital on Facebook</span></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg><span class="screen-reader-text">MM Digital on Instagram</span></a><a href="https://www.linkedin.com/in/mariettejames/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Mariette James's LinkedIn profile">in</a></span>
-            </span>
-          </span>
-        </label>
-      </li>
-      <li>
-        <input class="mma-member-toggle" type="checkbox" id="mma-member-3">
-        <label class="mma-member" for="mma-member-3">
-          <span class="mma-member-inner">
-            <span class="mma-member-front">
-              <img src="/media/about/team/natasha-heasman-langley.webp" width="800" height="1000" alt="Natasha Heasman-Langley" loading="lazy">
-              <span class="mma-member-tag"><b>Natasha Heasman-Langley</b><small>Campaigns Manager</small></span>
-            </span>
-            <span class="mma-member-back">
-              <b>Natasha Heasman-Langley</b>
-              <small>Campaigns Manager</small>
-              <span class="mma-member-bio">Natasha brings creative and commercial experience to MM Digital, with a career spanning fashion, editorial and content creation. She brings a strong understanding of visual storytelling, brand identity and audience engagement to her role.</span>
-              <span class="mma-member-social"><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="screen-reader-text">MM Digital on Facebook</span></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg><span class="screen-reader-text">MM Digital on Instagram</span></a><a href="https://www.linkedin.com/in/natasha-heasman-397bba37/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Natasha Heasman-Langley's LinkedIn profile">in</a></span>
-            </span>
-          </span>
-        </label>
-      </li>
-    </ul>
-    <p class="mma-hint">Click our images to find out more</p>
-  </div>
 
   <div class="mma-wrap mma-split">
     <div class="mma-intro">
@@ -1189,12 +1263,38 @@
 
   <div class="mma-wrap">
     <figure class="mma-team-photo">
-      <img src="/media/about/team/team-standing.webp" width="2400" height="1080" alt="The MM Digital team standing together in our Exeter office" loading="lazy">
-      <figcaption>
-        <span class="mma-eyebrow">The Team</span>
-        <span class="mma-team-photo-title">Real people, <span class="mm-line-pink">supporting your&nbsp;brand</span></span>
-      </figcaption>
+      <img src="/media/about/team/team-standing.webp" width="2400" height="1080" alt="The MM Digital team, left to right: Natasha Heasman-Langley, Maximilian Madl, Tash Card and Mariette James" loading="lazy">
     </figure>
+    <ul class="mma-people">
+      <li class="mma-person">
+        <img class="mma-person-face" src="/media/about/team/natasha-heasman-langley.webp" width="800" height="1000" alt="" loading="lazy">
+        <h3>Natasha Heasman-Langley</h3>
+        <span class="mma-person-role">Campaigns Manager</span>
+        <p>With a background in fashion, editorial and content creation, Natasha brings a strong eye for visual storytelling, brand identity and audience engagement.</p>
+        <span class="mma-member-social"><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="screen-reader-text">MM Digital on Facebook</span></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg><span class="screen-reader-text">MM Digital on Instagram</span></a><a href="https://www.linkedin.com/in/natasha-heasman-397bba37/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Natasha Heasman-Langley's LinkedIn profile">in</a></span>
+      </li>
+      <li class="mma-person">
+        <img class="mma-person-face" src="/media/about/team/maximilian-madl.webp" width="800" height="1000" alt="" loading="lazy">
+        <h3>Maximilian Madl</h3>
+        <span class="mma-person-role">Founder &amp; Director</span>
+        <p>With a passion for driving growth and delivering exceptional results, Maximilian leads our team in crafting tailored digital marketing strategies that help businesses thrive.</p>
+        <span class="mma-member-social"><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="screen-reader-text">MM Digital on Facebook</span></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg><span class="screen-reader-text">MM Digital on Instagram</span></a><a href="https://www.linkedin.com/in/maximillian-madl-0637b6139/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Maximilian Madl's LinkedIn profile">in</a></span>
+      </li>
+      <li class="mma-person">
+        <img class="mma-person-face" src="/media/about/team/tash-card.webp" width="800" height="1000" alt="" loading="lazy">
+        <h3>Tash Card</h3>
+        <span class="mma-person-role">Senior Web Specialist</span>
+        <p>Tash brings a technical, data-driven approach to the design and development of our websites, making sure every site is fast, reliable and performs as well as it looks.</p>
+        <span class="mma-member-social"><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="screen-reader-text">MM Digital on Facebook</span></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg><span class="screen-reader-text">MM Digital on Instagram</span></a><a href="https://www.linkedin.com/in/natasha-card-a2b40b195/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Tash Card's LinkedIn profile">in</a></span>
+      </li>
+      <li class="mma-person">
+        <img class="mma-person-face" src="/media/about/team/mariette-james.webp" width="800" height="1000" alt="" loading="lazy">
+        <h3>Mariette James</h3>
+        <span class="mma-person-role">Marketing Executive</span>
+        <p>Mariette blends creative and commercial thinking across social media calendars, content and campaigns, keeping every post on brand and aligned with client goals.</p>
+        <span class="mma-member-social"><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="screen-reader-text">MM Digital on Facebook</span></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg><span class="screen-reader-text">MM Digital on Instagram</span></a><a href="https://www.linkedin.com/in/mariettejames/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Mariette James's LinkedIn profile">in</a></span>
+      </li>
+    </ul>
   </div>
 </section>
 
