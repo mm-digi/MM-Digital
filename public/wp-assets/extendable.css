@@ -219,7 +219,6 @@ html.has-modal-open header.wp-block-template-part,
 html.has-modal-open header.wp-block-template-part :has(.wp-block-navigation__responsive-dialog) {
 	backdrop-filter: none !important;
 	transform: none !important;
-	translate: none !important;
 	filter: none !important;
 	animation: none !important;
 }
@@ -228,6 +227,18 @@ html.has-modal-open body:has(.entry-content > .ext-hero-section.ext-hero-section
 html.has-modal-open body:not(:has(.entry-content > .ext-hero-section.ext-hero-section--full-screen:first-child)) header.wp-block-template-part:has(.ext-header-sticky.ext-header-sticky--floating-pill.ext-header-glass) .ext-header-sticky.ext-header-sticky--floating-pill.ext-header-glass {
 	animation: none !important;
 	backdrop-filter: none !important;
+	translate: none !important;
+}
+
+/*
+ * The `translate: none` half of rule 1, kept in a rule of its own on purpose.
+ * When transform and translate share a rule, the minifier (lightningcss)
+ * merges them into `transform: translate(0,0)`. That still counts as a
+ * transform, so it traps the mobile menu inside the header again. Keep this
+ * rule separate, and not directly after rule 1, so the two never merge.
+ */
+html.has-modal-open header.wp-block-template-part,
+html.has-modal-open header.wp-block-template-part :has(.wp-block-navigation__responsive-dialog) {
 	translate: none !important;
 }
 
