@@ -209,7 +209,7 @@
 /* ---------- Team ---------- */
 .mma-members {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 24px;
   margin: 0;
   padding: 0;
@@ -327,12 +327,6 @@
   font-size: 1rem;
   line-height: 1.6;
   color: #cfcfcf;
-}
-
-#mma-member-frank + .mma-member .mma-member-bio {
-  margin: 8px 0 12px;
-  font-size: 0.92rem;
-  line-height: 1.4;
 }
 
 .mma-member-in {
@@ -571,6 +565,91 @@
 
 .mma-devices:hover .mma-phone {
   transform: rotate(2deg) translateY(-14px);
+}
+
+/* The team at work: one wide photo over two smaller ones */
+.mma-photos {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.mma-photos::before {
+  content: "";
+  position: absolute;
+  inset: 10% 5% -4% 5%;
+  background: radial-gradient(ellipse at center, rgba(255, 128, 139, 0.28), transparent 70%);
+  filter: blur(20px);
+}
+
+.mma-photos img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 50px rgba(0, 0, 0, 0.55);
+}
+
+.mma-photos img:first-child {
+  grid-column: 1 / -1;
+}
+
+/* Whole-team photo under the team intro */
+.mma-team-photo {
+  position: relative;
+  margin: 88px 0 0;
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 30px 70px rgba(0, 0, 0, 0.5);
+}
+
+.mma-team-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 20 / 9;
+  object-fit: cover;
+}
+
+.mma-team-photo figcaption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 90px 44px 34px;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.85));
+}
+
+.mma-team-photo .mma-eyebrow {
+  margin-bottom: 8px;
+}
+
+.mma-team-photo-title {
+  display: block;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(1.4rem, 2.6vw, 2.6rem);
+  line-height: 1.15;
+  color: #fff;
+}
+
+.mma-team-photo .mm-line-pink {
+  color: var(--mm-pink);
+}
+
+@media (max-width: 640px) {
+  .mma-team-photo {
+    margin-top: 52px;
+    border-radius: 22px;
+  }
+
+  /* Keep all four of us in frame; the caption moves under the photo */
+  .mma-team-photo figcaption {
+    position: static;
+    padding: 18px 20px 20px;
+    background: #0e0b0c;
+  }
 }
 
 /* ---------- Cards ---------- */
@@ -873,12 +952,6 @@
   }
 }
 
-@media (max-width: 1280px) {
-  .mma-members {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
 /* ---------- Smaller screens ---------- */
 @media (max-width: 1100px) {
   .mma-members,
@@ -1006,9 +1079,9 @@
 
 <section class="mma-hero" aria-labelledby="mma-hero-title">
   <div class="mma-wall" aria-hidden="true">
-      <div class="mma-wall-row mma-wall-row-1"><div class="mma-wall-track"><img src="/media/about/wall/mission.webp" alt="Our mission" width="800" height="450" loading="eager"><img src="/media/about/wall/maximilian-face.webp" alt="Maximilian Madl, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/website.webp" alt="The MM Digital website" width="800" height="450" loading="eager"><img src="/media/about/wall/marianne-face.webp" alt="Mariette James, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/mission.webp" alt="Our mission" width="800" height="450" loading="eager"><img src="/media/about/wall/maximilian-face.webp" alt="Maximilian Madl, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/website.webp" alt="The MM Digital website" width="800" height="450" loading="eager"><img src="/media/about/wall/marianne-face.webp" alt="Mariette James, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/mission.webp" alt="Our mission" width="800" height="450" loading="eager"><img src="/media/about/wall/maximilian-face.webp" alt="Maximilian Madl, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/website.webp" alt="The MM Digital website" width="800" height="450" loading="eager"><img src="/media/about/wall/marianne-face.webp" alt="Mariette James, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/mission.webp" alt="Our mission" width="800" height="450" loading="eager"><img src="/media/about/wall/maximilian-face.webp" alt="Maximilian Madl, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/website.webp" alt="The MM Digital website" width="800" height="450" loading="eager"><img src="/media/about/wall/marianne-face.webp" alt="Mariette James, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/mission.webp" alt="Our mission" width="800" height="450" loading="eager"><img src="/media/about/wall/maximilian-face.webp" alt="Maximilian Madl, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/website.webp" alt="The MM Digital website" width="800" height="450" loading="eager"><img src="/media/about/wall/marianne-face.webp" alt="Mariette James, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/mission.webp" alt="Our mission" width="800" height="450" loading="eager"><img src="/media/about/wall/maximilian-face.webp" alt="Maximilian Madl, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/website.webp" alt="The MM Digital website" width="800" height="450" loading="eager"><img src="/media/about/wall/marianne-face.webp" alt="Mariette James, MM Digital team" width="800" height="450" loading="eager"></div></div>
-      <div class="mma-wall-row mma-wall-row-2"><div class="mma-wall-track"><img src="/media/about/wall/values.webp" alt="Our values" width="800" height="450" loading="eager"><img src="/media/about/wall/natasha-card-face.webp" alt="Tash Card, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/instagram.webp" alt="MM Digital on Instagram" width="800" height="450" loading="eager"><img src="/media/about/wall/vision.webp" alt="Our vision" width="800" height="450" loading="eager"><img src="/media/about/wall/values.webp" alt="Our values" width="800" height="450" loading="eager"><img src="/media/about/wall/natasha-card-face.webp" alt="Tash Card, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/instagram.webp" alt="MM Digital on Instagram" width="800" height="450" loading="eager"><img src="/media/about/wall/vision.webp" alt="Our vision" width="800" height="450" loading="eager"><img src="/media/about/wall/values.webp" alt="Our values" width="800" height="450" loading="eager"><img src="/media/about/wall/natasha-card-face.webp" alt="Tash Card, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/instagram.webp" alt="MM Digital on Instagram" width="800" height="450" loading="eager"><img src="/media/about/wall/vision.webp" alt="Our vision" width="800" height="450" loading="eager"><img src="/media/about/wall/values.webp" alt="Our values" width="800" height="450" loading="eager"><img src="/media/about/wall/natasha-card-face.webp" alt="Tash Card, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/instagram.webp" alt="MM Digital on Instagram" width="800" height="450" loading="eager"><img src="/media/about/wall/vision.webp" alt="Our vision" width="800" height="450" loading="eager"><img src="/media/about/wall/values.webp" alt="Our values" width="800" height="450" loading="eager"><img src="/media/about/wall/natasha-card-face.webp" alt="Tash Card, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/instagram.webp" alt="MM Digital on Instagram" width="800" height="450" loading="eager"><img src="/media/about/wall/vision.webp" alt="Our vision" width="800" height="450" loading="eager"><img src="/media/about/wall/values.webp" alt="Our values" width="800" height="450" loading="eager"><img src="/media/about/wall/natasha-card-face.webp" alt="Tash Card, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/instagram.webp" alt="MM Digital on Instagram" width="800" height="450" loading="eager"><img src="/media/about/wall/vision.webp" alt="Our vision" width="800" height="450" loading="eager"></div></div>
-      <div class="mma-wall-row mma-wall-row-3"><div class="mma-wall-track"><img src="/media/about/wall/vision.webp" alt="Our vision" width="800" height="450" loading="eager"><img src="/media/about/wall/natasha-face.webp" alt="Natasha Heasman-Langley, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/mm-ai-2.webp" alt="MM AI" width="800" height="450" loading="eager"><img src="/media/about/wall/maximilian-face.webp" alt="Maximilian Madl, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/vision.webp" alt="Our vision" width="800" height="450" loading="eager"><img src="/media/about/wall/natasha-face.webp" alt="Natasha Heasman-Langley, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/mm-ai-2.webp" alt="MM AI" width="800" height="450" loading="eager"><img src="/media/about/wall/maximilian-face.webp" alt="Maximilian Madl, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/vision.webp" alt="Our vision" width="800" height="450" loading="eager"><img src="/media/about/wall/natasha-face.webp" alt="Natasha Heasman-Langley, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/mm-ai-2.webp" alt="MM AI" width="800" height="450" loading="eager"><img src="/media/about/wall/maximilian-face.webp" alt="Maximilian Madl, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/vision.webp" alt="Our vision" width="800" height="450" loading="eager"><img src="/media/about/wall/natasha-face.webp" alt="Natasha Heasman-Langley, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/mm-ai-2.webp" alt="MM AI" width="800" height="450" loading="eager"><img src="/media/about/wall/maximilian-face.webp" alt="Maximilian Madl, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/vision.webp" alt="Our vision" width="800" height="450" loading="eager"><img src="/media/about/wall/natasha-face.webp" alt="Natasha Heasman-Langley, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/mm-ai-2.webp" alt="MM AI" width="800" height="450" loading="eager"><img src="/media/about/wall/maximilian-face.webp" alt="Maximilian Madl, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/vision.webp" alt="Our vision" width="800" height="450" loading="eager"><img src="/media/about/wall/natasha-face.webp" alt="Natasha Heasman-Langley, MM Digital team" width="800" height="450" loading="eager"><img src="/media/about/wall/mm-ai-2.webp" alt="MM AI" width="800" height="450" loading="eager"><img src="/media/about/wall/maximilian-face.webp" alt="Maximilian Madl, MM Digital team" width="800" height="450" loading="eager"></div></div>
+      <div class="mma-wall-row mma-wall-row-1"><div class="mma-wall-track"><img src="/media/about/wall/maximilian-2026.webp" alt="Maximilian Madl at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6612.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/mariette-2026.webp" alt="Mariette James at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6778.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6176.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/maximilian-2026.webp" alt="Maximilian Madl at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6612.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/mariette-2026.webp" alt="Mariette James at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6778.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6176.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/maximilian-2026.webp" alt="Maximilian Madl at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6612.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/mariette-2026.webp" alt="Mariette James at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6778.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6176.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/maximilian-2026.webp" alt="Maximilian Madl at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6612.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/mariette-2026.webp" alt="Mariette James at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6778.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6176.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"></div></div>
+      <div class="mma-wall-row mma-wall-row-2"><div class="mma-wall-track"><img src="/media/about/wall/tash-2026.webp" alt="Tash Card at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6716.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-meeting-2026.webp" alt="The MM Digital team in a planning meeting" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6755.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-7132.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/tash-2026.webp" alt="Tash Card at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6716.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-meeting-2026.webp" alt="The MM Digital team in a planning meeting" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6755.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-7132.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/tash-2026.webp" alt="Tash Card at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6716.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-meeting-2026.webp" alt="The MM Digital team in a planning meeting" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6755.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-7132.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/tash-2026.webp" alt="Tash Card at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6716.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-meeting-2026.webp" alt="The MM Digital team in a planning meeting" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6755.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-7132.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"></div></div>
+      <div class="mma-wall-row mma-wall-row-3"><div class="mma-wall-track"><img src="/media/about/wall/natasha-2026.webp" alt="Natasha Heasman-Langley in a team meeting" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6660.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6737.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/mariette-2026.webp" alt="Mariette James at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6612.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/natasha-2026.webp" alt="Natasha Heasman-Langley in a team meeting" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6660.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6737.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/mariette-2026.webp" alt="Mariette James at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6612.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/natasha-2026.webp" alt="Natasha Heasman-Langley in a team meeting" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6660.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6737.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/mariette-2026.webp" alt="Mariette James at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6612.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/natasha-2026.webp" alt="Natasha Heasman-Langley in a team meeting" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6660.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6737.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"><img src="/media/about/wall/mariette-2026.webp" alt="Mariette James at work in the MM Digital office" width="800" height="450" loading="eager"><img src="/media/about/wall/team-6612.webp" alt="The MM Digital team in the Exeter office" width="800" height="450" loading="eager"></div></div>
   </div>
   <div class="mma-hero-shade" aria-hidden="true"></div>
   <div class="mma-wrap mma-split">
@@ -1033,7 +1106,7 @@
         <label class="mma-member" for="mma-member-0">
           <span class="mma-member-inner">
             <span class="mma-member-front">
-              <img src="/media/mm-digital-maximilian-madl.webp" alt="Maximilian Madl" loading="lazy">
+              <img src="/media/about/team/maximilian-madl.webp" width="800" height="1000" alt="Maximilian Madl" loading="lazy">
               <span class="mma-member-tag"><b>Maximilian Madl</b><small>Founder &amp; Director</small></span>
             </span>
             <span class="mma-member-back">
@@ -1050,7 +1123,7 @@
         <label class="mma-member" for="mma-member-1">
           <span class="mma-member-inner">
             <span class="mma-member-front">
-              <img src="/media/mm-digital-natasha-card.webp" alt="Tash Card" loading="lazy">
+              <img src="/media/about/team/tash-card.webp" width="800" height="1000" alt="Tash Card" loading="lazy">
               <span class="mma-member-tag"><b>Tash Card</b><small>Senior Web Specialist</small></span>
             </span>
             <span class="mma-member-back">
@@ -1067,7 +1140,7 @@
         <label class="mma-member" for="mma-member-2">
           <span class="mma-member-inner">
             <span class="mma-member-front">
-              <img src="/media/marianne.webp" alt="Mariette James" loading="lazy">
+              <img src="/media/about/team/mariette-james.webp" width="800" height="1000" alt="Mariette James" loading="lazy">
               <span class="mma-member-tag"><b>Mariette James</b><small>Marketing Executive</small></span>
             </span>
             <span class="mma-member-back">
@@ -1084,7 +1157,7 @@
         <label class="mma-member" for="mma-member-3">
           <span class="mma-member-inner">
             <span class="mma-member-front">
-              <img src="/media/natasha.webp" alt="Natasha Heasman-Langley" loading="lazy">
+              <img src="/media/about/team/natasha-heasman-langley.webp" width="800" height="1000" alt="Natasha Heasman-Langley" loading="lazy">
               <span class="mma-member-tag"><b>Natasha Heasman-Langley</b><small>Campaigns Manager</small></span>
             </span>
             <span class="mma-member-back">
@@ -1092,23 +1165,6 @@
               <small>Campaigns Manager</small>
               <span class="mma-member-bio">Natasha brings creative and commercial experience to MM Digital, with a career spanning fashion, editorial and content creation. She brings a strong understanding of visual storytelling, brand identity and audience engagement to her role.</span>
               <span class="mma-member-social"><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="screen-reader-text">MM Digital on Facebook</span></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg><span class="screen-reader-text">MM Digital on Instagram</span></a><a href="https://www.linkedin.com/in/natasha-heasman-397bba37/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="View Natasha Heasman-Langley's LinkedIn profile">in</a></span>
-            </span>
-          </span>
-        </label>
-      </li>
-      <li>
-        <input class="mma-member-toggle" type="checkbox" id="mma-member-frank">
-        <label class="mma-member" for="mma-member-frank">
-          <span class="mma-member-inner">
-            <span class="mma-member-front">
-              <img src="/media/frank.webp" alt="Frank" loading="lazy">
-              <span class="mma-member-tag"><b>Frank</b><small>Purr-formance Manager</small></span>
-            </span>
-            <span class="mma-member-back">
-              <b>Frank</b>
-              <small>Purr-formance Manager</small>
-              <span class="mma-member-bio">Frank oversees office morale, quality control and all important cardboard-box decisions, providing expert supervision from the nearest warm spot.</span>
-              <span class="mma-member-social"><a href="https://www.facebook.com/profile.php?id=61556568016532" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><span class="screen-reader-text">MM Digital on Facebook</span></a><a href="https://www.instagram.com/_mmdigital_/" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg><span class="screen-reader-text">MM Digital on Instagram</span></a><a href="https://www.linkedin.com/company/mmdigi/posts/?feedView=all" class="mma-member-in" target="_blank" rel="noopener noreferrer" aria-label="MM Digital on LinkedIn">in</a></span>
             </span>
           </span>
         </label>
@@ -1129,6 +1185,16 @@
       <p>We operate as a true extension of your team, providing strategic direction, technical expertise and ongoing digital support. Whether we're navigating a complex marketing challenge or building a long-term growth plan, we create structured roadmaps that turn ambition into scalable progress.</p>
       <p>And by staying ahead of platform updates, emerging technologies and evolving consumer behaviour, we keep our clients competitive and relevant. We don't simply help you get seen, we position your brand to lead, to stand out, and to move confidently ahead of the&nbsp;market.</p>
     </div>
+  </div>
+
+  <div class="mma-wrap">
+    <figure class="mma-team-photo">
+      <img src="/media/about/team/team.webp" width="2400" height="1080" alt="The MM Digital team in our Exeter office" loading="lazy">
+      <figcaption>
+        <span class="mma-eyebrow">The Team</span>
+        <span class="mma-team-photo-title">Real people, <span class="mm-line-pink">based in&nbsp;Exeter</span></span>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
@@ -1157,16 +1223,10 @@
           <p>At MM Digital, our mission is to empower brands to unlock their full potential with innovative, data-driven marketing solutions. We are committed to pushing boundaries, setting new benchmarks, and driving sustainable growth that leads to lasting success for our clients.</p>
         </blockquote>
       </div>
-      <div class="mma-devices">
-        <div class="mma-laptop">
-          <div class="mma-laptop-screen">
-            <img src="/media/about/mm-website.webp" width="1400" height="693" alt="The MM Digital website homepage" loading="lazy">
-          </div>
-          <div class="mma-laptop-base" aria-hidden="true"></div>
-        </div>
-        <div class="mma-phone">
-          <img src="/media/about/mm-instagram.webp" width="600" height="1304" alt="The MM Digital Instagram profile" loading="lazy">
-        </div>
+      <div class="mma-photos">
+        <img src="/media/about/team/meeting-1.webp" width="1200" height="800" alt="The MM Digital team reviewing the website together" loading="lazy">
+        <img src="/media/about/team/meeting-2.webp" width="1200" height="800" alt="Maximilian Madl planning with the team" loading="lazy">
+        <img src="/media/about/team/meeting-3.webp" width="1200" height="800" alt="The team working through a client campaign" loading="lazy">
       </div>
     </div>
   </div>
