@@ -2,7 +2,7 @@ import { CLIENT_DASHBOARDS, type ClientDashboard } from "@/lib/clients";
 
 export type ClientLight = "green" | "amber" | "red";
 
-const RED = new Set(["trendz-dashboard"]);
+const RED = new Set<string>();
 const AMBER = new Set([
   "auric-performance-dashboard",
   "captrad-dashboard",

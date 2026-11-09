@@ -12,7 +12,6 @@ const CASE_STUDIES = [
   { slug: "aspects-of-oaks-case-study", name: "Aspects Of Oak", line: "A stronger presence in high-end carpentry", image: "/media/work/aspects-oak.webp" },
   { slug: "vaala-case-study", name: "Vaala", line: "Growth through targeted lead generation", image: "/media/work/vaala-photo.webp" },
   { slug: "evolution-padel-case-study", name: "Evolution Padel", line: "A padel brand built from the ground up", image: "/media/work/evolution-padel-photo.webp" },
-  { slug: "trendz-case-study", name: "Trendz", line: "Pre-launch hype across crypto and social", image: "/media/work/trendz.webp" },
 ];
 
 const STYLE = `<style>

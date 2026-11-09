@@ -160,14 +160,6 @@ export const CLIENT_DASHBOARDS: ClientDashboard[] = [
       "https://datastudio.google.com/embed/reporting/a8d61488-28b6-4a0d-b3a7-bee1c8eae38c/page/OVuzF",
   },
   {
-    slug: "trendz-dashboard",
-    name: "Trendz",
-    heading: "Trendz's Analytics Dashboard",
-    reportTitle: "Website & Facebook Analytics",
-    embedUrl:
-      "https://datastudio.google.com/embed/reporting/a16ff486-1bae-40bb-9cd5-63e43c78bee5/page/Nza8F",
-  },
-  {
     slug: "bastion-dashboard",
     name: "Bastion",
     heading: "Bastion's Analytics Dashboard",
