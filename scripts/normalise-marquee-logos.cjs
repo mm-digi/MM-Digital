@@ -28,7 +28,6 @@ const logos = {
   sdr: "media/sdr-2.webp",
   sms: "media/sms.webp",
   "the-loft": "media/the-loft.webp",
-  trendz: "logos/Trendz.png",
   vaala: "media/vaala-white-2.webp",
   waldrons: "media/waldrons-white-2.webp",
   yvonne: "media/yvonne-3.webp",
