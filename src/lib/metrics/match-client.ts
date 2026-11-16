@@ -24,7 +24,6 @@ const ALIASES: Record<string, string> = {
   brsallplumbingandheating: "brsbristol",
   orielscomedyclub: "orielsexeter",
   auricperfomance: "auricperformance",
-  designwithbloomcouk: "designwithbloom",
 };
 
 // Amazon seller accounts come through as "<seller ID>-<country>", e.g.
