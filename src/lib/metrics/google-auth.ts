@@ -62,6 +62,7 @@ export async function googleAccessToken() {
       client_secret: secret,
       grant_type: "refresh_token",
     }),
+    signal: AbortSignal.timeout(30_000),
   });
   const json = await res.json();
   if (!res.ok) {

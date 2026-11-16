@@ -183,6 +183,8 @@ function windsorApiKey() {
   return raw;
 }
 
+const WINDSOR_TIMEOUT_MS = 60_000;
+
 export async function fetchWindsor(connector: string, fields: string[], datePreset = "last_90d") {
   const apiKey = windsorApiKey();
 
@@ -195,7 +197,18 @@ export async function fetchWindsor(connector: string, fields: string[], datePres
     url.searchParams.set("date_preset", datePreset);
     url.searchParams.set("fields", fieldSet.join(","));
 
-    const res = await fetch(url.toString(), { cache: "no-store" });
+    // A connector that never answers would otherwise use up the whole cron run
+    // and stop everything after it, so give up on it after a minute. Retrying
+    // with fewer fields won't help a connector that isn't responding at all.
+    let res: Response;
+    try {
+      res = await fetch(url.toString(), { cache: "no-store", signal: AbortSignal.timeout(WINDSOR_TIMEOUT_MS) });
+    } catch (error) {
+      if (error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError")) {
+        throw new Error(`Windsor ${connector} timed out after ${WINDSOR_TIMEOUT_MS / 1000}s`);
+      }
+      throw error;
+    }
     const json = await res.json().catch(() => ({}));
     if (!res.ok || json.error) {
       lastError = json.error || `Windsor ${connector} failed (${res.status})`;

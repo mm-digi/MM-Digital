@@ -79,6 +79,58 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
 
   const unmatched = new Set<string>();
 
+  // Website figures first, so a slow or stuck Windsor connector can't use up
+  // the cron's time before Google Analytics is read.
+  if (process.env.GOOGLE_REFRESH_TOKEN) {
+    // Only current clients (those with a dashboard), so former clients whose
+    // Google Analytics access has been removed don't show up as errors.
+    const current = new Set(
+      CLIENT_DASHBOARDS.flatMap((dashboard) => {
+        const client = matchDashboardClient(clients || [], dashboard.slug);
+        return client ? [client.id] : [];
+      }),
+    );
+    const gaClients = (clients || []).filter(
+      (client: { id: string; ga4_property_id?: string | null }) => client.ga4_property_id && current.has(client.id),
+    );
+    result.sources.ga4 = 0;
+    for (const client of gaClients) {
+      try {
+        const days = await fetchGa4Property(String(client.ga4_property_id), 90);
+        result.sources.ga4 += days.length;
+        const payload = days.map((day) => ({
+          client_id: client.id,
+          date: day.date,
+          source: "ga4",
+          sessions: day.sessions,
+          users: day.users,
+          conversions: day.conversions,
+          extra: {
+            pageviews: day.pageviews,
+            new_users: day.newUsers,
+            avg_duration: day.avgDuration,
+          },
+          updated_at: new Date().toISOString(),
+        }));
+        if (!payload.length) continue;
+        const { error } = await supabase.from("daily_metrics").upsert(payload, {
+          onConflict: "client_id,date,source",
+        });
+        if (error) {
+          result.errors.push(`ga4 ${client.name}: ${error.message}`);
+          result.ok = false;
+        } else {
+          result.upserted += payload.length;
+        }
+      } catch (error) {
+        result.ok = false;
+        result.errors.push(`ga4 ${client.name}: ${error instanceof Error ? error.message : "failed"}`);
+      }
+    }
+  } else {
+    result.errors.push("GA4 skipped: GOOGLE_REFRESH_TOKEN is not set");
+  }
+
   for (const connector of WINDSOR_CONNECTORS) {
     try {
       const rows = await fetchWindsor(connector.connector, connector.fields);
@@ -182,56 +234,6 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
       result.ok = false;
       result.errors.push(`${connector.source}: ${message}`);
     }
-  }
-
-  if (process.env.GOOGLE_REFRESH_TOKEN) {
-    // Only current clients (those with a dashboard), so former clients whose
-    // Google Analytics access has been removed don't show up as errors.
-    const current = new Set(
-      CLIENT_DASHBOARDS.flatMap((dashboard) => {
-        const client = matchDashboardClient(clients || [], dashboard.slug);
-        return client ? [client.id] : [];
-      }),
-    );
-    const gaClients = (clients || []).filter(
-      (client: { id: string; ga4_property_id?: string | null }) => client.ga4_property_id && current.has(client.id),
-    );
-    result.sources.ga4 = 0;
-    for (const client of gaClients) {
-      try {
-        const days = await fetchGa4Property(String(client.ga4_property_id), 90);
-        result.sources.ga4 += days.length;
-        const payload = days.map((day) => ({
-          client_id: client.id,
-          date: day.date,
-          source: "ga4",
-          sessions: day.sessions,
-          users: day.users,
-          conversions: day.conversions,
-          extra: {
-            pageviews: day.pageviews,
-            new_users: day.newUsers,
-            avg_duration: day.avgDuration,
-          },
-          updated_at: new Date().toISOString(),
-        }));
-        if (!payload.length) continue;
-        const { error } = await supabase.from("daily_metrics").upsert(payload, {
-          onConflict: "client_id,date,source",
-        });
-        if (error) {
-          result.errors.push(`ga4 ${client.name}: ${error.message}`);
-          result.ok = false;
-        } else {
-          result.upserted += payload.length;
-        }
-      } catch (error) {
-        result.ok = false;
-        result.errors.push(`ga4 ${client.name}: ${error instanceof Error ? error.message : "failed"}`);
-      }
-    }
-  } else {
-    result.errors.push("GA4 skipped: GOOGLE_REFRESH_TOKEN is not set");
   }
 
   result.unmatched = [...unmatched].slice(0, 50);
