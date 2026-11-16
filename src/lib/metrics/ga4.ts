@@ -30,6 +30,9 @@ export async function fetchGa4Property(propertyId: string, days = 30): Promise<G
       { name: "averageSessionDuration" },
     ],
     orderBys: [{ dimension: { dimensionName: "date" } }],
+    // Without this Google leaves out days with no visits, so a quiet site looks
+    // like its figures have stopped. With it, those days come back as zeros.
+    keepEmptyRows: true,
   };
 
   const res = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${id}:runReport`, {
@@ -46,7 +49,7 @@ export async function fetchGa4Property(propertyId: string, days = 30): Promise<G
     throw new Error(json.error?.message || `GA4 ${id} failed`);
   }
 
-  return (json.rows || []).map((row: { dimensionValues?: { value?: string }[]; metricValues?: { value?: string }[] }) => ({
+  const days_: Ga4Day[] = (json.rows || []).map((row: { dimensionValues?: { value?: string }[]; metricValues?: { value?: string }[] }) => ({
     date: parseGa4Date(row.dimensionValues?.[0]?.value || ""),
     sessions: Number(row.metricValues?.[0]?.value || 0),
     users: Number(row.metricValues?.[1]?.value || 0),
@@ -55,6 +58,12 @@ export async function fetchGa4Property(propertyId: string, days = 30): Promise<G
     newUsers: Number(row.metricValues?.[4]?.value || 0),
     avgDuration: Number(row.metricValues?.[5]?.value || 0),
   }));
+
+  // Drop the empty days before a property's first visit. A new property (as when
+  // a client moves to a new site) would otherwise write zeros over the old
+  // site's figures for those dates.
+  const first = days_.findIndex((day) => day.sessions || day.users || day.pageviews);
+  return first === -1 ? [] : days_.slice(first);
 }
 
 export async function listGa4Properties() {
