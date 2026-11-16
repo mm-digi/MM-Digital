@@ -184,6 +184,13 @@ export const CLIENT_DASHBOARDS: ClientDashboard[] = [
     reportTitle: "Website, Facebook & LinkedIn Analytics",
     embedUrl: "",
   },
+  {
+    slug: "pebble-brook-clinic-dashboard",
+    name: "Pebble Brook Clinic",
+    heading: "Pebble Brook Clinic's Analytics Dashboard",
+    reportTitle: "Website, Facebook & Instagram Analytics",
+    embedUrl: "",
+  },
 ];
 
 export const DASHBOARD_SLUGS = new Set(CLIENT_DASHBOARDS.map((c) => c.slug));
