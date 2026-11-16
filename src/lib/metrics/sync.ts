@@ -133,7 +133,7 @@ export async function syncDailyMetrics(): Promise<SyncResult> {
 
   for (const connector of WINDSOR_CONNECTORS) {
     try {
-      const rows = await fetchWindsor(connector.connector, connector.fields);
+      const rows = await fetchWindsor(connector.connector, connector.fields, connector.datePreset, connector.timeoutMs);
       result.sources[connector.source] = rows.length;
       const byKey = new Map<string, ReturnType<typeof rowToMetrics>>();
 
