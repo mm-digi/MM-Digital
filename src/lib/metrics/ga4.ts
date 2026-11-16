@@ -39,6 +39,7 @@ export async function fetchGa4Property(propertyId: string, days = 30): Promise<G
       "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
+    signal: AbortSignal.timeout(30_000),
   });
   const json = await res.json();
   if (!res.ok) {
