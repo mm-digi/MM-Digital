@@ -24,6 +24,8 @@ const ALIASES: Record<string, string> = {
   brsallplumbingandheating: "brsbristol",
   orielscomedyclub: "orielsexeter",
   auricperfomance: "auricperformance",
+  // Yvonne Coomber's WooCommerce shop comes through as its domain.
+  yvonnecoombercom: "yvonnecoomberart",
   // Intentional Dating renamed to Forth; its pages are now "Forth Dating".
   forthdating: "forth",
   intentionaldating: "forth",
