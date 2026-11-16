@@ -4,7 +4,8 @@ export type WindsorSource =
   | "instagram"
   | "linkedin"
   | "linkedin_ads"
-  | "amazon";
+  | "amazon"
+  | "woocommerce";
 
 type ConnectorConfig = {
   source: WindsorSource;
@@ -55,6 +56,12 @@ export const WINDSOR_CONNECTORS: ConnectorConfig[] = [
     fields: ["date", "account_name", ...Object.values(AMAZON_FIELDS)],
     datePreset: "last_14d",
     timeoutMs: 150_000,
+  },
+  {
+    // WooCommerce shops: one row per order, added up into daily sales and orders.
+    source: "woocommerce",
+    connector: "woocommerce",
+    fields: ["date", "account_name", "orders__id", "orders__total", "orders__status"],
   },
 ];
 
@@ -107,6 +114,7 @@ export type WindsorMetrics = {
 
 export function rowToMetrics(source: WindsorSource, row: WindsorRow): WindsorMetrics {
   if (source === "amazon") return amazonRowToMetrics(row);
+  if (source === "woocommerce") return wooRowToMetrics(row);
   const likes = num(row, "likes", "like_count");
   const views = num(row, "views");
   const pageViews = num(row, "page_views");
@@ -173,6 +181,40 @@ function amazonRowToMetrics(row: WindsorRow): WindsorMetrics {
       units: num(row, AMAZON_FIELDS.units),
       store_sessions: num(row, AMAZON_FIELDS.sessions),
       store_page_views: num(row, AMAZON_FIELDS.pageViews),
+    },
+  };
+}
+
+// Orders that have been paid for. Pending, failed, cancelled and refunded
+// orders aren't counted as sales.
+const WOO_PAID = new Set(["processing", "completed", "on-hold"]);
+
+// One WooCommerce order. Like Amazon, its figures only go in extra; the sync
+// adds a day's orders together.
+function wooRowToMetrics(row: WindsorRow): WindsorMetrics {
+  const paid = WOO_PAID.has(String(row.orders__status || "").toLowerCase());
+  return {
+    date: String(row.date || "").slice(0, 10),
+    accountId: String(row.account_id || ""),
+    accountName: String(row.account_name || row.account || ""),
+    source: "woocommerce",
+    impressions: null,
+    reach: null,
+    clicks: null,
+    spend: null,
+    engagement: null,
+    conversions: null,
+    followers: null,
+    sessions: null,
+    users: null,
+    extra: {
+      views: null,
+      likes: null,
+      page_views: null,
+      reactions: null,
+      campaigns: [],
+      sales: paid ? num(row, "orders__total") || 0 : 0,
+      orders: paid ? 1 : 0,
     },
   };
 }

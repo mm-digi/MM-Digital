@@ -32,11 +32,15 @@ function buildSummary(
   week: PeriodBlock,
   month: PeriodBlock,
   bySourceWeek: Record<string, MetricTotals>,
-  amazon: DayPoint[] = []
+  amazon: DayPoint[] = [],
+  shop: DayPoint[] = []
 ) {
   const amazonWeek = amazon.slice(-7);
   const amazonSales = amazonWeek.reduce((sum, point) => sum + point.sales, 0);
   const amazonOrders = amazonWeek.reduce((sum, point) => sum + point.orders, 0);
+  const shopWeek = shop.slice(-7);
+  const shopSales = shopWeek.reduce((sum, point) => sum + point.sales, 0);
+  const shopOrders = shopWeek.reduce((sum, point) => sum + point.orders, 0);
   const weekParts: string[] = [];
   if (week.totals.sessions) {
     weekParts.push(
@@ -51,6 +55,9 @@ function buildSummary(
   if (week.totals.clicks) weekParts.push(`${formatNumber(week.totals.clicks)} clicks`);
   if (week.totals.engagement && !instagram?.reach && !facebook?.impressions) {
     weekParts.push(`${formatNumber(week.totals.engagement)} social engagements`);
+  }
+  if (shopSales) {
+    weekParts.push(`£${formatNumber(shopSales)} in online shop sales from ${formatNumber(shopOrders)} order${shopOrders === 1 ? "" : "s"}`);
   }
   if (amazonSales) {
     weekParts.push(`£${formatNumber(amazonSales)} in Amazon sales from ${formatNumber(amazonOrders)} order${amazonOrders === 1 ? "" : "s"}`);
@@ -67,7 +74,7 @@ function buildSummary(
   if (monthParts.length) {
     text += ` Over the last 30 days, that includes ${joinAnd(monthParts)}.`;
   }
-  text += ` These numbers update automatically each morning from Google Analytics, Facebook, Instagram${amazon.length ? ", Amazon" : ""} and ads.`;
+  text += ` These numbers update automatically each morning from Google Analytics, Facebook, Instagram${shop.length ? ", the online shop" : ""}${amazon.length ? ", Amazon" : ""} and ads.`;
   return text;
 }
 
@@ -88,6 +95,7 @@ const SOURCE_LABELS: Record<string, string> = {
   linkedin: "LinkedIn",
   linkedin_ads: "LinkedIn Ads",
   amazon: "Amazon",
+  woocommerce: "Online shop",
 };
 
 // Channels always appear in this order, whatever order the data arrives in.
@@ -262,7 +270,7 @@ export default async function MetricsSnapshot({ slug }: { slug: string }) {
           <span className="eyebrow mb-2 block">Live reporting</span>
           <h2 className="font-serif text-3xl">Performance snapshot</h2>
           <p className="mt-4 max-w-4xl text-[1.08rem] leading-8 text-[#cfcfcf]">
-            {buildSummary(snapshot.clientName, snapshot.week, snapshot.month, snapshot.bySourceWeek, snapshot.seriesBySource.amazon)}
+            {buildSummary(snapshot.clientName, snapshot.week, snapshot.month, snapshot.bySourceWeek, snapshot.seriesBySource.amazon, snapshot.seriesBySource.woocommerce)}
           </p>
           <p className="mt-3 text-sm text-white/50">Updated {updated}.</p>
         </div>
@@ -306,6 +314,11 @@ export default async function MetricsSnapshot({ slug }: { slug: string }) {
           ["Ad clicks over time", "Clicks on Facebook ads.", "clicks"],
           ["Ad impressions over time", "How often ads were shown.", "impressions"],
         ], snapshot, "facebook_ads")}
+
+        {chartGroup("Online shop", [
+          ["Online shop sales", "Value of paid orders in the online shop.", "sales"],
+          ["Online shop orders", "Paid orders placed in the online shop.", "orders"],
+        ], snapshot, "woocommerce")}
 
         {chartGroup("Amazon", [
           ["Amazon sales", "Value of products ordered on Amazon.", "sales"],
