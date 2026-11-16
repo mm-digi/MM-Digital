@@ -24,6 +24,9 @@ const ALIASES: Record<string, string> = {
   brsallplumbingandheating: "brsbristol",
   orielscomedyclub: "orielsexeter",
   auricperfomance: "auricperformance",
+  // Intentional Dating renamed to Forth; its pages are now "Forth Dating".
+  forthdating: "forth",
+  intentionaldating: "forth",
 };
 
 // Amazon seller accounts come through as "<seller ID>-<country>", e.g.

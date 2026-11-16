@@ -171,8 +171,9 @@ export const CLIENT_DASHBOARDS: ClientDashboard[] = [
   // are the whole dashboard.
   {
     slug: "intentional-dating-dashboard",
-    name: "Intentional Dating",
-    heading: "Intentional Dating's Analytics Dashboard",
+    // Formerly Intentional Dating; the URL and login stay the same.
+    name: "Forth",
+    heading: "Forth's Analytics Dashboard",
     reportTitle: "Website, Facebook & LinkedIn Analytics",
     embedUrl: "",
   },

@@ -10,6 +10,9 @@ type ConnectorConfig = {
   source: WindsorSource;
   connector: string;
   fields: string[];
+  // Defaults: last 90 days, give up after a minute.
+  datePreset?: string;
+  timeoutMs?: number;
 };
 
 const AMAZON_REPORT = "sales_and_traffic_report_by_date__";
@@ -44,10 +47,14 @@ export const WINDSOR_CONNECTORS: ConnectorConfig[] = [
   },
   // LinkedIn Ads isn't connected in Windsor on purpose, so it isn't synced.
   {
-    // Amazon Seller Central's daily sales and traffic report.
+    // Amazon Seller Central's daily sales and traffic report. Windsor builds this
+    // report slowly (about 90s for a month), so only fetch the last fortnight and
+    // allow it longer. It runs last, after the website figures are already saved.
     source: "amazon",
     connector: "amazon_sp",
     fields: ["date", "account_name", ...Object.values(AMAZON_FIELDS)],
+    datePreset: "last_14d",
+    timeoutMs: 150_000,
   },
 ];
 
@@ -185,7 +192,7 @@ function windsorApiKey() {
 
 const WINDSOR_TIMEOUT_MS = 60_000;
 
-export async function fetchWindsor(connector: string, fields: string[], datePreset = "last_90d") {
+export async function fetchWindsor(connector: string, fields: string[], datePreset = "last_90d", timeoutMs = WINDSOR_TIMEOUT_MS) {
   const apiKey = windsorApiKey();
 
   const tryFields = [fields, fields.filter((field) => !["campaign", "account_id"].includes(field)), ["date", "account_name"]];
@@ -202,10 +209,10 @@ export async function fetchWindsor(connector: string, fields: string[], datePres
     // with fewer fields won't help a connector that isn't responding at all.
     let res: Response;
     try {
-      res = await fetch(url.toString(), { cache: "no-store", signal: AbortSignal.timeout(WINDSOR_TIMEOUT_MS) });
+      res = await fetch(url.toString(), { cache: "no-store", signal: AbortSignal.timeout(timeoutMs) });
     } catch (error) {
       if (error instanceof Error && (error.name === "TimeoutError" || error.name === "AbortError")) {
-        throw new Error(`Windsor ${connector} timed out after ${WINDSOR_TIMEOUT_MS / 1000}s`);
+        throw new Error(`Windsor ${connector} timed out after ${timeoutMs / 1000}s`);
       }
       throw error;
     }
